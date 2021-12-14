@@ -1,0 +1,37 @@
+{
+  "name": "nextjs-quanty-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "generate": "graphql-codegen --config codegen.yml",
+    "analyze": "cross-env ANALYZE=true next build"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.5.6",
+    "@types/styled-components": "^5.1.18",
+    "@zeit/next-bundle-analyzer": "^0.1.2",
+    "graphql": "^16.1.0",
+    "next": "^12.0.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.3.0",
+    "@graphql-codegen/introspection": "2.1.0",
+    "@graphql-codegen/typescript": "2.4.1",
+    "@graphql-codegen/typescript-operations": "2.2.1",
+    "@graphql-codegen/typescript-react-apollo": "3.2.2",
+    "@next/bundle-analyzer": "^12.0.7",
+    "@types/react": "17.0.37",
+    "babel-plugin-styled-components": "^1.13.2",
+    "config": "*",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.5.4"
+  }
+}

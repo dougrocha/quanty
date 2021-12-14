@@ -1,0 +1,276 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddCustomCommand {
+  customCommand: CustomCommand!
+  guildId: String!
+}
+
+input AddLog {
+  guildId: String!
+  log: Log!
+}
+
+type Anime {
+  nsfw: Boolean
+  plugin: Boolean
+}
+
+type Channel {
+  application_id: String
+  bitrate: Int
+  default_auto_archive_duration: Float
+  guild_id: String
+  icon: String
+  id: String!
+  last_message_id: String
+  last_pin_timestamp: String
+  member: ThreadMember
+  member_count: Int
+  message_count: Int
+  name: String
+  nsfw: Boolean
+  owner_id: String
+  parent_id: String
+  permission_overwrites: [OverWrite!]
+  position: Float
+  rate_limit_per_user: Int
+  recipients: [User!]
+  rtc_region: String
+  thread_metadata: ThreadMetaData
+  topic: String
+  type: Float!
+  user_limit: Int
+  video_quality_mode: Float
+}
+
+input CustomCommand {
+  description: String!
+  id: String!
+  name: String!
+}
+
+type CustomCommands {
+  description: String!
+  id: String!
+  name: String!
+}
+
+type Emojis {
+  animated: Boolean
+  available: Boolean
+  id: String!
+  managed: Boolean
+  name: String!
+  require_colons: Boolean
+  roles: [String!]
+  user: User
+}
+
+type Guild {
+  afk_timeout: Int!
+  channels: [Channel!]
+  description: String
+  emojis: [Emojis!]!
+  features: [String!]!
+  icon: String
+  id: String!
+  members: GuildMember
+  name: String!
+  nsfw_level: Float!
+  owner: Boolean
+  owner_id: String!
+  preferred_locale: String!
+  premium_subscription_count: Float!
+  premium_tier: Float!
+  roles: [Roles!]!
+  splash: String!
+  stickers: [Sticker!]!
+  threads: [Channel!]
+  unavailable: Boolean
+}
+
+type GuildConfig {
+  anime: Anime
+  blacklistedWords: [String!]
+  customCommands: [CustomCommands!]
+  guildId: String!
+  logs: [Logs!]
+  moderation: Moderation
+  music: Music
+  prefix: String
+  premium: Boolean
+}
+
+type GuildMember {
+  avatar: String
+  deaf: Boolean!
+  joined_at: String!
+  mute: Boolean!
+  nick: String
+  pending: Boolean
+  premium_since: String
+  roles: [String!]!
+  user: User
+}
+
+input Log {
+  action: String!
+  name: String!
+}
+
+type Logs {
+  action: String!
+  name: String!
+}
+
+type Moderation {
+  autoMod: Boolean
+  plugin: Boolean
+}
+
+type Music {
+  channel: String
+  immortal: Boolean
+  plugin: Boolean
+}
+
+type Mutation {
+  addCustomCommand(addCustomCommand: AddCustomCommand!): GuildConfig!
+  addLog(addLog: AddLog!): GuildConfig!
+  updateAutoMod(updateAutoMod: UpdateAutoModInput!): GuildConfig!
+  updateBlacklistedWords(updateBlacklistedWords: UpdateBlacklistedWords!): GuildConfig!
+  updateImmortality(updateImmortality: UpdateMusicImmortality!): GuildConfig!
+  updateModerationPlugin(updatePlugin: UpdateModerationPlugin!): GuildConfig!
+  updateMusicChannel(updateMusicChannel: UpdateMusicChannel!): GuildConfig!
+  updateMusicPlugin(updateMusicPlugin: UpdateMusicPlugin!): GuildConfig!
+  updatePrefix(updatePrefix: UpdatePrefixInput!): GuildConfig!
+}
+
+type OverWrite {
+  allow: String!
+  deny: String!
+  id: String!
+  type: Float!
+}
+
+type Query {
+  guildConfig(guildId: String!): GuildConfig!
+  guilds(guildId: String!): Guild!
+  ownerGuilds: [Guild!]!
+  user: UserObject!
+}
+
+type RoleTags {
+  bot_id: String
+  integration_id: String
+}
+
+type Roles {
+  color: Float!
+  hoist: Boolean!
+  icon: String
+  id: String!
+  managed: Boolean!
+  mentionable: Boolean!
+  name: String!
+  permissions: String!
+  position: Float!
+  tags: RoleTags
+  unicode_emoji: String
+}
+
+type Sticker {
+  asset: String!
+  available: Boolean
+  description: String!
+  format_type: Float!
+  guild_id: String
+  id: String
+  name: String!
+  pack_id: String
+  sort_value: Float
+  tags: String!
+  type: Float!
+  user: User
+}
+
+type ThreadMember {
+  flags: Float!
+  id: String
+  join_timestamp: String!
+  user_id: String
+}
+
+type ThreadMetaData {
+  archive_timestamp: String!
+  archived: Boolean!
+  auto_archive_duration: Float!
+  invitable: Boolean
+  locked: Boolean
+}
+
+input UpdateAutoModInput {
+  autoMod: Boolean!
+  guildId: String!
+}
+
+input UpdateBlacklistedWords {
+  blacklistedWords: [String!]!
+  guildId: String!
+}
+
+input UpdateModerationPlugin {
+  guildId: String!
+  plugin: Boolean!
+}
+
+input UpdateMusicChannel {
+  channel: String!
+  guildId: String!
+}
+
+input UpdateMusicImmortality {
+  guildId: String!
+  immortal: Boolean!
+}
+
+input UpdateMusicPlugin {
+  guildId: String!
+  plugin: Boolean!
+}
+
+input UpdatePrefixInput {
+  guildId: String!
+  prefix: String!
+}
+
+type User {
+  accent_color: Float
+  avatar: String!
+  banner: String
+  bot: Boolean
+  discriminator: String!
+  email: String
+  flags: Float
+  id: String!
+  locale: String
+  mfa_enabled: Boolean
+  premium_type: Float
+  public_flags: Float
+  system: Boolean
+  username: String!
+  verified: Boolean
+}
+
+type UserObject {
+  avatar: String!
+  discordID: String!
+  discriminator: String!
+  email: String
+  flags: Float
+  locale: String
+  username: String!
+  verified: Boolean
+}

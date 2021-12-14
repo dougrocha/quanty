@@ -1,0 +1,133 @@
+query user {
+  user {
+    username
+    discordID
+    avatar
+    discriminator
+    email
+    verified
+    flags
+    locale
+  }
+}
+
+query ownerGuilds {
+  ownerGuilds {
+    id
+    owner
+    icon
+  }
+}
+
+query guilds($guildId: String!) {
+  guilds(guildId: $guildId) {
+    id
+    name
+    icon
+    roles {
+      id
+      name
+    }
+    afk_timeout
+  }
+}
+
+query guildConfig($guildId: String!) {
+  guildConfig(guildId: $guildId) {
+    guildId
+    prefix
+    moderation {
+      autoMod
+      plugin
+    }
+    blacklistedWords
+    customCommands {
+      id
+      name
+      description
+    }
+    premium
+    music {
+      plugin
+      channel
+      immortal
+    }
+    logs {
+      name
+      action
+    }
+  }
+}
+
+mutation updatePrefix($prefix: UpdatePrefixInput!) {
+  updatePrefix(updatePrefix: $prefix) {
+    guildId
+    prefix
+  }
+}
+
+mutation updateAutoMod($autoMod: UpdateAutoModInput!) {
+  updateAutoMod(updateAutoMod: $autoMod) {
+    guildId
+    moderation {
+      autoMod
+      plugin
+    }
+  }
+}
+
+input AddCustomCommand {
+  customCommand: CustomCommand!
+  guildId: String!
+}
+
+input AddLog {
+  guildId: String!
+  log: Log!
+}
+
+input CustomCommand {
+  description: String!
+  id: String!
+  name: String!
+}
+
+input Log {
+  action: String!
+  name: String!
+}
+
+input UpdateAutoModInput {
+  autoMod: Boolean!
+  guildId: String!
+}
+
+input UpdateBlacklistedWords {
+  blacklistedWords: [String!]!
+  guildId: String!
+}
+
+input UpdateModerationPlugin {
+  guildId: String!
+  plugin: Boolean!
+}
+
+input UpdateMusicChannel {
+  channel: String!
+  guildId: String!
+}
+
+input UpdateMusicImmortality {
+  guildId: String!
+  immortal: Boolean!
+}
+
+input UpdateMusicPlugin {
+  guildId: String!
+  plugin: Boolean!
+}
+
+input UpdatePrefixInput {
+  guildId: String!
+  prefix: String!
+}

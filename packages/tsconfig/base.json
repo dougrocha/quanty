@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "strictBindCallApply": false,
+
+    "incremental": true,
+    "declaration": true,
+    "composite": true,
+
+    "skipLibCheck": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "watchOptions": {
+    "excludeDirectories": ["node_modules", "prod"]
+  },
+  "ts-node": {
+    "transpileOnly": true
+  }
+}
