@@ -14,7 +14,7 @@ class SlashCommandHandler {
   }
 
   private async init() {
-    this.client.on('interaction', async (interaction) => {
+    this.client.on('interactionCreate', async (interaction) => {
       if (!interaction.isCommand()) {
         return;
       }

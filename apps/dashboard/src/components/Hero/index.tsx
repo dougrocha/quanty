@@ -21,7 +21,9 @@ const HeroComponent = () => {
           </p>
           <MainSectionButton>
             <Link href="/invite" passHref>
-              <Button text="Add to Server" />
+              <a>
+                <Button text="Add to Server" />
+              </a>
             </Link>
           </MainSectionButton>
           <FeaturesButton>

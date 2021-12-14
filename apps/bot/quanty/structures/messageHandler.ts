@@ -35,11 +35,10 @@ class MessageHandler {
 
       const guildPrefix = await this.guildManager.getPrefix(guild.id);
 
-      let prefix = message.content.match(clientMention)
-        ? message.content.match(clientMention)![0]
+      const prefix = message.content.match(clientMention)
+        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          message.content.match(clientMention)![0]
         : guildPrefix;
-
-      prefix = '-';
 
       if (!message.content.toLowerCase().startsWith(prefix)) return;
 
@@ -82,10 +81,17 @@ class MessageHandler {
         return;
       }
 
+      if (!member || !client.user) {
+        message.reply(
+          `Something went wrong. Try again later or contact the owner`,
+        );
+        return;
+      }
+
       // Check if user has permissions for command
       if (userPermissions?.length) {
         const missingPerms = guild.members.cache
-          .get(member!.id)
+          .get(member.id)
           ?.permissionsIn(channel.id)
           .missing(userPermissions);
         if (missingPerms?.length) {
@@ -103,7 +109,7 @@ class MessageHandler {
       /** Checks if Quanty has permissions in server to start command */
       if (clientPermissions) {
         const missingPerms = guild.members.cache
-          .get(client.user!.id)
+          .get(client.user.id)
           ?.permissionsIn(channel.id)
           .missing(clientPermissions);
         if (missingPerms?.length) {
@@ -126,7 +132,7 @@ class MessageHandler {
         if (client.commandHandler.cooldowns.has(cd)) {
           await message.reply(
             `You can use this command in ${ms(
-              client.commandHandler.cooldowns.get(cd)! - Date.now(),
+              (client.commandHandler.cooldowns.get(cd) as number) - Date.now(),
               { long: true },
             )}`,
           );

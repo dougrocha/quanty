@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
-import apolloClient from '../apollo.client';
+import apolloClient from '../../apollo.client';
 
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { CurrentUserContextProvider } from '../utils/stores/CurrentUserContext';
@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
 html,
 body {
   height: 100%;
-  background-color: #121212;
+  background-color: ${({ theme }) => theme.base.background};
   margin: 0px auto;
   font-family: 'Open Sans', sans-serif;
 
@@ -53,6 +53,7 @@ body::-webkit-scrollbar-thumb {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<CurrentUser>();
+  const [theme, setTheme] = useState('light');
   const [pageLoading, setPageLoading] = useState<boolean>(false);
 
   const router = useRouter();
@@ -70,11 +71,40 @@ function MyApp({ Component, pageProps }: AppProps) {
     router.events.on('routeChangeError', handleComplete);
   });
 
+  const onSelectMode = (theme: any) => {
+    setTheme(theme);
+    if (theme === 'dark') document.body.classList.add('dark-mode');
+    else document.body.classList.remove('dark-mode');
+  };
+
+  useEffect(() => {
+    // Add listener to update styles
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (e) =>
+        onSelectMode(e.matches ? 'dark' : 'light')
+      );
+
+    // Setup dark/light mode for the first time
+    onSelectMode(
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+    );
+
+    // Remove listener
+    return () => {
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .removeEventListener('change', () => {});
+    };
+  }, []);
+
   return (
     <>
-      <GlobalStyle />
       <ApolloProvider client={apolloClient}>
-        <ThemeProvider theme={DarkTheme}>
+        <ThemeProvider theme={theme == 'light' ? LightTheme : DarkTheme}>
+          <GlobalStyle />
           <CurrentUserContextProvider value={{ user, setUser }}>
             {pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}
           </CurrentUserContextProvider>

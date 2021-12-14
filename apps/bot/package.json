@@ -13,9 +13,9 @@
     "dev": "ts-node-dev --watch -r dotenv/config src/index.ts",
     "debug": "ts-node-dev --watch --debug -r dotenv/config src/index.ts",
     "start": "ts-node -p src/index.ts",
-    "prod": "NODE_PATH=.dist node ./dist/src/index",
+    "prod": " cross-env PRODUCTION=true NODE_PATH=.dist node ./dist/src/index",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "mongogen": "mtgen  ./quanty/database/schemas -o ./quanty/types/"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "better-erela.js-apple": "^0.1.0",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
+    "cross-env": "^7.0.3",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
@@ -36,16 +37,17 @@
     "socket.io-client": "^4.2.0"
   },
   "devDependencies": {
-    "config": "*",
     "@types/glob": "^7.1.4",
     "@types/ms": "^0.7.31",
     "@types/node": "^16.9.6",
     "@types/node-fetch": "^3.0.3",
+    "config": "*",
     "eslint": "^8.4.1",
     "mongoose-tsgen": "^8.4.6",
     "prettier": "2.4.1",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
+    "tsconfig": "*",
     "typescript": "^4.4.4"
   }
 }

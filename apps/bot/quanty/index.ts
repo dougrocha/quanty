@@ -159,7 +159,6 @@ class QuantyClient extends Client {
       botOwners,
       testServers,
       mongoUri,
-      devMode = false,
       showWarn = true,
     } = this.config;
 
@@ -170,7 +169,7 @@ class QuantyClient extends Client {
 
     if (showWarn) {
       this.logger.info('Show warn is on. Warnings will come up.');
-      if (devMode && !testToken) {
+      if (!process.env.PRODUCTION && !testToken) {
         this.logger.fatal(
           new Error(
             'Bot cannot start on dev mode without a test token. Please provide a test token in the client config.',
@@ -190,7 +189,7 @@ class QuantyClient extends Client {
       }
     }
 
-    await this.login(devMode ? testToken : token);
+    await this.login(process.env.PRODUCTION ? token : testToken);
 
     MusicEvent(this); // Starts Events for music player
   }
