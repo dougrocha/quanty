@@ -49,7 +49,7 @@ const schema: guildsSchema = new Schema(
       { max: 10 },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Guild: guildsModel = model<guildsDocument, guildsModel>('guilds', schema);

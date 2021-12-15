@@ -112,7 +112,7 @@ class PluginManager implements IPluginManager {
     return await this.guildModel.findOneAndUpdate(
       { guildId },
       { prefix },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -130,7 +130,7 @@ class PluginManager implements IPluginManager {
           plugin: plugin,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -148,7 +148,7 @@ class PluginManager implements IPluginManager {
           autoMod,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -166,7 +166,7 @@ class PluginManager implements IPluginManager {
           plugin,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -184,7 +184,7 @@ class PluginManager implements IPluginManager {
           immortal,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -202,7 +202,7 @@ class PluginManager implements IPluginManager {
           musicChannel: channel,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -223,7 +223,7 @@ class PluginManager implements IPluginManager {
     return await this.guildModel.findOneAndUpdate(
       { guildId },
       { blacklistedWords: newSet },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -235,7 +235,7 @@ class PluginManager implements IPluginManager {
           nsfw,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
   async updateAnimePlugin({
@@ -252,7 +252,7 @@ class PluginManager implements IPluginManager {
           plugin,
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -275,7 +275,7 @@ class PluginManager implements IPluginManager {
           },
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
@@ -291,7 +291,7 @@ class PluginManager implements IPluginManager {
           },
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 }

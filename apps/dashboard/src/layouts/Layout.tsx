@@ -1,21 +1,21 @@
 // Next.js && React
-import { useContext } from 'react';
-import dynamic from 'next/dynamic';
+import { memo, useContext } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // Components
-import NavBar from '../components/Navbar';
-import Footer from '../components/Footer';
+import NavBar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-import { CurrentUserContext } from '../utils/stores/CurrentUserContext';
-import { useUserQuery } from '../graphql/graphql';
-import { CurrentUser } from '../utils/types';
+import { CurrentUserContext } from "../utils/stores/CurrentUserContext";
+import { useUserQuery } from "../graphql/graphql";
+import { CurrentUser } from "../utils/types";
 
-import LoadingLayout from './LoadingLayout';
+import LoadingLayout from "./LoadingLayout";
 
 interface LayoutProps {
   children: React.ReactNode;
+  footer?: boolean;
 }
 
 const Container = styled.div`
@@ -35,11 +35,11 @@ const Children = styled.main`
   align-items: center;
 `;
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, footer }: LayoutProps) => {
   const { user, setUser } = useContext(CurrentUserContext);
 
   const { data, loading, error } = useUserQuery({
-    fetchPolicy: 'cache-first',
+    fetchPolicy: "cache-first",
     onCompleted({ user }: { user: CurrentUser }) {
       setUser(user);
     },
@@ -47,6 +47,17 @@ const Layout = ({ children }: LayoutProps) => {
 
   if (loading) {
     return <LoadingLayout />;
+  }
+
+  const MemoTest = memo(NavBar);
+
+  if (footer == false) {
+    return (
+      <Container>
+        <MemoTest />
+        <Children>{children}</Children>
+      </Container>
+    );
   }
 
   return (

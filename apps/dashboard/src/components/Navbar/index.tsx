@@ -1,17 +1,22 @@
 // Next Imports
-import Link from 'next/link';
-import { useContext } from 'react';
-import dynamic from 'next/dynamic';
+import Link from "next/link";
+import { memo, useContext, useMemo } from "react";
+import dynamic from "next/dynamic";
 
 // Styles and CSS
-import { NavBarItems, Logo, Item, NavBarContainer } from './Navbar.styles';
+import {
+  NavBarItems,
+  LogoContainer,
+  Item,
+  NavBarContainer,
+} from "./Navbar.styles";
 
 // Components
-const Button = dynamic(() => import('../Button'));
-const UserProfile = dynamic(() => import('./UserProfile'));
+const Button = dynamic(() => import("../Button"));
+const UserProfile = dynamic(() => import("./UserProfile"));
 
 // Stores
-import { CurrentUserContext } from '../../utils/stores/CurrentUserContext';
+import { CurrentUserContext } from "../../utils/stores/CurrentUserContext";
 
 const NavBar = () => {
   const { user, setUser } = useContext(CurrentUserContext);
@@ -19,11 +24,11 @@ const NavBar = () => {
   return (
     <>
       <Container>
-        <Logo>
+        <LogoContainer>
           <Link href="/" passHref prefetch={false}>
             <div>Quanty</div>
           </Link>
-        </Logo>
+        </LogoContainer>
         <NavBarItems>
           <div className="navBarLinks">
             <NavItemWrapper text="Features" url="/features" />
@@ -67,7 +72,7 @@ const Container = ({ children }: NavBarWrapperProps) => {
 
 const LoginButton = () => {
   const login = () => {
-    window.location.assign('http://localhost:3001/api/auth/login');
+    window.location.assign("http://localhost:3001/api/auth/login");
   };
 
   return (

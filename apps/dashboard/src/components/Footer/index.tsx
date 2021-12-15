@@ -1,8 +1,9 @@
 // Styles & CSS
-import styled from 'styled-components';
-import Image from 'next/image';
-import Button from '../Button';
-import Link from 'next/link';
+import styled from "styled-components";
+import Image from "next/image";
+import Button from "../Button";
+import Link from "next/link";
+import { memo } from "react";
 
 const FooterWrapper = styled.footer`
   max-width: 1280px;
@@ -163,50 +164,50 @@ const InfoSection = () => {
 
 const FooterItems = [
   {
-    title: 'Features',
+    title: "Features",
     items: [
-      { name: 'Commands', route: '/features/commands' },
-      { name: 'Events', route: '/features/events' },
+      { name: "Commands", route: "/features/commands" },
+      { name: "Events", route: "/features/events" },
       {
-        name: 'Economy',
-        route: '/features/economy',
+        name: "Economy",
+        route: "/features/economy",
       },
       {
-        name: 'Music',
-        route: '/features/music',
+        name: "Music",
+        route: "/features/music",
       },
     ],
   },
   {
-    title: 'Quanty',
+    title: "Quanty",
     items: [
-      { name: 'Discord', route: '/discord' },
-      { name: 'Docs', route: '/docs' },
+      { name: "Discord", route: "/discord" },
+      { name: "Docs", route: "/docs" },
       {
-        name: 'Support',
-        route: '/docs/support',
+        name: "Support",
+        route: "/docs/support",
       },
       {
-        name: 'GitHub',
-        route: '/github',
+        name: "GitHub",
+        route: "/github",
       },
     ],
   },
   {
-    title: 'Company',
+    title: "Company",
     items: [
-      { name: 'Terms of Use', route: '/policy' },
-      { name: 'Privacy Policy', route: '/policy' },
+      { name: "Terms of Use", route: "/policy" },
+      { name: "Privacy Policy", route: "/policy" },
       {
-        name: 'Cookie Policy',
-        route: '/policy',
+        name: "Cookie Policy",
+        route: "/policy",
       },
       {
-        name: 'Contact',
-        route: '/policy',
+        name: "Contact",
+        route: "/policy",
       },
     ],
   },
 ];
 
-export default Footer;
+export default memo(Footer);

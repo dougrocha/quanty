@@ -1,10 +1,10 @@
 {
-  "name": "nextjs-quanty-dashboard",
+  "name": "quanty-dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "next dev",
     "start": "next start",
     "lint": "cross-env TIMING=1 next lint",
     "generate": "graphql-codegen --config codegen.yml",
@@ -22,8 +22,6 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
-    "config": "*",
-    "tsconfig": "*",
     "@graphql-codegen/cli": "2.3.0",
     "@graphql-codegen/introspection": "2.1.0",
     "@graphql-codegen/typescript": "2.4.1",
@@ -31,8 +29,10 @@
     "@graphql-codegen/typescript-react-apollo": "3.2.2",
     "@next/bundle-analyzer": "^12.0.7",
     "@types/react": "17.0.37",
-    "babel-plugin-styled-components": "^1.13.2",
+    "babel-plugin-styled-components": "^2.0.2",
+    "config": "*",
     "cross-env": "^7.0.3",
+    "tsconfig": "*",
     "typescript": "^4.5.4"
   }
 }

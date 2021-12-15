@@ -1,8 +1,13 @@
-import { OwnerGuildsQuery } from '../../graphql/graphql';
-import GuildCard from './GuildCard/GuildCard';
-import { GuildCardsContainer } from './GuildCards.styled';
+import { NextPage } from "next";
+import { OwnerGuildsQuery } from "../../graphql/graphql";
+import GuildCard from "./GuildCard/GuildCard";
+import { GuildCardsContainer } from "./GuildCards.styled";
 
-const GuildCards = ({ data }: { data: OwnerGuildsQuery }) => {
+type PropsType = {
+  data: OwnerGuildsQuery;
+};
+
+const GuildCards: NextPage<PropsType> = ({ data }) => {
   return (
     <GuildCardsContainer>
       {data.ownerGuilds.map((guild) => {

@@ -1,16 +1,16 @@
 // Imports
 // React Imports
-import { useState } from 'react';
+import { useState } from "react";
 
 // Styles & CSS
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // Utils
-import { ProfileImg } from '../ProfileImg';
+import { ProfileImg } from "../ProfileImg";
 
 // Types
-import { CurrentUser } from '../../utils/types';
-import Link from 'next/link';
+import { CurrentUser } from "../../utils/types";
+import Link from "next/link";
 
 const UserWrapper = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const UserProfile = ({ user }: userProfileTypes) => {
 
 const DropdownMenu = () => {
   const logout = () => {
-    window.location.assign('http://localhost:3001/api/auth/logout');
+    window.location.assign("http://localhost:3001/api/auth/logout");
   };
 
   return (

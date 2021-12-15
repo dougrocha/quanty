@@ -1,22 +1,27 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const NavBarContainer = styled.nav`
   max-width: 1280px;
 
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 
   height: 4rem;
 
   margin: 0px auto;
 
   padding: 24px 40px;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 `;
 
 export const NavBarItems = styled.div`
   display: flex;
   align-items: center;
+  height: 100%;
 
   .navBarLinks {
     display: flex;
@@ -32,7 +37,6 @@ export const NavBarItems = styled.div`
 
 export const Item = styled.div`
   margin-right: 1.875rem;
-  align-self: center;
 
   color: ${({ theme }) => theme.text.secondary};
 
@@ -43,17 +47,12 @@ export const Item = styled.div`
     color: rgb(242, 244, 251);
     transition: 150ms ease-out;
     -webkit-transition: 150ms ease-out;
-    transition: color 0.15s ease-out 0s;
+    transition: color 150ms ease-out 100ms;
   }
 `;
 
-export const Logo = styled.div`
+export const LogoContainer = styled.div`
   display: flex;
-  align-items: center;
-
-  box-sizing: border-box;
-
-  border: 0;
 
   cursor: pointer;
 
@@ -62,13 +61,13 @@ export const Logo = styled.div`
     position: relative;
 
     font-weight: 700;
-    font-size: 1.875rem;
+    font-size: 2rem;
 
     color: rgb(256, 256, 256, 1);
   }
 
   div:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     transform: scaleX(0);

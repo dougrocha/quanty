@@ -9,24 +9,29 @@
   "scripts": {
     "dev": "turbo run dev --parallel --no-cache --continue",
     "build": "turbo run build",
-    "start": "turbo run start",
-    "deploy": "turbo run build --scope=app --includeDependencies --no-deps",
+    "start": "turbo run start --scope=apps",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"{apps,packages}/**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "turbo": "latest"
   },
   "turbo": {
+    "baseBranch": "origin/master",
     "pipeline": {
       "dev": {
         "cache": false
       },
       "start": {
         "dependsOn": [
-          "build"
+          "^build"
         ],
-        "cache": true
+        "cache": false
+      },
+      "dashboard#start": {
+        "dependsOn": [
+          "^server#start"
+        ]
       },
       "build": {
         "dependsOn": [
@@ -35,7 +40,8 @@
         "outputs": [
           "dist/**",
           ".next/**"
-        ]
+        ],
+        "cache": true
       },
       "lint": {
         "outputs": []

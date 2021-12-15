@@ -39,8 +39,9 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  await app.listen(PORT),
-    () => console.log(`Quanty Backend listening at port ${PORT}`);
+  await app.listen(PORT, () =>
+    console.log(`Quanty Backend listening at port ${PORT}`),
+  );
 }
 
 bootstrap();

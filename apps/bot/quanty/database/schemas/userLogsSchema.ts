@@ -29,7 +29,7 @@ const schema: userLogsSchema = new Schema({
 
 const UserLogs: userLogsModel = model<userLogsDocument, userLogsModel>(
   'userLogs',
-  schema
+  schema,
 );
 
 export default UserLogs;

@@ -1,15 +1,15 @@
 // Layouts & CSS;
-import Layout from '../../layouts/Layout';
-import LoadingLayout from '../../layouts/LoadingLayout';
+import Layout from "../../layouts/Layout";
+import LoadingLayout from "../../layouts/LoadingLayout";
 
 // GraphQL
-import { useOwnerGuildsQuery, useUserQuery } from '../../graphql/graphql';
+import { useOwnerGuildsQuery, useUserQuery } from "../../graphql/graphql";
 
-import { useContext } from 'react';
-import { CurrentUserContext } from '../../utils/stores/CurrentUserContext';
-import { CurrentUser } from '../../utils/types';
+import { useContext } from "react";
+import { CurrentUserContext } from "../../utils/stores/CurrentUserContext";
+import { CurrentUser } from "../../utils/types";
 
-import GuildCards from '../../components/GuildCards';
+import GuildCards from "../../components/GuildCards";
 
 const Dashboard = () => {
   const { user, setUser } = useContext(CurrentUserContext);
@@ -17,7 +17,7 @@ const Dashboard = () => {
   const { data, loading, error } = useOwnerGuildsQuery({});
 
   const userQuery = useUserQuery({
-    fetchPolicy: 'cache-first',
+    fetchPolicy: "cache-first",
     onCompleted({ user }: { user: CurrentUser }) {
       setUser(user);
     },
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Layout>
+      <Layout footer={false}>
         <h1>Dashboard</h1>
         {data ? (
           <GuildCards data={data} />

@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import Button from '../Button';
+import Link from "next/link";
+import Image from "next/image";
+import Button from "../Button";
 import {
   HeroContainer,
   MainSection,
   MainSectionButton,
   HeroSection,
   FeaturesButton,
-} from './Hero.styles';
+} from "./Hero.styles";
 
 const HeroComponent = () => {
   return (

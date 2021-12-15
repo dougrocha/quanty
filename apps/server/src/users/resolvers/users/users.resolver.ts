@@ -30,7 +30,6 @@ export class UsersResolver {
 
   @Query(() => UserObject, { name: 'user', nullable: false })
   async currentUser(@CurrentUser() user: UserSchema): Promise<UserSchema> {
-    console.log('gotuser');
     return user;
   }
 

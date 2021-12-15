@@ -41,7 +41,7 @@ const schema: userGuildSchema = new Schema({
 
 const UserGuild: userGuildModel = model<userGuildDocument, userGuildModel>(
   'userGuild',
-  schema
+  schema,
 );
 
 export default UserGuild;

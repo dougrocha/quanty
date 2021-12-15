@@ -1,8 +1,8 @@
 // React Imports
-import { createContext } from 'react';
+import { createContext } from "react";
 
 // Types
-import { CurrentUser } from '../types';
+import { CurrentUser } from "../types";
 
 type CurrentUserType = {
   user?: CurrentUser;

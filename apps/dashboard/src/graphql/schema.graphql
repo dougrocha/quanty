@@ -16,6 +16,7 @@ query ownerGuilds {
     id
     owner
     icon
+    name
   }
 }
 

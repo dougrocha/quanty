@@ -5,7 +5,7 @@ interface LayoutProps {
 const DashboardLayout = ({ children }: LayoutProps) => {
   return (
     <>
-      <nav>Dashboard</nav>
+      <h1>Dashboard</h1>
       <main>{children}</main>
     </>
   );

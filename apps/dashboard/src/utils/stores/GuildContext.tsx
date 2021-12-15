@@ -1,5 +1,5 @@
-import { createContext } from 'react';
-import { Guild } from '../types';
+import { createContext } from "react";
+import { Guild } from "../types";
 
 type GuildContextType = {
   guild?: Guild;
