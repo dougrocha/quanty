@@ -1,0 +1,42 @@
+{
+  "name": "@quanty/framework",
+  "version": "1.0.0",
+  "description": "Quanty Bot Builder",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "source": "src/index.ts",
+  "author": "slashtp3",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "dist/src/index.js"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc --project tsconfig.json",
+    "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "mongogen": "mtgen ./src/database/schemas -o ./src/types/"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "config": "*",
+    "eslint": "^8.5.0",
+    "mongoose-tsgen": "^8.4.7",
+    "rimraf": "^3.0.2",
+    "tsconfig": "*",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "better-erela.js-apple": "^0.1.0",
+    "chalk": "4.1.2",
+    "consola": "^2.15.3",
+    "cross-env": "^7.0.3",
+    "discord-api-types": "^0.25.2",
+    "discord.js": "^13.3.1",
+    "erela.js": "^2.3.3",
+    "erela.js-spotify": "^1.2.0",
+    "glob": "^7.2.0",
+    "mongoose": "^6.1.2",
+    "socket.io-client": "^4.4.0"
+  }
+}
