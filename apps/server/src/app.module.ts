@@ -9,9 +9,14 @@ import { PassportModule } from '@nestjs/passport';
 import { BotModule } from './bot/bot.module';
 import { UsersModule } from './users/users.module';
 
+const ENV = process.env.NODE_ENV;
+
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(process.env.MONGOURI, {
       useUnifiedTopology: true,
       useNewUrlParser: true,

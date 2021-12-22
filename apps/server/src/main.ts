@@ -5,7 +5,12 @@ import session from 'express-session';
 import passport from 'passport';
 import MongoStore from 'connect-mongo/build/main/lib/MongoStore';
 
+const ENV = process.env.NODE_ENV;
+
 async function bootstrap() {
+  if (ENV) {
+    console.log('NODE_ENV: ', ENV);
+  }
   const app = await NestFactory.create(AppModule);
   const PORT = 3001;
   app.setGlobalPrefix('api');
@@ -39,9 +44,9 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  await app.listen(PORT, () =>
-    console.log(`Quanty Backend listening at port ${PORT}`),
-  );
+  await app.listen(PORT, () => {
+    console.log(`Quanty Backend listening at port ${PORT}`);
+  });
 }
 
 bootstrap();
