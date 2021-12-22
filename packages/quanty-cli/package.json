@@ -1,0 +1,34 @@
+{
+  "name": "@quanty/cli",
+  "version": "0.0.0",
+  "description": "Quanty - Discord Bot Cli",
+  "main": "lib/bin/quanty.js",
+  "author": "slashtp3",
+  "license": "MIT",
+  "private": true,
+  "bin": {
+    "quanty": "lib/bin/quanty.js"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "start": "ts-node bin/quanty.ts",
+    "test": "node lib/bin/quanty.js"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.5.4",
+    "@types/inquirer": "^8.1.3",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^13.1.2",
+    "@angular-devkit/schematics-cli": "^13.1.2",
+    "@quanty/schematics": "*",
+    "chalk": "4.1.2",
+    "commander": "^8.3.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.0"
+  }
+}
