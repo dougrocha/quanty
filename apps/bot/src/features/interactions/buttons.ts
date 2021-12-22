@@ -1,4 +1,4 @@
-import { FeatureBuilder } from '../../../quanty/types';
+import { FeatureBuilder } from '@quanty/framework';
 
 export const feature: FeatureBuilder<'interactionCreate'> = {
   name: 'interactionCreate',

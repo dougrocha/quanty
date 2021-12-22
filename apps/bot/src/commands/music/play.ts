@@ -1,8 +1,6 @@
+import { ICommand, createPlayer } from '@quanty/framework';
 import { MessageEmbed } from 'discord.js';
 import { SearchResult } from 'erela.js';
-import { ICommand } from '../../../quanty/types';
-
-import { createPlayer } from '../../utils/music';
 
 export const command: ICommand = {
   name: 'play',
@@ -20,7 +18,7 @@ export const command: ICommand = {
     const search = options?.getString('song') || args?.join(' ');
 
     if (!search) {
-      return { content: "Give a link or song name and I'll play it" };
+      return { content: "Give a link or a song name and I'll play it" };
     }
 
     if (!voiceChannelId)
@@ -110,8 +108,8 @@ export const command: ICommand = {
         /// This only plays the first song in search, Use search command for more options
         player.queue.add(res.tracks[0]);
 
+        player.play();
         if (!player.playing && !player.paused && !player.queue.size) {
-          player.play();
         } else {
           return {
             embeds: [

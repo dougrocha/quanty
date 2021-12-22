@@ -5,8 +5,7 @@ import {
   SelectMenuInteraction,
 } from 'discord.js';
 import { SearchResult, Track } from 'erela.js';
-import { checkChannel } from '../../utils/music';
-import { ICommand } from '../../../quanty/types';
+import { checkChannel, ICommand } from '@quanty/framework';
 
 export const command: ICommand = {
   name: 'search',

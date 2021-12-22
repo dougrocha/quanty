@@ -1,5 +1,4 @@
-import QuantyClient from '../../../quanty';
-import { FeatureBuilder } from '../../../quanty/types';
+import QuantyClient, { FeatureBuilder } from '@quanty/framework';
 
 export const feature: FeatureBuilder<'ready'> = {
   name: 'ready',

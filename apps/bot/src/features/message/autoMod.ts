@@ -1,5 +1,4 @@
-import { Guild } from '../../../quanty/database/schemas';
-import { FeatureBuilder } from '../../../quanty/types';
+import { FeatureBuilder, Guild } from '@quanty/framework';
 
 export const feature: FeatureBuilder<'messageCreate'> = {
   name: 'messageCreate',

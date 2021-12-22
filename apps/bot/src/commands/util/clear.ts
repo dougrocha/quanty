@@ -1,5 +1,5 @@
 import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js';
-import { ICommand } from '../../../quanty/types';
+import { ICommand } from '@quanty/framework';
 
 export const command: ICommand = {
   name: 'clear',

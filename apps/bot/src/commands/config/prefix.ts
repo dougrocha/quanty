@@ -1,5 +1,5 @@
+import { ICommand } from '@quanty/framework';
 import { MessageEmbed } from 'discord.js';
-import { ICommand } from '../../../quanty/types';
 
 export const command: ICommand = {
   name: 'prefix',

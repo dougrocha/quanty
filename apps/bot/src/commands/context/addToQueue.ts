@@ -1,4 +1,4 @@
-import { IContextCommand } from '../../../quanty/types';
+import { IContextCommand } from '@quanty/framework';
 
 export const command: IContextCommand = {
   name: 'Add to queue',

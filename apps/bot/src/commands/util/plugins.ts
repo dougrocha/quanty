@@ -1,5 +1,6 @@
+import { ICommand, GuildSettingsEnum } from '@quanty/framework';
 import { MessageEmbed } from 'discord.js';
-import { ICommand, GuildSettingsEnum } from '../../../quanty/types';
+
 export const command: ICommand = {
   name: 'plugins',
   description: 'Shows the commands available in this server.',

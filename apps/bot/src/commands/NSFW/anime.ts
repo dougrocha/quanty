@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import { ICommand } from '../../../quanty/types';
+import { ICommand } from '@quanty/framework';
 
 import Client from 'nekos.life';
 const neko = new Client();

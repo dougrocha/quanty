@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import { IContextCommand } from '../../../quanty/types';
+import { IContextCommand } from '@quanty/framework';
 import { APIUser } from 'discord-api-types';
 import axios, { AxiosResponse } from 'axios';
 

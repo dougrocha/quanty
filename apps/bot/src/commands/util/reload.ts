@@ -1,4 +1,4 @@
-import { ICommand } from '../../../quanty/types';
+import { ICommand } from '@quanty/framework';
 
 import { glob } from 'glob';
 import { promisify } from 'util';

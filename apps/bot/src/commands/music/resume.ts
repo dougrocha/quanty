@@ -1,5 +1,4 @@
-import { ICommand } from '../../../quanty/types';
-import { checkChannel } from '../../utils/music';
+import { checkChannel, ICommand } from '@quanty/framework';
 
 export const command: ICommand = {
   name: 'resume',
