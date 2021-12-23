@@ -12,7 +12,8 @@
     "build": "tsc",
     "copy:collection": "cpx src/collection.json dist && cpx src/templates/**/schema.json dist/templates",
     "copy:templates": "cpx src/templates/**/files/**/*.* dist/templates",
-    "test": "yarn build && jasmine dist/templates/**/*.test.js"
+    "test": "echo TESTING QUANTY/SCHEMATICS",
+    "testing": "yarn build && jasmine dist/templates/**/*.test.js"
   },
   "peerDependencies": {
     "typescript": "^3.4.5 || ^4.3.5"

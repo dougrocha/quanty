@@ -5,6 +5,8 @@
     "module": "commonjs",
     "lib": ["es2021"],
 
+    "incremental": true,
+
     "resolveJsonModule": true,
 
     "strictBindCallApply": false

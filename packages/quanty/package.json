@@ -15,6 +15,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "echo TESTING QUANTY/FRAMEWORK",
     "mongogen": "mtgen ./src/database/schemas -o ./src/types/"
   },
   "devDependencies": {

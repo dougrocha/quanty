@@ -10,12 +10,15 @@
   "scripts": {
     "dev": "turbo run dev --parallel --no-cache --continue",
     "build": "turbo run build",
-    "start": "turbo run start --scope=apps",
+    "start": "turbo run start",
     "lint": "turbo run lint",
-    "format": "prettier --write \"{apps,packages}/**/*.{ts,tsx,md}\""
+    "test": "turbo run test",
+    "format": "prettier --write \"{apps,packages}/**/*.{ts,tsx,json,md}\"",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@types/prettier": "^2",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.3",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -28,8 +31,7 @@
       "start": {
         "dependsOn": [
           "^build"
-        ],
-        "cache": false
+        ]
       },
       "dashboard#start": {
         "dependsOn": [
@@ -48,7 +50,25 @@
       },
       "lint": {
         "outputs": []
-      }
+      },
+      "test": {}
     }
+  },
+  "lint-staged": {
+    "apps/**/*.{js,ts,jx,tsx}": [
+      "eslint --fix"
+    ],
+    "packages/quanty/**/*.{js,ts,jx,tsx}": [
+      "eslint --fix"
+    ],
+    "packages/quanty-cli/**/*.{js,ts,jx,tsx}": [
+      "eslint --fix"
+    ],
+    "packages/quanty-schematics/**/*.{js,ts,jx,tsx}": [
+      "eslint --fix"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
   }
 }
