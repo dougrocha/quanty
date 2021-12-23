@@ -2,9 +2,8 @@
 
 # dependencies
 node_modules/
-.pnp
-.pnp.js
 
+apps/bot/Lavalink/logs
 # testing
 coverage
 
@@ -36,12 +35,3 @@ yarn-error.log*
 
 # turbo
 .turbo
-
-# yarn zero-installs
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
