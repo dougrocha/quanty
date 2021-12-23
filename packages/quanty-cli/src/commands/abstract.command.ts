@@ -1,5 +1,5 @@
-import { Command } from 'commander';
+import { Command } from 'commander'
 
 export abstract class AbstractCommand {
-  public abstract load(program: Command): void;
+  public abstract load(program: Command): void
 }

@@ -2,13 +2,14 @@
   "name": "@quanty/schematics",
   "version": "1.0.0",
   "description": "Quanty schematics for discord bot development",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "files": [
     "dist/**/*"
   ],
   "scripts": {
     "postbuild": "yarn copy:collection && yarn copy:templates",
-    "build": "rimraf dist && tsc --project tsconfig.json",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
     "copy:collection": "cpx src/collection.json dist && cpx src/templates/**/schema.json dist/templates",
     "copy:templates": "cpx src/templates/**/files/**/*.* dist/templates",
     "test": "yarn build && jasmine dist/templates/**/*.test.js"

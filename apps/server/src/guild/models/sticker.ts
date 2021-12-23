@@ -1,32 +1,32 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from './user';
+import { Field, ObjectType } from '@nestjs/graphql'
+import { User } from './user'
 
 @ObjectType()
 export class Sticker {
   @Field()
-  asset: '';
+  asset: ''
   @Field({ nullable: true })
-  id: string;
+  id: string
   @Field({ nullable: true })
-  pack_id?: string;
+  pack_id?: string
   @Field()
-  name: string;
+  name: string
   @Field()
-  description: string;
+  description: string
   @Field()
-  tags: string;
+  tags: string
   @Field()
-  type: StickerType;
+  type: StickerType
   @Field()
-  format_type: StickerFormatType;
+  format_type: StickerFormatType
   @Field({ nullable: true })
-  available?: boolean;
+  available?: boolean
   @Field({ nullable: true })
-  guild_id?: string;
+  guild_id?: string
   @Field(() => User, { nullable: true })
-  user?: User;
+  user?: User
   @Field({ nullable: true })
-  sort_value?: number;
+  sort_value?: number
 }
 
 enum StickerFormatType {

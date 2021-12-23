@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { IGuildConfigProvider } from 'src/bot/types';
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { IGuildConfigProvider } from 'src/bot/types'
 
-import { GuildDocument, Guilds } from '../../../schemas';
+import { GuildDocument, Guilds } from '../../../schemas'
 
-import * as Args from 'src/bot/dto/args';
-import * as Inputs from 'src/bot/dto/input';
+import * as Args from 'src/bot/dto/args'
+import * as Inputs from 'src/bot/dto/input'
+import { Model } from 'mongoose'
 
 @Injectable()
 export class GuildConfigService implements IGuildConfigProvider {
@@ -15,15 +15,15 @@ export class GuildConfigService implements IGuildConfigProvider {
   ) {}
 
   async getGuild({ guildId }: Args.GetGuildIdArgs) {
-    return await this.guildModel.findOne({ guildId }, { _id: 0, __v: 0 });
+    return await this.guildModel.findOne({ guildId }, { _id: 0, __v: 0 })
   }
 
   async updatePrefix({ guildId, prefix }: Inputs.UpdatePrefixInput) {
     return await this.guildModel.findOneAndUpdate(
       { guildId },
       { prefix },
-      { new: true },
-    );
+      { new: true, upsert: true },
+    )
   }
 
   async updateModerationPlugin({
@@ -37,8 +37,8 @@ export class GuildConfigService implements IGuildConfigProvider {
           plugin: plugin,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async updateAutoMod({ guildId, autoMod }: Inputs.UpdateAutoModInput) {
@@ -49,8 +49,8 @@ export class GuildConfigService implements IGuildConfigProvider {
           autoMod: autoMod,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async updateMusicPlugin({ guildId, plugin }: Inputs.UpdateMusicPlugin) {
@@ -61,8 +61,8 @@ export class GuildConfigService implements IGuildConfigProvider {
           plugin: plugin,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async updateMusicImmortality({
@@ -76,8 +76,8 @@ export class GuildConfigService implements IGuildConfigProvider {
           immortal: immortal,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async updateMusicChannel({ guildId, channel }: Inputs.UpdateMusicChannel) {
@@ -88,8 +88,8 @@ export class GuildConfigService implements IGuildConfigProvider {
           channel,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async updateBlacklistedWords({
@@ -99,8 +99,8 @@ export class GuildConfigService implements IGuildConfigProvider {
     return await this.guildModel.findOneAndUpdate(
       { guildId },
       { blacklistedWords },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async updateAnimeNSFW({ guildId, nsfw }: Inputs.UpdateAnimeNsfw) {
@@ -111,8 +111,8 @@ export class GuildConfigService implements IGuildConfigProvider {
           nsfw: nsfw,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
   async updateAnimePlugin({ guildId, plugin }: Inputs.UpdateAnimePlugin) {
     return await this.guildModel.findOneAndUpdate(
@@ -122,12 +122,12 @@ export class GuildConfigService implements IGuildConfigProvider {
           plugin: plugin,
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async addCustomCommand({ guildId, customCommand }: Inputs.AddCustomCommand) {
-    const { description, id, name } = customCommand;
+    const { description, id, name } = customCommand
     return await this.guildModel.findOneAndUpdate(
       { guildId },
       {
@@ -139,12 +139,12 @@ export class GuildConfigService implements IGuildConfigProvider {
           },
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 
   async addNewLog({ guildId, log }: Inputs.AddLog) {
-    const { action, name } = log;
+    const { action, name } = log
     return await this.guildModel.findOneAndUpdate(
       { guildId },
       {
@@ -155,7 +155,7 @@ export class GuildConfigService implements IGuildConfigProvider {
           },
         },
       },
-      { new: true },
-    );
+      { upsert: true, new: true },
+    )
   }
 }

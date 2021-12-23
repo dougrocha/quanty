@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js';
-import { checkChannel, ICommand } from '@quanty/framework';
+import { MessageEmbed } from 'discord.js'
+import { checkChannel, ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'previous',
@@ -11,34 +11,34 @@ export const command: ICommand = {
       client,
       guild,
       member,
-    });
+    })
 
     if (!player) {
       return {
         content,
-      };
+      }
     }
 
-    if (!player.queue.current) return { content: 'Play a song first to skip' };
+    if (!player.queue.current) return { content: 'Play a song first to skip' }
 
-    const embed = new MessageEmbed();
+    const embed = new MessageEmbed()
 
-    const previous = player.queue.previous;
-    const current = player.queue.current;
+    const previous = player.queue.previous
+    const current = player.queue.current
 
     if (!previous)
       return {
         content: "There's no song you can go back to.",
-      };
+      }
 
-    player.queue.unshift(current);
-    await player.play(previous);
+    player.queue.unshift(current)
+    await player.play(previous)
 
     embed
       .setTitle(`\`Playing previous song.\``)
-      .addField('Now playing: ', `${previous.title}`);
+      .addField('Now playing: ', `${previous.title}`)
 
-    player.queue.previous = null;
-    return { embeds: [embed] };
+    player.queue.previous = null
+    return { embeds: [embed] }
   },
-};
+}

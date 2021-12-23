@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 import {
   guildsSchema,
   guildsModel,
   guildsDocument,
-} from '../../types/mongoose.gen';
+} from '../../types/mongoose.gen'
 
-const { model, Schema } = mongoose;
+const { model, Schema } = mongoose
 
 const schema: guildsSchema = new Schema(
   {
@@ -49,8 +49,8 @@ const schema: guildsSchema = new Schema(
       { max: 10 },
     ],
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-const Guild: guildsModel = model<guildsDocument, guildsModel>('guilds', schema);
-export default Guild;
+const Guild: guildsModel = model<guildsDocument, guildsModel>('guilds', schema)
+export default Guild

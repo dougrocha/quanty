@@ -1,13 +1,13 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql'
+import { IsNotEmpty } from 'class-validator'
 
 @InputType()
 export class UpdateAutoModInput {
   @Field()
   @IsNotEmpty()
-  guildId: string;
+  guildId: string
 
   @Field()
   @IsNotEmpty()
-  autoMod: boolean;
+  autoMod: boolean
 }

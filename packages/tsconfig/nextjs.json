@@ -3,21 +3,17 @@
   "display": "Next.js",
   "extends": "./base.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES2021",
+    "module": "ESNEXT",
+    "lib": ["ES6", "ES7", "ESNext", "DOM"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
+
+    "jsx": "preserve",
+
+    "moduleResolution": "node",
+
     "noEmit": true,
     "incremental": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "include": ["src", "next-env.d.ts"],
-  "exclude": ["node_modules"]
+    "isolatedModules": true
+  }
 }

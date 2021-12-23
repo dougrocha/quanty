@@ -1,3 +1,3 @@
-export { User, UserSchema, UserDocument } from './User';
+export { User, UserSchema, UserDocument } from './User'
 
-export { Guilds, GuildSchema, GuildDocument } from './GuildConfig';
+export { Guilds, GuildSchema, GuildDocument } from './GuildConfig'

@@ -1,4 +1,4 @@
-import { checkChannel, ICommand } from '@quanty/framework';
+import { checkChannel, ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'resume',
@@ -10,16 +10,16 @@ export const command: ICommand = {
       client,
       guild,
       member,
-    });
+    })
 
     if (!player) {
       return {
         content,
-      };
+      }
     }
 
-    if (player.playing) return { content: 'Song is already playing.' };
-    player.pause(false);
-    return { content: 'Quanty is now playing' };
+    if (player.playing) return { content: 'Song is already playing.' }
+    player.pause(false)
+    return { content: 'Quanty is now playing' }
   },
-};
+}

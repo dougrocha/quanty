@@ -1,96 +1,96 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { User } from './user';
+import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { User } from './user'
 
 @ObjectType()
 class OverWrite {
   @Field()
-  id: string;
+  id: string
   @Field()
-  type: OverwriteType;
+  type: OverwriteType
   @Field()
-  allow: string;
+  allow: string
   @Field()
-  deny: string;
+  deny: string
 }
 
 @ObjectType()
 class ThreadMetaData {
   @Field()
-  archived: boolean;
+  archived: boolean
   @Field()
-  auto_archive_duration: ThreadAutoArchiveDuration;
+  auto_archive_duration: ThreadAutoArchiveDuration
   @Field()
-  archive_timestamp: string;
+  archive_timestamp: string
   @Field({ nullable: true })
-  locked?: boolean;
+  locked?: boolean
   @Field({ nullable: true })
-  invitable?: boolean;
+  invitable?: boolean
 }
 
 @ObjectType()
 class ThreadMember {
   @Field({ nullable: true })
-  id?: string;
+  id?: string
   @Field({ nullable: true })
-  user_id?: string;
+  user_id?: string
   @Field()
-  join_timestamp: string;
+  join_timestamp: string
   @Field()
-  flags: ThreadMemberFlags;
+  flags: ThreadMemberFlags
 }
 
 @ObjectType()
 export class Channel {
   @Field({ nullable: true })
-  guild_id?: string;
+  guild_id?: string
   @Field({ nullable: true })
-  position?: number;
+  position?: number
   @Field(() => [OverWrite], { nullable: true })
-  permission_overwrites?: OverWrite[];
+  permission_overwrites?: OverWrite[]
   @Field({ nullable: true })
-  topic?: string;
+  topic?: string
   @Field({ nullable: true })
-  nsfw?: boolean;
+  nsfw?: boolean
   @Field({ nullable: true })
-  last_message_id?: string;
+  last_message_id?: string
   @Field(() => Int, { nullable: true })
-  bitrate?: number;
+  bitrate?: number
   @Field(() => Int, { nullable: true })
-  user_limit?: number;
+  user_limit?: number
   @Field(() => Int, { nullable: true })
-  rate_limit_per_user?: number;
+  rate_limit_per_user?: number
   @Field(() => [User], { nullable: true })
-  recipients?: User[];
+  recipients?: User[]
   @Field({ nullable: true })
-  icon?: string;
+  icon?: string
   @Field({ nullable: true })
-  owner_id?: string;
+  owner_id?: string
   @Field({ nullable: true })
-  application_id?: string;
+  application_id?: string
   @Field({ nullable: true })
-  parent_id?: string;
+  parent_id?: string
   @Field({ nullable: true })
-  last_pin_timestamp?: string;
+  last_pin_timestamp?: string
   @Field({ nullable: true })
-  rtc_region?: string;
+  rtc_region?: string
   @Field({ nullable: true })
-  video_quality_mode?: VideoQualityMode;
+  video_quality_mode?: VideoQualityMode
   @Field(() => Int, { nullable: true })
-  message_count?: number;
+  message_count?: number
   @Field(() => Int, { nullable: true })
-  member_count?: number;
+  member_count?: number
   @Field(() => ThreadMetaData, { nullable: true })
-  thread_metadata?: ThreadMetaData;
+  thread_metadata?: ThreadMetaData
   @Field(() => ThreadMember, { nullable: true })
-  member?: ThreadMember;
+  member?: ThreadMember
   @Field({ nullable: true })
-  default_auto_archive_duration?: ThreadAutoArchiveDuration;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration
   @Field(() => String)
-  id: string;
+  id: string
   @Field()
-  type: ChannelType;
+  type: ChannelType
   @Field({ nullable: true })
-  name?: string;
+  name?: string
 }
 
 enum VideoQualityMode {

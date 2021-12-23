@@ -1,1 +1,1 @@
-export * from './validateRoot';
+export * from './validateRoot'

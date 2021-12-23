@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 type ButtonType = {
-  onClick?: any;
-  text: string;
-};
+  onClick?: any
+  text: string
+}
 
 const Button = ({ text, onClick }: ButtonType) => {
-  return <ButtonStyle onClick={onClick ?? null}>{text}</ButtonStyle>;
-};
+  return <ButtonStyle onClick={onClick ?? null}>{text}</ButtonStyle>
+}
 
 const ButtonStyle = styled.button`
   display: flex;
@@ -34,6 +34,6 @@ const ButtonStyle = styled.button`
     filter: saturate(0.8);
     transition: filter 0.15s ease-out 0s;
   }
-`;
+`
 
-export default Button;
+export default Button

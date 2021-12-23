@@ -5,7 +5,7 @@
 
 // NOTE: ANY CHANGES MADE WILL BE OVERWRITTEN ON SUBSEQUENT EXECUTIONS OF MONGOOSE-TSGEN.
 
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 /**
  * Lean version of guildsCustomCommandDocument
@@ -16,11 +16,11 @@ import mongoose from 'mongoose';
  * ```
  */
 export type guildsCustomCommand = {
-  id: string;
-  name: string;
-  description: string;
-  _id: mongoose.Types.ObjectId;
-};
+  id: string
+  name: string
+  description: string
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of guildsLogDocument
@@ -31,11 +31,11 @@ export type guildsCustomCommand = {
  * ```
  */
 export type guildsLog = {
-  name: string;
-  action: string;
-  updatedAt?: Date;
-  _id: mongoose.Types.ObjectId;
-};
+  name: string
+  action: string
+  updatedAt?: Date
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of guildsDocument
@@ -46,29 +46,29 @@ export type guildsLog = {
  * ```
  */
 export type guilds = {
-  guildId: string;
-  prefix?: string;
-  blacklistedWords: string[];
+  guildId: string
+  prefix?: string
+  blacklistedWords: string[]
   music: {
-    immortal?: boolean;
-    plugin?: boolean;
-    musicChannel?: string;
-  };
+    immortal?: boolean
+    plugin?: boolean
+    musicChannel?: string
+  }
   moderation: {
-    autoMod?: boolean;
-    plugin?: boolean;
-  };
+    autoMod?: boolean
+    plugin?: boolean
+  }
   anime: {
-    nsfw?: boolean;
-    plugin?: boolean;
-  };
-  customCommands: guildsCustomCommand[];
-  premium?: boolean;
-  logs: guildsLog[];
-  _id: mongoose.Types.ObjectId;
-  updatedAt?: Date;
-  createdAt?: Date;
-};
+    nsfw?: boolean
+    plugin?: boolean
+  }
+  customCommands: guildsCustomCommand[]
+  premium?: boolean
+  logs: guildsLog[]
+  _id: mongoose.Types.ObjectId
+  updatedAt?: Date
+  createdAt?: Date
+}
 
 /**
  * Lean version of guildsDocument (type alias of `guilds`)
@@ -81,7 +81,7 @@ export type guilds = {
  * const guildsObject: guildsObject = guilds.toObject();
  * ```
  */
-export type guildsObject = guilds;
+export type guildsObject = guilds
 
 /**
  * Mongoose Query types
@@ -91,11 +91,11 @@ export type guildsObject = guilds;
  * const guilds = mongoose.model<guildsDocument, guildsModel>("guilds", guildsSchema);
  * ```
  */
-export type guildsQueries = {};
+export type guildsQueries = {}
 
-export type guildsMethods = {};
+export type guildsMethods = {}
 
-export type guildsStatics = {};
+export type guildsStatics = {}
 
 /**
  * Mongoose Model type
@@ -106,7 +106,7 @@ export type guildsStatics = {};
  * ```
  */
 export type guildsModel = mongoose.Model<guildsDocument, guildsQueries> &
-  guildsStatics;
+  guildsStatics
 
 /**
  * Mongoose Schema type
@@ -116,7 +116,7 @@ export type guildsModel = mongoose.Model<guildsDocument, guildsQueries> &
  * const guildsSchema: guildsSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type guildsSchema = mongoose.Schema<guildsDocument, guildsModel>;
+export type guildsSchema = mongoose.Schema<guildsDocument, guildsModel>
 
 /**
  * Mongoose Subdocument type
@@ -124,11 +124,11 @@ export type guildsSchema = mongoose.Schema<guildsDocument, guildsModel>;
  * Type of `guildsDocument["customCommands"]` element.
  */
 export type guildsCustomCommandDocument = mongoose.Types.Subdocument & {
-  id: string;
-  name: string;
-  description: string;
-  _id: mongoose.Types.ObjectId;
-};
+  id: string
+  name: string
+  description: string
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Mongoose Subdocument type
@@ -136,11 +136,11 @@ export type guildsCustomCommandDocument = mongoose.Types.Subdocument & {
  * Type of `guildsDocument["logs"]` element.
  */
 export type guildsLogDocument = mongoose.Types.Subdocument & {
-  name: string;
-  action: string;
-  updatedAt?: Date;
-  _id: mongoose.Types.ObjectId;
-};
+  name: string
+  action: string
+  updatedAt?: Date
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Mongoose Document type
@@ -155,29 +155,29 @@ export type guildsDocument = mongoose.Document<
   guildsQueries
 > &
   guildsMethods & {
-    guildId: string;
-    prefix?: string;
-    blacklistedWords: mongoose.Types.Array<string>;
+    guildId: string
+    prefix?: string
+    blacklistedWords: mongoose.Types.Array<string>
     music: {
-      immortal?: boolean;
-      plugin?: boolean;
-      musicChannel?: string;
-    };
+      immortal?: boolean
+      plugin?: boolean
+      musicChannel?: string
+    }
     moderation: {
-      autoMod?: boolean;
-      plugin?: boolean;
-    };
+      autoMod?: boolean
+      plugin?: boolean
+    }
     anime: {
-      nsfw?: boolean;
-      plugin?: boolean;
-    };
-    customCommands: mongoose.Types.DocumentArray<guildsCustomCommandDocument>;
-    premium?: boolean;
-    logs: mongoose.Types.DocumentArray<guildsLogDocument>;
-    _id: mongoose.Types.ObjectId;
-    updatedAt?: Date;
-    createdAt?: Date;
-  };
+      nsfw?: boolean
+      plugin?: boolean
+    }
+    customCommands: mongoose.Types.DocumentArray<guildsCustomCommandDocument>
+    premium?: boolean
+    logs: mongoose.Types.DocumentArray<guildsLogDocument>
+    _id: mongoose.Types.ObjectId
+    updatedAt?: Date
+    createdAt?: Date
+  }
 
 /**
  * Lean version of userGuildInventoryDocument
@@ -188,11 +188,11 @@ export type guildsDocument = mongoose.Document<
  * ```
  */
 export type userGuildInventory = {
-  name?: string;
-  price?: number;
-  rarity?: string;
-  _id: mongoose.Types.ObjectId;
-};
+  name?: string
+  price?: number
+  rarity?: string
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of userGuildDocument
@@ -203,15 +203,15 @@ export type userGuildInventory = {
  * ```
  */
 export type userGuild = {
-  userId: string;
-  guildId: string;
-  inventory: userGuildInventory[];
-  wallet?: number;
-  bank?: number;
-  job?: string;
-  level?: number;
-  _id: mongoose.Types.ObjectId;
-};
+  userId: string
+  guildId: string
+  inventory: userGuildInventory[]
+  wallet?: number
+  bank?: number
+  job?: string
+  level?: number
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of userGuildDocument (type alias of `userGuild`)
@@ -224,7 +224,7 @@ export type userGuild = {
  * const userguildObject: userGuildObject = userguild.toObject();
  * ```
  */
-export type userGuildObject = userGuild;
+export type userGuildObject = userGuild
 
 /**
  * Mongoose Query types
@@ -234,11 +234,11 @@ export type userGuildObject = userGuild;
  * const userGuild = mongoose.model<userGuildDocument, userGuildModel>("userGuild", userGuildSchema);
  * ```
  */
-export type userGuildQueries = {};
+export type userGuildQueries = {}
 
-export type userGuildMethods = {};
+export type userGuildMethods = {}
 
-export type userGuildStatics = {};
+export type userGuildStatics = {}
 
 /**
  * Mongoose Model type
@@ -252,7 +252,7 @@ export type userGuildModel = mongoose.Model<
   userGuildDocument,
   userGuildQueries
 > &
-  userGuildStatics;
+  userGuildStatics
 
 /**
  * Mongoose Schema type
@@ -262,10 +262,7 @@ export type userGuildModel = mongoose.Model<
  * const userGuildSchema: userGuildSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type userGuildSchema = mongoose.Schema<
-  userGuildDocument,
-  userGuildModel
->;
+export type userGuildSchema = mongoose.Schema<userGuildDocument, userGuildModel>
 
 /**
  * Mongoose Subdocument type
@@ -273,11 +270,11 @@ export type userGuildSchema = mongoose.Schema<
  * Type of `userGuildDocument["inventory"]` element.
  */
 export type userGuildInventoryDocument = mongoose.Types.Subdocument & {
-  name?: string;
-  price?: number;
-  rarity?: string;
-  _id: mongoose.Types.ObjectId;
-};
+  name?: string
+  price?: number
+  rarity?: string
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Mongoose Document type
@@ -292,15 +289,15 @@ export type userGuildDocument = mongoose.Document<
   userGuildQueries
 > &
   userGuildMethods & {
-    userId: string;
-    guildId: string;
-    inventory: mongoose.Types.DocumentArray<userGuildInventoryDocument>;
-    wallet?: number;
-    bank?: number;
-    job?: string;
-    level?: number;
-    _id: mongoose.Types.ObjectId;
-  };
+    userId: string
+    guildId: string
+    inventory: mongoose.Types.DocumentArray<userGuildInventoryDocument>
+    wallet?: number
+    bank?: number
+    job?: string
+    level?: number
+    _id: mongoose.Types.ObjectId
+  }
 
 /**
  * Lean version of userLogsWarningDocument
@@ -311,11 +308,11 @@ export type userGuildDocument = mongoose.Document<
  * ```
  */
 export type userLogsWarning = {
-  moderator?: string;
-  reason?: string;
-  issueDate?: Date;
-  _id: mongoose.Types.ObjectId;
-};
+  moderator?: string
+  reason?: string
+  issueDate?: Date
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of userLogsDocument
@@ -326,12 +323,12 @@ export type userLogsWarning = {
  * ```
  */
 export type userLogs = {
-  userId: string;
-  guildId?: string;
-  infractions?: number;
-  warnings: userLogsWarning[];
-  _id: mongoose.Types.ObjectId;
-};
+  userId: string
+  guildId?: string
+  infractions?: number
+  warnings: userLogsWarning[]
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of userLogsDocument (type alias of `userLogs`)
@@ -344,7 +341,7 @@ export type userLogs = {
  * const userlogsObject: userLogsObject = userlogs.toObject();
  * ```
  */
-export type userLogsObject = userLogs;
+export type userLogsObject = userLogs
 
 /**
  * Mongoose Query types
@@ -354,11 +351,11 @@ export type userLogsObject = userLogs;
  * const userLogs = mongoose.model<userLogsDocument, userLogsModel>("userLogs", userLogsSchema);
  * ```
  */
-export type userLogsQueries = {};
+export type userLogsQueries = {}
 
-export type userLogsMethods = {};
+export type userLogsMethods = {}
 
-export type userLogsStatics = {};
+export type userLogsStatics = {}
 
 /**
  * Mongoose Model type
@@ -369,7 +366,7 @@ export type userLogsStatics = {};
  * ```
  */
 export type userLogsModel = mongoose.Model<userLogsDocument, userLogsQueries> &
-  userLogsStatics;
+  userLogsStatics
 
 /**
  * Mongoose Schema type
@@ -379,7 +376,7 @@ export type userLogsModel = mongoose.Model<userLogsDocument, userLogsQueries> &
  * const userLogsSchema: userLogsSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type userLogsSchema = mongoose.Schema<userLogsDocument, userLogsModel>;
+export type userLogsSchema = mongoose.Schema<userLogsDocument, userLogsModel>
 
 /**
  * Mongoose Subdocument type
@@ -387,11 +384,11 @@ export type userLogsSchema = mongoose.Schema<userLogsDocument, userLogsModel>;
  * Type of `userLogsDocument["warnings"]` element.
  */
 export type userLogsWarningDocument = mongoose.Types.Subdocument & {
-  moderator?: string;
-  reason?: string;
-  issueDate?: Date;
-  _id: mongoose.Types.ObjectId;
-};
+  moderator?: string
+  reason?: string
+  issueDate?: Date
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Mongoose Document type
@@ -406,12 +403,12 @@ export type userLogsDocument = mongoose.Document<
   userLogsQueries
 > &
   userLogsMethods & {
-    userId: string;
-    guildId?: string;
-    infractions?: number;
-    warnings: mongoose.Types.DocumentArray<userLogsWarningDocument>;
-    _id: mongoose.Types.ObjectId;
-  };
+    userId: string
+    guildId?: string
+    infractions?: number
+    warnings: mongoose.Types.DocumentArray<userLogsWarningDocument>
+    _id: mongoose.Types.ObjectId
+  }
 
 /**
  * Lean version of userDocument
@@ -422,13 +419,13 @@ export type userLogsDocument = mongoose.Document<
  * ```
  */
 export type user = {
-  userId: string;
-  pets: string[];
-  premium?: boolean;
-  premiumSince?: string;
-  language?: string;
-  _id: mongoose.Types.ObjectId;
-};
+  userId: string
+  pets: string[]
+  premium?: boolean
+  premiumSince?: string
+  language?: string
+  _id: mongoose.Types.ObjectId
+}
 
 /**
  * Lean version of userDocument (type alias of `user`)
@@ -441,7 +438,7 @@ export type user = {
  * const userObject: userObject = user.toObject();
  * ```
  */
-export type userObject = user;
+export type userObject = user
 
 /**
  * Mongoose Query types
@@ -451,11 +448,11 @@ export type userObject = user;
  * const user = mongoose.model<userDocument, userModel>("user", userSchema);
  * ```
  */
-export type userQueries = {};
+export type userQueries = {}
 
-export type userMethods = {};
+export type userMethods = {}
 
-export type userStatics = {};
+export type userStatics = {}
 
 /**
  * Mongoose Model type
@@ -465,7 +462,7 @@ export type userStatics = {};
  * const user = mongoose.model<userDocument, userModel>("user", userSchema);
  * ```
  */
-export type userModel = mongoose.Model<userDocument, userQueries> & userStatics;
+export type userModel = mongoose.Model<userDocument, userQueries> & userStatics
 
 /**
  * Mongoose Schema type
@@ -475,7 +472,7 @@ export type userModel = mongoose.Model<userDocument, userQueries> & userStatics;
  * const userSchema: userSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type userSchema = mongoose.Schema<userDocument, userModel>;
+export type userSchema = mongoose.Schema<userDocument, userModel>
 
 /**
  * Mongoose Document type
@@ -490,13 +487,13 @@ export type userDocument = mongoose.Document<
   userQueries
 > &
   userMethods & {
-    userId: string;
-    pets: mongoose.Types.Array<string>;
-    premium?: boolean;
-    premiumSince?: string;
-    language?: string;
-    _id: mongoose.Types.ObjectId;
-  };
+    userId: string
+    pets: mongoose.Types.Array<string>
+    premium?: boolean
+    premiumSince?: string
+    language?: string
+    _id: mongoose.Types.ObjectId
+  }
 
 /**
  * Check if a property on a document is populated:
@@ -507,20 +504,20 @@ export type userDocument = mongoose.Document<
  * ```
  */
 export function IsPopulated<T>(doc: T | mongoose.Types.ObjectId): doc is T {
-  return doc instanceof mongoose.Document;
+  return doc instanceof mongoose.Document
 }
 
 /**
  * Helper type used by `PopulatedDocument`. Returns the parent property of a string
  * representing a nested property (i.e. `friend.user` -> `friend`)
  */
-type ParentProperty<T> = T extends `${infer P}.${string}` ? P : never;
+type ParentProperty<T> = T extends `${infer P}.${string}` ? P : never
 
 /**
  * Helper type used by `PopulatedDocument`. Returns the child property of a string
  * representing a nested property (i.e. `friend.user` -> `user`).
  */
-type ChildProperty<T> = T extends `${string}.${infer C}` ? C : never;
+type ChildProperty<T> = T extends `${string}.${infer C}` ? C : never
 
 /**
  * Helper type used by `PopulatedDocument`. Removes the `ObjectId` from the general union type generated
@@ -529,8 +526,8 @@ type ChildProperty<T> = T extends `${string}.${infer C}` ? C : never;
 type PopulatedProperty<Root, T extends keyof Root> = Omit<Root, T> & {
   [ref in T]: Root[T] extends mongoose.Types.Array<infer U>
     ? mongoose.Types.Array<Exclude<U, mongoose.Types.ObjectId>>
-    : Exclude<Root[T], mongoose.Types.ObjectId>;
-};
+    : Exclude<Root[T], mongoose.Types.ObjectId>
+}
 
 /**
  * Populate properties on a document type:
@@ -556,15 +553,15 @@ export type PopulatedDocument<DocType, T> = T extends keyof DocType
           >
         : ChildProperty<T> extends keyof DocType[ParentProperty<T>]
         ? PopulatedProperty<DocType[ParentProperty<T>], ChildProperty<T>>
-        : PopulatedDocument<DocType[ParentProperty<T>], ChildProperty<T>>;
+        : PopulatedDocument<DocType[ParentProperty<T>], ChildProperty<T>>
     }
-  : DocType;
+  : DocType
 
 /**
  * Helper types used by the populate overloads
  */
-type Unarray<T> = T extends Array<infer U> ? U : T;
-type Modify<T, R> = Omit<T, keyof R> & R;
+type Unarray<T> = T extends Array<infer U> ? U : T
+type Modify<T, R> = Omit<T, keyof R> & R
 
 /**
  * Augment mongoose with Query.populate overloads
@@ -585,7 +582,7 @@ declare module 'mongoose' {
       DocType,
       THelpers
     > &
-      THelpers;
+      THelpers
 
     populate<T extends string>(
       options: Modify<PopulateOptions, { path: T }> | Array<PopulateOptions>,
@@ -598,6 +595,6 @@ declare module 'mongoose' {
       DocType,
       THelpers
     > &
-      THelpers;
+      THelpers
   }
 }

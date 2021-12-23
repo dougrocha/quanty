@@ -1,35 +1,35 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 class RoleTags {
   @Field({ nullable: true })
-  bot_id?: string;
+  bot_id?: string
   @Field({ nullable: true })
-  integration_id?: string;
+  integration_id?: string
 }
 
 @ObjectType()
 export class Roles {
   @Field()
-  id: string;
+  id: string
   @Field()
-  name: string;
+  name: string
   @Field()
-  color: number;
+  color: number
   @Field()
-  hoist: boolean;
+  hoist: boolean
   @Field({ nullable: true })
-  icon?: string;
+  icon?: string
   @Field({ nullable: true })
-  unicode_emoji?: string;
+  unicode_emoji?: string
   @Field()
-  position: number;
+  position: number
   @Field()
-  permissions: string;
+  permissions: string
   @Field()
-  managed: boolean;
+  managed: boolean
   @Field()
-  mentionable: boolean;
+  mentionable: boolean
   @Field(() => RoleTags, { nullable: true })
-  tags?: RoleTags;
+  tags?: RoleTags
 }

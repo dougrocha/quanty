@@ -3,9 +3,9 @@ import {
   MessageEmbed,
   MessageSelectMenu,
   SelectMenuInteraction,
-} from 'discord.js';
-import { SearchResult, Track } from 'erela.js';
-import { checkChannel, ICommand } from '@quanty/framework';
+} from 'discord.js'
+import { SearchResult, Track } from 'erela.js'
+import { checkChannel, ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'search',
@@ -28,31 +28,31 @@ export const command: ICommand = {
       client,
       guild,
       member,
-    });
+    })
 
     if (!player) {
       return {
         content,
-      };
+      }
     }
 
-    const search = options.getString('search') || args.join(' ');
+    const search = options.getString('search') || args.join(' ')
 
     if (!search) {
-      return { content: 'Search anything you want.' };
+      return { content: 'Search anything you want.' }
     }
 
-    if (player.state !== 'CONNECTED') player.connect();
+    if (player.state !== 'CONNECTED') player.connect()
 
-    const embed = new MessageEmbed().setColor('#FF5F9F');
+    const embed = new MessageEmbed().setColor('#FF5F9F')
 
-    let res: SearchResult;
+    let res: SearchResult
 
     try {
-      res = await player.search(search, member.user);
+      res = await player.search(search, member.user)
       if (res.loadType === 'LOAD_FAILED') {
-        if (!player.queue.current) player.destroy();
-        throw res.exception;
+        if (!player.queue.current) player.destroy()
+        throw res.exception
       }
     } catch (err: any) {
       return {
@@ -61,47 +61,47 @@ export const command: ICommand = {
             `there was an error while searching: ${err.message}`,
           ),
         ],
-      };
+      }
     }
 
     switch (res.loadType) {
       case 'NO_MATCHES':
-        if (!player.queue.current) player.destroy();
+        if (!player.queue.current) player.destroy()
         return {
           embeds: [embed.setDescription('there were no results found.')],
-        };
+        }
       case 'TRACK_LOADED':
-        player.queue.add(res.tracks[0]);
+        player.queue.add(res.tracks[0])
 
         if (!player.playing && !player.paused && !player.queue.size)
-          player.play();
+          player.play()
         return {
           embeds: [
             embed.setDescription(`enqueuing \`${res.tracks[0].title}\`.`),
           ],
-        };
+        }
       case 'PLAYLIST_LOADED':
-        player.queue.add(res.tracks);
+        player.queue.add(res.tracks)
 
         if (
           !player.playing &&
           !player.paused &&
           player.queue.totalSize === res.tracks.length
         )
-          player.play();
+          player.play()
         return {
           embeds: [
             embed.setDescription(
               `Queued playlist \`${res.playlist?.name}\` with ${res.tracks.length} tracks.`,
             ),
           ],
-        };
+        }
       case 'SEARCH_RESULT':
-        const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'];
+        const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
         // add a seperate command for searching, This will play first result in search results
-        const query = res.tracks;
+        const query = res.tracks
 
-        const tracks = query.slice(0, 5);
+        const tracks = query.slice(0, 5)
 
         const component = new MessageActionRow().addComponents(
           new MessageSelectMenu()
@@ -114,20 +114,20 @@ export const command: ICommand = {
                   value: song.identifier,
                   description: `Search results from searching ${song}`,
                   emoji: emojis[index],
-                };
+                }
               }),
             ),
-        );
+        )
 
         interaction.editReply({
           embeds: [embed.setDescription('Please select a song to play')],
           components: [component],
-        });
+        })
 
         const collector = channel.createMessageComponentCollector({
           componentType: 'SELECT_MENU',
           time: 15000,
-        });
+        })
 
         collector.on('collect', async (collector: SelectMenuInteraction) => {
           if (collector.user.id !== interaction.user.id) {
@@ -135,41 +135,41 @@ export const command: ICommand = {
               content:
                 'You cannot access this menu. Please use the search command.',
               ephemeral: true,
-            });
-            return;
+            })
+            return
           } else {
-            const [trackIdentifier] = collector.values;
+            const [trackIdentifier] = collector.values
 
             const track = tracks.find((s: Track) => {
-              return s.identifier === trackIdentifier;
-            });
+              return s.identifier === trackIdentifier
+            })
 
             if (!track) {
-              return;
+              return
             }
 
-            embed.setTitle(`Added to queue: `).setDescription(`${track.title}`);
+            embed.setTitle(`Added to queue: `).setDescription(`${track.title}`)
 
-            player.queue.add(track);
+            player.queue.add(track)
             if (!player.playing && !player.paused && !player.queue.size)
-              player.play();
+              player.play()
           }
 
           collector.update({
             embeds: [embed],
             components: [component],
-          });
-        });
+          })
+        })
 
-        collector.on('end', async (collected) => {
+        collector.on('end', async collected => {
           embed
             .setTitle(`Search has ended`)
-            .setDescription(`Added ${collected.size} songs to the queue.`);
+            .setDescription(`Added ${collected.size} songs to the queue.`)
 
-          interaction.editReply({ embeds: [embed], components: [] });
-          await client.wait(5000);
-          interaction.deleteReply();
-        });
+          interaction.editReply({ embeds: [embed], components: [] })
+          await client.wait(5000)
+          interaction.deleteReply()
+        })
     }
   },
-};
+}

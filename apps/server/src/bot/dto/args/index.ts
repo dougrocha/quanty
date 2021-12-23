@@ -1,1 +1,1 @@
-export * from './get-guild.args';
+export * from './get-guild.args'

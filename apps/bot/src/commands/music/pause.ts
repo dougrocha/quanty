@@ -1,4 +1,4 @@
-import { checkChannel, ICommand } from '@quanty/framework';
+import { checkChannel, ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'pause',
@@ -10,16 +10,16 @@ export const command: ICommand = {
       client,
       guild,
       member,
-    });
+    })
 
     if (!player) {
       return {
         content,
-      };
+      }
     }
 
-    if (player.paused) return { content: 'Quanty is already paused.' };
-    player.pause(true);
-    return { content: 'Quanty is now paused' };
+    if (player.paused) return { content: 'Quanty is already paused.' }
+    player.pause(true)
+    return { content: 'Quanty is now paused' }
   },
-};
+}

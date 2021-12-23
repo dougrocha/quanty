@@ -1,14 +1,14 @@
-import { getModelToken } from '@nestjs/mongoose';
-import { Test, TestingModule } from '@nestjs/testing';
-import { GuildDto } from 'src/bot/dto/guild.dto';
-import { Guilds } from 'src/schemas';
-import { GuildConfigService } from './guild-config.service';
+import { getModelToken } from '@nestjs/mongoose'
+import { Test, TestingModule } from '@nestjs/testing'
+import { GuildDto } from 'src/bot/dto/guild.dto'
+import { Guilds } from 'src/schemas'
+import { GuildConfigService } from './guild-config.service'
 
-const testCat1 = 'Test Cat 1';
-const testBreed1 = 'Test Breed 1';
+const testCat1 = 'Test Cat 1'
+const testBreed1 = 'Test Breed 1'
 
 describe('GuildConfigService', () => {
-  let service: GuildConfigService;
+  let service: GuildConfigService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -49,12 +49,12 @@ describe('GuildConfigService', () => {
           },
         },
       ],
-    }).compile();
+    }).compile()
 
-    service = module.get<GuildConfigService>(GuildConfigService);
-  });
+    service = module.get<GuildConfigService>(GuildConfigService)
+  })
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+    expect(service).toBeDefined()
+  })
+})

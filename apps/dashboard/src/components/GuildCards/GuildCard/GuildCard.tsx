@@ -1,13 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
-import { OwnerGuildsQuery } from "../../../graphql/graphql";
-import {
-  GuildBackground,
-  GuildCardWrapper,
-  GuildTag,
-} from "./GuildCard.styled";
+import Image from 'next/image'
+import Link from 'next/link'
+import { OwnerGuildsQuery } from '../../../graphql/graphql'
+import { GuildBackground, GuildCardWrapper, GuildTag } from './GuildCard.styled'
 
-type OwnerGuildsType = OwnerGuildsQuery["ownerGuilds"][0];
+type OwnerGuildsType = OwnerGuildsQuery['ownerGuilds'][0]
 
 const GuildCard = ({ guild }: { guild: OwnerGuildsType }) => {
   return (
@@ -41,7 +37,7 @@ const GuildCard = ({ guild }: { guild: OwnerGuildsType }) => {
         </Link>
       </GuildTag>
     </GuildCardWrapper>
-  );
-};
+  )
+}
 
-export default GuildCard;
+export default GuildCard

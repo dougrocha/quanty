@@ -3,22 +3,22 @@ import {
   ExecutionContext,
   Inject,
   UseGuards,
-} from '@nestjs/common';
-import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql';
-import { Observable } from 'rxjs';
-import { GraphQLAuthGuard } from 'src/auth/utils/Guards';
-import { Guild } from 'src/guild/models/guild';
-import { UserObject } from 'src/users/dto/user';
-import { IUsersProvider } from 'src/users/types';
-import { AxiosResponse } from 'axios';
-import { User as UserSchema } from '../../../schemas';
+} from '@nestjs/common'
+import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql'
+import { Observable } from 'rxjs'
+import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
+import { Guild } from 'src/guild/models/guild'
+import { UserObject } from 'src/users/dto/user'
+import { IUsersProvider } from 'src/users/types'
+import { AxiosResponse } from 'axios'
+import { User as UserSchema } from '../../../schemas'
 
 export const CurrentUser = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context);
-    return ctx.getContext().req.user;
+    const ctx = GqlExecutionContext.create(context)
+    return ctx.getContext().req.user
   },
-);
+)
 
 @Resolver()
 @UseGuards(GraphQLAuthGuard)
@@ -30,14 +30,14 @@ export class UsersResolver {
 
   @Query(() => UserObject, { name: 'user', nullable: false })
   async currentUser(@CurrentUser() user: UserSchema): Promise<UserSchema> {
-    return user;
+    return user
   }
 
   @Query(() => [Guild])
   async ownerGuilds(
     @CurrentUser() user: UserSchema,
   ): Promise<Observable<AxiosResponse<Guild[]>>> {
-    const { accessToken } = user;
-    return this.usersService.fetchOwnerGuilds(accessToken);
+    const { accessToken } = user
+    return this.usersService.fetchOwnerGuilds(accessToken)
   }
 }

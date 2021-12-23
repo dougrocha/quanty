@@ -1,24 +1,24 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { CommandLoader } from '../src/commands';
+import { Command } from 'commander'
+import { CommandLoader } from '../src/commands'
 
 const bootstrap = () => {
-  const program = new Command();
+  const program = new Command()
 
   program
     .version('1.0.0', '-v, --version', 'Output the current version.')
     .usage('<command> [options]')
     .helpOption('-h, --help', 'Output helpful information')
-    .description('Quanty Cli to make developing discord bots easier.');
+    .description('Quanty Cli to make developing discord bots easier.')
 
-  CommandLoader.load(program);
+  CommandLoader.load(program)
 
-  program.parseAsync(process.argv);
+  program.parseAsync(process.argv)
 
   if (!process.argv.slice(2).length) {
-    program.outputHelp();
+    program.outputHelp()
   }
-};
+}
 
-bootstrap();
+bootstrap()

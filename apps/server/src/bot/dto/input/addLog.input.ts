@@ -1,21 +1,21 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql'
+import { IsNotEmpty } from 'class-validator'
 
 @InputType()
 class Log {
   @Field()
-  name: string;
+  name: string
   @Field()
-  action: string;
+  action: string
 }
 
 @InputType()
 export class AddLog {
   @Field()
   @IsNotEmpty()
-  guildId: string;
+  guildId: string
 
   @Field(() => Log)
   @IsNotEmpty()
-  log: Log;
+  log: Log
 }

@@ -1,10 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
-import { map, Observable } from 'rxjs';
-import { IGuildsProvider } from 'src/guild/types';
-import { Channel } from 'src/guild/models/channel';
-import { Guild } from 'src/guild/models/guild';
+import { Inject, Injectable } from '@nestjs/common'
+import { HttpService } from '@nestjs/axios'
+import { AxiosResponse } from 'axios'
+import { map, Observable } from 'rxjs'
+import { IGuildsProvider } from 'src/guild/types'
+import { Channel } from 'src/guild/models/channel'
+import { Guild } from 'src/guild/models/guild'
 
 @Injectable()
 export class GuildsService implements IGuildsProvider {
@@ -17,7 +17,7 @@ export class GuildsService implements IGuildsProvider {
           Authorization: `Bot ${process.env.BOT_SECRET}`,
         },
       })
-      .pipe(map((response) => response.data));
+      .pipe(map(response => response.data))
   }
 
   fetchGuildChannels(guildId: string): Observable<AxiosResponse<Channel[]>> {
@@ -27,6 +27,6 @@ export class GuildsService implements IGuildsProvider {
           Authorization: `Bot ${process.env.BOT_SECRET}`,
         },
       })
-      .pipe(map((response) => response.data));
+      .pipe(map(response => response.data))
   }
 }

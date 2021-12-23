@@ -1,16 +1,16 @@
-import QuantyClient from '../client';
+import QuantyClient from '../client'
 
-import { Guild } from '../database/schemas';
+import { Guild } from '../database/schemas'
 
 class GuildManager {
-  private client: QuantyClient;
+  private client: QuantyClient
 
   constructor(client: QuantyClient) {
-    this.client = client;
+    this.client = client
   }
 
   async findAll() {
-    return await Guild.find({}).lean();
+    return await Guild.find({}).lean()
   }
 
   /**
@@ -19,23 +19,23 @@ class GuildManager {
    * @returns Guild Object stripped of functions
    */
   async findById(guildId: string) {
-    return await Guild.findOne({ guildId }).lean();
+    return await Guild.findOne({ guildId }).lean()
   }
 
   async getPrefixandUpdate(guildId: string, prefix: string) {
-    const guild = await this.findById(guildId);
-    const oldPrefix = guild?.prefix;
+    const guild = await this.findById(guildId)
+    const oldPrefix = guild?.prefix
 
     await Guild.findOneAndUpdate({ guildId }, { prefix })
       .then(() => {
         return {
           oldPrefix,
           prefix,
-        };
+        }
       })
       .catch((e: any) => {
-        return e;
-      });
+        return e
+      })
   }
 
   /**
@@ -44,15 +44,15 @@ class GuildManager {
    * @returns Guild prefix or `q!` if prefix doesnt exist
    */
   async getPrefix(guildId: string) {
-    const guild = await this.findById(guildId);
+    const guild = await this.findById(guildId)
 
-    const prefix = guild?.prefix;
+    const prefix = guild?.prefix
 
     if (prefix) {
-      return prefix;
+      return prefix
     } else {
-      return `q!`;
+      return `q!`
     }
   }
 }
-export default GuildManager;
+export default GuildManager

@@ -1,67 +1,67 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 class Logs {
   @Field({ nullable: false })
-  name?: string;
+  name?: string
   @Field({ nullable: false })
-  action?: string;
+  action?: string
 }
 
 @ObjectType()
 class Moderation {
   @Field({ nullable: true })
-  autoMod?: boolean;
+  autoMod?: boolean
   @Field({ nullable: true })
-  plugin?: boolean;
+  plugin?: boolean
 }
 
 @ObjectType()
 class Music {
   @Field({ nullable: true })
-  plugin?: boolean;
+  plugin?: boolean
   @Field({ nullable: true })
-  channel?: string;
+  channel?: string
   @Field({ nullable: true })
-  immortal?: boolean;
+  immortal?: boolean
 }
 
 @ObjectType()
 class Anime {
   @Field({ nullable: true })
-  plugin?: boolean;
+  plugin?: boolean
   @Field({ nullable: true })
-  nsfw?: boolean;
+  nsfw?: boolean
 }
 
 @ObjectType()
 class CustomCommands {
   @Field({ nullable: false })
-  id?: string;
+  id?: string
   @Field({ nullable: false })
-  name?: string;
+  name?: string
   @Field({ nullable: false })
-  description?: string;
+  description?: string
 }
 
 @ObjectType()
 export class GuildConfig {
   @Field({ nullable: false })
-  guildId: string;
+  guildId: string
   @Field({ nullable: true })
-  prefix?: string;
+  prefix?: string
   @Field(() => Moderation, { nullable: true })
-  moderation?: Moderation;
+  moderation?: Moderation
   @Field(() => Music, { nullable: true })
-  music?: Music;
+  music?: Music
   @Field(() => Anime, { nullable: true })
-  anime?: Anime;
+  anime?: Anime
   @Field(() => [CustomCommands], { nullable: true })
-  customCommands?: CustomCommands[];
+  customCommands?: CustomCommands[]
   @Field({ nullable: true })
-  premium?: boolean;
+  premium?: boolean
   @Field(() => [Logs], { nullable: true })
-  logs?: Logs[];
+  logs?: Logs[]
   @Field(() => [String], { nullable: true })
-  blacklistedWords?: string[];
+  blacklistedWords?: string[]
 }

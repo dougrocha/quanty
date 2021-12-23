@@ -1,25 +1,25 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { IsEmail } from 'class-validator';
+import { Field, ObjectType } from '@nestjs/graphql'
+import { IsEmail } from 'class-validator'
 
 @ObjectType()
 export class UserObject {
   @Field()
-  discordID: string;
+  discordID: string
   @Field()
-  username: string;
+  username: string
   @Field()
-  discriminator: string;
+  discriminator: string
   @Field({ nullable: false })
-  avatar?: string;
+  avatar?: string
   @Field({ nullable: true })
   @IsEmail()
-  email?: string;
+  email?: string
   @Field({ nullable: true })
-  verified?: boolean;
+  verified?: boolean
   @Field({ nullable: true })
-  flags?: number;
+  flags?: number
   @Field({ nullable: true })
-  locale?: string;
+  locale?: string
   // @Field({ name: 'access_token' })
   // accessToken: string;
   // @Field({ name: 'refresh_token' })

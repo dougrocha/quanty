@@ -1,37 +1,37 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class User {
   @Field()
-  id: string;
+  id: string
   @Field()
-  username: string;
+  username: string
   @Field()
-  discriminator: string;
+  discriminator: string
   @Field()
-  avatar: string;
+  avatar: string
   @Field({ nullable: true })
-  bot?: boolean;
+  bot?: boolean
   @Field({ nullable: true })
-  system?: boolean;
+  system?: boolean
   @Field({ nullable: true })
-  mfa_enabled?: boolean;
+  mfa_enabled?: boolean
   @Field({ nullable: true })
-  banner?: string;
+  banner?: string
   @Field({ nullable: true })
-  accent_color?: number;
+  accent_color?: number
   @Field({ nullable: true })
-  locale?: string;
+  locale?: string
   @Field({ nullable: true })
-  verified?: boolean;
+  verified?: boolean
   @Field({ nullable: true })
-  email?: string;
+  email?: string
   @Field({ nullable: true })
-  flags?: UserFlags;
+  flags?: UserFlags
   @Field({ nullable: true })
-  premium_type?: UserPremiumType;
+  premium_type?: UserPremiumType
   @Field({ nullable: true })
-  public_flags?: UserFlags;
+  public_flags?: UserFlags
 }
 
 enum UserPremiumType {

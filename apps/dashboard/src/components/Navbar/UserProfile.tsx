@@ -1,23 +1,23 @@
 // Imports
 // React Imports
-import { useState } from "react";
+import { useState } from 'react'
 
 // Styles & CSS
-import styled from "styled-components";
+import styled from 'styled-components'
 
 // Utils
-import { ProfileImg } from "../ProfileImg";
+import { ProfileImg } from '../ProfileImg'
 
 // Types
-import { CurrentUser } from "../../utils/types";
-import Link from "next/link";
+import { CurrentUser } from '../../utils/types'
+import Link from 'next/link'
 
 const UserWrapper = styled.div`
   display: flex;
   align-items: center;
 
   color: ${({ theme }) => theme.text.main};
-`;
+`
 
 const UserContainer = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const UserContainer = styled.div`
   p {
     filter: opacity(0.8);
   }
-`;
+`
 
 const IconImg = styled.div`
   position: relative;
@@ -41,14 +41,14 @@ const IconImg = styled.div`
   img {
     border-radius: 50%;
   }
-`;
+`
 
 type userProfileTypes = {
-  user: CurrentUser;
-};
+  user: CurrentUser
+}
 
 const UserProfile = ({ user }: userProfileTypes) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -62,34 +62,28 @@ const UserProfile = ({ user }: userProfileTypes) => {
         {open && <DropdownMenu />}
       </UserWrapper>
     </>
-  );
-};
+  )
+}
 
 const DropdownMenu = () => {
-  const logout = () => {
-    window.location.assign("http://localhost:3001/api/auth/logout");
-  };
-
   return (
     <>
       <DropDown>
         <h3>DropDown Menu</h3>
         <div className="logoutButton">
           <hr />
-          <Link href="http://localhost:3001/api/auth/logout" passHref>
-            <a
-            // onClick={(e) => {
-            //   logout();
-            // }}
-            >
-              Log Out
-            </a>
+          <Link
+            href="http://localhost:3001/api/auth/logout"
+            passHref
+            prefetch={false}
+          >
+            Log Out
           </Link>
         </div>
       </DropDown>
     </>
-  );
-};
+  )
+}
 
 const DropDown = styled.div`
   position: absolute;
@@ -116,6 +110,6 @@ const DropDown = styled.div`
       color: ${({ theme }) => theme.text.main};
     }
   }
-`;
+`
 
-export default UserProfile;
+export default UserProfile

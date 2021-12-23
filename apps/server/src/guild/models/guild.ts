@@ -1,52 +1,52 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Channel } from './channel';
-import { Emojis } from './emojis';
-import { GuildMember } from './guildMember';
-import { Roles } from './roles';
-import { Sticker } from './sticker';
+import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Channel } from './channel'
+import { Emojis } from './emojis'
+import { GuildMember } from './guildMember'
+import { Roles } from './roles'
+import { Sticker } from './sticker'
 
 @ObjectType()
 export class Guild {
   @Field({ nullable: true })
-  owner?: boolean;
+  owner?: boolean
   @Field()
-  owner_id: string;
+  owner_id: string
   @Field(() => Int)
-  afk_timeout: number;
+  afk_timeout: number
   @Field(() => [Roles])
-  roles: Roles[];
+  roles: Roles[]
   @Field(() => [Emojis])
-  emojis: Emojis[];
+  emojis: Emojis[]
   @Field(() => GuildMember, { nullable: true })
-  members?: GuildMember[];
+  members?: GuildMember[]
   @Field(() => [Channel], { nullable: true })
-  channels?: Channel[];
+  channels?: Channel[]
   @Field(() => [Channel], { nullable: true })
-  threads?: Channel[];
+  threads?: Channel[]
   @Field({ nullable: true })
-  description?: string;
+  description?: string
   @Field()
-  premium_tier: GuildPremiumTier;
+  premium_tier: GuildPremiumTier
   @Field()
-  premium_subscription_count?: number;
+  premium_subscription_count?: number
   @Field()
-  preferred_locale: string;
+  preferred_locale: string
   @Field()
-  nsfw_level: GuildNSFWLevel;
+  nsfw_level: GuildNSFWLevel
   @Field(() => [Sticker])
-  stickers: Sticker[];
+  stickers: Sticker[]
   @Field()
-  name: string;
+  name: string
   @Field({ nullable: true })
-  icon?: string;
+  icon?: string
   @Field()
-  splash: string;
+  splash: string
   @Field({ nullable: true })
-  unavailable?: boolean;
+  unavailable?: boolean
   @Field(() => String)
-  id: string;
+  id: string
   @Field(() => [String])
-  features: string[];
+  features: string[]
   //   icon_hash?: string;
   //   discovery_splash: string;
   //   permissions?: string;

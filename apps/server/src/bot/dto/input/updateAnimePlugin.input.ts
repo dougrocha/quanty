@@ -1,13 +1,13 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql'
+import { IsNotEmpty } from 'class-validator'
 
 @InputType()
 export class UpdateAnimePlugin {
   @Field()
   @IsNotEmpty()
-  guildId: string;
+  guildId: string
 
   @Field()
   @IsNotEmpty()
-  plugin: boolean;
+  plugin: boolean
 }

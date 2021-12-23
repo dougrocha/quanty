@@ -1,8 +1,8 @@
-import { ICommand } from '@quanty/framework';
+import { ICommand } from '@quanty/framework'
 
-import { glob } from 'glob';
-import { promisify } from 'util';
-const globPromise = promisify(glob);
+import { glob } from 'glob'
+import { promisify } from 'util'
+const globPromise = promisify(glob)
 
 export const command: ICommand = {
   name: 'load',
@@ -33,19 +33,18 @@ export const command: ICommand = {
   run: async ({ client, guild }) => {
     const slashCommandFiles: string[] = await globPromise(
       `${__dirname}/../../slashCmds/**/*{.ts,.js}`,
-    );
+    )
 
-    await client.guilds.cache.get(guild.id)?.commands.set([]);
+    await client.guilds.cache.get(guild.id)?.commands.set([])
 
     slashCommandFiles.map(async (value: string) => {
-      const { command } = await require(value);
+      const { command } = await require(value)
 
-      if (['MESSAGE', 'USER'].includes(command.type))
-        delete command.description;
+      if (['MESSAGE', 'USER'].includes(command.type)) delete command.description
 
-      await client.guilds.cache.get(guild.id)?.commands.create(command);
-    });
+      await client.guilds.cache.get(guild.id)?.commands.create(command)
+    })
 
-    return { content: 'Slash Commands Loaded slash' };
+    return { content: 'Slash Commands Loaded slash' }
   },
-};
+}

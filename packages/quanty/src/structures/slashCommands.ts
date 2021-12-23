@@ -1,37 +1,37 @@
-import { GuildMember } from 'discord.js';
-import { CommandHandler } from '.';
-import QuantyClient from '../client';
+import { GuildMember } from 'discord.js'
+import { CommandHandler } from '.'
+import QuantyClient from '../client'
 
 class SlashCommandHandler {
-  private client: QuantyClient;
-  private commandHandler: CommandHandler;
+  private client: QuantyClient
+  private commandHandler: CommandHandler
 
   constructor(client: QuantyClient, commandHandler: CommandHandler) {
-    this.client = client;
-    this.commandHandler = commandHandler;
+    this.client = client
+    this.commandHandler = commandHandler
 
-    this.init();
+    this.init()
   }
 
   private async init() {
-    this.client.on('interactionCreate', async (interaction) => {
+    this.client.on('interactionCreate', async interaction => {
       if (!interaction.isCommand()) {
-        return;
+        return
       }
 
-      await interaction.deferReply();
+      await interaction.deferReply()
 
-      const command = this.commandHandler.getCommand(interaction.commandName);
+      const command = this.commandHandler.getCommand(interaction.commandName)
 
       if (!command) {
         return interaction.reply({
           content: 'Sorry this command doesnt exist.',
-        });
+        })
       }
 
-      const { guild, channel, options } = interaction;
-      const member = interaction.member as GuildMember;
-      const client = this.client;
+      const { guild, channel, options } = interaction
+      const member = interaction.member as GuildMember
+      const client = this.client
 
       command.runSlashCommand({
         client,
@@ -40,9 +40,9 @@ class SlashCommandHandler {
         member,
         channel,
         options,
-      });
-    });
+      })
+    })
   }
 }
 
-export default SlashCommandHandler;
+export default SlashCommandHandler

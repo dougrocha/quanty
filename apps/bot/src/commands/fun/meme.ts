@@ -1,7 +1,7 @@
-import { MessageEmbed } from 'discord.js';
-import axios from 'axios';
-import { MemeType } from '../../types';
-import { ICommand } from '@quanty/framework';
+import { MessageEmbed } from 'discord.js'
+import axios from 'axios'
+import { MemeType } from '../../types'
+import { ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'meme',
@@ -10,7 +10,7 @@ export const command: ICommand = {
   run: async () => {
     await axios
       .get('https://meme-api.herokuapp.com/gimme')
-      .then((res) => res.data)
+      .then(res => res.data)
       .then(async (data: MemeType) => {
         const embed = new MessageEmbed()
           .setTitle(data.title)
@@ -18,11 +18,11 @@ export const command: ICommand = {
           .setImage(data.url)
           .setFooter(`${data.subreddit} - ${data.ups}`)
           .setTimestamp(Date.now())
-          .setColor('#FF5F9F');
+          .setColor('#FF5F9F')
 
         return {
           embeds: [embed],
-        };
-      });
+        }
+      })
   },
-};
+}

@@ -1,9 +1,9 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose'
 import {
   userGuildDocument,
   userGuildModel,
   userGuildSchema,
-} from '../../types/mongoose.gen';
+} from '../../types/mongoose.gen'
 
 const schema: userGuildSchema = new Schema({
   userId: {
@@ -37,11 +37,11 @@ const schema: userGuildSchema = new Schema({
     type: Number,
     default: 1,
   },
-});
+})
 
 const UserGuild: userGuildModel = model<userGuildDocument, userGuildModel>(
   'userGuild',
-  schema
-);
+  schema,
+)
 
-export default UserGuild;
+export default UserGuild

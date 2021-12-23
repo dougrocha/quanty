@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const HeroContainer = styled.article`
   width: 100%;
@@ -6,7 +6,7 @@ export const HeroContainer = styled.article`
 
   display: flex;
   justify-content: center;
-`;
+`
 
 export const HeroSection = styled.div`
   max-width: 1280px;
@@ -29,7 +29,7 @@ export const HeroSection = styled.div`
       display: none;
     }
   }
-`;
+`
 
 export const MainSection = styled.div`
   max-width: 300px;
@@ -61,11 +61,11 @@ export const MainSection = styled.div`
     font-size: 1rem;
     color: ${({ theme }) => theme.text.secondary};
   }
-`;
+`
 
 export const MainSectionButton = styled.div`
   margin-top: 1.125rem;
-`;
+`
 
 export const FeaturesButton = styled.div`
   margin-top: 1rem;
@@ -101,4 +101,4 @@ export const FeaturesButton = styled.div`
       transition: filter 0.15s ease-out 0s;
     }
   }
-`;
+`

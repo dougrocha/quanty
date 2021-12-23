@@ -1,14 +1,14 @@
-import { FeatureBuilder } from '@quanty/framework';
+import { FeatureBuilder } from '@quanty/framework'
 
 export const feature: FeatureBuilder<'interactionCreate'> = {
   name: 'interactionCreate',
   run: async (client, interaction) => {
-    if (!interaction.isContextMenu()) return;
+    if (!interaction.isContextMenu()) return
 
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply({ ephemeral: false })
 
-    const command = client.commandHandler.commands.get(interaction.commandName);
+    const command = client.commandHandler.commands.get(interaction.commandName)
 
-    if (command) command.run({ client, interaction });
+    if (command) command.run({ client, interaction })
   },
-};
+}

@@ -1,6 +1,6 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
-import { Response, Request } from 'express';
-import { DiscordAuthGuard, AuthenticatedGuard } from 'src/auth/utils/Guards';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
+import { Response, Request } from 'express'
+import { DiscordAuthGuard, AuthenticatedGuard } from 'src/auth/utils/Guards'
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +12,7 @@ export class AuthController {
   @Get('login')
   @UseGuards(DiscordAuthGuard)
   login() {
-    return;
+    return
   }
 
   /**
@@ -23,7 +23,7 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
-    return res.redirect('http://localhost:3000');
+    return res.redirect('http://localhost:3000')
   }
 
   /**
@@ -34,7 +34,7 @@ export class AuthController {
   @Get('status')
   @UseGuards(AuthenticatedGuard)
   status(@Res() res: Response) {
-    return res.send('ok');
+    return res.send('ok')
   }
 
   /**
@@ -45,7 +45,7 @@ export class AuthController {
   @Get('logout')
   logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy(() => {
-      res.redirect('http://localhost:3000');
-    });
+      res.redirect('http://localhost:3000')
+    })
   }
 }

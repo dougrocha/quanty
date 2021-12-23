@@ -1,24 +1,24 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from './user';
+import { Field, ObjectType } from '@nestjs/graphql'
+import { User } from './user'
 
 @ObjectType()
 export class GuildMember {
   @Field(() => User, { nullable: true })
-  user?: User;
+  user?: User
   @Field({ nullable: true })
-  nick?: string;
+  nick?: string
   @Field({ nullable: true })
-  avatar?: string;
+  avatar?: string
   @Field(() => [String])
-  roles: string[];
+  roles: string[]
   @Field()
-  joined_at: string;
+  joined_at: string
   @Field({ nullable: true })
-  premium_since?: string;
+  premium_since?: string
   @Field()
-  deaf: boolean;
+  deaf: boolean
   @Field()
-  mute: boolean;
+  mute: boolean
   @Field({ nullable: true })
-  pending?: boolean;
+  pending?: boolean
 }

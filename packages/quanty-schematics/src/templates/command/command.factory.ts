@@ -1,4 +1,4 @@
-import { join, Path, strings } from '@angular-devkit/core';
+import { join, Path, strings } from '@angular-devkit/core'
 import {
   apply,
   mergeWith,
@@ -10,37 +10,37 @@ import {
   template,
   Tree,
   url,
-} from '@angular-devkit/schematics';
-import { validateRoot } from '../../utils';
-import { CommandOptions } from './command.schema';
+} from '@angular-devkit/schematics'
+import { validateRoot } from '../../utils'
+import { CommandOptions } from './command.schema'
 
 export function main(_options: CommandOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    _options = transform(_options);
+    _options = transform(_options)
 
-    const workspaceBuffer = validateRoot(tree);
+    const workspaceBuffer = validateRoot(tree)
     if (!workspaceBuffer) {
-      throw new SchematicsException('This is not a typescript workspace');
+      throw new SchematicsException('This is not a typescript workspace')
     }
 
-    return mergeWith(generate(_options));
-  };
+    return mergeWith(generate(_options))
+  }
 }
 
 function transform(_options: CommandOptions): CommandOptions {
-  const options = _options;
+  const options = _options
 
   if (!options.name) {
-    throw new SchematicsException('Option (name) is required');
+    throw new SchematicsException('Option (name) is required')
   }
 
-  options.name = strings.dasherize(options.name);
+  options.name = strings.dasherize(options.name)
 
   options.path = options.path
     ? options.path
-    : join(options.path as Path, options.category);
+    : join(options.path as Path, options.category)
 
-  return options;
+  return options
 }
 
 function generate(_options: CommandOptions): Source {
@@ -51,5 +51,5 @@ function generate(_options: CommandOptions): Source {
         ...strings,
       }),
       move(_options.path!),
-    ])(context);
+    ])(context)
 }

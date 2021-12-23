@@ -1,5 +1,5 @@
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
@@ -8,7 +8,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
       <h1>Dashboard</h1>
       <main>{children}</main>
     </>
-  );
-};
+  )
+}
 
-export default DashboardLayout;
+export default DashboardLayout

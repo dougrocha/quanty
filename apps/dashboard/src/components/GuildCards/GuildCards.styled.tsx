@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const GuildCardsContainer = styled.div`
   max-width: 1000px;
@@ -15,4 +15,4 @@ export const GuildCardsContainer = styled.div`
   @media (max-width: 560px) {
     grid-template-columns: 1fr;
   }
-`;
+`

@@ -1,16 +1,16 @@
-import { Command } from 'commander';
+import { Command } from 'commander'
 
-import inquirer from 'inquirer';
-import { CommandAction } from '../actions/command.action';
+import inquirer from 'inquirer'
+import { CommandAction } from '../actions/command.action'
 
-import { AbstractCommand } from './abstract.command';
+import { AbstractCommand } from './abstract.command'
 
 export type CommandType = {
-  name: string;
-  description?: string;
-  category: string;
-  type?: string;
-};
+  name: string
+  description?: string
+  category: string
+  type?: string
+}
 
 export default class GenerateCommand extends AbstractCommand {
   public async load(program: Command): Promise<void> {
@@ -19,7 +19,7 @@ export default class GenerateCommand extends AbstractCommand {
       .alias('gen')
       .description('Generates a new file')
       .option('-i, --include-all', 'Includes all command features')
-      .action(this.execute());
+      .action(this.execute())
   }
 
   private execute() {
@@ -33,15 +33,15 @@ export default class GenerateCommand extends AbstractCommand {
             .then((extraOptions: any) => {
               const args = Object.assign({}, baseOptions, extraOptions, {
                 path,
-              });
-              CommandAction.execute(schematic, args);
-            });
-        });
-    };
+              })
+              CommandAction.execute(schematic, args)
+            })
+        })
+    }
   }
 
   private generateStarterPrompt(
-    options: any
+    options: any,
   ): inquirer.QuestionCollection<any> {
     const prompt: inquirer.QuestionCollection<any>[] = [
       {
@@ -70,7 +70,7 @@ export default class GenerateCommand extends AbstractCommand {
           { name: 'Both', value: 'both' },
         ],
       },
-    ];
+    ]
 
     if (options.includeAll) {
       prompt.push({
@@ -99,15 +99,15 @@ export default class GenerateCommand extends AbstractCommand {
             value: 'guildOwnerOnly',
           },
         ],
-      });
+      })
     }
-    return prompt;
+    return prompt
   }
 
   private generatePrompt(
-    options: string[]
+    options: string[],
   ): inquirer.QuestionCollection<any>[] {
-    const prompt: inquirer.QuestionCollection<any>[] = [];
+    const prompt: inquirer.QuestionCollection<any>[] = []
 
     if (options?.includes('userPerms')) {
       prompt.push({
@@ -124,9 +124,9 @@ export default class GenerateCommand extends AbstractCommand {
             value: 'readMessageHistory',
           },
         ],
-      });
+      })
     }
 
-    return prompt;
+    return prompt
   }
 }

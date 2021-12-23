@@ -1,48 +1,48 @@
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString } from 'class-validator'
 
 class Music {
   @IsBoolean()
-  plugin?: boolean;
+  plugin?: boolean
   @IsBoolean()
-  immortal?: boolean;
+  immortal?: boolean
   @IsString()
-  channel?: string;
+  channel?: string
 }
 
 class Anime {
   @IsBoolean()
-  plugin?: boolean;
+  plugin?: boolean
   @IsBoolean()
-  nsfw?: boolean;
+  nsfw?: boolean
 }
 
 class CustomCommand {
   @IsString()
-  id?: string;
+  id?: string
   @IsString()
-  name?: string;
+  name?: string
   @IsString()
-  description?: string;
+  description?: string
 }
 
 class Log {
   @IsString()
-  name?: string;
+  name?: string
   @IsString()
-  action?: string;
-  updatedAt?: Date;
+  action?: string
+  updatedAt?: Date
 }
 
 export class GuildDto {
   @IsNotEmpty()
-  guildId: string;
+  guildId: string
   @IsString()
-  prefix?: string;
-  music?: Music;
-  anime?: Anime;
-  customCommands?: CustomCommand[];
+  prefix?: string
+  music?: Music
+  anime?: Anime
+  customCommands?: CustomCommand[]
   @IsBoolean()
-  premium?: boolean;
-  logs?: Log[];
-  blacklistedWords: string[];
+  premium?: boolean
+  logs?: Log[]
+  blacklistedWords: string[]
 }

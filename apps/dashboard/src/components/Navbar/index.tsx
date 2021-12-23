@@ -1,7 +1,7 @@
 // Next Imports
-import Link from "next/link";
-import { memo, useContext, useMemo } from "react";
-import dynamic from "next/dynamic";
+import Link from 'next/link'
+import { useContext } from 'react'
+import dynamic from 'next/dynamic'
 
 // Styles and CSS
 import {
@@ -9,17 +9,17 @@ import {
   LogoContainer,
   Item,
   NavBarContainer,
-} from "./Navbar.styles";
+} from './Navbar.styles'
 
 // Components
-const Button = dynamic(() => import("../Button"));
-const UserProfile = dynamic(() => import("./UserProfile"));
+const Button = dynamic(() => import('../Button'))
+const UserProfile = dynamic(() => import('./UserProfile'))
 
 // Stores
-import { CurrentUserContext } from "../../utils/stores/CurrentUserContext";
+import { CurrentUserContext } from '../../utils/stores/CurrentUserContext'
 
 const NavBar = () => {
-  const { user, setUser } = useContext(CurrentUserContext);
+  const { user } = useContext(CurrentUserContext)
 
   return (
     <>
@@ -42,12 +42,12 @@ const NavBar = () => {
         </NavBarItems>
       </Container>
     </>
-  );
-};
+  )
+}
 
 interface NavItemProps {
-  text: string;
-  url: string;
+  text: string
+  url: string
 }
 
 const NavItemWrapper = ({ url, text }: NavItemProps) => {
@@ -55,11 +55,11 @@ const NavItemWrapper = ({ url, text }: NavItemProps) => {
     <Link href={`${url}`} passHref prefetch={false}>
       <Item>{text}</Item>
     </Link>
-  );
-};
+  )
+}
 
 interface NavBarWrapperProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const Container = ({ children }: NavBarWrapperProps) => {
@@ -67,22 +67,22 @@ const Container = ({ children }: NavBarWrapperProps) => {
     <>
       <NavBarContainer>{children}</NavBarContainer>
     </>
-  );
-};
+  )
+}
 
 const LoginButton = () => {
   const login = () => {
-    window.location.assign("http://localhost:3001/api/auth/login");
-  };
+    window.location.assign('http://localhost:3001/api/auth/login')
+  }
 
   return (
     <Button
       text="Login"
       onClick={() => {
-        login();
+        login()
       }}
     />
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

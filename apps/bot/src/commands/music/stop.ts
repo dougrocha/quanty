@@ -1,4 +1,4 @@
-import { checkChannel, ICommand } from '@quanty/framework';
+import { checkChannel, ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'stop',
@@ -10,19 +10,19 @@ export const command: ICommand = {
       client,
       guild,
       member,
-    });
+    })
 
     if (!player) {
       return {
         content,
-      };
+      }
     }
 
-    player.disconnect();
-    player.destroy();
+    player.disconnect()
+    player.destroy()
 
     return {
       content: 'Bye!',
-    };
+    }
   },
-};
+}

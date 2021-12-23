@@ -1,12 +1,12 @@
 // Imports
 // Next Imports
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 
 const Guild = () => {
-  const router = useRouter();
-  const { guildId } = router.query;
+  const router = useRouter()
+  const { guildId } = router.query
 
-  return <p style={{ color: "white" }}>Guild: {guildId} .</p>;
-};
+  return <p style={{ color: 'white' }}>Guild: {guildId} .</p>
+}
 
-export default Guild;
+export default Guild

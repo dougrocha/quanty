@@ -11,9 +11,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc",
-    "start": "ts-node bin/quanty.ts",
-    "test": "node lib/bin/quanty.js"
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.4",

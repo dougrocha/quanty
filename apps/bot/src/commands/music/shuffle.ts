@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js';
-import { ICommand } from '@quanty/framework';
+import { MessageEmbed } from 'discord.js'
+import { ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'shuffle',
@@ -7,24 +7,24 @@ export const command: ICommand = {
   options: [],
   category: 'music',
   run: async ({ client, guild }) => {
-    const player = client.player.get(guild.id);
+    const player = client.player.get(guild.id)
 
-    const embed = new MessageEmbed().setColor('#FF5F9F');
+    const embed = new MessageEmbed().setColor('#FF5F9F')
 
     if (!player)
       return {
         embeds: [embed.setDescription('Invite Quanty to shuffle your music.')],
-      };
+      }
 
     if (!player.queue)
       return {
         embeds: [embed.setDescription('The queue is empty.')],
-      };
+      }
 
-    embed.setDescription('Shuffled Queue!');
+    embed.setDescription('Shuffled Queue!')
 
-    player.queue.shuffle();
+    player.queue.shuffle()
 
-    return { embeds: [embed] };
+    return { embeds: [embed] }
   },
-};
+}

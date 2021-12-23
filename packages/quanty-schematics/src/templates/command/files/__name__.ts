@@ -1,4 +1,4 @@
-import { ICommand } from '@quanty/framework';
+import { ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: `<%= name %>`,
@@ -6,4 +6,4 @@ export const command: ICommand = {
   category: '<%= category %>',
   slash: '<%= type %>',
   run: async () => {},
-};
+}

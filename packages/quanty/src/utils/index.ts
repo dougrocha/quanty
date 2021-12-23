@@ -1,3 +1,3 @@
-import { checkChannel, createPlayer, MusicEvent } from './music';
+import { checkChannel, createPlayer, MusicEvent } from './music'
 
-export { MusicEvent, checkChannel, createPlayer };
+export { MusicEvent, checkChannel, createPlayer }

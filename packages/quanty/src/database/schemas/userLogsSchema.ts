@@ -1,9 +1,9 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose'
 import {
   userLogsDocument,
   userLogsModel,
   userLogsSchema,
-} from '../../types/mongoose.gen';
+} from '../../types/mongoose.gen'
 
 const schema: userLogsSchema = new Schema({
   userId: {
@@ -25,11 +25,11 @@ const schema: userLogsSchema = new Schema({
       issueDate: Date,
     },
   ],
-});
+})
 
 const UserLogs: userLogsModel = model<userLogsDocument, userLogsModel>(
   'userLogs',
-  schema
-);
+  schema,
+)
 
-export default UserLogs;
+export default UserLogs

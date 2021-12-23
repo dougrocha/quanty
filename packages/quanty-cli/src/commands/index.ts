@@ -1,2 +1,2 @@
-export * from './utils';
-export * from './command.loader';
+export * from './utils'
+export * from './command.loader'

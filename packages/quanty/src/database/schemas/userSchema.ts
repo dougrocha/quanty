@@ -1,5 +1,5 @@
-import { model, Schema } from 'mongoose';
-import { userSchema, userModel, userDocument } from '../../types/mongoose.gen';
+import { model, Schema } from 'mongoose'
+import { userSchema, userModel, userDocument } from '../../types/mongoose.gen'
 
 const schema: userSchema = new Schema({
   userId: {
@@ -21,8 +21,8 @@ const schema: userSchema = new Schema({
     type: String,
     default: 'en-US',
   },
-});
+})
 
-const User: userModel = model<userDocument, userModel>('user', schema);
+const User: userModel = model<userDocument, userModel>('user', schema)
 
-export default User;
+export default User

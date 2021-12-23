@@ -1,0 +1,12 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "commonjs",
+    "lib": ["es2021"],
+
+    "resolveJsonModule": true,
+
+    "strictBindCallApply": false
+  }
+}

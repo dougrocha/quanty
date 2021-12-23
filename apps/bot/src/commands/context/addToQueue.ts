@@ -1,4 +1,4 @@
-import { IContextCommand } from '@quanty/framework';
+import { IContextCommand } from '@quanty/framework'
 
 export const command: IContextCommand = {
   name: 'Add to queue',
@@ -7,6 +7,6 @@ export const command: IContextCommand = {
   type: 'MESSAGE',
 
   run: async ({ interaction }) => {
-    const targetId = interaction?.targetId;
+    const targetId = interaction?.targetId
   },
-};
+}

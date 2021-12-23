@@ -1,8 +1,8 @@
-import { MessageEmbed } from 'discord.js';
-import { ICommand } from '@quanty/framework';
+import { MessageEmbed } from 'discord.js'
+import { ICommand } from '@quanty/framework'
 
-import Client from 'nekos.life';
-const neko = new Client();
+import Client from 'nekos.life'
+const neko = new Client()
 
 export const command: ICommand = {
   name: 'anime',
@@ -50,30 +50,30 @@ export const command: ICommand = {
   category: 'nsfw',
   slash: true,
   run: async ({ options }) => {
-    const embed = new MessageEmbed();
+    const embed = new MessageEmbed()
 
     if (options.getSubcommand() === 'sfw') {
-      const type = options.getString('type');
+      const type = options.getString('type')
 
-      let image: { url: string };
+      let image: { url: string }
 
       switch (type) {
         case 'waifu':
-          image = await neko.sfw.waifu();
-          embed.setImage(image.url);
-          break;
+          image = await neko.sfw.waifu()
+          embed.setImage(image.url)
+          break
         case 'baka':
-          image = await neko.sfw.baka();
-          embed.setImage(image.url);
-          break;
+          image = await neko.sfw.baka()
+          embed.setImage(image.url)
+          break
         case 'holo':
-          image = await neko.sfw.holo();
-          embed.setImage(image.url);
-          break;
+          image = await neko.sfw.holo()
+          embed.setImage(image.url)
+          break
         case 'feed':
-          image = await neko.sfw.feed();
-          embed.setImage(image.url);
-          break;
+          image = await neko.sfw.feed()
+          embed.setImage(image.url)
+          break
         default:
           const allsfw = [
             await neko.sfw.waifu(),
@@ -88,50 +88,50 @@ export const command: ICommand = {
             await neko.sfw.smug(),
             await neko.sfw.poke(),
             await neko.sfw.holo(),
-          ];
+          ]
 
-          const res = allsfw[Math.floor(Math.random() * allsfw.length)];
+          const res = allsfw[Math.floor(Math.random() * allsfw.length)]
 
-          embed.setImage(res.url);
+          embed.setImage(res.url)
       }
     }
 
     if (options.getSubcommand() === 'nsfw') {
-      const type = options.getString('type');
+      const type = options.getString('type')
 
-      let image: { url: string };
+      let image: { url: string }
 
       switch (type) {
         case 'tits':
-          image = await neko.nsfw.tits();
-          embed.setImage(image.url);
-          break;
+          image = await neko.nsfw.tits()
+          embed.setImage(image.url)
+          break
         case 'boobs':
-          image = await neko.nsfw.boobs();
-          embed.setImage(image.url);
-          break;
+          image = await neko.nsfw.boobs()
+          embed.setImage(image.url)
+          break
         case 'holo':
-          image = await neko.nsfw.holo();
-          embed.setImage(image.url);
-          break;
+          image = await neko.nsfw.holo()
+          embed.setImage(image.url)
+          break
         case 'wankGif':
-          image = await neko.nsfw.pussyWankGif();
-          embed.setImage(image.url);
-          break;
+          image = await neko.nsfw.pussyWankGif()
+          embed.setImage(image.url)
+          break
         default:
           const all = [
             await neko.nsfw.tits(),
             await neko.nsfw.girlSoloGif(),
             await neko.nsfw.boobs(),
             await neko.nsfw.pussyWankGif(),
-          ];
+          ]
 
-          embed.setImage(all[Math.floor(Math.random() * all.length)].url);
+          embed.setImage(all[Math.floor(Math.random() * all.length)].url)
       }
     }
 
     return {
       embeds: [embed.setColor('#FF5F9F')],
-    };
+    }
   },
-};
+}

@@ -1,11 +1,11 @@
-import * as dotenv from 'dotenv';
-const ENV = process.env.NODE_ENV;
-dotenv.config({ path: !ENV ? '.env' : `.env.${ENV}` });
+import * as dotenv from 'dotenv'
+const ENV = process.env.NODE_ENV
+dotenv.config({ path: !ENV ? '.env' : `.env.${ENV}` })
 
-import { join } from 'path';
+import { join } from 'path'
 
-import QuantyClient from '@quanty/framework';
-import { nodeConfig, spotifyConfig } from './utils/clientConfig';
+import QuantyClient from '@quanty/framework'
+import { nodeConfig, spotifyConfig } from './utils/clientConfig'
 
 const client = new QuantyClient(
   {
@@ -13,16 +13,15 @@ const client = new QuantyClient(
     mongoUri: process.env.MONGOURI,
     WSUrl: process.env.WS_URL,
     botOwners: ['571520537587875851'],
-    commandsDir: join(__dirname, 'commands'),
+    commandsDir: 'commands',
     featuresDir: join(__dirname, 'features'),
     testServers: ['871581301713555526'],
-    devMode: true,
   },
   { intents: 32509 },
   {
     spotifyConfig,
     nodeConfig,
   },
-);
+)
 
-export default client;
+export default client

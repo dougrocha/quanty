@@ -1,38 +1,13 @@
 {
+  "extends": "tsconfig/quanty.json",
   "compilerOptions": {
-    "lib": ["ES2020"],
-    "module": "CommonJS",
-    "target": "ES2020",
-    "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["node"],
-    "resolveJsonModule": true,
-    "strictBindCallApply": false,
-
-    "rootDir": ".",
-    "incremental": true,
-    "declaration": true,
-    "composite": true,
-    "declarationDir": "./dist/types",
+    "rootDir": "./",
+    "baseUrl": "./",
     "outDir": "dist",
 
-    "skipLibCheck": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true
+    "declaration": false,
+    "declarationMap": false
   },
-  "watchOptions": {
-    "excludeDirectories": ["node_modules", "prod"]
-  },
-  "ts-node": {
-    "transpileOnly": true
-  },
-  "include": ["src", "quanty", "environment.d.ts"],
-  "extends": "tsconfig/base.json",
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": ["src", "environment.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
 }

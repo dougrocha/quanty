@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ const LoadingWrapper = styled.div`
       transform: translate(24px, 0);
     }
   }
-`;
+`
 
 const LoadingLayout = () => {
   return (
@@ -73,7 +73,7 @@ const LoadingLayout = () => {
         <div></div>
       </div>
     </LoadingWrapper>
-  );
-};
+  )
+}
 
-export default LoadingLayout;
+export default LoadingLayout

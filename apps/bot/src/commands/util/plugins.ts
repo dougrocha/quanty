@@ -1,5 +1,5 @@
-import { ICommand, GuildSettingsEnum } from '@quanty/framework';
-import { MessageEmbed } from 'discord.js';
+import { ICommand, GuildSettingsEnum } from '@quanty/framework'
+import { MessageEmbed } from 'discord.js'
 
 export const command: ICommand = {
   name: 'plugins',
@@ -17,14 +17,14 @@ export const command: ICommand = {
   slash: 'both',
   run: async ({ client, guild, options, args }) => {
     const plugin =
-      options?.getString('add-ons')?.toLowerCase() ?? args[0].toLowerCase();
+      options?.getString('add-ons')?.toLowerCase() ?? args[0].toLowerCase()
 
-    const serverPlugins = await client.PluginManager.getGuild(guild.id);
+    const serverPlugins = await client.PluginManager.getGuild(guild.id)
 
-    const embed = new MessageEmbed().setColor('RANDOM');
+    const embed = new MessageEmbed().setColor('RANDOM')
 
     if (!serverPlugins) {
-      await client.PluginManager.createGuild(guild.id);
+      await client.PluginManager.createGuild(guild.id)
     }
 
     if (!plugin && !Object.values<string>(GuildSettingsEnum).includes(plugin)) {
@@ -34,7 +34,7 @@ export const command: ICommand = {
             '``Choose one of the following plugins:`` \n Anime, Moderation, Music',
           ),
         ],
-      };
+      }
     }
 
     switch (plugin) {
@@ -42,8 +42,8 @@ export const command: ICommand = {
         const res = await client.PluginManager.getGuildSetting({
           guildId: guild.id,
           setting: 'MUSIC',
-        });
-        embed.setTitle('Music Settings');
+        })
+        embed.setTitle('Music Settings')
         embed.addFields(
           {
             name: 'Plugin',
@@ -66,8 +66,8 @@ export const command: ICommand = {
               'Any Room'
             }\`\``,
           },
-        );
-        break;
+        )
+        break
 
       default:
         return {
@@ -76,14 +76,14 @@ export const command: ICommand = {
               `Currently being worked on. Here is your response: `,
             ),
           ],
-        };
+        }
     }
 
     return {
       embeds: [embed],
-    };
+    }
   },
-};
+}
 
 // Allow user to enables certain commands.
 // Make feature to remove and add those commands to specific server.

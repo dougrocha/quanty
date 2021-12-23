@@ -1,14 +1,14 @@
-import { createContext } from "react";
-import { Guild } from "../types";
+import { createContext } from 'react'
+import { Guild } from '../types'
 
 type GuildContextType = {
-  guild?: Guild;
-  setGuild: Function;
-};
+  guild?: Guild
+  setGuild: Function
+}
 
 export const GuildContext = createContext<GuildContextType>({
   guild: undefined,
   setGuild: (guild: Guild) => {},
-});
+})
 
-export const GuildContextProvider = GuildContext.Provider;
+export const GuildContextProvider = GuildContext.Provider

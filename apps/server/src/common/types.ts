@@ -1,12 +1,12 @@
-import { User } from 'src/schemas';
+import { User } from 'src/schemas'
 
 export type UserDetails = {
-  username: string;
-  discriminator: string;
-  discordID: string;
-  avatar: string;
-  accessToken: string;
-  refreshToken: string;
-};
+  username: string
+  discriminator: string
+  discordID: string
+  avatar: string | null
+  accessToken: string
+  refreshToken: string
+}
 
-export type Done = (err: Error, user: User) => void;
+export type Done = (err: Error | null, user: User | null) => void

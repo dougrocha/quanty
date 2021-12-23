@@ -1,9 +1,9 @@
 // Styles & CSS
-import styled from "styled-components";
-import Image from "next/image";
-import Button from "../Button";
-import Link from "next/link";
-import { memo } from "react";
+import styled from 'styled-components'
+import Image from 'next/image'
+import Button from '../Button'
+import Link from 'next/link'
+import { memo } from 'react'
 
 const FooterWrapper = styled.footer`
   max-width: 1280px;
@@ -24,7 +24,7 @@ const FooterWrapper = styled.footer`
 
     padding: 3.5rem 1.5rem;
   }
-`;
+`
 
 const Logo = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const Logo = styled.div`
 
   .bannerLogo {
   }
-`;
+`
 
 const CopyrightTags = styled.div`
   position: absolute;
@@ -52,7 +52,7 @@ const CopyrightTags = styled.div`
   @media (max-width: 768px) {
     position: unset;
   }
-`;
+`
 
 const Footer = () => {
   return (
@@ -61,14 +61,14 @@ const Footer = () => {
       <InfoSection />
       <CopyrightTags>Quantum Realm © - 2021</CopyrightTags>
     </FooterWrapper>
-  );
-};
+  )
+}
 
 const MainSectionWrapper = styled.div`
   .logo {
     margin-bottom: 0.5rem;
   }
-`;
+`
 
 const MainSection = () => {
   return (
@@ -87,8 +87,8 @@ const MainSection = () => {
         <Button text="Add Quanty" />
       </div>
     </MainSectionWrapper>
-  );
-};
+  )
+}
 
 const InfoSectionContainer = styled.div`
   display: flex;
@@ -118,7 +118,7 @@ const InfoSectionContainer = styled.div`
     font-weight: 500;
     font-size: 1.125rem;
   }
-`;
+`
 
 const InfoSectionListItem = styled.div`
   color: ${({ theme }) => theme.text.secondary};
@@ -135,7 +135,7 @@ const InfoSectionListItem = styled.div`
   .item:hover {
     color: #ffffff;
   }
-`;
+`
 
 const InfoSection = () => {
   return (
@@ -152,62 +152,62 @@ const InfoSection = () => {
                       <a className="item">{name}</a>
                     </Link>
                   </InfoSectionListItem>
-                );
+                )
               })}
             </div>
           </ul>
-        );
+        )
       })}
     </InfoSectionContainer>
-  );
-};
+  )
+}
 
 const FooterItems = [
   {
-    title: "Features",
+    title: 'Features',
     items: [
-      { name: "Commands", route: "/features/commands" },
-      { name: "Events", route: "/features/events" },
+      { name: 'Commands', route: '/features/commands' },
+      { name: 'Events', route: '/features/events' },
       {
-        name: "Economy",
-        route: "/features/economy",
+        name: 'Economy',
+        route: '/features/economy',
       },
       {
-        name: "Music",
-        route: "/features/music",
+        name: 'Music',
+        route: '/features/music',
       },
     ],
   },
   {
-    title: "Quanty",
+    title: 'Quanty',
     items: [
-      { name: "Discord", route: "/discord" },
-      { name: "Docs", route: "/docs" },
+      { name: 'Discord', route: '/discord' },
+      { name: 'Docs', route: '/docs' },
       {
-        name: "Support",
-        route: "/docs/support",
+        name: 'Support',
+        route: '/docs/support',
       },
       {
-        name: "GitHub",
-        route: "/github",
+        name: 'GitHub',
+        route: '/github',
       },
     ],
   },
   {
-    title: "Company",
+    title: 'Company',
     items: [
-      { name: "Terms of Use", route: "/policy" },
-      { name: "Privacy Policy", route: "/policy" },
+      { name: 'Terms of Use', route: '/policy' },
+      { name: 'Privacy Policy', route: '/policy' },
       {
-        name: "Cookie Policy",
-        route: "/policy",
+        name: 'Cookie Policy',
+        route: '/policy',
       },
       {
-        name: "Contact",
-        route: "/policy",
+        name: 'Contact',
+        route: '/policy',
       },
     ],
   },
-];
+]
 
-export default memo(Footer);
+export default memo(Footer)

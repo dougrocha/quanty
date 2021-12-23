@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const NavBarContainer = styled.nav`
   max-width: 1280px;
@@ -16,7 +16,7 @@ export const NavBarContainer = styled.nav`
   @media (max-width: 768px) {
     align-items: center;
   }
-`;
+`
 
 export const NavBarItems = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ export const NavBarItems = styled.div`
       display: none;
     }
   }
-`;
+`
 
 export const Item = styled.div`
   margin-right: 1.875rem;
@@ -49,7 +49,7 @@ export const Item = styled.div`
     -webkit-transition: 150ms ease-out;
     transition: color 150ms ease-out 100ms;
   }
-`;
+`
 
 export const LogoContainer = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ export const LogoContainer = styled.div`
   }
 
   div:after {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     transform: scaleX(0);
@@ -83,4 +83,4 @@ export const LogoContainer = styled.div`
     transform: scaleX(1);
     transform-origin: bottom left;
   }
-`;
+`

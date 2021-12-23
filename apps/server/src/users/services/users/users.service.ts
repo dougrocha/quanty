@@ -1,9 +1,9 @@
-import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable } from '@nestjs/common';
-import { AxiosResponse } from 'axios';
-import { Observable, map } from 'rxjs';
-import { Guild } from 'src/guild/models/guild';
-import { IUsersProvider } from 'src/users/types';
+import { HttpService } from '@nestjs/axios'
+import { Inject, Injectable } from '@nestjs/common'
+import { AxiosResponse } from 'axios'
+import { Observable, map } from 'rxjs'
+import { Guild } from 'src/guild/models/guild'
+import { IUsersProvider } from 'src/users/types'
 
 @Injectable()
 export class UsersService implements IUsersProvider {
@@ -17,9 +17,9 @@ export class UsersService implements IUsersProvider {
         },
       })
       .pipe(
-        map((response) =>
+        map(response =>
           response.data.filter((guild: Guild) => guild.owner === true),
         ),
-      );
+      )
   }
 }

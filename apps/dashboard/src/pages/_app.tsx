@@ -1,18 +1,18 @@
 // Imports
-import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
+import type { AppProps } from 'next/app'
+import { useEffect, useState } from 'react'
 
-import { ApolloProvider } from "@apollo/client";
-import apolloClient from "../../apollo.client";
+import { ApolloProvider } from '@apollo/client'
+import apolloClient from '../../apollo.client'
 
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { CurrentUserContextProvider } from "../utils/stores/CurrentUserContext";
-import { DarkTheme, LightTheme } from "../utils/themes";
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { CurrentUserContextProvider } from '../utils/stores/CurrentUserContext'
+import { DarkTheme, LightTheme } from '../utils/themes'
 
 // Types
-import { CurrentUser } from "../utils/types";
-import { useRouter } from "next/router";
-import LoadingLayout from "../layouts/LoadingLayout";
+import { CurrentUser } from '../utils/types'
+import { useRouter } from 'next/router'
+import LoadingLayout from '../layouts/LoadingLayout'
 
 const GlobalStyle = createGlobalStyle`
 html,
@@ -49,61 +49,61 @@ body::-webkit-scrollbar-thumb {
   font-size: 16px;
   font-family: 'Overpass', 'Inter', sans-serif;
 }
-`;
+`
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [user, setUser] = useState<CurrentUser>();
-  const [theme, setTheme] = useState("light");
-  const [pageLoading, setPageLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<CurrentUser>()
+  const [theme, setTheme] = useState('light')
+  const [pageLoading, setPageLoading] = useState<boolean>(false)
 
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     const handleStart = () => {
-      setPageLoading(true);
-    };
+      setPageLoading(true)
+    }
     const handleComplete = () => {
-      setPageLoading(false);
-    };
+      setPageLoading(false)
+    }
 
-    router.events.on("routeChangeStart", handleStart);
-    router.events.on("routeChangeComplete", handleComplete);
-    router.events.on("routeChangeError", handleComplete);
-  });
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleComplete)
+    router.events.on('routeChangeError', handleComplete)
+  })
 
   const onSelectMode = (theme: any) => {
-    setTheme(theme);
-    if (theme === "dark") document.body.classList.add("dark-mode");
-    else document.body.classList.remove("dark-mode");
-  };
+    setTheme(theme)
+    if (theme === 'dark') document.body.classList.add('dark-mode')
+    else document.body.classList.remove('dark-mode')
+  }
 
   useEffect(() => {
     // Add listener to update styles
     window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) =>
-        onSelectMode(e.matches ? "dark" : "light")
-      );
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', e =>
+        onSelectMode(e.matches ? 'dark' : 'light'),
+      )
 
     // Setup dark/light mode for the first time
     onSelectMode(
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-    );
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light',
+    )
 
     // Remove listener
     return () => {
       window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", () => {});
-    };
-  }, []);
+        .matchMedia('(prefers-color-scheme: dark)')
+        .removeEventListener('change', () => {})
+    }
+  }, [])
 
   return (
     <>
       <ApolloProvider client={apolloClient}>
-        <ThemeProvider theme={theme == "light" ? LightTheme : DarkTheme}>
+        <ThemeProvider theme={theme == 'light' ? LightTheme : DarkTheme}>
           <GlobalStyle />
           <CurrentUserContextProvider value={{ user, setUser }}>
             {pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}
@@ -111,7 +111,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </ThemeProvider>
       </ApolloProvider>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

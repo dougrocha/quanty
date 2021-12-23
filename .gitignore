@@ -12,9 +12,11 @@ coverage
 .next/
 out/
 build
+lib/
 
 # build files
 dist
+*.tsbuildinfo
 
 # misc
 .DS_Store
@@ -35,3 +37,12 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+# yarn zero-installs
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

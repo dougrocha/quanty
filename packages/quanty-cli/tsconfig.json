@@ -1,16 +1,10 @@
 {
+  "extends": "tsconfig/quanty.json",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "lib": ["ES2017"],
-    "declaration": true,
-    "outDir": "lib",
-    "strict": true,
-    "sourceMap": false,
-    "skipLibCheck": true,
-    "types": ["node"]
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": "lib"
   },
-  "include": ["src", "lib", "bin"],
-  "extends": "tsconfig/base.json",
+  "include": ["src", "bin"],
   "exclude": ["node_modules", "lib"]
 }

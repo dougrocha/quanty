@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js';
-import { ICommand } from '@quanty/framework';
+import { MessageEmbed } from 'discord.js'
+import { ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'immortal',
@@ -9,30 +9,30 @@ export const command: ICommand = {
     const guildConfig = await client.PluginManager.getGuildSetting({
       guildId: guild.id,
       setting: 'MUSIC',
-    });
+    })
 
-    const toggle = guildConfig.immortal;
+    const toggle = guildConfig.immortal
 
-    const embed = new MessageEmbed().setTitle('Updating Immortality: ');
+    const embed = new MessageEmbed().setTitle('Updating Immortality: ')
 
     if (!toggle) {
-      guildConfig.immortal = true;
+      guildConfig.immortal = true
       await client.PluginManager.updateMusicImmortality({
         guildId: guild.id,
         immortal: guildConfig.immortal,
-      });
+      })
       return {
         embeds: [embed.setDescription(`Set immortality to: \`True\``)],
-      };
+      }
     } else {
-      guildConfig.immortal = false;
+      guildConfig.immortal = false
       await client.PluginManager.updateMusicImmortality({
         guildId: guild.id,
         immortal: guildConfig.immortal,
-      });
+      })
       return {
         embeds: [embed.setDescription(`Set immortality to: \`False\``)],
-      };
+      }
     }
   },
-};
+}

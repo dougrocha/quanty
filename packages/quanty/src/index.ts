@@ -1,11 +1,11 @@
 // Discord Client
-import QuantyClient from './client';
-export default QuantyClient;
+import QuantyClient from './client'
+export default QuantyClient
 
 // Types
 export {
   QuantySettings,
-  ISpotifyEnv,
+  ISpotifyConfig,
   INodeConfig,
   ICommand,
   IContextCommand,
@@ -14,7 +14,7 @@ export {
   FeatureBuilder,
   ILogger,
   GuildSettingsEnum,
-} from './types/index';
+} from './types/index'
 
 // Handlers && Managers
 export {
@@ -22,10 +22,10 @@ export {
   GuildManager,
   PluginManager,
   CommandHandler,
-} from './structures';
+} from './structures'
 
 // Utils
-export * from './utils';
+export * from './utils'
 
 // Database
-export * from './database';
+export * from './database'

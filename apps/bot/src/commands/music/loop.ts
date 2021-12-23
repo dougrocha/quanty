@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js';
-import { checkChannel, ICommand } from '@quanty/framework';
+import { MessageEmbed } from 'discord.js'
+import { checkChannel, ICommand } from '@quanty/framework'
 
 export const command: ICommand = {
   name: 'loop',
@@ -11,28 +11,28 @@ export const command: ICommand = {
       client,
       guild,
       member,
-    });
+    })
 
     if (!player) {
       return {
         content,
-      };
+      }
     }
 
-    const embed = new MessageEmbed().setAuthor(`Queue for ${guild.name}`);
+    const embed = new MessageEmbed().setAuthor(`Queue for ${guild.name}`)
 
     if (player.queue.length == 0) {
-      return { embeds: [embed.setDescription('Queue is empty')] };
+      return { embeds: [embed.setDescription('Queue is empty')] }
     }
 
     if (player.queueRepeat) {
-      embed.setDescription('Queue Loop is off');
-      player.setQueueRepeat(false);
-      return { embeds: [embed] };
+      embed.setDescription('Queue Loop is off')
+      player.setQueueRepeat(false)
+      return { embeds: [embed] }
     } else {
-      embed.setDescription('Queue is Looped');
-      player.setQueueRepeat(true);
-      return { embeds: [embed] };
+      embed.setDescription('Queue is Looped')
+      player.setQueueRepeat(true)
+      return { embeds: [embed] }
     }
   },
-};
+}

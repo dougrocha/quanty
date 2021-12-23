@@ -1,11 +1,11 @@
 // Imports
-import type { NextPage } from "next";
-import Head from "next/head";
+import type { NextPage } from 'next'
+import Head from 'next/head'
 
 // Layouts & CSS
-import Layout from "../layouts/Layout";
+import Layout from '../layouts/Layout'
 
-import HeroComponent from "../components/Hero";
+import HeroComponent from '../components/Hero'
 
 const Home: NextPage = () => {
   return (
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
         <HeroComponent />
       </Layout>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
