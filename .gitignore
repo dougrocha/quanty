@@ -1,37 +1,29 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Turbo-Repo
+.turbo
 
-# dependencies
-node_modules/
-
-apps/bot/Lavalink/logs
-# testing
-coverage
-
-# next.js
-.next/
-out/
-build
-lib/
-
-# build files
-dist
-*.tsbuildinfo
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# local env files
+# dotenv environment variable files
 .env
 .env.development
 .env.test
 .env.production
 
-# turbo
-.turbo
+# Build Output
+.next
+lib
+dist
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
