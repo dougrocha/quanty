@@ -1,7 +1,7 @@
-import { MessageEmbed } from 'discord.js'
 import { IContextCommand } from '@quanty/framework'
-import { APIUser } from 'discord-api-types'
 import axios, { AxiosResponse } from 'axios'
+import { APIUser } from 'discord-api-types'
+import { MessageEmbed } from 'discord.js'
 
 export const command: IContextCommand = {
   name: 'Get Banner',

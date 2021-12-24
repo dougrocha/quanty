@@ -1,6 +1,6 @@
 import { Path } from '@angular-devkit/core'
 
-export interface CommandOptions {
+export interface ICommandOptions {
   name: string
   description?: string
   category: string

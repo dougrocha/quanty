@@ -1,5 +1,6 @@
 // Discord Client
 import QuantyClient from './client'
+
 export default QuantyClient
 
 // Types
