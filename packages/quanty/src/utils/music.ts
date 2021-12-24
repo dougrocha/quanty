@@ -1,5 +1,6 @@
-import { TextChannel, User, GuildMember, Guild as GuildType } from 'discord.js'
-import { Track, Player, Manager } from 'erela.js'
+import { Guild as GuildType, GuildMember, TextChannel, User } from 'discord.js'
+import { Manager, Player, Track } from 'erela.js'
+
 import QuantyClient from '..'
 
 /**
@@ -106,8 +107,20 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
         }\`.`,
       })
     })
-    .on('trackStuck', (player, track: Track) => {
+    .on('trackStuck', async (player, track: Track) => {
       player.stop()
+
+      if (!player.textChannel) {
+        return
+      }
+
+      const channel = client.channels.cache.get(
+        player.textChannel,
+      ) as TextChannel
+
+      await channel.send(
+        `Something went wrong, \`\`${track.title}\`\` has been skipped`,
+      )
     })
     .on('queueEnd', async (player, track) => {
       if (!player.textChannel) {
@@ -127,7 +140,7 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
       if (guildConfig?.immortal == true) {
         return
       } else {
-        await client.wait(1000 * 60 * 10) // 10 Minutes
+        await client.wait(1000 * 60 * 5) // 10 Minutes
         if (player.playing) return
         player.destroy()
       }
@@ -139,13 +152,15 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
 
       player.voiceChannel = newChannel
     })
-    .on('socketClosed', player => {
+    .on('socketClosed', async player => {
       if (!player.textChannel) {
         return
       }
       const channel = client.channels.cache.get(
         player.textChannel,
       ) as TextChannel
+
+      await channel.send("I'm dead, ask the owner for help")
     })
   client.on('raw', d => manager.updateVoiceState(d))
 }

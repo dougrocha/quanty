@@ -10,10 +10,10 @@
     "postbuild": "yarn copy:collection && yarn copy:templates",
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "copy:collection": "cpx src/collection.json dist && cpx src/templates/**/schema.json dist/templates",
-    "copy:templates": "cpx src/templates/**/files/**/*.* dist/templates",
-    "test": "echo TESTING QUANTY/SCHEMATICS",
-    "testing": "yarn build && jasmine dist/templates/**/*.test.js"
+    "copy:collection": "cpx src/collection.json dist/src && cpx src/templates/**/schema.json dist/src/templates",
+    "copy:templates": "cpx src/templates/**/files/**/*.* dist/src/templates",
+    "test": "jest -w 1 --no-cache --config jest.json",
+    "test:dev": "jest --watch --verbose false --config jest.json"
   },
   "peerDependencies": {
     "typescript": "^3.4.5 || ^4.3.5"
@@ -29,11 +29,11 @@
     "@angular-devkit/schematics": "^13.1.1"
   },
   "devDependencies": {
-    "@types/jasmine": "~3.10.0",
+    "@schematics/angular": "^13.1.2",
     "@types/node": "^16.11.13",
     "cpx": "^1.5.0",
-    "jasmine": "^3.5.0",
     "rimraf": "^3.0.2",
+    "rxjs": "^7.4.0",
     "turbo": "1.0.19",
     "typescript": "^4.5.4"
   }

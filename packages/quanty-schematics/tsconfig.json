@@ -4,7 +4,7 @@
     "rootDir": ".",
     "baseUrl": "./src",
     "outDir": "dist",
-    "types": ["jasmine", "node"]
+    "types": ["jest", "node"]
   },
   "include": ["src"],
   "exclude": ["src/templates/*/files/**/*", "dist", "node_modules"]

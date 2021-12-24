@@ -1,3 +1,4 @@
+import AppleMusic from 'better-erela.js-apple'
 import {
   Client,
   ClientOptions,
@@ -6,23 +7,21 @@ import {
   User,
 } from 'discord.js'
 import { Manager } from 'erela.js'
-import AppleMusic from 'better-erela.js-apple'
 import Spotify from 'erela.js-spotify'
 
+import Database from './database/database'
 import {
-  PluginManager,
   CommandHandler,
   FeatureHandler,
-  MessageHandler,
-  QuantyLogger,
-  WebSocket,
   GuildManager,
+  MessageHandler,
+  PluginManager,
+  QuantyLogger,
   SlashCommandHandler,
+  WebSocket,
 } from './structures'
-
 import { ILogger, QuantySettings } from './types'
 import { MusicEvent } from './utils/music'
-import Database from './database/database'
 
 /**
  * QuantyClient
