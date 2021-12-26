@@ -37,7 +37,7 @@
     "apollo-server-express": "^3.5.0",
     "class-validator": "^0.13.1",
     "connect-mongo": "^4.6.0",
-    "discord-api-types": "^0.25.2",
+    "discord-api-types": "^0.26.0",
     "express-session": "^1.17.2",
     "graphql": "^15.8",
     "mongoose": "^6.1.3",

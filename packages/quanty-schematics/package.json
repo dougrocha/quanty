@@ -23,7 +23,7 @@
   ],
   "author": "",
   "license": "MIT",
-  "schematics": "./dist/collection.json",
+  "schematics": "./dist/src/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^13.1.1",
     "@angular-devkit/schematics": "^13.1.1"
@@ -34,7 +34,6 @@
     "cpx": "^1.5.0",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
-    "turbo": "1.0.19",
     "typescript": "^4.5.4"
   }
 }
