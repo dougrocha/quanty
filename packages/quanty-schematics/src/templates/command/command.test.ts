@@ -1,3 +1,4 @@
+import { HostTree } from '@angular-devkit/schematics'
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -5,9 +6,6 @@ import {
 import * as path from 'path'
 
 import { ICommandOptions } from './command.schema'
-
-import { Observable } from 'rxjs'
-import { HostTree, Tree } from '@angular-devkit/schematics'
 
 describe('Command factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner(

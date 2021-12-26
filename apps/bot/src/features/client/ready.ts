@@ -1,6 +1,6 @@
-import QuantyClient, { FeatureBuilder } from '@quanty/framework'
+import QuantyClient, { Feature } from '@quanty/framework'
 
-export const feature: FeatureBuilder<'ready'> = {
+export const feature: Feature<'ready'> = {
   name: 'ready',
   once: true,
   run: async (client: QuantyClient) => {

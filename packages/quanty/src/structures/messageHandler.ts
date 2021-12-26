@@ -55,7 +55,7 @@ class MessageHandler {
         client.commandHandler.getCommand(cmd) ||
         client.commandHandler.aliases.get(cmd)
 
-      if (!command?.guildOnly) {
+      if (!command?.isGuildOnly) {
         return
       }
 
@@ -69,7 +69,7 @@ class MessageHandler {
       }
 
       const {
-        ownerOnly,
+        isOwnerOnly,
         userPermissions,
         clientPermissions,
         name,
@@ -77,7 +77,7 @@ class MessageHandler {
       } = command
 
       // Checks if command is Bot owner Only
-      if (ownerOnly && !client.botOwners?.some(id => author.id == id)) {
+      if (isOwnerOnly && !client.botOwners?.some(id => author.id == id)) {
         message.reply('Only the owner of Quanty can use this command.')
         return
       }

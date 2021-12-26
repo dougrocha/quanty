@@ -1,12 +1,11 @@
-import QuantyClient from '../client'
-import Logger from './logger'
-
-import { Feature, IFeatureHandler } from '../types'
-
 import { Collection } from 'discord.js'
-
 import { glob } from 'glob'
 import { promisify } from 'util'
+
+import QuantyClient from '../client'
+import { BaseFeature, IFeatureHandler } from '../types'
+import Logger from './logger'
+
 const globPromise = promisify(glob)
 
 /**
@@ -22,7 +21,7 @@ class FeatureHandler implements IFeatureHandler {
   private client: QuantyClient
   private dir: string
 
-  public features: Collection<string, Feature> = new Collection()
+  public features: Collection<string, BaseFeature> = new Collection()
 
   /**
    *
@@ -46,7 +45,7 @@ class FeatureHandler implements IFeatureHandler {
     const featureFiles: string[] = await globPromise(`${dir}/**/*{.ts,.js}`)
 
     featureFiles.map(async (value: string) => {
-      const { feature }: { feature: Feature } = await require(value)
+      const { feature }: { feature: BaseFeature } = await require(value)
 
       if (feature.once) {
         this.client.once(feature.name, feature.run.bind(null, this.client))

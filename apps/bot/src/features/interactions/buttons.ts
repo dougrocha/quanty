@@ -1,6 +1,6 @@
-import { FeatureBuilder } from '@quanty/framework'
+import { Feature } from '@quanty/framework'
 
-export const feature: FeatureBuilder<'interactionCreate'> = {
+export const feature: Feature<'interactionCreate'> = {
   name: 'interactionCreate',
   run: async (client, interaction) => {
     if (!interaction.isButton()) return

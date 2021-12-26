@@ -1,37 +1,24 @@
-import QuantyClient from '../client'
-
 import {
-  ApplicationCommandType,
-  PermissionString,
-  ClientEvents,
-  Message,
-  Collection,
-  CommandInteraction,
-  ContextMenuInteraction,
-  TextBasedChannels,
-  GuildMember,
-  Guild,
   ApplicationCommandOption,
+  ApplicationCommandType,
   AutocompleteInteraction,
   ButtonInteraction,
+  ClientEvents,
+  CommandInteraction,
   CommandInteractionOptionResolver,
-  WebhookEditMessageOptions,
+  ContextMenuInteraction,
+  Guild,
+  GuildMember,
   InteractionReplyOptions,
+  Message,
+  PermissionString,
   ReplyMessageOptions,
+  TextBasedChannel,
+  WebhookEditMessageOptions,
 } from 'discord.js'
+import QuantyClient from 'index'
 
-import { APIMessage } from 'discord-api-types/v9'
-
-import Command from '../structures/command'
-import { guildsDocument, guildsObject, guilds } from './mongoose.gen'
-
-export interface MemeType {
-  title: string
-  postLink: string
-  url: string
-  subreddit: string
-  ups: string
-}
+export * from './structures'
 
 export interface QuantySettings {
   token: string | undefined
@@ -58,48 +45,130 @@ export interface INodeConfig {
   password?: string | undefined
 }
 
-interface IRunObjectBase<T extends keyof ICommandTypes> {
-  client: QuantyClient
-  message: T extends 'message' ? ICommandTypes[T] : undefined
-  interaction: T extends 'message' ? undefined : ICommandTypes[T]
-  args: string[]
+/**
+ *
+ */
+export type Command = MsgCommand | SlashCommand | SlashMsgCommand
+
+export type CommandTypes =
+  | 'message'
+  | 'slash'
+  | 'both'
+  | 'context'
+  | 'button'
+  | 'autocomplete'
+
+export interface BaseCommand {
+  name: string
+  aliases?: string[]
+  category: string
+  description: string
+  options?: ApplicationCommandOption[]
+  isGuildOnly?: boolean
+  isOwnerOnly?: boolean
+  nsfw?: boolean
+  userPermissions?: PermissionString[]
+  clientPermissions?: PermissionString[]
+  expected?: string[]
+  minArgs?: number
+  maxArgs?: number
+  format?: string
+  cooldown?: number
+  globalCooldown?: number
+  test?: boolean
+  ephemeral?: boolean
+  hidden?: boolean
+  run: (options: any) => CommandReturnType
+  error?: (options: any, error: any) => CommandReturnType
 }
 
-type IRunObjectPartial<T extends keyof ICommandTypes> = {
-  options: ICommandOptionTypes[T]
+interface MsgCommand extends BaseCommand {
+  cmdType: 'message'
+  run: (
+    options: Omit<RunOptions<'message'>, 'interaction' | 'options'>,
+  ) => CommandReturnType
+  error?: (
+    options: Omit<RunOptions<'message'>, 'interaction' | 'options'>,
+    error: CommandErrorOptions,
+  ) => CommandReturnType
+}
+
+interface SlashCommand extends BaseCommand {
+  cmdType: 'slash'
+  run: (
+    options: Omit<RunOptions<'slash'>, 'message' | 'args'>,
+  ) => CommandReturnType
+  error?: (
+    options: Omit<RunOptions<'slash'>, 'message' | 'args'>,
+    error: CommandErrorOptions,
+  ) => CommandReturnType
+}
+
+interface SlashMsgCommand extends BaseCommand {
+  cmdType?: 'both'
+  run: (options: RunOptions<'both'>) => CommandReturnType
+  error?: (
+    options: RunOptions<'both'>,
+    error: CommandErrorOptions,
+  ) => CommandReturnType
+}
+
+export interface ContextCommand
+  extends Pick<BaseCommand, 'name' | 'description' | 'category'> {
+  type: Exclude<ApplicationCommandType, 'CHAT_INPUT'>
+  run: (options: RunOptions<'context'>) => CommandReturnType
+  error?: (
+    options: RunOptions<'context'>,
+    error: CommandErrorOptions,
+  ) => CommandReturnType
+}
+
+export interface BaseRunOptions {
+  client: QuantyClient
+  message: Message
+  interaction: CommandInteraction
+  args: string[]
+  member: GuildMember
+  guild: Guild
+  channel: TextBasedChannel
+  options: CommandRunOptions
+}
+
+interface RunOptions<T extends CommandTypes | 'any'> {
+  client: QuantyClient
+  message: Message
+  interaction: T extends keyof InteractionType ? InteractionType[T] : null
+  args: string[]
   member: T extends 'any' ? GuildMember | null : GuildMember
   guild: T extends 'any' ? Guild | null : Guild
-  channel: T extends 'any' ? TextBasedChannels | null : TextBasedChannels
+  channel: T extends 'any' ? TextBasedChannel | null : TextBasedChannel
+  options: T extends 'slash' | 'context' | 'autocomplete'
+    ? CommandRunOptions[T]
+    : T extends 'both'
+    ? CommandRunOptions['slash']
+    : null
 }
 
-export type IBuildSlashCommand<T extends keyof ICommandTypes = 'any'> = Omit<
-  IRunObject<T>,
-  'interaction' | 'options' | 'args' | 'message'
-> & {
-  message?: T extends 'message' ? ICommandTypes[T] : undefined
-  interaction: ICommandTypes['regular']
-  options: ICommandOptionTypes['regular']
-  args?: string[]
-}
-
-export type IBuildMessageCmd = Omit<
-  IRunObject<'message'>,
-  'interaction' | 'options' | 'member'
-> & {
-  member?: GuildMember | null
-}
-
-export type IRunObject<T extends keyof ICommandTypes> = IRunObjectBase<T> &
-  IRunObjectPartial<T>
-
-export type IRunSlashCmd<T extends keyof ICommandTypes = 'regular'> = Omit<
-  IRunObject<T>,
-  'args' | 'message'
+export type MessageRunOptions = Omit<
+  RunOptions<'message'>,
+  'interaction' | 'options'
 >
+export type SlashRunOptions = Omit<RunOptions<'slash'>, 'message' | 'args'>
 
-type ICommandOptionTypes = {
-  regular: Omit<CommandInteractionOptionResolver, 'getMessage' | 'getFocused'>
-  message: undefined
+type InteractionType = {
+  slash: CommandInteraction
+  context: ContextMenuInteraction
+  button: ButtonInteraction
+  autocomplete: AutocompleteInteraction
+}
+
+type CommandErrorOptions = {
+  code: number
+  content: number
+}
+
+type CommandRunOptions = {
+  slash: Omit<CommandInteractionOptionResolver, 'getMessage' | 'getFocused'>
   context: Omit<
     CommandInteractionOptionResolver,
     | 'getFocused'
@@ -113,95 +182,10 @@ type ICommandOptionTypes = {
     | 'getSubcommandGroup'
     | 'getSubcommand'
   >
-  button: null
   autocomplete: Omit<CommandInteractionOptionResolver, 'getMessage'>
-  any:
-    | CommandInteraction
-    | ContextMenuInteraction
-    | AutocompleteInteraction
-    | ButtonInteraction
 }
 
-type ICommandTypes = {
-  regular: CommandInteraction
-  message: Message
-  context: ContextMenuInteraction
-  button: ButtonInteraction
-  autocomplete: AutocompleteInteraction
-  any:
-    | CommandInteraction
-    | ContextMenuInteraction
-    | AutocompleteInteraction
-    | ButtonInteraction
-}
-
-interface IMessageCommand<T extends keyof ICommandTypes>
-  extends IBaseCommand<T> {
-  slash?: false
-  run: (options: IRunObject<T>) => ICommandReturn
-}
-interface ISlashCommand<T extends keyof ICommandTypes> extends IBaseCommand<T> {
-  slash?: true
-  run: (options: IRunObject<T>) => ICommandReturn
-}
-interface ISlashMessageCommand<T extends keyof ICommandTypes>
-  extends IBaseCommand<T> {
-  slash?: 'both'
-  run: (options: IRunObject<T>) => ICommandReturn
-}
-
-/**
- * somehow find a better name for this
- * This type is supposed to automatically fill out the params for commands depending on the slash value.
- * This would help out in properly typing commands later on to make sure I use the proper methods.
- */
-export type ICommand<T extends keyof ICommandTypes = 'regular'> =
-  | IMessageCommand<T>
-  | ISlashCommand<T>
-  | ISlashMessageCommand<T>
-
-export type IContextCommand = ISlashCommand<'context'>
-
-export type IButtonCommand = ISlashCommand<'button'>
-
-export type IAutoCompleteCommand = ISlashCommand<'autocomplete'>
-
-/**
- * Interface for legacy commands using a prefix
- */
-export interface IBaseCommand<T extends keyof ICommandTypes = 'any'> {
-  name: string
-  aliases?: string[]
-  category: string
-  description: string
-  options?: ApplicationCommandOption[]
-  guildOnly?: boolean
-  ownerOnly?: boolean
-  nsfw?: boolean
-  userPermissions?: PermissionString[]
-  clientPermissions?: PermissionString[]
-  expected?: string[]
-  minArgs?: number
-  maxArgs?: number
-  format?: string
-  cooldown?: number
-  globalCooldown?: number
-  testOnly?: boolean
-  ephemeral?: boolean
-  hidden?: boolean
-  type?: ApplicationCommandType
-  run: (
-    options: IRunObject<T>,
-  ) => Promise<
-    | ReplyMessageOptions
-    | InteractionReplyOptions
-    | WebhookEditMessageOptions
-    | void
-  >
-  error?: (options: IRunObject<T>) => any
-}
-
-type ICommandReturn = Promise<
+type CommandReturnType = Promise<
   | ReplyMessageOptions
   | InteractionReplyOptions
   | WebhookEditMessageOptions
@@ -220,137 +204,18 @@ type ICommandReturn = Promise<
  * @example
  * const feature: FeatureBuilder<'ready'> = {
  *  name: 'ready',
- *  run: async (client, message) => {
- *    whatever your heart desires
- *  }
+ *  run: async (client, message) => {}
  * }
  */
 
-export interface FeatureBuilder<K extends keyof ClientEvents> {
+export interface Feature<K extends keyof ClientEvents> {
   name: K
   once?: boolean
-  run: (
-    client: QuantyClient,
-    ...args: ClientEvents[K]
-  ) => void | PromiseLike<void> | Promise<Message | APIMessage | void>
+  run: (client: QuantyClient, ...args: ClientEvents[K]) => any
 }
 
-export interface Feature {
+export interface BaseFeature {
   name: string
   once?: boolean
   run: (client: QuantyClient, ...args: string[]) => Promise<void>
-}
-
-export type GuildCollection = Collection<string, guildsDocument>
-
-export interface IPluginManager {
-  createGuild(guildId: string): Promise<guildsDocument>
-  createAllGuilds(): Promise<guildsObject[]>
-  getGuild(guildId: string): Promise<guildsObject>
-}
-
-export interface IWebSocket {
-  recieveGuild(): void
-}
-
-export interface IDatabase {
-  ping(): Promise<number>
-}
-
-export enum GuildSettingsEnum {
-  ANIME = 'anime',
-  MODERATION = 'moderation',
-  MUSIC = 'music',
-  BANNEDWORDS = 'blacklistedWords',
-  CUSTOMCOMMAND = 'customCommands',
-  PREFIX = 'prefix',
-}
-
-export type GuildSettingsType = keyof typeof GuildSettingsEnum
-
-type GuildObject<T extends GuildSettingsEnum> = Pick<guilds, T>
-
-type Extract<T> = T extends Record<string, infer U> ? U : never
-type Keys<T> = Extract<T>
-
-export type GuildResponseType<T> = T extends 'ANIME'
-  ? Keys<GuildObject<GuildSettingsEnum.ANIME>>
-  : T extends 'MUSIC'
-  ? Keys<GuildObject<GuildSettingsEnum.MUSIC>>
-  : T extends 'CUSTOMCOMMAND'
-  ? Keys<GuildObject<GuildSettingsEnum.CUSTOMCOMMAND>>
-  : T extends 'MODERATION'
-  ? Keys<GuildObject<GuildSettingsEnum.MODERATION>>
-  : T extends 'PREFIX'
-  ? Keys<GuildObject<GuildSettingsEnum.PREFIX>>
-  : T extends 'BANNEDWORDS'
-  ? Keys<GuildObject<GuildSettingsEnum.BANNEDWORDS>>
-  : never
-
-export interface ILoaders {
-  loadCommands(dir: string): void
-  loadSlashCommands(dir: string): void
-  loadFeatures(dir: string): void
-}
-
-export interface ICommandHandler {
-  /**
-   * @returns {Command} Returns all commands.
-   */
-  getCommands(): Command[] | undefined
-
-  /**
-   * Gets a single command when supplied with an existing name.
-   * @returns {Command} Returns a single command.
-   */
-  getCommand(name: string): Command | undefined
-}
-
-export interface IFeatureHandler {
-  /**
-   * Directory for all features.
-   * @param dir Directory
-   */
-  loadFeatures(dir: string): Promise<void>
-}
-
-export interface ILogger {
-  /**
-   * Debug Logger - Only visible when `Debug` is true in Client Config.
-   * @param msg Message Content
-   * @param extra Extra Objects
-   */
-  debug(msg: string, ...extra: any[]): void
-  /**
-   * Warn Logger - Only visible when `Show Warn` is true in Client Config.
-   * @param msg Message Content
-   * @param error Error Object
-   */
-  warn(msg: string, ...error: any[]): void
-  /**
-   * Error Logger - Logs error message along with error object.
-   * @param msg Message Content
-   * @param error Error Object
-   */
-  error(msg: string, error?: any): void
-  /**
-   * Info Logger - Logs informational text.
-   *
-   * Useful for common init logs.
-   * @param msg Message Content
-   */
-  info(msg: string): void
-  /**
-   * Success Logger - Sends a success log with big green check mark.
-   * @param msg Message Content
-   */
-  success(msg: string): void
-  /**
-   * Fatal Logger - Sends a fatal message warning of possible failure.
-   *
-   * Please use only when needed, use warn or error if possible.
-   * @param msg Message Content | Error Object
-   * @param error Error Object
-   */
-  fatal(msg: string | Error, error?: any): void
 }

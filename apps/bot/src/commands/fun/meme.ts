@@ -1,9 +1,9 @@
 import { MessageEmbed } from 'discord.js'
 import axios from 'axios'
 import { MemeType } from '../../types'
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'meme',
   description: 'Will send a random meme',
   category: 'fun',

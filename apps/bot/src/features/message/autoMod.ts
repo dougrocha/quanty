@@ -1,15 +1,15 @@
-import { FeatureBuilder, Guild } from '@quanty/framework'
+import { Feature, Guild } from '@quanty/framework'
 
-export const feature: FeatureBuilder<'messageCreate'> = {
+export const feature: Feature<'messageCreate'> = {
   name: 'messageCreate',
   run: async (client, message) => {
     const guildPlugins = await Guild.findOne({
       guildId: message.guild?.id,
     })
 
-    const autoMod = guildPlugins?.moderation.autoMod
+    const isAutomod = guildPlugins?.moderation.autoMod
 
-    if (!autoMod) {
+    if (!isAutomod) {
       return
     }
 
@@ -45,9 +45,11 @@ export const feature: FeatureBuilder<'messageCreate'> = {
     const blacklistedWords = ['fuck', 'bitch']
 
     for (let i = 0; i < blacklistedWords.length; i++) {
-      const msg = message?.content?.toLowerCase().includes(blacklistedWords[i])
+      const isIncludedMsg = message?.content
+        ?.toLowerCase()
+        .includes(blacklistedWords[i])
 
-      if (msg) {
+      if (isIncludedMsg) {
         await message.reply('You cannot send messages')
         message.delete()
 

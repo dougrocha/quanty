@@ -1,7 +1,8 @@
 import { MessageEmbed } from 'discord.js'
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
+import { Track } from 'erela.js'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'queue',
   description: 'Shows the queue',
   options: [
@@ -28,7 +29,7 @@ export const command: ICommand = {
     const end = page * multiple
     const start = end - multiple
 
-    const tracks = queue.slice(start, end)
+    const tracks: Track[] = queue.slice(start, end)
 
     const embed = new MessageEmbed().setAuthor(`Queue for ${guild.name}`)
 

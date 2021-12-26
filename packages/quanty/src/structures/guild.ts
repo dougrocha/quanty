@@ -1,5 +1,4 @@
 import QuantyClient from '../client'
-
 import { Guild } from '../database/schemas'
 
 class GuildManager {

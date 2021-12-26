@@ -1,10 +1,10 @@
 import { MessageEmbed } from 'discord.js'
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 
 import Client from 'nekos.life'
 const neko = new Client()
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'anime',
   description: 'Sends a random anime picture',
   options: [
@@ -48,7 +48,7 @@ export const command: ICommand = {
     },
   ],
   category: 'nsfw',
-  slash: true,
+  cmdType: 'slash',
   run: async ({ options }) => {
     const embed = new MessageEmbed()
 

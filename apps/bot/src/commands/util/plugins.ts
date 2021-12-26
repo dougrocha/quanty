@@ -1,7 +1,7 @@
-import { ICommand, GuildSettingsEnum } from '@quanty/framework'
+import { Command, GuildSettingsEnum } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'plugins',
   description: 'Shows the commands available in this server.',
   options: [
@@ -14,7 +14,7 @@ export const command: ICommand = {
   ],
   category: 'util',
   userPermissions: ['ADMINISTRATOR'],
-  slash: 'both',
+  cmdType: 'both',
   run: async ({ client, guild, options, args }) => {
     const plugin =
       options?.getString('add-ons')?.toLowerCase() ?? args[0].toLowerCase()

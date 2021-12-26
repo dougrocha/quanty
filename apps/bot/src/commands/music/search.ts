@@ -5,22 +5,21 @@ import {
   SelectMenuInteraction,
 } from 'discord.js'
 import { SearchResult, Track } from 'erela.js'
-import { checkChannel, ICommand } from '@quanty/framework'
+import { checkChannel, Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'search',
   description: 'Shows a list of songs closest your search',
   options: [
     { type: 'STRING', name: 'search', description: 'Search', required: true },
   ],
   category: 'music',
-  slash: true,
+  cmdType: 'slash',
   run: async ({
     client,
     interaction,
     guild,
     member,
-    args,
     options,
     channel,
   }) => {
@@ -36,7 +35,7 @@ export const command: ICommand = {
       }
     }
 
-    const search = options.getString('search') || args.join(' ')
+    const search = options.getString('search') 
 
     if (!search) {
       return { content: 'Search anything you want.' }

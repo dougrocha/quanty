@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js'
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'skip',
   description: 'Skips to next song',
   options: [

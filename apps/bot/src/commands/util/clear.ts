@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js'
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'clear',
   description: 'Deletes up to 99 messages above this one',
   options: [
@@ -20,9 +20,9 @@ export const command: ICommand = {
   ],
   category: 'util',
   userPermissions: ['MANAGE_CHANNELS'],
-  slash: true,
-  run: async ({ client, channel, options, args }) => {
-    const amount = options.getInteger('amount') ?? Number(args[0])
+  cmdType: 'slash',
+  run: async ({ client, channel, options }) => {
+    const amount = options.getInteger('amount') ?? -1
     const user = options.getUser('member')
 
     if (amount <= 0 || amount > 100) {
@@ -54,7 +54,7 @@ export const command: ICommand = {
           return { embeds: [embed], ephemeral: true }
         })
     } else {
-      (channel as TextBasedChannelFields)
+      await (channel as TextBasedChannelFields)
         .bulkDelete(amount, true)
         .then(async messages => {
           embed.setDescription(`Cleared ${messages.size} messages.`)

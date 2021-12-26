@@ -39,7 +39,7 @@ class QuantyClient extends Client {
   public WebSocket: WebSocket
   public PluginManager: PluginManager
   public Database: Database
-  public commandHandler: CommandHandler
+  public readonly commandHandler: CommandHandler
   public featuresHandler: FeatureHandler
   public slashCommandHandler: SlashCommandHandler
   public messageHandler: MessageHandler

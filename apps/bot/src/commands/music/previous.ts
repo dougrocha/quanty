@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js'
-import { checkChannel, ICommand } from '@quanty/framework'
+import { checkChannel, Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'previous',
   description: 'Plays the previous song',
   options: [],

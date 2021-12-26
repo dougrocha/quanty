@@ -1,15 +1,13 @@
 import QuantyClient from '../client'
-import QuantyLogger from './logger'
-
-import { GuildResponseType, GuildSettingsType, IPluginManager } from '../types'
-
 import { Guild } from '../database/schemas'
+import { GuildResponseType, GuildSettingsType, IPluginManager } from '../types'
 import {
-  guildsModel,
-  guildsDocument,
   guildsCustomCommand,
+  guildsDocument,
   guildsLog,
+  guildsModel,
 } from '../types/mongoose.gen'
+import QuantyLogger from './logger'
 
 class PluginManager implements IPluginManager {
   private logger: QuantyLogger = new QuantyLogger('PluginManager')
@@ -218,7 +216,7 @@ class PluginManager implements IPluginManager {
       setting: 'BANNEDWORDS',
     })
 
-    const newSet = { ...blacklistedWords, ...words }
+    const newSet = blacklistedWords.concat(words)
 
     return await this.guildModel.findOneAndUpdate(
       { guildId },
@@ -288,6 +286,7 @@ class PluginManager implements IPluginManager {
           logs: {
             name,
             action,
+            updatedAt,
           },
         },
       },

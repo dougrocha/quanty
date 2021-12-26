@@ -1,15 +1,16 @@
+import { Nullable } from 'discord-api-types/utils/internals'
 import {
   ApplicationCommandOption,
   Collection,
   PermissionString,
 } from 'discord.js'
-
 import {
-  ICommand,
-  IBuildMessageCmd,
-  IBuildSlashCommand,
-  IRunObject,
-} from '../types'
+  Command as CommandType,
+  CommandTypes,
+  MessageRunOptions,
+  SlashRunOptions,
+} from 'types'
+
 import QuantyClient from '../client'
 import Logger from './logger'
 
@@ -26,8 +27,8 @@ class Command {
   readonly category?: string
   readonly description: string
   readonly options?: ApplicationCommandOption[]
-  readonly guildOnly: boolean
-  readonly ownerOnly: boolean
+  readonly isGuildOnly: boolean
+  readonly isOwnerOnly: boolean
   readonly nsfw: boolean
   readonly userPermissions?: PermissionString[]
   readonly clientPermissions: PermissionString[]
@@ -39,26 +40,17 @@ class Command {
   readonly userCooldowns: Collection<string, number> = new Collection()
   readonly globalCooldown?: number
   readonly guildCooldowns: Collection<string, number> = new Collection()
-  readonly testOnly: boolean
-  readonly slash: boolean | 'both'
-  readonly run: (inputs: any) => Promise<any>
-  readonly error?: (inputs: any) => Promise<any>
+  readonly test: boolean
+  readonly cmdType: CommandTypes
+  readonly run: (options: any) => Promise<any>
+  readonly error?: (options: any, error: any) => Promise<any>
   readonly ephemeral: boolean
   readonly hidden: boolean
 
-  /**
-   *
-   * @param {QuantyClient} client Client Object from Discord.js
-   * @param name Name of the command
-   * @param run Run function of the command
-   * @param error Error function fo the command
-   * @param {ICommand} extra Optional Parameters for commands
-   */
   constructor(
     client: QuantyClient,
     name: string,
-    run: (inputs: any) => Promise<any>,
-    error: ((options: IRunObject<'any'>) => any) | undefined,
+    run: (options: any) => Promise<any>,
     {
       aliases,
       category,
@@ -69,17 +61,18 @@ class Command {
       globalCooldown,
       options,
       userPermissions,
-      slash = 'both',
+      cmdType = 'both',
       maxArgs,
       minArgs = 1,
       clientPermissions = ['SEND_MESSAGES'],
-      guildOnly = true,
+      isGuildOnly = true,
       nsfw = false,
-      ownerOnly = false,
-      testOnly = false,
+      isOwnerOnly = false,
+      test = false,
       ephemeral = false,
       hidden = false,
-    }: ICommand<'any'>,
+    }: CommandType,
+    error?: (options: any, error: any) => any,
   ) {
     this.client = client
     this.name = name
@@ -97,11 +90,11 @@ class Command {
     this.globalCooldown = globalCooldown
     this.options = options
     this.userPermissions = userPermissions
-    this.guildOnly = guildOnly
+    this.isGuildOnly = isGuildOnly
     this.nsfw = nsfw
-    this.ownerOnly = ownerOnly
-    this.slash = slash
-    this.testOnly = testOnly
+    this.isOwnerOnly = isOwnerOnly
+    this.cmdType = cmdType
+    this.test = test
     this.ephemeral = ephemeral
     this.hidden = hidden
 
@@ -127,16 +120,15 @@ class Command {
    * @param options Options for commands
    * Please use all that you can provide in case you need anything in the future.
    */
-  async runMsgCommand(options?: IBuildMessageCmd) {
+  async runMsgCommand(options?: Nullable<MessageRunOptions>) {
+    if (this.cmdType == 'slash') {
+      return
+    }
     if (!options) {
       return
     }
 
     const { message } = options
-
-    if (this.slash == true) {
-      return
-    }
 
     if (!message) {
       return
@@ -151,16 +143,16 @@ class Command {
     message.reply(reply)
   }
 
-  async runSlashCommand(options?: IBuildSlashCommand) {
+  async runSlashCommand(options?: Nullable<SlashRunOptions>) {
+    if (this.cmdType == 'message') {
+      return
+    }
+
     if (!options) {
       return
     }
 
     const { interaction } = options
-
-    if (this.slash == false) {
-      return
-    }
 
     if (!interaction) {
       return

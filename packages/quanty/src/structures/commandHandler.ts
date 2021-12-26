@@ -1,13 +1,14 @@
+import { Collection } from 'discord.js'
 import { glob } from 'glob'
+import { BaseCommand } from 'types'
 import { promisify } from 'util'
-const globPromise = promisify(glob)
 
 import QuantyClient from '../client'
+import { ICommandHandler } from '../types'
+import Command from './command'
 import Logger from './logger'
 
-import { Collection } from 'discord.js'
-import { IBaseCommand, ICommandHandler } from '../types'
-import Command from './command'
+const globPromise = promisify(glob)
 
 class CommandHandler implements ICommandHandler {
   private logger: Logger = new Logger('Command-Handler')
@@ -59,14 +60,14 @@ class CommandHandler implements ICommandHandler {
    * @param file File Path
    */
   private async createCommand(file: string) {
-    const { command }: { command: IBaseCommand } = await import(file)
+    const { command }: { command: BaseCommand } = await import(file)
 
     const cmd = new Command(
       this.client,
       command.name,
       command.run,
-      command.error,
       command,
+      command.error,
     )
 
     this.setCommand(command.name, cmd)

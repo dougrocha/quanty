@@ -1,6 +1,6 @@
-import { IContextCommand } from '@quanty/framework'
+import { ContextCommand } from '@quanty/framework'
 
-export const command: IContextCommand = {
+export const command: ContextCommand = {
   name: 'Add to queue',
   category: 'context',
   description: 'Add message content to queue if song exists.',

@@ -1,8 +1,8 @@
-import { ICommand, createPlayer } from '@quanty/framework'
+import { Command, createPlayer } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 import { SearchResult } from 'erela.js'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'play',
   description: 'Plays song',
   options: [

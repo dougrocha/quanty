@@ -1,4 +1,5 @@
 import { GuildMember } from 'discord.js'
+
 import { CommandHandler } from '.'
 import QuantyClient from '../client'
 
@@ -31,6 +32,7 @@ class SlashCommandHandler {
 
       const { guild, channel, options } = interaction
       const member = interaction.member as GuildMember
+
       const client = this.client
 
       command.runSlashCommand({

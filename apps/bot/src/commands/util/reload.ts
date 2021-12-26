@@ -1,10 +1,10 @@
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 
 import { glob } from 'glob'
 import { promisify } from 'util'
 const globPromise = promisify(glob)
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'load',
   description: 'Get or edit the prefix for commands.',
   options: [
@@ -29,7 +29,7 @@ export const command: ICommand = {
     },
   ],
   category: 'util',
-  ownerOnly: true,
+  isOwnerOnly: true,
   run: async ({ client, guild }) => {
     const slashCommandFiles: string[] = await globPromise(
       `${__dirname}/../../slashCmds/**/*{.ts,.js}`,

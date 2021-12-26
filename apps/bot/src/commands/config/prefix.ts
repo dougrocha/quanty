@@ -1,7 +1,7 @@
-import { ICommand } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'prefix',
   description: 'desc',
   options: [
@@ -10,7 +10,6 @@ export const command: ICommand = {
       description: 'sets a new prefix',
       required: false,
       type: 'STRING',
-      autocomplete: true,
     },
   ],
   category: 'config',

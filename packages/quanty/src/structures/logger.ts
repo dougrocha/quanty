@@ -1,6 +1,5 @@
-import consola, { Consola, logType } from 'consola'
-
 import chalk from 'chalk'
+import consola, { Consola, logType } from 'consola'
 
 import { ILogger } from '../types'
 

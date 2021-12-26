@@ -2,9 +2,9 @@
 
 import { MessageEmbed } from 'discord.js'
 import { Player } from 'erela.js'
-import { checkChannel, ICommand } from '@quanty/framework'
+import { checkChannel, Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'nowplaying',
   description: 'Shows the current playing song',
   options: [],

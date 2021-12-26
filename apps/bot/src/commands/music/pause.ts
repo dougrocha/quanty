@@ -1,6 +1,6 @@
-import { checkChannel, ICommand } from '@quanty/framework'
+import { checkChannel, Command } from '@quanty/framework'
 
-export const command: ICommand = {
+export const command: Command = {
   name: 'pause',
   description: 'Pauses the song',
   options: [],
