@@ -43,6 +43,10 @@
     "type": "git",
     "url": "git+https://github.com/slashtp3/quanty.git"
   },
+  "engines": {
+    "node": ">=16.6.0",
+    "npm": ">=7.0.0"
+  },
   "keywords": [
     "discord",
     "bot",
