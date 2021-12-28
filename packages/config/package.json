@@ -8,8 +8,8 @@
     "eslint-dashboard.js"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
     "eslint": "^8.5.0",
     "eslint-config-next": "^12.0.7",
     "eslint-config-prettier": "^8.3.0",

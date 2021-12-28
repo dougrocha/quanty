@@ -1,14 +1,16 @@
 {
   "name": "@quanty/cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Quanty - Discord Bot Cli",
   "main": "lib/bin/quanty.js",
   "author": "slashtp3",
   "license": "MIT",
-  "private": true,
   "bin": {
     "quanty": "lib/bin/quanty.js"
   },
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
@@ -29,5 +31,21 @@
     "commander": "^8.3.0",
     "figlet": "^1.5.2",
     "inquirer": "^8.2.0"
-  }
+  },
+  "types": "./lib\\bin\\quanty.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slashtp3/quanty.git"
+  },
+  "keywords": [
+    "quanty",
+    "cli"
+  ],
+  "bugs": {
+    "url": "https://github.com/slashtp3/quanty/issues"
+  },
+  "homepage": "https://github.com/slashtp3/quanty#readme"
 }

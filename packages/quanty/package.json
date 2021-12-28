@@ -1,15 +1,14 @@
 {
   "name": "@quanty/framework",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Quanty Bot Builder",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "source": "src/index.ts",
   "author": "slashtp3",
   "license": "MIT",
-  "private": true,
   "files": [
-    "dist/src/index.js"
+    "dist/src/**"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
@@ -37,7 +36,20 @@
     "erela.js": "^2.3.3",
     "erela.js-spotify": "^1.2.0",
     "glob": "^7.2.0",
-    "mongoose": "^6.1.3",
+    "mongoose": "^6.1.4",
     "socket.io-client": "^4.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slashtp3/quanty.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "framework"
+  ],
+  "bugs": {
+    "url": "https://github.com/slashtp3/quanty/issues"
+  },
+  "homepage": "https://github.com/slashtp3/quanty#readme"
 }
