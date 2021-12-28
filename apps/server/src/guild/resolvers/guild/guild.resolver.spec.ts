@@ -1,7 +1,5 @@
-import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
-import { GuildConfigService } from 'src/bot/services/guild-config/guild-config.service'
-import { Guilds } from 'src/schemas'
+
 import { GuildResolver } from './guild.resolver'
 
 describe('GuildResolver', () => {
@@ -11,10 +9,24 @@ describe('GuildResolver', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GuildResolver,
-        GuildConfigService,
         {
-          provide: getModelToken(Guilds.name),
-          useClass: Mock,
+          provide: 'GUILD_SERVICE',
+          useFactory: () => ({
+            fetchGuild: jest.fn().mockResolvedValue([
+              {
+                guildId: '123',
+                owner: true,
+                owner_id: '123',
+              },
+            ]),
+            fetchGuildChannels: jest.fn().mockResolvedValue([
+              {
+                guild_id: '123',
+                position: 2,
+                icon: '123',
+              },
+            ]),
+          }),
         },
       ],
     }).compile()
@@ -25,10 +37,42 @@ describe('GuildResolver', () => {
   it('should be defined', () => {
     expect(resolver).toBeDefined()
   })
-})
 
-class Mock {
-  public async save(): Promise<string> {
-    return 'name'
-  }
-}
+  describe('query guilds', () => {
+    it('should return an array of guilds', async () => {
+      expect(await resolver.guilds('123')).toEqual([
+        {
+          guildId: '123',
+          owner: true,
+          owner_id: '123',
+        },
+      ])
+    })
+
+    it('should return an array of channels', async () => {
+      expect(
+        await resolver.channels({
+          id: '123',
+          owner: true,
+          afk_timeout: 2,
+          emojis: [],
+          features: [],
+          name: 'guild',
+          nsfw_level: 0,
+          owner_id: '123',
+          preferred_locale: 'us',
+          premium_tier: 0,
+          roles: [],
+          stickers: [],
+          splash: 'splash',
+        }),
+      ).toEqual([
+        {
+          guild_id: '123',
+          position: 2,
+          icon: '123',
+        },
+      ])
+    })
+  })
+})
