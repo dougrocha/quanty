@@ -142,7 +142,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should update blacklisted words', async () => {
-      const words = guildStub().blacklistedWords
+      const words = guildStub().blacklistedWords as string[]
 
       await service.updateBlacklistedWords({ guildId, blacklistedWords: words })
       expect(spy).toBeCalledWith(
@@ -184,7 +184,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should add a new custom command', async () => {
-      const { customCommands } = guildStub()
+      const customCommands = guildStub().customCommands
       const customCommand = customCommands[0]
       const { id, description, name } = customCommand
 
@@ -205,7 +205,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should add a new log', async () => {
-      const { logs } = guildStub()
+      const logs = guildStub().logs
       const log = logs[0]
       const { name, action } = log
 
