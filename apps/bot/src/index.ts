@@ -1,11 +1,12 @@
-import QuantyClient from '@quanty/framework'
 import * as dotenv from 'dotenv'
-import { join } from 'path'
-
-import { nodeConfig, spotifyConfig } from './utils/clientConfig'
 
 const ENV = process.env.NODE_ENV
 dotenv.config({ path: !ENV ? '.env' : `.env.${ENV}` })
+
+import QuantyClient from '@quanty/framework'
+import { join } from 'path'
+
+import { nodeConfig, spotifyConfig } from './utils/clientConfig'
 
 const client = new QuantyClient(
   {

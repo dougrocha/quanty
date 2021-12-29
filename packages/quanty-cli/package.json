@@ -8,7 +8,7 @@
     "quanty": "lib/bin/quanty.js"
   },
   "scripts": {
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf lib",
     "build": "tsc",
     "test:cli": "node lib/bin/quanty.js",
     "test": "echo TESTING QUANTY/CLI"
@@ -23,7 +23,7 @@
   "dependencies": {
     "@angular-devkit/core": "^13.1.2",
     "@angular-devkit/schematics-cli": "^13.1.2",
-    "@quanty/schematics": "*",
+    "@quanty/schematics": "1.0.0",
     "chalk": "4.1.2",
     "commander": "^8.3.0",
     "figlet": "^1.5.2",

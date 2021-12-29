@@ -1,7 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
 import { Document, Model, ObjectId } from 'mongoose'
-import { mockGuildDto } from 'src/common/stubs/mockGuildDto'
+import { guildStub } from 'src/common/stubs/guild.stub'
 import { Guilds } from 'src/schemas'
 
 import { GuildConfigService } from './guild-config.service'
@@ -10,9 +10,9 @@ type GuildDocumentAndId = Document & Guilds & { _id: ObjectId }
 
 describe('GuildConfigService', () => {
   let service: GuildConfigService
-  let mockGuildModel: Model<Guilds>
+  let guildModel: Model<Guilds>
   let guild: Guilds
-  const guildId = mockGuildDto.guildId
+  const guildId = guildStub().guildId
 
   beforeEach(async () => {
     guild = new Guilds()
@@ -28,56 +28,200 @@ describe('GuildConfigService', () => {
     }).compile()
 
     service = module.get<GuildConfigService>(GuildConfigService)
-    mockGuildModel = module.get<Model<Guilds>>(getModelToken(Guilds.name))
+    guildModel = module.get<Model<Guilds>>(getModelToken(Guilds.name))
   })
 
   it('should be defined', () => {
     expect(service).toBeDefined()
   })
 
-  it('should get guild with matching id', async () => {
-    const spy = jest
-      .spyOn(mockGuildModel, 'findOne')
-      .mockResolvedValue(guild as GuildDocumentAndId)
-    await service.getGuild({ guildId })
-    expect(spy).toBeCalled()
+  describe('getGuild', () => {
+    it('should get guild with matching id', async () => {
+      const spy = jest
+        .spyOn(guildModel, 'findOne')
+        .mockResolvedValue(guild as GuildDocumentAndId)
+      await service.getGuild({ guildId })
+
+      expect(spy).toHaveBeenCalledWith({ guildId }, { __v: 0, _id: 0 })
+    })
   })
 
-  it('should update prefix', async () => {
-    const prefix = mockGuildDto.prefix
-    const spy = jest
-      .spyOn(mockGuildModel, 'findOneAndUpdate')
-      .mockResolvedValue(guild as GuildDocumentAndId)
-    await service.updatePrefix({ guildId, prefix })
-    expect(spy).toBeCalled()
-  })
+  describe('mutations', () => {
+    let spy: jest.SpyInstance
 
-  it('should update autoMod', async () => {
-    const isAutoMod = mockGuildDto.moderation.autoMod as boolean
-    const spy = jest
-      .spyOn(mockGuildModel, 'findOneAndUpdate')
-      .mockResolvedValue(guild as GuildDocumentAndId)
-    await service.updateAutoMod({ guildId, autoMod: isAutoMod })
-    expect(spy).toBeCalled()
-  })
+    beforeEach(() => {
+      spy = jest
+        .spyOn(guildModel, 'findOneAndUpdate')
+        .mockResolvedValue(guild as GuildDocumentAndId)
+    })
 
-  it('should add a new custom command', async () => {
-    const customCommands = mockGuildDto.customCommands
-    const customCommand = customCommands[0]
-    const spy = jest
-      .spyOn(mockGuildModel, 'findOneAndUpdate')
-      .mockResolvedValue(guild as GuildDocumentAndId)
-    await service.addCustomCommand({ guildId, customCommand })
-    expect(spy).toBeCalled()
-  })
+    it('should update prefix', async () => {
+      const prefix = guildStub().prefix
 
-  it('should add a new log', async () => {
-    const logs = mockGuildDto.logs
-    const log = logs[0]
-    const spy = jest
-      .spyOn(mockGuildModel, 'findOneAndUpdate')
-      .mockResolvedValue(guild as GuildDocumentAndId)
-    await service.addNewLog({ guildId, log })
-    expect(spy).toBeCalled()
+      await service.updatePrefix({ guildId, prefix })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        { prefix },
+        { new: true, upsert: true },
+      )
+    })
+
+    it('should update moderation automod', async () => {
+      const isAutoMod = guildStub().moderation.autoMod as boolean
+
+      await service.updateAutoMod({ guildId, autoMod: isAutoMod })
+      expect(spy).toHaveBeenCalledWith(
+        { guildId },
+        {
+          moderation: {
+            autoMod: isAutoMod,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should update moderation plugin', async () => {
+      const isPluginOn = guildStub().moderation.plugin as boolean
+
+      await service.updateModerationPlugin({ guildId, plugin: isPluginOn })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          moderation: {
+            plugin: isPluginOn,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should update music plugin', async () => {
+      const isPluginOn = guildStub().music.plugin as boolean
+
+      await service.updateMusicPlugin({ guildId, plugin: isPluginOn })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          music: {
+            plugin: isPluginOn,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should update music immortality', async () => {
+      const isImmortal = guildStub().music.immortal as boolean
+
+      await service.updateMusicImmortality({ guildId, immortal: isImmortal })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          music: {
+            immortal: isImmortal,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should update music channel', async () => {
+      const channel = guildStub().music.channel as string
+
+      await service.updateMusicChannel({ guildId, channel })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          music: {
+            channel,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should update blacklisted words', async () => {
+      const words = guildStub().blacklistedWords as string[]
+
+      await service.updateBlacklistedWords({ guildId, blacklistedWords: words })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          blacklistedWords: words,
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should update anime NSFW', async () => {
+      const isNSFW = guildStub().anime.nsfw as boolean
+
+      await service.updateAnimeNSFW({ guildId, nsfw: isNSFW })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          anime: {
+            nsfw: isNSFW,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+    it('should update anime plugin', async () => {
+      const isPluginOn = guildStub().anime.plugin as boolean
+
+      await service.updateAnimePlugin({ guildId, plugin: isPluginOn })
+      expect(spy).toBeCalledWith(
+        { guildId },
+        {
+          anime: {
+            plugin: isPluginOn,
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should add a new custom command', async () => {
+      const customCommands = guildStub().customCommands
+      const customCommand = customCommands[0]
+      const { id, description, name } = customCommand
+
+      await service.addCustomCommand({ guildId, customCommand })
+      expect(spy).toHaveBeenCalledWith(
+        { guildId },
+        {
+          $push: {
+            customCommands: {
+              id,
+              name,
+              description,
+            },
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
+
+    it('should add a new log', async () => {
+      const logs = guildStub().logs
+      const log = logs[0]
+      const { name, action } = log
+
+      await service.addNewLog({ guildId, log })
+      expect(spy).toHaveBeenCalledWith(
+        { guildId },
+        {
+          $push: {
+            logs: {
+              name,
+              action,
+            },
+          },
+        },
+        { upsert: true, new: true },
+      )
+    })
   })
 })

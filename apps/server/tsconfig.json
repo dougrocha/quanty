@@ -8,7 +8,7 @@
     "sourceRoot": "src",
     "outDir": "dist",
 
-    // "strictNullChecks": false
+    "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
   "include": ["src", "test", "environment.d.ts"],
