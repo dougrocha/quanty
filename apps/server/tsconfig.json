@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "test", "environment.d.ts"],
+  "include": ["src", "test", "environment.d.ts", ".eslintrc.js"],
   "extends": "tsconfig/server.json",
   "exclude": ["node_modules"]
 }

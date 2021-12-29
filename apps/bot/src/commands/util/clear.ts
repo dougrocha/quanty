@@ -1,5 +1,5 @@
-import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js'
 import { Command } from '@quanty/framework'
+import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js'
 
 export const command: Command = {
   name: 'clear',
@@ -47,7 +47,7 @@ export const command: Command = {
 
       await (channel as TextBasedChannelFields)
         .bulkDelete(filtered, true)
-        .then(async messages => {
+        .then(messages => {
           embed.setDescription(
             `Cleared ${messages.size} messages from ${user}.`,
           )
@@ -56,11 +56,11 @@ export const command: Command = {
     } else {
       await (channel as TextBasedChannelFields)
         .bulkDelete(amount, true)
-        .then(async messages => {
+        .then(messages => {
           embed.setDescription(`Cleared ${messages.size} messages.`)
           return { embeds: [embed], ephemeral: true }
         })
-        .catch(async (err: any) => {
+        .catch((err: any) => {
           client.logger.error(err)
           return {
             content: 'An error happened',

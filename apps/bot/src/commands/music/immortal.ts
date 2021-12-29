@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js'
 import { Command } from '@quanty/framework'
+import { MessageEmbed } from 'discord.js'
 
 export const command: Command = {
   name: 'immortal',
@@ -24,15 +24,14 @@ export const command: Command = {
       return {
         embeds: [embed.setDescription(`Set immortality to: \`True\``)],
       }
-    } else {
-      guildConfig.immortal = false
-      await client.PluginManager.updateMusicImmortality({
-        guildId: guild.id,
-        immortal: guildConfig.immortal,
-      })
-      return {
-        embeds: [embed.setDescription(`Set immortality to: \`False\``)],
-      }
+    }
+    guildConfig.immortal = false
+    await client.PluginManager.updateMusicImmortality({
+      guildId: guild.id,
+      immortal: guildConfig.immortal,
+    })
+    return {
+      embeds: [embed.setDescription(`Set immortality to: \`False\``)],
     }
   },
 }

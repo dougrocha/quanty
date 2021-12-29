@@ -5,12 +5,13 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql'
+import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
 import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
 import { Guild } from 'src/guild/models/guild'
 import { UserObject } from 'src/users/dto/user'
 import { IUsersProvider } from 'src/users/types'
-import { AxiosResponse } from 'axios'
+
 import { User as UserSchema } from '../../../schemas'
 
 export const CurrentUser = createParamDecorator(

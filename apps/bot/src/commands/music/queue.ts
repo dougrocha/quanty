@@ -1,6 +1,6 @@
-import { MessageEmbed } from 'discord.js'
 import { Command } from '@quanty/framework'
-import { Track } from 'erela.js'
+import { MessageEmbed } from 'discord.js'
+import { Track, UnresolvedTrack } from 'erela.js'
 
 export const command: Command = {
   name: 'queue',
@@ -14,22 +14,22 @@ export const command: Command = {
     },
   ],
   category: 'music',
-  run: async ({ client, options, guild, args }) => {
+  run: ({ client, options, guild, args }) => {
     const player = client.player.get(guild.id)
 
     if (!player) return { content: 'There is no queue.' }
 
-    const queue = player.queue
+    const { queue } = player
 
     const pageNumber = options?.getInteger('pages') ?? Number(args[0])
 
     const multiple = 10
-    const page = pageNumber ? pageNumber : 1 // Default page is one if page number does not exist
+    const page = pageNumber || 1 // Default page is one if page number does not exist
 
     const end = page * multiple
     const start = end - multiple
 
-    const tracks: Track[] = queue.slice(start, end)
+    const tracks: (Track | UnresolvedTrack)[] = queue.slice(start, end)
 
     const embed = new MessageEmbed().setAuthor(`Queue for ${guild.name}`)
 

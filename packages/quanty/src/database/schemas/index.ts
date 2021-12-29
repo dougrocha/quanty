@@ -2,7 +2,6 @@
  * Guild Schemas
  */
 import Guild from './guildSchema'
-
 /**
  * User Schemas
  */

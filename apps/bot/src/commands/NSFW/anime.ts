@@ -1,7 +1,7 @@
-import { MessageEmbed } from 'discord.js'
 import { Command } from '@quanty/framework'
-
+import { MessageEmbed } from 'discord.js'
 import Client from 'nekos.life'
+
 const neko = new Client()
 
 export const command: Command = {

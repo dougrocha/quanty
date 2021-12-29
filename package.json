@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "husky": "^7.0.4",
-    "lint-staged": "^12.1.4",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -40,6 +39,7 @@
       },
       "build": {
         "dependsOn": [
+          "lint",
           "^build"
         ],
         "outputs": [
@@ -54,22 +54,5 @@
       },
       "test": {}
     }
-  },
-  "lint-staged": {
-    "apps/**/*.{js,ts,jx,tsx}": [
-      "eslint --fix"
-    ],
-    "packages/quanty/**/*.{js,ts,jx,tsx}": [
-      "eslint --fix"
-    ],
-    "packages/quanty-cli/**/*.{js,ts,jx,tsx}": [
-      "eslint --fix"
-    ],
-    "packages/quanty-schematics/**/*.{js,ts,jx,tsx}": [
-      "eslint --fix"
-    ],
-    "*.json": [
-      "prettier --write"
-    ]
   }
 }

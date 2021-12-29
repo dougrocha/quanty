@@ -51,7 +51,7 @@ class Logger implements ILogger {
   }
 
   private emitLogMessage(msgType: logType, msg: string | Error, extra?: any[]) {
-    const name = this.name
+    const { name } = this
 
     switch (msgType) {
       case 'log':
@@ -104,14 +104,16 @@ class Logger implements ILogger {
     }
   }
 
-  private printExtras(msgType: logType, extra: any[]) {
+  private printExtras(msgType: logType, extra: any[]): void {
     extra?.forEach(message => {
       const output =
-        typeof message == 'object'
+        typeof message === 'object'
           ? `${chalk.hex('#125755')('Object:')}\n${JSON.stringify(
               message,
               (key, value) =>
-                typeof value === 'bigint' ? value.toString() : value,
+                typeof value === 'bigint'
+                  ? value.toString()
+                  : (value as string),
               2,
             )}\n`
           : message

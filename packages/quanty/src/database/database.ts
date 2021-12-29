@@ -1,6 +1,6 @@
 import { connection, connect } from 'mongoose'
-import QuantyClient from '../client'
 
+import QuantyClient from '../client'
 import { QuantyLogger } from '../structures'
 import { IDatabase } from '../types'
 
@@ -11,6 +11,7 @@ class Database implements IDatabase {
   private logger: QuantyLogger = new QuantyLogger('Database')
 
   private URL: string | undefined
+
   private client: QuantyClient
 
   /**
@@ -18,7 +19,7 @@ class Database implements IDatabase {
    * @param {mongoURL} [MongoUrl] - URL for mongodb database
    * @param {QuantyClient} [Client] - Discord bot client
    */
-  constructor(mongoURL: string | undefined, client: QuantyClient) {
+  constructor(client: QuantyClient, mongoURL?: string) {
     /**
      * Mongo URL
      */
@@ -38,6 +39,7 @@ class Database implements IDatabase {
       )
     }
   }
+
   async ping(): Promise<number> {
     const currentNano = process.hrtime()
     await connection.db.command({ ping: 1 })

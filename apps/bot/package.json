@@ -18,12 +18,14 @@
   },
   "dependencies": {
     "@quanty/framework": "*",
+    "@types/glob": "^7.2.0",
     "axios": "^0.24.0",
     "chalk": "4.1.2",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
     "discord.js": "13.4.0",
     "dotenv": "^10.0.0",
+    "glob": "^7.2.0",
     "mongoose": "^6.1.4",
     "nekos.life": "^2.0.7",
     "rimraf": "^3.0.2"

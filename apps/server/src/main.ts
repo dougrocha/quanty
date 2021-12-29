@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
-
+import MongoStore from 'connect-mongo/build/main/lib/MongoStore'
 import session from 'express-session'
 import passport from 'passport'
-import MongoStore from 'connect-mongo/build/main/lib/MongoStore'
+
+import { AppModule } from './app.module'
 
 const ENV = process.env.NODE_ENV
 
@@ -27,7 +27,7 @@ async function bootstrap() {
         dbName: 'QuantyBotSessions',
         stringify: false,
         ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
-        touchAfter: 24 * 3600, // time period in seconds
+        touchAfter: 24 * 3600, // Time period in seconds
         crypto: {
           secret: process.env.MONGO_STORE_SECRET,
         },

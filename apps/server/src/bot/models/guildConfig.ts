@@ -4,6 +4,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 class Logs {
   @Field({ nullable: false })
   name?: string
+
   @Field({ nullable: false })
   action?: string
 }
@@ -12,6 +13,7 @@ class Logs {
 class Moderation {
   @Field({ nullable: true })
   autoMod?: boolean
+
   @Field({ nullable: true })
   plugin?: boolean
 }
@@ -20,8 +22,10 @@ class Moderation {
 class Music {
   @Field({ nullable: true })
   plugin?: boolean
+
   @Field({ nullable: true })
   channel?: string
+
   @Field({ nullable: true })
   immortal?: boolean
 }
@@ -30,6 +34,7 @@ class Music {
 class Anime {
   @Field({ nullable: true })
   plugin?: boolean
+
   @Field({ nullable: true })
   nsfw?: boolean
 }
@@ -38,8 +43,10 @@ class Anime {
 class CustomCommands {
   @Field({ nullable: false })
   id?: string
+
   @Field({ nullable: false })
   name?: string
+
   @Field({ nullable: false })
   description?: string
 }
@@ -48,20 +55,28 @@ class CustomCommands {
 export class GuildConfig {
   @Field({ nullable: false })
   guildId: string
+
   @Field({ nullable: true })
   prefix?: string
+
   @Field(() => Moderation, { nullable: true })
   moderation?: Moderation
+
   @Field(() => Music, { nullable: true })
   music?: Music
+
   @Field(() => Anime, { nullable: true })
   anime?: Anime
+
   @Field(() => [CustomCommands], { nullable: true })
   customCommands?: CustomCommands[]
+
   @Field({ nullable: true })
   premium?: boolean
+
   @Field(() => [Logs], { nullable: true })
   logs?: Logs[]
+
   @Field(() => [String], { nullable: true })
   blacklistedWords?: string[]
 }

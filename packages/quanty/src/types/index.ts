@@ -16,7 +16,8 @@ import {
   TextBasedChannel,
   WebhookEditMessageOptions,
 } from 'discord.js'
-import QuantyClient from 'index'
+
+import QuantyClient from '../index'
 
 export * from './structures'
 
@@ -30,7 +31,6 @@ export interface QuantySettings {
   willWarn?: boolean
   WSUrl?: string
 }
-
 export interface ISpotifyConfig {
   clientID: string | undefined
   clientSecret: string | undefined
@@ -46,7 +46,18 @@ export interface INodeConfig {
 }
 
 /**
+ * Interface for Commands
  *
+ * By default all commands with be set to work with message and interactions.
+ * If you would like to only only one, use the `cmdType` option.
+ *
+ * @example
+ * const command: Command = {
+ *  name: 'name',
+ *  description: 'description',
+ *  category: 'category',
+ *  run: async ({client, message, interaction}) => {}
+ * }
  */
 export type Command = MsgCommand | SlashCommand | SlashMsgCommand
 
@@ -75,6 +86,8 @@ export interface BaseCommand {
   format?: string
   cooldown?: number
   globalCooldown?: number
+  cmdType?: CommandTypes
+  type?: ApplicationCommandType
   test?: boolean
   ephemeral?: boolean
   hidden?: boolean
@@ -82,7 +95,8 @@ export interface BaseCommand {
   error?: (options: any, error: any) => CommandReturnType
 }
 
-interface MsgCommand extends BaseCommand {
+interface MsgCommand
+  extends Omit<BaseCommand, 'type' | 'ephemeral' | 'hidden'> {
   cmdType: 'message'
   run: (
     options: Omit<RunOptions<'message'>, 'interaction' | 'options'>,
@@ -93,7 +107,8 @@ interface MsgCommand extends BaseCommand {
   ) => CommandReturnType
 }
 
-interface SlashCommand extends BaseCommand {
+interface SlashCommand
+  extends Omit<BaseCommand, 'type' | 'minArgs' | 'maxArgs' | 'expected'> {
   cmdType: 'slash'
   run: (
     options: Omit<RunOptions<'slash'>, 'message' | 'args'>,
@@ -104,7 +119,7 @@ interface SlashCommand extends BaseCommand {
   ) => CommandReturnType
 }
 
-interface SlashMsgCommand extends BaseCommand {
+interface SlashMsgCommand extends Omit<BaseCommand, 'type'> {
   cmdType?: 'both'
   run: (options: RunOptions<'both'>) => CommandReturnType
   error?: (
@@ -155,19 +170,19 @@ export type MessageRunOptions = Omit<
 >
 export type SlashRunOptions = Omit<RunOptions<'slash'>, 'message' | 'args'>
 
-type InteractionType = {
+interface InteractionType {
   slash: CommandInteraction
   context: ContextMenuInteraction
   button: ButtonInteraction
   autocomplete: AutocompleteInteraction
 }
 
-type CommandErrorOptions = {
+interface CommandErrorOptions {
   code: number
   content: number
 }
 
-type CommandRunOptions = {
+interface CommandRunOptions {
   slash: Omit<CommandInteractionOptionResolver, 'getMessage' | 'getFocused'>
   context: Omit<
     CommandInteractionOptionResolver,
@@ -185,12 +200,15 @@ type CommandRunOptions = {
   autocomplete: Omit<CommandInteractionOptionResolver, 'getMessage'>
 }
 
-type CommandReturnType = Promise<
+export type CommandReturnType =
+  | Promise<CommandReturnObjects>
+  | CommandReturnObjects
+
+type CommandReturnObjects =
   | ReplyMessageOptions
   | InteractionReplyOptions
   | WebhookEditMessageOptions
   | void
->
 
 /**
  * Interface for Features/Events
@@ -202,7 +220,7 @@ type CommandReturnType = Promise<
  * But just in case,
  * https://discord.js.org/#/docs/main/stable/typedef/WSEventType
  * @example
- * const feature: FeatureBuilder<'ready'> = {
+ * const feature: Feature<'ready'> = {
  *  name: 'ready',
  *  run: async (client, message) => {}
  * }
@@ -211,11 +229,18 @@ type CommandReturnType = Promise<
 export interface Feature<K extends keyof ClientEvents> {
   name: K
   once?: boolean
-  run: (client: QuantyClient, ...args: ClientEvents[K]) => any
+  run: (client: QuantyClient, ...args: ClientEvents[K]) => FeatureRunReturn
 }
-
 export interface BaseFeature {
   name: string
   once?: boolean
-  run: (client: QuantyClient, ...args: string[]) => Promise<void>
+  run: (client: QuantyClient, ...args: string[]) => FeatureRunReturn
 }
+
+type FeatureRunReturn = Promise<FeatureRunObject> | FeatureRunObject
+
+type FeatureRunObject =
+  | ReplyMessageOptions
+  | InteractionReplyOptions
+  | WebhookEditMessageOptions
+  | void

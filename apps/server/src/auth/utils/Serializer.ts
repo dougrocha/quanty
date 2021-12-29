@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportSerializer } from '@nestjs/passport'
-import { User } from 'src/schemas'
 import { Done } from 'src/common/types'
+import { User } from 'src/schemas'
+
 import { IAuthenticationProvider } from '../services/auth'
 
 @Injectable()

@@ -1,12 +1,12 @@
-import { MessageEmbed } from 'discord.js'
 import { Command } from '@quanty/framework'
+import { MessageEmbed } from 'discord.js'
 
 export const command: Command = {
   name: 'shuffle',
   description: 'Shuffles the current queue',
   options: [],
   category: 'music',
-  run: async ({ client, guild }) => {
+  run: ({ client, guild }) => {
     const player = client.player.get(guild.id)
 
     const embed = new MessageEmbed().setColor('#FF5F9F')

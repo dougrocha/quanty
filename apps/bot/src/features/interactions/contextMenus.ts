@@ -9,6 +9,6 @@ export const feature: Feature<'interactionCreate'> = {
 
     const command = client.commandHandler.commands.get(interaction.commandName)
 
-    if (command) command.run({ client, interaction })
+    if (command) await command.run({ client, interaction })
   },
 }

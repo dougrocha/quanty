@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose'
+
 import { userSchema, userModel, userDocument } from '../../types/mongoose.gen'
 
 const schema: userSchema = new Schema({

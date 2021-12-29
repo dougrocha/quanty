@@ -9,7 +9,7 @@ class GuildManager {
   }
 
   async findAll() {
-    return await Guild.find({}).lean()
+    return Guild.find({}).lean()
   }
 
   /**
@@ -18,23 +18,17 @@ class GuildManager {
    * @returns Guild Object stripped of functions
    */
   async findById(guildId: string) {
-    return await Guild.findOne({ guildId }).lean()
+    return Guild.findOne({ guildId }).lean()
   }
 
   async getPrefixandUpdate(guildId: string, prefix: string) {
     const guild = await this.findById(guildId)
     const oldPrefix = guild?.prefix
 
-    await Guild.findOneAndUpdate({ guildId }, { prefix })
-      .then(() => {
-        return {
-          oldPrefix,
-          prefix,
-        }
-      })
-      .catch((e: any) => {
-        return e
-      })
+    await Guild.findOneAndUpdate({ guildId }, { prefix }).then(() => ({
+      oldPrefix,
+      prefix,
+    }))
   }
 
   /**
@@ -49,9 +43,8 @@ class GuildManager {
 
     if (prefix) {
       return prefix
-    } else {
-      return `q!`
     }
+    return `q!`
   }
 }
 export default GuildManager

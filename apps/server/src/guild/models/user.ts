@@ -4,32 +4,46 @@ import { Field, ObjectType } from '@nestjs/graphql'
 export class User {
   @Field()
   id: string
+
   @Field()
   username: string
+
   @Field()
   discriminator: string
+
   @Field()
   avatar: string
+
   @Field({ nullable: true })
   bot?: boolean
+
   @Field({ nullable: true })
   system?: boolean
+
   @Field({ nullable: true })
   mfa_enabled?: boolean
+
   @Field({ nullable: true })
   banner?: string
+
   @Field({ nullable: true })
   accent_color?: number
+
   @Field({ nullable: true })
   locale?: string
+
   @Field({ nullable: true })
   verified?: boolean
+
   @Field({ nullable: true })
   email?: string
+
   @Field({ nullable: true })
   flags?: UserFlags
+
   @Field({ nullable: true })
   premium_type?: UserPremiumType
+
   @Field({ nullable: true })
   public_flags?: UserFlags
 }

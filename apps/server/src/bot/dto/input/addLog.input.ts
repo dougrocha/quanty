@@ -5,6 +5,7 @@ import { IsNotEmpty } from 'class-validator'
 class Log {
   @Field()
   name: string
+
   @Field()
   action: string
 }

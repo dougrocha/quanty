@@ -1,18 +1,21 @@
 import { Nullable } from 'discord-api-types/utils/internals'
 import {
   ApplicationCommandOption,
+  ApplicationCommandType,
   Collection,
   PermissionString,
 } from 'discord.js'
+
+import Logger from './logger'
+
+import QuantyClient from '../client'
 import {
-  Command as CommandType,
+  BaseCommand,
+  CommandReturnType,
   CommandTypes,
   MessageRunOptions,
   SlashRunOptions,
-} from 'types'
-
-import QuantyClient from '../client'
-import Logger from './logger'
+} from '../types'
 
 /**
  * Command Class
@@ -23,34 +26,59 @@ class Command {
   private logger: Logger = new Logger('Command Class', false)
 
   readonly name: string
+
   readonly aliases?: string[]
+
   readonly category?: string
+
   readonly description: string
+
   readonly options?: ApplicationCommandOption[]
+
   readonly isGuildOnly: boolean
+
   readonly isOwnerOnly: boolean
+
   readonly nsfw: boolean
+
   readonly userPermissions?: PermissionString[]
+
   readonly clientPermissions: PermissionString[]
+
   readonly expected?: string[]
+
   readonly format?: string
+
   readonly minArgs?: number
+
   readonly maxArgs?: number
+
   readonly cooldown?: number
+
   readonly userCooldowns: Collection<string, number> = new Collection()
+
   readonly globalCooldown?: number
+
   readonly guildCooldowns: Collection<string, number> = new Collection()
+
   readonly test: boolean
+
   readonly cmdType: CommandTypes
-  readonly run: (options: any) => Promise<any>
-  readonly error?: (options: any, error: any) => Promise<any>
+
+  readonly type?: ApplicationCommandType
+
+  readonly run: (options: any) => CommandReturnType
+
+  readonly error?: (options: any, error: any) => CommandReturnType
+
   readonly ephemeral: boolean
+
   readonly hidden: boolean
 
   constructor(
     client: QuantyClient,
     name: string,
-    run: (options: any) => Promise<any>,
+    run: (options: any) => CommandReturnType,
     {
       aliases,
       category,
@@ -63,6 +91,7 @@ class Command {
       userPermissions,
       cmdType = 'both',
       maxArgs,
+      type,
       minArgs = 1,
       clientPermissions = ['SEND_MESSAGES'],
       isGuildOnly = true,
@@ -71,8 +100,8 @@ class Command {
       test = false,
       ephemeral = false,
       hidden = false,
-    }: CommandType,
-    error?: (options: any, error: any) => any,
+    }: BaseCommand,
+    error?: (options: any, error: any) => CommandReturnType,
   ) {
     this.client = client
     this.name = name
@@ -93,6 +122,7 @@ class Command {
     this.isGuildOnly = isGuildOnly
     this.nsfw = nsfw
     this.isOwnerOnly = isOwnerOnly
+    this.type = type
     this.cmdType = cmdType
     this.test = test
     this.ephemeral = ephemeral
@@ -140,7 +170,7 @@ class Command {
       return
     }
 
-    message.reply(reply)
+    await message.reply(reply)
   }
 
   async runSlashCommand(options?: Nullable<SlashRunOptions>) {
@@ -164,7 +194,7 @@ class Command {
       return
     }
 
-    interaction.editReply(reply)
+    await interaction.editReply(reply)
   }
 }
 

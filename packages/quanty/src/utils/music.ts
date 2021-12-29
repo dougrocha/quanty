@@ -21,14 +21,13 @@ export const createPlayer = ({
   guildId: string
   channelId: string
   voiceChannelId: string
-}): Player => {
-  return client.player.create({
+}): Player =>
+  client.player.create({
     guild: guildId,
     voiceChannel: voiceChannelId,
     textChannel: channelId,
     selfDeafen: true,
   })
-}
 
 export const checkChannel = ({
   client,
@@ -39,11 +38,11 @@ export const checkChannel = ({
   guild: GuildType
   member: GuildMember
 }) => {
-  // guild
+  // Guild
   const guild = client.guilds.cache.get(curGuild.id)
-  // member
+  // Member
   const member = guild?.members.cache.get(curMember.user.id)
-  // voice channel
+  // Voice channel
   const voice = member?.voice
 
   let channel
@@ -91,17 +90,19 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
         error.message,
       ),
     )
-    .on('trackStart', (player, track: Track) => {
+    .on('trackStart', async (player, track: Track) => {
       if (!player.textChannel) {
         return
       }
 
-      const channel = client.channels.cache.get(player.textChannel)
+      const channel = client.channels.cache.get(
+        player.textChannel,
+      ) as TextChannel
 
       const { title, requester } = track
 
       // Send a message when the track starts playing with the track name and the requester's Discord tag, e.g. username#discriminator
-      ;(channel as TextChannel).send({
+      await channel.send({
         content: `Now playing: \`${title}\`, requested by \`${
           (requester as User).tag
         }\`.`,
@@ -122,7 +123,7 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
         `Something went wrong, \`\`${track.title}\`\` has been skipped`,
       )
     })
-    .on('queueEnd', async (player, track) => {
+    .on('queueEnd', async player => {
       if (!player.textChannel) {
         return
       }
@@ -138,14 +139,13 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
       await channel.send('Queue has ended.')
 
       if (guildConfig?.immortal == true) {
-        return
       } else {
         await client.wait(1000 * 60 * 5) // 10 Minutes
         if (player.playing) return
         player.destroy()
       }
     })
-    .on('playerMove', (player, track, newChannel) => {
+    .on('playerMove', (player, newChannel) => {
       if (!newChannel) {
         return player.destroy()
       }

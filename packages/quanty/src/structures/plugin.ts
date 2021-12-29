@@ -1,3 +1,5 @@
+import QuantyLogger from './logger'
+
 import QuantyClient from '../client'
 import { Guild } from '../database/schemas'
 import { GuildResponseType, GuildSettingsType, IPluginManager } from '../types'
@@ -7,7 +9,6 @@ import {
   guildsLog,
   guildsModel,
 } from '../types/mongoose.gen'
-import QuantyLogger from './logger'
 
 class PluginManager implements IPluginManager {
   private logger: QuantyLogger = new QuantyLogger('PluginManager')
@@ -35,9 +36,9 @@ class PluginManager implements IPluginManager {
 
   public async createAllGuilds() {
     const allGuilds = (await this.client.guilds.fetch()).toJSON()
-    allGuilds.map(({ id }) => {
-      this.getGuild(id)
-      this.createGuild(id)
+    allGuilds.map(async ({ id }) => {
+      await this.getGuild(id)
+      await this.createGuild(id)
     })
 
     const guildsObject: guildsDocument[] = await Guild.find()
@@ -46,7 +47,7 @@ class PluginManager implements IPluginManager {
   }
 
   public async getGuild(guildId: string): Promise<guildsDocument> {
-    return await this.guildModel.findOne({ guildId }).lean()
+    return this.guildModel.findOne({ guildId }).lean()
   }
 
   public async getGuildSetting<B extends GuildSettingsType>({
@@ -70,7 +71,7 @@ class PluginManager implements IPluginManager {
     guildId: string
     setting: GuildSettingsType
   }): Promise<any> {
-    const guildConfig = (await this.getGuild(guildId)) as guildsDocument
+    const guildConfig = await this.getGuild(guildId)
 
     switch (setting) {
       case 'MUSIC':
@@ -106,8 +107,14 @@ class PluginManager implements IPluginManager {
     }
   }
 
+  public async getMusicConfig(guildId: string) {
+    const { music } = await this.getGuild(guildId)
+
+    return music
+  }
+
   async updatePrefix({ guildId, prefix }: { guildId: string; prefix: string }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       { prefix },
       { new: true },
@@ -121,11 +128,11 @@ class PluginManager implements IPluginManager {
     guildId: string
     plugin: boolean
   }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         moderation: {
-          plugin: plugin,
+          plugin,
         },
       },
       { new: true },
@@ -139,7 +146,7 @@ class PluginManager implements IPluginManager {
     guildId: string
     autoMod: boolean
   }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         moderation: {
@@ -157,7 +164,7 @@ class PluginManager implements IPluginManager {
     guildId: string
     plugin: boolean
   }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         music: {
@@ -175,7 +182,7 @@ class PluginManager implements IPluginManager {
     guildId: string
     immortal: boolean
   }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         music: {
@@ -193,7 +200,7 @@ class PluginManager implements IPluginManager {
     guildId: string
     channel: string
   }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         music: {
@@ -218,7 +225,7 @@ class PluginManager implements IPluginManager {
 
     const newSet = blacklistedWords.concat(words)
 
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       { blacklistedWords: newSet },
       { new: true },
@@ -226,7 +233,7 @@ class PluginManager implements IPluginManager {
   }
 
   async updateAnimeNSFW({ guildId, nsfw }: { guildId: string; nsfw: boolean }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         anime: {
@@ -236,6 +243,7 @@ class PluginManager implements IPluginManager {
       { new: true },
     )
   }
+
   async updateAnimePlugin({
     guildId,
     plugin,
@@ -243,7 +251,7 @@ class PluginManager implements IPluginManager {
     guildId: string
     plugin: boolean
   }) {
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         anime: {
@@ -262,7 +270,7 @@ class PluginManager implements IPluginManager {
     customCommand: guildsCustomCommand
   }) {
     const { description, id, name } = customCommand
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         $push: {
@@ -279,7 +287,7 @@ class PluginManager implements IPluginManager {
 
   async addNewLog({ guildId, log }: { guildId: string; log: guildsLog }) {
     const { action, name, updatedAt } = log
-    return await this.guildModel.findOneAndUpdate(
+    return this.guildModel.findOneAndUpdate(
       { guildId },
       {
         $push: {

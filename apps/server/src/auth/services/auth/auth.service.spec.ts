@@ -1,6 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
 import { User } from 'src/schemas'
+
 import { AuthService } from './auth.service'
 
 describe('AuthService', () => {

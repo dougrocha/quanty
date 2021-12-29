@@ -1,3 +1,4 @@
+import { checkChannel, Command } from '@quanty/framework'
 import {
   MessageActionRow,
   MessageEmbed,
@@ -5,7 +6,6 @@ import {
   SelectMenuInteraction,
 } from 'discord.js'
 import { SearchResult, Track } from 'erela.js'
-import { checkChannel, Command } from '@quanty/framework'
 
 export const command: Command = {
   name: 'search',
@@ -15,14 +15,7 @@ export const command: Command = {
   ],
   category: 'music',
   cmdType: 'slash',
-  run: async ({
-    client,
-    interaction,
-    guild,
-    member,
-    options,
-    channel,
-  }) => {
+  run: async ({ client, interaction, guild, member, options, channel }) => {
     const { content, player } = checkChannel({
       client,
       guild,
@@ -35,7 +28,7 @@ export const command: Command = {
       }
     }
 
-    const search = options.getString('search') 
+    const search = options.getString('search')
 
     if (!search) {
       return { content: 'Search anything you want.' }
@@ -73,7 +66,7 @@ export const command: Command = {
         player.queue.add(res.tracks[0])
 
         if (!player.playing && !player.paused && !player.queue.size)
-          player.play()
+          await player.play()
         return {
           embeds: [
             embed.setDescription(`enqueuing \`${res.tracks[0].title}\`.`),
@@ -87,7 +80,7 @@ export const command: Command = {
           !player.paused &&
           player.queue.totalSize === res.tracks.length
         )
-          player.play()
+          await player.play()
         return {
           embeds: [
             embed.setDescription(
@@ -97,7 +90,7 @@ export const command: Command = {
         }
       case 'SEARCH_RESULT':
         const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
-        // add a seperate command for searching, This will play first result in search results
+        // Add a seperate command for searching, This will play first result in search results
         const query = res.tracks
 
         const tracks = query.slice(0, 5)
@@ -107,18 +100,16 @@ export const command: Command = {
             .setCustomId('search-songs')
             .setPlaceholder('Please select a song to play')
             .addOptions(
-              tracks.map((song, index) => {
-                return {
-                  label: song.title,
-                  value: song.identifier,
-                  description: `Search results from searching ${song}`,
-                  emoji: emojis[index],
-                }
-              }),
+              tracks.map((song, index) => ({
+                label: song.title,
+                value: song.identifier,
+                description: `Search results from searching ${song}`,
+                emoji: emojis[index],
+              })),
             ),
         )
 
-        interaction.editReply({
+        await interaction.editReply({
           embeds: [embed.setDescription('Please select a song to play')],
           components: [component],
         })
@@ -130,31 +121,30 @@ export const command: Command = {
 
         collector.on('collect', async (collector: SelectMenuInteraction) => {
           if (collector.user.id !== interaction.user.id) {
-            collector.reply({
+            await collector.reply({
               content:
                 'You cannot access this menu. Please use the search command.',
               ephemeral: true,
             })
             return
-          } else {
-            const [trackIdentifier] = collector.values
+          }
+          const [trackIdentifier] = collector.values
 
-            const track = tracks.find((s: Track) => {
-              return s.identifier === trackIdentifier
-            })
+          const track = tracks.find(
+            (s: Track) => s.identifier === trackIdentifier,
+          )
 
-            if (!track) {
-              return
-            }
-
-            embed.setTitle(`Added to queue: `).setDescription(`${track.title}`)
-
-            player.queue.add(track)
-            if (!player.playing && !player.paused && !player.queue.size)
-              player.play()
+          if (!track) {
+            return
           }
 
-          collector.update({
+          embed.setTitle(`Added to queue: `).setDescription(`${track.title}`)
+
+          player.queue.add(track)
+          if (!player.playing && !player.paused && !player.queue.size)
+            await player.play()
+
+          await collector.update({
             embeds: [embed],
             components: [component],
           })
@@ -165,9 +155,9 @@ export const command: Command = {
             .setTitle(`Search has ended`)
             .setDescription(`Added ${collected.size} songs to the queue.`)
 
-          interaction.editReply({ embeds: [embed], components: [] })
+          await interaction.editReply({ embeds: [embed], components: [] })
           await client.wait(5000)
-          interaction.deleteReply()
+          await interaction.deleteReply()
         })
     }
   },

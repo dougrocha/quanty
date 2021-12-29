@@ -1,7 +1,8 @@
-import { MessageEmbed } from 'discord.js'
-import axios from 'axios'
-import { MemeType } from '../../types'
 import { Command } from '@quanty/framework'
+import axios from 'axios'
+import { MessageEmbed } from 'discord.js'
+
+import { MemeType } from '../../types'
 
 export const command: Command = {
   name: 'meme',
@@ -10,8 +11,7 @@ export const command: Command = {
   run: async () => {
     await axios
       .get('https://meme-api.herokuapp.com/gimme')
-      .then(res => res.data)
-      .then(async (data: MemeType) => {
+      .then(({ data }: { data: MemeType }) => {
         const embed = new MessageEmbed()
           .setTitle(data.title)
           .setURL(data.postLink)

@@ -1,10 +1,12 @@
 import { GuildMember } from 'discord.js'
 
 import { CommandHandler } from '.'
+
 import QuantyClient from '../client'
 
 class SlashCommandHandler {
   private client: QuantyClient
+
   private commandHandler: CommandHandler
 
   constructor(client: QuantyClient, commandHandler: CommandHandler) {
@@ -14,7 +16,7 @@ class SlashCommandHandler {
     this.init()
   }
 
-  private async init() {
+  private init() {
     this.client.on('interactionCreate', async interaction => {
       if (!interaction.isCommand()) {
         return
@@ -33,9 +35,9 @@ class SlashCommandHandler {
       const { guild, channel, options } = interaction
       const member = interaction.member as GuildMember
 
-      const client = this.client
+      const { client } = this
 
-      command.runSlashCommand({
+      await command.runSlashCommand({
         client,
         interaction,
         guild,

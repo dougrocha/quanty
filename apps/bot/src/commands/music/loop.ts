@@ -1,12 +1,12 @@
-import { MessageEmbed } from 'discord.js'
 import { checkChannel, Command } from '@quanty/framework'
+import { MessageEmbed } from 'discord.js'
 
 export const command: Command = {
   name: 'loop',
   description: 'Loops the queue',
   options: [],
   category: 'music',
-  run: async ({ client, member, guild }) => {
+  run: ({ client, member, guild }) => {
     const { content, player } = checkChannel({
       client,
       guild,
@@ -29,10 +29,9 @@ export const command: Command = {
       embed.setDescription('Queue Loop is off')
       player.setQueueRepeat(false)
       return { embeds: [embed] }
-    } else {
-      embed.setDescription('Queue is Looped')
-      player.setQueueRepeat(true)
-      return { embeds: [embed] }
     }
+    embed.setDescription('Queue is Looped')
+    player.setQueueRepeat(true)
+    return { embeds: [embed] }
   },
 }

@@ -2,14 +2,18 @@ import { Message } from 'discord.js'
 import ms from 'ms'
 
 import { CommandHandler, QuantyLogger } from '.'
-import QuantyClient from '../client'
+
 import GuildManager from './guild'
+
+import QuantyClient from '../client'
 
 class MessageHandler {
   private client: QuantyClient
+
   private logger: QuantyLogger = new QuantyLogger('Message-Handler')
 
   private commandHandler: CommandHandler
+
   private guildManager: GuildManager
 
   constructor(
@@ -31,7 +35,7 @@ class MessageHandler {
 
       if (message.author.bot || !message.guild) return
 
-      const client = this.client
+      const { client } = this
       const { guild, channel, member, author } = message
 
       const guildPrefix = await this.guildManager.getPrefix(guild.id)
@@ -78,12 +82,12 @@ class MessageHandler {
 
       // Checks if command is Bot owner Only
       if (isOwnerOnly && !client.botOwners?.some(id => author.id == id)) {
-        message.reply('Only the owner of Quanty can use this command.')
+        await message.reply('Only the owner of Quanty can use this command.')
         return
       }
 
       if (!member || !client.user) {
-        message.reply(
+        await message.reply(
           `Something went wrong. Try again later or contact the owner`,
         )
         return
@@ -98,10 +102,8 @@ class MessageHandler {
         if (missingPerms?.length) {
           await channel.sendTyping()
           console.log('test2')
-          message.reply(
-            `You are missing \`${missingPerms.map(val => {
-              return `${val}`
-            })}\``,
+          await message.reply(
+            `You are missing \`${missingPerms.map(val => `${val}`)}\``,
           )
           return
         }
@@ -115,10 +117,8 @@ class MessageHandler {
           .missing(clientPermissions)
         if (missingPerms?.length) {
           await channel.sendTyping()
-          message.reply(
-            `I am missing \`${missingPerms.map(val => {
-              return `${val}`
-            })}\``,
+          await message.reply(
+            `I am missing \`${missingPerms.map(val => `${val}`)}\``,
           )
           return
         }
@@ -146,7 +146,7 @@ class MessageHandler {
         }
       }
 
-      command.runMsgCommand({
+      await command.runMsgCommand({
         client,
         message,
         guild,

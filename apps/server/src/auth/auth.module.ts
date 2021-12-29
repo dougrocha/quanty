@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { User } from 'src/schemas'
-import { UserSchema } from 'src/schemas'
+import { User, UserSchema } from 'src/schemas'
+
 import { AuthController } from './controllers/auth/auth.controller'
 import { AuthService } from './services/auth/auth.service'
 import { SessionSerializer } from './utils/Serializer'

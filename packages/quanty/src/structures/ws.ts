@@ -1,5 +1,7 @@
 import { io, Socket } from 'socket.io-client'
+
 import { QuantyLogger } from '.'
+
 import { IWebSocket } from '../types'
 
 class WebSocket implements IWebSocket {

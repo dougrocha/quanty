@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js'
 import { checkChannel, Command } from '@quanty/framework'
+import { MessageEmbed } from 'discord.js'
 
 export const command: Command = {
   name: 'previous',
@@ -23,8 +23,8 @@ export const command: Command = {
 
     const embed = new MessageEmbed()
 
-    const previous = player.queue.previous
-    const current = player.queue.current
+    const { previous } = player.queue
+    const { current } = player.queue
 
     if (!previous)
       return {

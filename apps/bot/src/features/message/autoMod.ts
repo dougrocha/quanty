@@ -16,12 +16,12 @@ export const feature: Feature<'messageCreate'> = {
     if (message.author.bot || !message.guild)
       // If message is from bot or in a dm
       return
-    // if message content is larger than limit
+    // If message content is larger than limit
     if (message.content.length > 300) {
       await message.reply({
         content: 'Please do not send super long messages.',
       })
-      message.delete()
+      await message.delete()
       return
     }
 
@@ -30,7 +30,7 @@ export const feature: Feature<'messageCreate'> = {
       !message.member?.permissions.has('ADMINISTRATOR')
     ) {
       await message.reply('You cannot spam mentions.')
-      message.delete()
+      await message.delete()
       return
     }
 
@@ -38,7 +38,7 @@ export const feature: Feature<'messageCreate'> = {
 
     if (lineArray?.length >= 4) {
       await message.reply('You cannot send messages')
-      message.delete()
+      await message.delete()
       return
     }
 
@@ -51,7 +51,7 @@ export const feature: Feature<'messageCreate'> = {
 
       if (isIncludedMsg) {
         await message.reply('You cannot send messages')
-        message.delete()
+        await message.delete()
 
         return
       }

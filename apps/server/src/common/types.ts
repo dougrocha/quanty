@@ -1,6 +1,6 @@
 import { User } from 'src/schemas'
 
-export type UserDetails = {
+export interface UserDetails {
   username: string
   discriminator: string
   discordID: string

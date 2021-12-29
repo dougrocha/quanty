@@ -1,11 +1,11 @@
 import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
 import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
+import { Channel } from 'src/guild/models/channel'
 import { Guild } from 'src/guild/models/guild'
 import { IGuildProvider } from 'src/guild/types'
-import { AxiosResponse } from 'axios'
-import { Channel } from 'src/guild/models/channel'
 
 @Resolver(() => Guild)
 @UseGuards(GraphQLAuthGuard)

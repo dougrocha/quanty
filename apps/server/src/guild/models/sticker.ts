@@ -1,30 +1,42 @@
 import { Field, ObjectType } from '@nestjs/graphql'
+
 import { User } from './user'
 
 @ObjectType()
 export class Sticker {
   @Field()
   asset: ''
+
   @Field({ nullable: true })
   id: string
+
   @Field({ nullable: true })
   pack_id?: string
+
   @Field()
   name: string
+
   @Field()
   description: string
+
   @Field()
   tags: string
+
   @Field()
   type: StickerType
+
   @Field()
   format_type: StickerFormatType
+
   @Field({ nullable: true })
   available?: boolean
+
   @Field({ nullable: true })
   guild_id?: string
+
   @Field(() => User, { nullable: true })
   user?: User
+
   @Field({ nullable: true })
   sort_value?: number
 }

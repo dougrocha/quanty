@@ -5,7 +5,7 @@ export const command: Command = {
   description: 'Pauses the song',
   options: [],
   category: 'music',
-  run: async ({ client, guild, member }) => {
+  run: ({ client, guild, member }) => {
     const { content, player } = checkChannel({
       client,
       guild,

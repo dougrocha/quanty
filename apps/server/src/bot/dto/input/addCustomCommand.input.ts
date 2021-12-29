@@ -6,9 +6,11 @@ class CustomCommand {
   @Field()
   @IsString()
   id: string
+
   @Field()
   @IsString()
   name: string
+
   @Field()
   @IsString()
   description: string

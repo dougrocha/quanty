@@ -1,10 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { HttpService } from '@nestjs/axios'
+import { Inject, Injectable } from '@nestjs/common'
 import { AxiosResponse } from 'axios'
 import { map, Observable } from 'rxjs'
-import { IGuildProvider } from 'src/guild/types'
 import { Channel } from 'src/guild/models/channel'
 import { Guild } from 'src/guild/models/guild'
+import { IGuildProvider } from 'src/guild/types'
 
 @Injectable()
 export class GuildService implements IGuildProvider {

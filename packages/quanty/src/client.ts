@@ -28,24 +28,33 @@ import { MusicEvent } from './utils/music'
  * @class
  * @extends Discord.Client
  */
-class QuantyClient extends Client {
+class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
   public logger: ILogger = new QuantyLogger('Client')
 
   private readonly config: QuantySettings
+
   public readonly botOwners: string[]
 
   public player: Manager
 
   public WebSocket: WebSocket
+
   public PluginManager: PluginManager
+
   public Database: Database
+
   public readonly commandHandler: CommandHandler
+
   public featuresHandler: FeatureHandler
+
   public slashCommandHandler: SlashCommandHandler
+
   public messageHandler: MessageHandler
+
   public guildManager: GuildManager
 
   private readonly WSUrl: string | undefined = ''
+
   public readonly willWarn: boolean | undefined = true
 
   private args: any
@@ -100,7 +109,7 @@ class QuantyClient extends Client {
     /**
      * Database using MongoDB
      */
-    this.Database = new Database(this.config.mongoUri, this)
+    this.Database = new Database(this, this.config.mongoUri)
 
     /**
      * Plugin Manager
@@ -138,10 +147,6 @@ class QuantyClient extends Client {
       this.commandHandler,
       this.guildManager,
     )
-
-    this.start()
-
-    console.log()
   }
 
   /**
@@ -219,17 +224,17 @@ class QuantyClient extends Client {
     let hours: any = ''
     if (minutes > 59) {
       hours = Math.floor(minutes / 60)
-      hours = hours >= 10 ? hours : '0' + hours
-      minutes = minutes - hours * 60
-      minutes = minutes >= 10 ? minutes : '0' + minutes
+      hours = hours >= 10 ? hours : `0${hours}`
+      minutes -= hours * 60
+      minutes = minutes >= 10 ? minutes : `0${minutes}`
     }
 
     seconds = Math.floor(seconds % 60)
-    seconds = seconds >= 10 ? seconds : '0' + seconds
+    seconds = seconds >= 10 ? seconds : `0${seconds}`
     if (hours != '') {
-      return hours + ':' + minutes + ':' + seconds
+      return `${hours}:${minutes}:${seconds}`
     }
-    return minutes + ':' + seconds
+    return `${minutes}:${seconds}`
   }
 
   /**

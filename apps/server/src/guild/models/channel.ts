@@ -1,14 +1,18 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+
 import { User } from './user'
 
 @ObjectType()
 class OverWrite {
   @Field()
   id: string
+
   @Field()
   type: OverwriteType
+
   @Field()
   allow: string
+
   @Field()
   deny: string
 }
@@ -17,12 +21,16 @@ class OverWrite {
 class ThreadMetaData {
   @Field()
   archived: boolean
+
   @Field()
   auto_archive_duration: ThreadAutoArchiveDuration
+
   @Field()
   archive_timestamp: string
+
   @Field({ nullable: true })
   locked?: boolean
+
   @Field({ nullable: true })
   invitable?: boolean
 }
@@ -31,10 +39,13 @@ class ThreadMetaData {
 class ThreadMember {
   @Field({ nullable: true })
   id?: string
+
   @Field({ nullable: true })
   user_id?: string
+
   @Field()
   join_timestamp: string
+
   @Field()
   flags: ThreadMemberFlags
 }
@@ -43,52 +54,76 @@ class ThreadMember {
 export class Channel {
   @Field({ nullable: true })
   guild_id?: string
+
   @Field({ nullable: true })
   position?: number
+
   @Field(() => [OverWrite], { nullable: true })
   permission_overwrites?: OverWrite[]
+
   @Field({ nullable: true })
   topic?: string
+
   @Field({ nullable: true })
   nsfw?: boolean
+
   @Field({ nullable: true })
   last_message_id?: string
+
   @Field(() => Int, { nullable: true })
   bitrate?: number
+
   @Field(() => Int, { nullable: true })
   user_limit?: number
+
   @Field(() => Int, { nullable: true })
   rate_limit_per_user?: number
+
   @Field(() => [User], { nullable: true })
   recipients?: User[]
+
   @Field({ nullable: true })
   icon?: string
+
   @Field({ nullable: true })
   owner_id?: string
+
   @Field({ nullable: true })
   application_id?: string
+
   @Field({ nullable: true })
   parent_id?: string
+
   @Field({ nullable: true })
   last_pin_timestamp?: string
+
   @Field({ nullable: true })
   rtc_region?: string
+
   @Field({ nullable: true })
   video_quality_mode?: VideoQualityMode
+
   @Field(() => Int, { nullable: true })
   message_count?: number
+
   @Field(() => Int, { nullable: true })
   member_count?: number
+
   @Field(() => ThreadMetaData, { nullable: true })
   thread_metadata?: ThreadMetaData
+
   @Field(() => ThreadMember, { nullable: true })
   member?: ThreadMember
+
   @Field({ nullable: true })
   default_auto_archive_duration?: ThreadAutoArchiveDuration
+
   @Field(() => String)
   id: string
+
   @Field()
   type: ChannelType
+
   @Field({ nullable: true })
   name?: string
 }

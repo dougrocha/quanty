@@ -60,10 +60,9 @@ export const command: Command = {
           embed.setDescription(`Your prefix has been set to \`${prefix}\``),
         ],
       }
-    } else {
-      return {
-        embeds: [embed.setDescription(`Your prefix is  \`${prefix}\``)],
-      }
+    }
+    return {
+      embeds: [embed.setDescription(`Your prefix is  \`${prefix}\``)],
     }
   },
 }

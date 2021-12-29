@@ -12,7 +12,7 @@ describe('GuildConfigService', () => {
   let service: GuildConfigService
   let guildModel: Model<Guilds>
   let guild: Guilds
-  const guildId = guildStub().guildId
+  const { guildId } = guildStub()
 
   beforeEach(async () => {
     guild = new Guilds()
@@ -56,7 +56,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should update prefix', async () => {
-      const prefix = guildStub().prefix
+      const { prefix } = guildStub()
 
       await service.updatePrefix({ guildId, prefix })
       expect(spy).toBeCalledWith(
@@ -142,7 +142,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should update blacklisted words', async () => {
-      const words = guildStub().blacklistedWords as string[]
+      const words = guildStub().blacklistedWords
 
       await service.updateBlacklistedWords({ guildId, blacklistedWords: words })
       expect(spy).toBeCalledWith(
@@ -184,7 +184,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should add a new custom command', async () => {
-      const customCommands = guildStub().customCommands
+      const { customCommands } = guildStub()
       const customCommand = customCommands[0]
       const { id, description, name } = customCommand
 
@@ -205,7 +205,7 @@ describe('GuildConfigService', () => {
     })
 
     it('should add a new log', async () => {
-      const logs = guildStub().logs
+      const { logs } = guildStub()
       const log = logs[0]
       const { name, action } = log
 

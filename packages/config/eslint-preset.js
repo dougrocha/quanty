@@ -1,34 +1,54 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: ['plugin:@typescript-eslint/recommended'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'prettier',
+  ],
+  plugins: ['@typescript-eslint/eslint-plugin', 'import', 'prettier'],
   root: true,
   env: {
     node: true,
+    es2021: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
   rules: {
-    '@typescript-eslint/naming-convention': [
+    'capitalized-comments': [
+      'error',
+      'always',
+      { ignoreConsecutiveComments: true },
+    ],
+    '@typescript-eslint/restrict-plus-operands': 'warn',
+    'prettier/prettier': 'error',
+    '@typescript-eslint/no-floating-promises': [
       'warn',
       {
-        selector: 'interface',
-        format: ['PascalCase'],
-        custom: {
-          regex: '^I[A-Z]',
-          match: false,
+        ignoreVoid: false,
+        ignoreIIFE: true,
+      },
+    ],
+    'import/no-unresolved': 'off',
+    'import/no-named-default': 'error',
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'index',
+          'sibling',
+          'parent',
+        ],
+        alphabetize: {
+          order: 'asc',
         },
+        'newlines-between': 'always',
       },
     ],
-    '@typescript-eslint/naming-convention': [
-      'warn',
-      {
-        selector: 'variable',
-        types: ['boolean'],
-        format: ['PascalCase'],
-        prefix: ['is', 'should', 'has', 'can', 'did', 'will'],
-      },
-    ],
+    '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

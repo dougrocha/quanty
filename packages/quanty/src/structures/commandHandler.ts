@@ -1,14 +1,19 @@
-import { Collection } from 'discord.js'
-import { glob } from 'glob'
-import { BaseCommand } from 'types'
 import { promisify } from 'util'
 
-import QuantyClient from '../client'
-import { ICommandHandler } from '../types'
+import { Collection } from 'discord.js'
+import { glob } from 'glob'
+
 import Command from './command'
 import Logger from './logger'
 
+import QuantyClient from '../client'
+import { BaseCommand, ICommandHandler } from '../types'
+
 const globPromise = promisify(glob)
+
+interface ImportCommand {
+  command: BaseCommand
+}
 
 class CommandHandler implements ICommandHandler {
   private logger: Logger = new Logger('Command-Handler')
@@ -16,9 +21,21 @@ class CommandHandler implements ICommandHandler {
   private client: QuantyClient
 
   readonly categories: Set<string> = new Set()
-  readonly commands: Collection<string, Command> = new Collection()
-  readonly aliases: Collection<string, Command> = new Collection()
-  readonly cooldowns: Collection<string, number> = new Collection()
+
+  readonly commands: Collection<string, Command> = new Collection<
+    string,
+    Command
+  >()
+
+  readonly aliases: Collection<string, Command> = new Collection<
+    string,
+    Command
+  >()
+
+  readonly cooldowns: Collection<string, number> = new Collection<
+    string,
+    number
+  >()
 
   constructor(client: QuantyClient, dir: string) {
     this.client = client
@@ -59,8 +76,9 @@ class CommandHandler implements ICommandHandler {
    * Creates a command when given a command file path
    * @param file File Path
    */
+
   private async createCommand(file: string) {
-    const { command }: { command: BaseCommand } = await import(file)
+    const { command } = (await import(file)) as ImportCommand
 
     const cmd = new Command(
       this.client,
@@ -83,7 +101,7 @@ class CommandHandler implements ICommandHandler {
     )
 
     commandFiles.map(async (file: string) => {
-      this.createCommand(file)
+      await this.createCommand(file)
     })
 
     this.logger.success('All Commands Loaded')

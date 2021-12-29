@@ -1,6 +1,6 @@
 // Imports
 import type { AppProps } from 'next/app'
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 
 import { ApolloProvider } from '@apollo/client'
 import apolloClient from '../../apollo.client'
@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     router.events.on('routeChangeError', handleComplete)
   })
 
-  const onSelectMode = (theme: any) => {
+  const onSelectMode = (theme: SetStateAction<string>) => {
     setTheme(theme)
     if (theme === 'dark') document.body.classList.add('dark-mode')
     else document.body.classList.remove('dark-mode')
@@ -96,7 +96,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     return () => {
       window
         .matchMedia('(prefers-color-scheme: dark)')
-        .removeEventListener('change', () => {})
+        .removeEventListener('change', () => {
+          return
+        })
     }
   }, [])
 

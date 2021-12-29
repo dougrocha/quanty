@@ -31,16 +31,14 @@ export const command: ContextCommand = {
           const url = `https://cdn.discordapp.com/banners/${targetId}/${banner}${extension}?size=512`
 
           embed.setDescription(`${user?.tag}'s banner`).setImage(url)
+        } else if (accent_color) {
+          embed
+            .setDescription(`${user?.tag} doesnt have a banner`)
+            .setColor(accent_color)
         } else {
-          if (accent_color) {
-            embed
-              .setDescription(`${user?.tag} doesnt have a banner`)
-              .setColor(accent_color)
-          } else {
-            embed.setDescription(
-              `${user?.tag} does not have banner or accent color`,
-            )
-          }
+          embed.setDescription(
+            `${user?.tag} does not have banner or accent color`,
+          )
         }
 
         return { embeds: [embed] }

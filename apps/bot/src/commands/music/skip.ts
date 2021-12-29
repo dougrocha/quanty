@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js'
 import { Command } from '@quanty/framework'
+import { MessageEmbed } from 'discord.js'
 
 export const command: Command = {
   name: 'skip',
@@ -59,14 +59,13 @@ export const command: Command = {
 
       player.stop(Number(amount))
 
-      client.wait(500)
+      await client.wait(500)
 
       embed.setTitle(`\`${amount - 1} songs were skipped.\``)
 
       return { embeds: [embed] }
-    } else {
-      player.stop()
-      return { content: `${current} was skipped.` }
     }
+    player.stop()
+    return { content: `${current} was skipped.` }
   },
 }

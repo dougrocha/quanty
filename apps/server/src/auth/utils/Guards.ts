@@ -10,10 +10,10 @@ import { AuthGuard } from '@nestjs/passport'
 @Injectable()
 export class DiscordAuthGuard extends AuthGuard('discord') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const activate = (await super.canActivate(context)) as boolean
+    const canActivate = (await super.canActivate(context)) as boolean
     const request = context.switchToHttp().getRequest()
     await super.logIn(request)
-    return activate
+    return canActivate
   }
 }
 
@@ -29,7 +29,7 @@ export class AuthenticatedGuard implements CanActivate {
 export class GraphQLAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context)
-    const user = ctx.getContext().req.user
+    const { user } = ctx.getContext().req
 
     if (!user) {
       throw new ForbiddenException('You must be logged in first.')

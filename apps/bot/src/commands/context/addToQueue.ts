@@ -6,7 +6,9 @@ export const command: ContextCommand = {
   description: 'Add message content to queue if song exists.',
   type: 'MESSAGE',
 
-  run: async ({ interaction }) => {
-    const targetId = interaction?.targetId
+  run: ({}) => {
+    return {
+      content: 'Hey this is not finished yet',
+    }
   },
 }

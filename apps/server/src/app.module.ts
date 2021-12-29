@@ -1,12 +1,14 @@
-import { Module } from '@nestjs/common'
-import { AuthModule } from './auth/auth.module'
-import { GuildModule } from './guild/guild.module'
-import { MongooseModule } from '@nestjs/mongoose'
-import { ConfigModule } from '@nestjs/config'
 import { join } from 'path'
+
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
+import { MongooseModule } from '@nestjs/mongoose'
 import { PassportModule } from '@nestjs/passport'
+
+import { AuthModule } from './auth/auth.module'
 import { BotModule } from './bot/bot.module'
+import { GuildModule } from './guild/guild.module'
 import { UsersModule } from './users/users.module'
 
 const ENV = process.env.NODE_ENV

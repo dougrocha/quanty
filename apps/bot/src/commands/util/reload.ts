@@ -1,8 +1,14 @@
-import { Command } from '@quanty/framework'
-
-import { glob } from 'glob'
 import { promisify } from 'util'
+
+import { Command } from '@quanty/framework'
+import { BaseCommand } from '@quanty/framework/dist/src/types'
+import { glob } from 'glob'
+
 const globPromise = promisify(glob)
+
+interface CommandImport {
+  command: Partial<BaseCommand>
+}
 
 export const command: Command = {
   name: 'load',
@@ -38,11 +44,15 @@ export const command: Command = {
     await client.guilds.cache.get(guild.id)?.commands.set([])
 
     slashCommandFiles.map(async (value: string) => {
-      const { command } = await require(value)
+      const { command } = (await require(value)) as CommandImport
+
+      if (!command.type) {
+        return console.log(`${command.name} does not have a type. FIX IT`)
+      }
 
       if (['MESSAGE', 'USER'].includes(command.type)) delete command.description
 
-      await client.guilds.cache.get(guild.id)?.commands.create(command)
+      await client.guilds.cache.get(guild.id)?.commands.create(command as any)
     })
 
     return { content: 'Slash Commands Loaded slash' }

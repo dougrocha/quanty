@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "lint": "cross-env TIMING=1 next lint",
+    "lint": "cross-env TIMING=1 next lint --fix",
     "test": "echo TESTING DASHBOARD",
     "generate": "graphql-codegen --config codegen.yml",
     "analyze": "cross-env ANALYZE=true next build"

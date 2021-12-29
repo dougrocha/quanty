@@ -5,7 +5,7 @@ export const command: Command = {
   description: 'Stop Quanty and clears the queue.',
   options: [],
   category: 'music',
-  run: async ({ client, guild, member }) => {
+  run: ({ client, guild, member }) => {
     const { content, player } = checkChannel({
       client,
       guild,

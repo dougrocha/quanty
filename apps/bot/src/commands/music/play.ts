@@ -13,7 +13,7 @@ export const command: Command = {
     const currGuild = client.guilds.cache.get(guild.id)
     const currMember = currGuild?.members.cache.get(member.user.id)
     const voiceChannelId = currMember?.voice.channel?.id
-    // let awaitChannel = client.channels.cache.get(interaction.channelId);
+    // Let awaitChannel = client.channels.cache.get(interaction.channelId);
 
     const search = options?.getString('song') || args?.join(' ')
 
@@ -33,7 +33,7 @@ export const command: Command = {
 
     let res: SearchResult
 
-    const user = member.user
+    const { user } = member
 
     try {
       res = await player.search(search, user)
@@ -63,7 +63,7 @@ export const command: Command = {
         player.queue.add(res.tracks[0])
 
         if (!player.playing && !player.paused && !player.queue.size) {
-          player.play()
+          await player.play()
         } else {
           return {
             embeds: [
@@ -82,7 +82,7 @@ export const command: Command = {
           !player.paused &&
           player.queue.totalSize === res.tracks.length
         ) {
-          player.play()
+          await player.play()
         }
 
         /**
@@ -107,7 +107,7 @@ export const command: Command = {
         /// This only plays the first song in search, Use search command for more options
         player.queue.add(res.tracks[0])
 
-        player.play()
+        await player.play()
         if (!player.playing && !player.paused && !player.queue.size) {
         } else {
           return {

@@ -5,6 +5,6 @@
     "baseUrl": ".",
     "outDir": "lib"
   },
-  "include": ["src", "bin"],
+  "include": ["src", "bin", ".eslintrc.js"],
   "exclude": ["node_modules", "lib"]
 }

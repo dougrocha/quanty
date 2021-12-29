@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+
 import { Channel } from './channel'
 import { Emojis } from './emojis'
 import { GuildMember } from './guildMember'
@@ -9,44 +10,64 @@ import { Sticker } from './sticker'
 export class Guild {
   @Field({ nullable: true })
   owner?: boolean
+
   @Field()
   owner_id: string
+
   @Field(() => Int)
   afk_timeout: number
+
   @Field(() => [Roles])
   roles: Roles[]
+
   @Field(() => [Emojis])
   emojis: Emojis[]
+
   @Field(() => GuildMember, { nullable: true })
   members?: GuildMember[]
+
   @Field(() => [Channel], { nullable: true })
   channels?: Channel[]
+
   @Field(() => [Channel], { nullable: true })
   threads?: Channel[]
+
   @Field({ nullable: true })
   description?: string
+
   @Field()
   premium_tier: GuildPremiumTier
+
   @Field()
   premium_subscription_count?: number
+
   @Field()
   preferred_locale: string
+
   @Field()
   nsfw_level: GuildNSFWLevel
+
   @Field(() => [Sticker])
   stickers: Sticker[]
+
   @Field()
   name: string
+
   @Field({ nullable: true })
   icon?: string
+
   @Field()
   splash: string
+
   @Field({ nullable: true })
   unavailable?: boolean
+
   @Field(() => String)
   id: string
+
   @Field(() => [String])
   features: string[]
+  // eslint-disable-next-line capitalized-comments
   //   icon_hash?: string;
   //   discovery_splash: string;
   //   permissions?: string;

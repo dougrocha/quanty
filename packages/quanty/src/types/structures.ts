@@ -1,6 +1,8 @@
 import { Collection } from 'discord.js'
-import { Command } from 'structures'
-import { guilds, guildsDocument, guildsObject } from 'types/mongoose.gen'
+
+import { guildsDocument, guildsObject, guilds } from './mongoose.gen'
+
+import CommandClass from '../structures/command'
 
 export interface IFeatureHandler {
   /**
@@ -14,13 +16,13 @@ export interface ICommandHandler {
   /**
    * @returns {Command} Returns all commands.
    */
-  getCommands(): Command[] | undefined
+  getCommands(): CommandClass[] | undefined
 
   /**
    * Gets a single command when supplied with an existing name.
    * @returns {Command} Returns a single command.
    */
-  getCommand(name: string): Command | undefined
+  getCommand(name: string): CommandClass | undefined
 }
 
 export interface ILoaders {

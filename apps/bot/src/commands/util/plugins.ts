@@ -39,31 +39,29 @@ export const command: Command = {
 
     switch (plugin) {
       case 'music':
-        const res = await client.PluginManager.getGuildSetting({
-          guildId: guild.id,
-          setting: 'MUSIC',
-        })
+        const { plugin, immortal, musicChannel } =
+          await client.PluginManager.getMusicConfig(guild.id)
+
         embed.setTitle('Music Settings')
         embed.addFields(
           {
             name: 'Plugin',
             value: `\`\`${
-              `${res.plugin || false}`.charAt(0).toUpperCase() +
-              `${res.plugin || false}`.slice(1)
+              `${plugin || false}`.charAt(0).toUpperCase() +
+              `${plugin || false}`.slice(1)
             }\`\``,
           },
           {
             name: 'Immortality',
             value: `\`\`${
-              `${res.immortal || false}`.charAt(0).toUpperCase() +
-              `${res.immortal || false}`.slice(1)
+              `${immortal || false}`.charAt(0).toUpperCase() +
+              `${immortal || false}`.slice(1)
             }\`\``,
           },
           {
             name: 'Channel',
             value: `\`\`${
-              guild.channels.cache.get(res.musicChannel ?? '')?.name ||
-              'Any Room'
+              guild.channels.cache.get(musicChannel ?? '')?.name || 'Any Room'
             }\`\``,
           },
         )

@@ -6,6 +6,6 @@
     "outDir": "dist",
     "types": ["jest", "node"]
   },
-  "include": ["src"],
+  "include": ["src", ".eslintrc.js"],
   "exclude": ["src/templates/*/files/**/*", "dist", "node_modules"]
 }

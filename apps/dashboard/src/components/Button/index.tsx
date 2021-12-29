@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
 type ButtonType = {
-  onClick?: any
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
   text: string
 }
 
 const Button = ({ text, onClick }: ButtonType) => {
-  return <ButtonStyle onClick={onClick ?? null}>{text}</ButtonStyle>
+  return <ButtonStyle onClick={onClick}>{text}</ButtonStyle>
 }
 
 const ButtonStyle = styled.button`

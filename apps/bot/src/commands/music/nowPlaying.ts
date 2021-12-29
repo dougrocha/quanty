@@ -1,15 +1,15 @@
 // TODO: Re-do this whole command
 
+import { checkChannel, Command } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 import { Player } from 'erela.js'
-import { checkChannel, Command } from '@quanty/framework'
 
 export const command: Command = {
   name: 'nowplaying',
   description: 'Shows the current playing song',
   options: [],
   category: 'music',
-  run: async ({ client, guild, member }) => {
+  run: ({ client, guild, member }) => {
     const { content, player } = checkChannel({
       client,
       guild,
@@ -25,34 +25,16 @@ export const command: Command = {
     try {
       function format(millis: number) {
         try {
-          const h = Math.floor(millis / 3600000),
-            m = Math.floor(millis / 60000),
-            s: any = ((millis % 60000) / 1000).toFixed(0)
+          const h = Math.floor(millis / 3600000)
+          const m = Math.floor(millis / 60000)
+          const s: any = ((millis % 60000) / 1000).toFixed(0)
           if (h < 1)
-            return (
-              (m < 10 ? '0' : '') +
-              m +
-              ':' +
-              (s < 10 ? '0' : '') +
-              s +
-              ' | ' +
-              Math.floor(millis / 1000) +
-              ' Seconds'
-            )
-          else
-            return (
-              (h < 10 ? '0' : '') +
-              h +
-              ':' +
-              (m < 10 ? '0' : '') +
-              m +
-              ':' +
-              (s < 10 ? '0' : '') +
-              s +
-              ' | ' +
-              Math.floor(millis / 1000) +
-              ' Seconds'
-            )
+            return `${(m < 10 ? '0' : '') + m}:${
+              s < 10 ? '0' : ''
+            }${s} | ${Math.floor(millis / 1000)} Seconds`
+          return `${(h < 10 ? '0' : '') + h}:${m < 10 ? '0' : ''}${m}:${
+            s < 10 ? '0' : ''
+          }${s} | ${Math.floor(millis / 1000)} Seconds`
         } catch (e: any) {
           console.log(String(e.stack))
         }
@@ -76,13 +58,11 @@ export const command: Command = {
             String('▇').repeat(Math.round(size * (current / total))) +
             String('—').repeat(size - Math.round(size * (current / total))) +
             String('|')
-          return `**${bar}**\n**${
-            new Date(player.position).toISOString().substr(11, 8) +
-            ' / ' +
-            (total == 0
-              ? ' ◉ LIVE'
-              : new Date(total).toISOString().substr(11, 8))
-          }**`
+          return `**${bar}**\n**${`${new Date(player.position)
+            .toISOString()
+            .substr(11, 8)} / ${
+            total == 0 ? ' ◉ LIVE' : new Date(total).toISOString().substr(11, 8)
+          }`}**`
         } catch (e: any) {
           console.log(String(e.stack))
         }
@@ -103,7 +83,7 @@ export const command: Command = {
               .setTitle(`Error | There is nothing playing`),
           ],
         }
-      //Send Now playing Message
+      // Send Now playing Message
       return {
         embeds: [
           new MessageEmbed()
@@ -129,6 +109,8 @@ export const command: Command = {
             .addField(`🎛️ Progress: `, createBar(player) ?? 'none')
             .setFooter(
               `Requested by: ${song.requester.username}`,
+              // !TODO
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-call
               song.requester.displayAvatarURL({
                 dynamic: true,
               }),

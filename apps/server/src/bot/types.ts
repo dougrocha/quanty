@@ -1,6 +1,6 @@
-import { GuildDocument } from 'src/schemas'
 import * as Args from 'src/bot/dto/args'
 import * as Inputs from 'src/bot/dto/input'
+import { GuildDocument } from 'src/schemas'
 
 export interface IGuildConfigProvider {
   getGuild(GetGuildIdArgs: Args.GetGuildIdArgs): Promise<GuildDocument | null>
