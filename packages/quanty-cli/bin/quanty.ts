@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
-import { CommandLoader } from '../src/commands'
+import { CommandLoader } from '../src/commands/index'
 
 const bootstrap = () => {
   const program = new Command()

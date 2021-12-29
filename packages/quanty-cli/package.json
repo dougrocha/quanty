@@ -1,19 +1,16 @@
 {
   "name": "@quanty/cli",
-  "version": "0.0.1",
+  "version": "1.0.2",
   "description": "Quanty - Discord Bot Cli",
-  "main": "lib/bin/quanty.js",
   "author": "slashtp3",
   "license": "MIT",
   "bin": {
     "quanty": "lib/bin/quanty.js"
   },
-  "files": [
-    "dist/**"
-  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
+    "test:cli": "node lib/bin/quanty.js",
     "test": "echo TESTING QUANTY/CLI"
   },
   "devDependencies": {
@@ -37,9 +34,6 @@
     "npm": ">=7.0.0"
   },
   "types": "./lib\\bin\\quanty.d.ts",
-  "directories": {
-    "lib": "lib"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/slashtp3/quanty.git"
