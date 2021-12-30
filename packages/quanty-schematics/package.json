@@ -32,9 +32,11 @@
   "devDependencies": {
     "@schematics/angular": "^13.1.2",
     "@types/node": "^16.11.13",
+    "config": "*",
     "cpx": "^1.5.0",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.1",
+    "tsconfig": "*",
     "typescript": "^4.5.4"
   },
   "engines": {

@@ -17,9 +17,11 @@
   "devDependencies": {
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.1.3",
+    "config": "*",
     "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "tsconfig": "*"
   },
   "dependencies": {
     "@angular-devkit/core": "^13.1.2",
