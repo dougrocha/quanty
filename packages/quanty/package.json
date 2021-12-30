@@ -1,6 +1,6 @@
 {
   "name": "@quanty/framework",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Quanty Bot Builder",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
