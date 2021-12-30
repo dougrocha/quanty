@@ -10,7 +10,8 @@
   "scripts": {
     "prebuild": "rimraf lib",
     "build": "tsc",
-    "test:cli": "node lib/bin/quanty.js",
+    "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test:cli": "tsnd bin/quanty.ts",
     "test": "echo TESTING QUANTY/CLI"
   },
   "devDependencies": {
@@ -23,7 +24,7 @@
   "dependencies": {
     "@angular-devkit/core": "^13.1.2",
     "@angular-devkit/schematics-cli": "^13.1.2",
-    "@quanty/schematics": "1.0.0",
+    "@quanty/schematics": "*",
     "chalk": "4.1.2",
     "commander": "^8.3.0",
     "figlet": "^1.5.2",

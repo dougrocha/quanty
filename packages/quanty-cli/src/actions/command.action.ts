@@ -1,26 +1,14 @@
-import { normalize, strings } from '@angular-devkit/core'
+import { strings } from '@angular-devkit/core'
+import inquirer from 'inquirer'
+
+import { pathResolver } from '../commands'
 import { SchematicLoader } from '../loaders/schematic.loader'
 
-export class CommandAction {
-  constructor() {}
+export class CommandGenAction {
+  public static async execute(schematic: string, options: any) {
+    const transformedOptions = this.transformOptions(options)
 
-  public static execute(schematic: string, options: any) {
-    return new Promise<null | string>((resolve, reject) => {
-      const transformedOptions = CommandAction.transformOptions(options)
-      const process = SchematicLoader.executeSchematic(
-        schematic,
-        transformedOptions,
-      )
-
-      process.on('close', code => {
-        if (code === 0) {
-          resolve(null)
-        } else {
-          console.error(`An error occured, I don't know why`)
-          reject()
-        }
-      })
-    })
+    await SchematicLoader.executeSchematic(schematic, transformedOptions)
   }
 
   public static transformOptions(options: any): string {
@@ -38,21 +26,109 @@ export class CommandAction {
       returnObject.push(`--category="${strings.dasherize(options.category)}"`)
     }
 
-    if (options.type) {
-      returnObject.push(`--type="${options.type}"`)
+    if (options.cmdType) {
+      returnObject.push(`--cmdType="${options.cmdType}"`)
     }
 
-    if (options.path) {
-      returnObject.push(
-        `--path="${normalize(options.path)}/${strings.dasherize(
-          options.category,
-        )}"`,
-      )
-    }
+    options.path = returnObject.push(
+      pathResolver(options.path, options.category),
+    )
 
     /**
      * Turns array into strings and replaces the commands with a space
      */
     return returnObject.toString().replace(/,/g, ' ')
+  }
+
+  public static generateStarterPrompt(
+    options: any,
+  ): inquirer.QuestionCollection<any> {
+    const prompt: inquirer.QuestionCollection<any>[] = [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Command name: ',
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'Command Description: ',
+      },
+      {
+        type: 'input',
+        name: 'category',
+        message: 'Command Category: ',
+      },
+    ]
+
+    if (options.includeAll) {
+      prompt.push(
+        {
+          type: 'list',
+          name: 'cmdType',
+          message: 'Command type: ',
+          default: 'both',
+          choices: [
+            { name: 'Slash', value: 'slash' },
+            { name: 'Message', value: 'message' },
+            { name: 'Both', value: 'both' },
+          ],
+        },
+        {
+          type: 'checkbox',
+          name: 'allOptions',
+          message: 'Include in command: ',
+          choices: [
+            {
+              name: 'User Permissions',
+              value: 'userPerms',
+            },
+            {
+              name: 'Client Permissions',
+              value: 'clientPerms',
+            },
+            {
+              name: 'Global Cooldown',
+              value: 'globalCooldown',
+            },
+            {
+              name: 'Guild Cooldown',
+              value: 'guildCooldown',
+            },
+            {
+              name: 'Server Owner Only',
+              value: 'guildOwnerOnly',
+            },
+          ],
+        },
+      )
+    }
+    return prompt
+  }
+
+  public static generatePrompt(
+    options: string[],
+  ): inquirer.QuestionCollection<any>[] {
+    const prompt: inquirer.QuestionCollection<any>[] = []
+
+    if (options?.includes('userPerms')) {
+      prompt.push({
+        type: 'checkbox',
+        name: 'userPerms',
+        message: 'User permission to user this command: ',
+        choices: [
+          {
+            name: 'Manage_Channel',
+            value: 'manageChannel',
+          },
+          {
+            name: 'Read_Message_History',
+            value: 'readMessageHistory',
+          },
+        ],
+      })
+    }
+
+    return prompt
   }
 }

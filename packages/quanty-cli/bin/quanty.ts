@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
+
 import { CommandLoader } from '../src/commands/index'
 
-const bootstrap = () => {
+const bootstrap = async () => {
   const program = new Command()
 
   program
@@ -12,13 +13,13 @@ const bootstrap = () => {
     .helpOption('-h, --help', 'Output helpful information')
     .description('Quanty Cli to make developing discord bots easier.')
 
-  CommandLoader.load(program)
+  await CommandLoader.load(program)
 
-  program.parseAsync(process.argv)
+  await program.parseAsync(process.argv)
 
   if (!process.argv.slice(2).length) {
     program.outputHelp()
   }
 }
 
-bootstrap()
+void bootstrap()

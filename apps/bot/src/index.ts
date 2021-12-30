@@ -23,6 +23,8 @@ const client = new QuantyClient(
     spotifyConfig,
     nodeConfig,
   },
-).start()
+)
+
+void client.start()
 
 export default client
