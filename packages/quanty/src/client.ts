@@ -152,7 +152,7 @@ class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
   /**
    * Starts the bot
    */
-  public async start(): Promise<void> {
+  public async start(): Promise<QuantyClient> {
     const {
       token = '',
       botOwners,
@@ -162,9 +162,7 @@ class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
     } = this.config
 
     if (!token)
-      return this.logger.fatal(
-        new Error('Token must be specified to start bot'),
-      )
+      this.logger.fatal(new Error('Token must be specified to start bot'))
 
     if (willWarn) {
       this.logger.info('Show warn is on. Warnings will come up.')
@@ -183,6 +181,8 @@ class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
     this.loadMusic(this)
 
     await this.login(token)
+
+    return this
   }
 
   private loadMusic(client: this): Manager {
