@@ -1,10 +1,14 @@
 {
-  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "command": {
       "factory": "./templates/command/command.factory#main",
-      "description": "A blank schematic.",
+      "description": "Quanty Command Schematic",
       "schema": "./templates/command/schema.json"
+    },
+    "feature": {
+      "factory": "./templates/feature/feature.factory#main",
+      "description": "Quanty Feature Schematic",
+      "schema": "./templates/feature/schema.json"
     }
   }
 }

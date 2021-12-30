@@ -1,11 +1,12 @@
 import { Command } from 'commander'
-
 import inquirer from 'inquirer'
-import { CommandAction } from '../actions/command.action'
 
 import { AbstractCommand } from './abstract.command'
 
-export type CommandType = {
+import { CommandGenAction } from '../actions/command.action'
+import { FeatureGenAction } from '../actions/feature.action'
+
+export interface CommandType {
   name: string
   description?: string
   category: string
@@ -15,118 +16,61 @@ export type CommandType = {
 export default class GenerateCommand extends AbstractCommand {
   public async load(program: Command): Promise<void> {
     program
-      .command('generate <schematic> <path>')
+      .command('generate <schematic> [path]')
       .alias('gen')
       .description('Generates a new file')
-      .option('-i, --include-all', 'Includes all command features')
+      .option('-i, --include-all', 'Includes all options')
       .action(this.execute())
   }
 
   private execute() {
-    //                command       ./src/commands    { includeAll: true }
+    /**
+     * Schematic - string
+     * Path - string
+     * CommandOptions - { includeAll: true }
+     */
     return async (schematic: string, path: string, commandOptions: any) => {
-      inquirer
-        .prompt(this.generateStarterPrompt(commandOptions))
-        .then(async (baseOptions: any) => {
-          inquirer
-            .prompt(this.generatePrompt(baseOptions.allOptions))
-            .then((extraOptions: any) => {
-              const args = Object.assign({}, baseOptions, extraOptions, {
-                path,
-              })
-              CommandAction.execute(schematic, args)
+      switch (schematic) {
+        case 'command':
+          await this.commandPrompt(schematic, path, commandOptions)
+          break
+        case 'feature':
+          await this.featurePrompt(schematic, path, commandOptions)
+          break
+      }
+    }
+  }
+
+  private async commandPrompt(
+    schematic: string,
+    path: string,
+    commandOptions: any,
+  ) {
+    await inquirer
+      .prompt(CommandGenAction.generateStarterPrompt(commandOptions))
+      .then(async (baseOptions: any) => {
+        await inquirer
+          .prompt(CommandGenAction.generatePrompt(baseOptions.allOptions))
+          .then(async (extraOptions: any) => {
+            const args = Object.assign({}, baseOptions, extraOptions, {
+              path,
             })
+            await CommandGenAction.execute(schematic, args)
+          })
+      })
+  }
+  private async featurePrompt(
+    schematic: string,
+    path: string,
+    commandOptions: any,
+  ) {
+    await inquirer
+      .prompt(FeatureGenAction.generatePrompt(commandOptions))
+      .then(async (baseOptions: any) => {
+        const args = Object.assign({}, baseOptions, {
+          path,
         })
-    }
-  }
-
-  private generateStarterPrompt(
-    options: any,
-  ): inquirer.QuestionCollection<any> {
-    const prompt: inquirer.QuestionCollection<any>[] = [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Command name: ',
-      },
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Command Description: ',
-      },
-      {
-        type: 'input',
-        name: 'category',
-        message: 'Command Category: ',
-      },
-      {
-        type: 'list',
-        name: 'type',
-        message: 'Command type: ',
-        default: 'both',
-        choices: [
-          { name: 'Slash', value: 'slash' },
-          { name: 'Message', value: 'message' },
-          { name: 'Both', value: 'both' },
-        ],
-      },
-    ]
-
-    if (options.includeAll) {
-      prompt.push({
-        type: 'checkbox',
-        name: 'allOptions',
-        message: 'Include in command: ',
-        choices: [
-          {
-            name: 'User Permissions',
-            value: 'userPerms',
-          },
-          {
-            name: 'Client Permissions',
-            value: 'clientPerms',
-          },
-          {
-            name: 'Global Cooldown',
-            value: 'globalCooldown',
-          },
-          {
-            name: 'Guild Cooldown',
-            value: 'guildCooldown',
-          },
-          {
-            name: 'Server Owner Only',
-            value: 'guildOwnerOnly',
-          },
-        ],
+        await FeatureGenAction.execute(schematic, args)
       })
-    }
-    return prompt
-  }
-
-  private generatePrompt(
-    options: string[],
-  ): inquirer.QuestionCollection<any>[] {
-    const prompt: inquirer.QuestionCollection<any>[] = []
-
-    if (options?.includes('userPerms')) {
-      prompt.push({
-        type: 'checkbox',
-        name: 'userPerms',
-        message: 'User permission to user this command: ',
-        choices: [
-          {
-            name: 'Manage_Channel',
-            value: 'manageChannel',
-          },
-          {
-            name: 'Read_Message_History',
-            value: 'readMessageHistory',
-          },
-        ],
-      })
-    }
-
-    return prompt
   }
 }
