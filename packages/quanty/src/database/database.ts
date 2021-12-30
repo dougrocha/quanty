@@ -29,15 +29,6 @@ class Database implements IDatabase {
      * Client/Bot Class
      */
     this.client = client
-
-    // Connects to mongoDB if URL exists
-    if (this.URL) {
-      this.initDBProvider(this.URL)
-    } else {
-      this.logger.log(
-        'MongoDB cannot start without a URL. Bot will start without Database.',
-      )
-    }
   }
 
   async ping(): Promise<number> {
@@ -47,7 +38,7 @@ class Database implements IDatabase {
     return (time[0] * 1e9 + time[1]) * 1e-6
   }
 
-  private async initDBProvider(URL: string): Promise<void> {
+  public async initDBProvider(URL: string): Promise<void> {
     await connect(URL, { keepAlive: true, autoIndex: false })
       .then(() => this.logger.success('Connected to MongoDB'))
       .catch((e: any) => {

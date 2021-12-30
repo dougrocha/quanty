@@ -1,3 +1,4 @@
+import { PathLike } from 'fs'
 import { promisify } from 'util'
 
 import { Collection } from 'discord.js'
@@ -20,6 +21,8 @@ class CommandHandler implements ICommandHandler {
 
   private client: QuantyClient
 
+  private dir: PathLike
+
   readonly categories: Set<string> = new Set()
 
   readonly commands: Collection<string, Command> = new Collection<
@@ -37,10 +40,10 @@ class CommandHandler implements ICommandHandler {
     number
   >()
 
-  constructor(client: QuantyClient, dir: string) {
+  constructor(client: QuantyClient, dir: PathLike) {
     this.client = client
 
-    this.loadCommands(dir)
+    this.dir = dir
   }
 
   public getCommands(): Command[] | undefined {
@@ -95,9 +98,9 @@ class CommandHandler implements ICommandHandler {
    * @private
    * Load all commands
    */
-  private async loadCommands(dir: string) {
+  public async init() {
     const commandFiles: string[] = await globPromise(
-      `${dir}/../commands/**/*{.ts,.js}`,
+      `${this.dir}/../commands/**/*{.ts,.js}`,
     )
 
     commandFiles.map(async (file: string) => {

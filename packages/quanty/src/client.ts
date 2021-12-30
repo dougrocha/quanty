@@ -180,6 +180,13 @@ class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
     }
     this.loadMusic(this)
 
+    if (mongoUri) {
+      await this.Database.initDBProvider(mongoUri)
+    }
+
+    await this.commandHandler.init()
+    await this.featuresHandler.init()
+
     await this.login(token)
 
     return this

@@ -9,7 +9,7 @@ export interface IFeatureHandler {
    * Directory for all features.
    * @param dir Directory
    */
-  loadFeatures(dir: string): Promise<void>
+  init(dir: string): Promise<void>
 }
 
 export interface ICommandHandler {

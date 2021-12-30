@@ -1,3 +1,4 @@
+import { PathLike } from 'fs'
 import { promisify } from 'util'
 
 import { Collection } from 'discord.js'
@@ -26,7 +27,7 @@ class FeatureHandler implements IFeatureHandler {
 
   private client: QuantyClient
 
-  private dir: string
+  private dir: PathLike
 
   public features: Collection<string, BaseFeature> = new Collection()
 
@@ -35,12 +36,10 @@ class FeatureHandler implements IFeatureHandler {
    * @param client
    * @param dir
    */
-  constructor(client: QuantyClient, dir: string) {
+  constructor(client: QuantyClient, dir: PathLike) {
     this.client = client
 
     this.dir = dir
-
-    this.loadFeatures(dir)
   }
 
   /**
@@ -48,8 +47,10 @@ class FeatureHandler implements IFeatureHandler {
    * This includes both regular features and for new interactions
    * @param dir Directory for features/events
    */
-  async loadFeatures(dir: string) {
-    const featureFiles: string[] = await globPromise(`${dir}/**/*{.ts,.js}`)
+  public async init() {
+    const featureFiles: string[] = await globPromise(
+      `${this.dir}/**/*{.ts,.js}`,
+    )
 
     featureFiles.map(async (value: string) => {
       const { feature } = (await require(value)) as FeatureImport
