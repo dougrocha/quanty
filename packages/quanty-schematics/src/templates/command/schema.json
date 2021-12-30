@@ -26,8 +26,10 @@
       "format": "path",
       "description": "The path to create the command."
     },
-    "type": {
+    "cmdType": {
       "type": "string",
+      "enum": ["slash", "message", "both"],
+      "default": "both",
       "description": "The type of command. Slash/Message/Both"
     },
     "flat": {
@@ -36,5 +38,5 @@
       "description": "Flag to indicate if a directory is created."
     }
   },
-  "required": ["name", "category"]
+  "required": ["name"]
 }

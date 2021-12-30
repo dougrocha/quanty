@@ -4,6 +4,6 @@ export const command: ICommand = {
   name: `<%= name %>`,
   description: '<%= description %>',
   category: '<%= category %>',
-  slash: '<%= type %>',
+  cmdType: '<%= cmdType %>',
   run: async () => {},
 }

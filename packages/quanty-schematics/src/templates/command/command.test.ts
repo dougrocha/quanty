@@ -1,9 +1,10 @@
+import * as path from 'path'
+
 import { HostTree } from '@angular-devkit/schematics'
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing'
-import * as path from 'path'
 
 import { ICommandOptions } from './command.schema'
 
@@ -14,11 +15,6 @@ describe('Command factory', () => {
   )
 
   describe('with root files', () => {
-    const commandOptions: ICommandOptions = {
-      name: 'fiz',
-      category: 'bar',
-    }
-
     let commandTree: UnitTestTree
     beforeEach(async () => {
       commandTree = await runner
@@ -28,21 +24,38 @@ describe('Command factory', () => {
           version: '0.5.0',
         })
         .toPromise()
+    })
+
+    it('makes with name and category', async () => {
+      const commandOptions: ICommandOptions = {
+        name: 'fiz',
+        category: 'bar',
+      }
       commandTree = await runner
         .runExternalSchematicAsync('.', 'command', commandOptions, commandTree)
         .toPromise()
-    })
 
-    it('works with name and category', async () => {
       const files: string[] = commandTree.files
 
-      expect(
-        files.find(filename => filename === '/bar/fiz.ts'),
-      ).not.toBeUndefined()
+      expect(files.find(filename => filename === '/bar/fiz.ts')).toBeDefined()
       expect(commandTree.readContent('/bar/fiz.ts')).toContain('name: `fiz`')
       expect(commandTree.readContent('/bar/fiz.ts')).toContain(
         "category: 'bar'",
       )
+    })
+
+    it('makes file with name', async () => {
+      const commandOptions: ICommandOptions = {
+        name: 'fiz',
+      }
+      commandTree = await runner
+        .runExternalSchematicAsync('.', 'command', commandOptions, commandTree)
+        .toPromise()
+
+      const files: string[] = commandTree.files
+
+      expect(files.find(filename => filename === '/fiz.ts')).toBeDefined()
+      expect(commandTree.readContent('/fiz.ts')).toContain('name: `fiz`')
     })
   })
 

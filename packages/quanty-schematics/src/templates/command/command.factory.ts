@@ -11,8 +11,10 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics'
-import { validateRoot } from '../../utils'
+
 import { ICommandOptions } from './command.schema'
+
+import { validateRoot } from '../../utils'
 
 export function main(_options: ICommandOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -36,9 +38,10 @@ function transform(_options: ICommandOptions): ICommandOptions {
 
   options.name = strings.dasherize(options.name)
 
-  options.path = options.path
-    ? options.path
-    : join(options.path as Path, options.category)
+  options.path =
+    options.path || join(options.path as Path, options.category ?? '')
+
+  options.cmdType = _options.cmdType
 
   return options
 }
