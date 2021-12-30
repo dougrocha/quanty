@@ -3,9 +3,9 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 
 // Layouts & CSS
+import HeroComponent from '../components/Hero'
 import Layout from '../layouts/Layout'
 
-import HeroComponent from '../components/Hero'
 
 const Home: NextPage = () => {
   return (

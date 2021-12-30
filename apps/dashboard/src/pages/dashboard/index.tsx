@@ -1,15 +1,13 @@
 // Layouts & CSS;
-import Layout from '../../layouts/Layout'
-import LoadingLayout from '../../layouts/LoadingLayout'
-
-// GraphQL
-import { useOwnerGuildsQuery, useUserQuery } from '../../graphql/graphql'
-
 import { useContext } from 'react'
-import { CurrentUserContext } from '../../utils/stores/CurrentUserContext'
-import { CurrentUser } from '../../utils/types'
 
 import GuildCards from '../../components/GuildCards'
+import { useOwnerGuildsQuery, useUserQuery } from '../../graphql/graphql'
+import Layout from '../../layouts/Layout'
+import LoadingLayout from '../../layouts/LoadingLayout'
+// GraphQL
+import { CurrentUserContext } from '../../utils/stores/CurrentUserContext'
+import { CurrentUser } from '../../utils/types'
 
 const Dashboard = () => {
   const { user, setUser } = useContext(CurrentUserContext)

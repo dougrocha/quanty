@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import Image from 'next/image'
-import Button from '../Button'
+import Link from 'next/link'
+
 import {
   HeroContainer,
   MainSection,
@@ -8,6 +8,9 @@ import {
   HeroSection,
   FeaturesButton,
 } from './Hero.styles'
+
+import Button from '../Button'
+
 
 const HeroComponent = () => {
   return (

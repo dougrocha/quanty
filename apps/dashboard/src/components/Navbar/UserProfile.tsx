@@ -1,16 +1,13 @@
 // Imports
 // React Imports
+import Link from 'next/link'
 import { useState } from 'react'
-
 // Styles & CSS
 import styled from 'styled-components'
 
 // Utils
-import { ProfileImg } from '../ProfileImg'
-
-// Types
 import { CurrentUser } from '../../utils/types'
-import Link from 'next/link'
+import { ProfileImg } from '../ProfileImg'
 
 const UserWrapper = styled.div`
   display: flex;
@@ -43,7 +40,7 @@ const IconImg = styled.div`
   }
 `
 
-type userProfileTypes = {
+interface userProfileTypes {
   user: CurrentUser
 }
 

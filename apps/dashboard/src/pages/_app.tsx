@@ -1,18 +1,15 @@
 // Imports
-import type { AppProps } from 'next/app'
-import { SetStateAction, useEffect, useState } from 'react'
-
 import { ApolloProvider } from '@apollo/client'
-import apolloClient from '../../apollo.client'
-
+import type { AppProps } from 'next/app'
+import { useRouter } from 'next/router'
+import { SetStateAction, useEffect, useState } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+
+import apolloClient from '../../apollo.client'
+import LoadingLayout from '../layouts/LoadingLayout'
 import { CurrentUserContextProvider } from '../utils/stores/CurrentUserContext'
 import { DarkTheme, LightTheme } from '../utils/themes'
-
-// Types
 import { CurrentUser } from '../utils/types'
-import { useRouter } from 'next/router'
-import LoadingLayout from '../layouts/LoadingLayout'
 
 const GlobalStyle = createGlobalStyle`
 html,

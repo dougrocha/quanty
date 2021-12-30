@@ -1,9 +1,10 @@
 // Styles & CSS
-import styled from 'styled-components'
 import Image from 'next/image'
-import Button from '../Button'
 import Link from 'next/link'
 import { memo } from 'react'
+import styled from 'styled-components'
+
+import Button from '../Button'
 
 const FooterWrapper = styled.footer`
   max-width: 1280px;

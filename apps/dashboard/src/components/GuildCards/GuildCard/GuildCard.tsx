@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { OwnerGuildsQuery } from '../../../graphql/graphql'
+
 import { GuildBackground, GuildCardWrapper, GuildTag } from './GuildCard.styled'
+
+import { OwnerGuildsQuery } from '../../../graphql/graphql'
 
 type OwnerGuildsType = OwnerGuildsQuery['ownerGuilds'][0]
 

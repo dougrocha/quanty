@@ -1,9 +1,11 @@
 import { NextPage } from 'next'
-import { OwnerGuildsQuery } from '../../graphql/graphql'
+
 import GuildCard from './GuildCard/GuildCard'
 import { GuildCardsContainer } from './GuildCards.styled'
 
-type PropsType = {
+import { OwnerGuildsQuery } from '../../graphql/graphql'
+
+interface PropsType {
   data: OwnerGuildsQuery
 }
 

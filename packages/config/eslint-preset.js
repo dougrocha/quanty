@@ -20,13 +20,12 @@ module.exports = {
       'always',
       { ignoreConsecutiveComments: true },
     ],
-    '@typescript-eslint/restrict-plus-operands': 'warn',
     'prettier/prettier': 'error',
     '@typescript-eslint/no-floating-promises': [
       'warn',
       {
-        ignoreVoid: false,
-        ignoreIIFE: true,
+        ignoreVoid: true,
+        ignoreIIFE: false,
       },
     ],
     'import/no-unresolved': 'off',

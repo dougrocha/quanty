@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-type ButtonType = {
+interface ButtonType {
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   text: string
 }

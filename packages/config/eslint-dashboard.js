@@ -18,12 +18,30 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:import/typescript',
     'plugin:@next/next/recommended',
     'next/core-web-vitals',
   ],
   rules: {
-    'linebreak-style': ['error', 'windows'],
+    'import/no-unresolved': 'off',
+    'import/no-named-default': 'error',
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'index',
+          'sibling',
+          'parent',
+        ],
+        alphabetize: {
+          order: 'asc',
+        },
+        'newlines-between': 'always',
+      },
+    ],
+    '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
   },
 }

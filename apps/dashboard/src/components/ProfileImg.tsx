@@ -1,6 +1,7 @@
 // Imports
 // Next imports
 import Image from 'next/image'
+
 // Types
 import { CurrentUser } from '../utils/types'
 

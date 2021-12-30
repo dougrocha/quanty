@@ -1,7 +1,7 @@
 // Next Imports
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useContext } from 'react'
-import dynamic from 'next/dynamic'
 
 // Styles and CSS
 import {
