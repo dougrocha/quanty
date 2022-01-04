@@ -1,13 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-/** @type {import('next').NextConfig} */
-// module.exports = {
-//   reactStrictMode: true,
-//   images: {
-//     domains: ['cdn.discordapp.com'],
-//   },
-// };
-
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -20,5 +12,15 @@ module.exports = withBundleAnalyzer({
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
+  },
+  async redirects() {
+    return [
+      {
+        source: '/login',
+        destination: 'http://localhost:3001/api/auth/login',
+        permanent: false,
+        basePath: false,
+      },
+    ]
   },
 })

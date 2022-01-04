@@ -1,17 +1,15 @@
 // Next.js && React
 import { memo, useContext } from 'react'
-
 import styled from 'styled-components'
 
 // Components
-import NavBar from '../components/Navbar'
-import Footer from '../components/Footer'
-
-import { CurrentUserContext } from '../utils/stores/CurrentUserContext'
-import { useUserQuery } from '../graphql/graphql'
-import { CurrentUser } from '../utils/types'
-
 import LoadingLayout from './LoadingLayout'
+
+import Footer from '../components/Footer'
+import NavBar from '../components/Navbar'
+import { useUserQuery } from '../graphql/graphql'
+import { CurrentUserContext } from '../utils/stores/CurrentUserContext'
+import { CurrentUser } from '../utils/types'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -49,12 +47,12 @@ const Layout = ({ children, footer }: LayoutProps) => {
     return <LoadingLayout />
   }
 
-  const MemoTest = memo(NavBar)
+  const MemoFooter = memo(Footer)
 
   if (footer == false) {
     return (
       <Container>
-        <MemoTest />
+        <NavBar />
         <Children>{children}</Children>
       </Container>
     )
@@ -64,7 +62,7 @@ const Layout = ({ children, footer }: LayoutProps) => {
     <Container>
       <NavBar />
       <Children>{children}</Children>
-      <Footer />
+      <MemoFooter />
     </Container>
   )
 }
