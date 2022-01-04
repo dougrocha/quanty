@@ -3,23 +3,28 @@ import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
 import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
-import { IGuildProvider } from 'src/guild/interfaces/types'
-import { Channel } from 'src/guild/models/channel'
-import { Guild } from 'src/guild/models/guild'
+import {
+  IGuildsHttpService,
+  IGuildsService,
+} from 'src/guilds/interfaces/guilds'
+import { Channel } from 'src/guilds/models/channel'
+import { Guild } from 'src/guilds/models/guild'
 
 @Resolver(() => Guild)
 @UseGuards(GraphQLAuthGuard)
-export class GuildResolver {
+export class GuildsResolver {
   constructor(
-    @Inject('GUILD_SERVICE')
-    private readonly GuildService: IGuildProvider,
+    @Inject('GUILDS_SERVICE')
+    private readonly GuildsService: IGuildsService,
+    @Inject('GUILDS_HTTP_SERVICE')
+    private readonly Guilds_Http_Service: IGuildsHttpService,
   ) {}
 
   @Query(() => Guild, { name: 'guilds', nullable: false })
   async guilds(
     @Args('guildId', { type: () => String }) guildId: string,
-  ): Promise<Observable<AxiosResponse<Guild[]>>> {
-    return this.GuildService.fetchGuild(guildId)
+  ): Promise<Observable<AxiosResponse<Guild>>> {
+    return this.Guilds_Http_Service.fetchGuild(guildId)
   }
 
   @ResolveField(() => [Channel])
@@ -27,6 +32,7 @@ export class GuildResolver {
     @Parent() guild: Guild,
   ): Promise<Observable<AxiosResponse<Channel[]>>> {
     const { id } = guild
-    return this.GuildService.fetchGuildChannels(id)
+    this.GuildsService.getMutualGuilds('jrq19zeaAxGSrsAMC8prZOfb4VzjFK')
+    return this.Guilds_Http_Service.fetchGuildChannels(id)
   }
 }

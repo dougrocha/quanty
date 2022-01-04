@@ -8,7 +8,7 @@ import { PassportModule } from '@nestjs/passport'
 
 import { AuthModule } from './auth/auth.module'
 import { BotModule } from './bot/bot.module'
-import { GuildModule } from './guild/guild.module'
+import { GuildsModule } from './guilds/guilds.module'
 import { UsersModule } from './users/users.module'
 
 const ENV = process.env.NODE_ENV
@@ -33,7 +33,7 @@ const ENV = process.env.NODE_ENV
       },
     }),
     AuthModule,
-    GuildModule,
+    GuildsModule,
     BotModule,
     UsersModule,
   ],

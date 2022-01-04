@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { GuildResolver } from '../resolvers/guild.resolver'
+import { GuildsResolver } from '../resolvers/guilds.resolver'
 
-describe('GuildResolver', () => {
-  let resolver: GuildResolver
+describe('GuildsResolver', () => {
+  let resolver: GuildsResolver
 
   const mockGuild = {
     id: '123',
@@ -25,7 +25,7 @@ describe('GuildResolver', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        GuildResolver,
+        GuildsResolver,
         {
           provide: 'GUILD_SERVICE',
           useFactory: () => ({
@@ -36,7 +36,7 @@ describe('GuildResolver', () => {
       ],
     }).compile()
 
-    resolver = module.get<GuildResolver>(GuildResolver)
+    resolver = module.get<GuildsResolver>(GuildsResolver)
   })
 
   it('should be defined', () => {

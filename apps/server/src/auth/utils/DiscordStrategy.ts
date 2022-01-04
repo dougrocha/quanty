@@ -2,13 +2,13 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Profile, Strategy } from 'passport-discord'
 
-import { IAuthenticationProvider } from '../interfaces/auth'
+import { IAuthenticationService } from '../interfaces/auth'
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject('AUTH_SERVICE')
-    private readonly authService: IAuthenticationProvider,
+    private readonly authService: IAuthenticationService,
   ) {
     super({
       clientID: process.env.DISCORD_CLIENT_ID,

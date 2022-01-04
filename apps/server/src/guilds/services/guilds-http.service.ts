@@ -1,16 +1,33 @@
 import { HttpService } from '@nestjs/axios'
 import { Inject, Injectable } from '@nestjs/common'
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { map, Observable } from 'rxjs'
-import { IGuildProvider } from 'src/guild/interfaces/types'
-import { Channel } from 'src/guild/models/channel'
-import { Guild } from 'src/guild/models/guild'
+import { Channel } from 'src/guilds/models/channel'
+import { Guild } from 'src/guilds/models/guild'
+
+import { IGuildsHttpService } from '../interfaces/guilds'
 
 @Injectable()
-export class GuildService implements IGuildProvider {
+export class GuildsHttpService implements IGuildsHttpService {
   constructor(@Inject(HttpService) private readonly httpService: HttpService) {}
 
-  fetchGuild(guildId: string): Observable<AxiosResponse<Guild[]>> {
+  fetchUserGuilds(accessToken: string): Promise<AxiosResponse<Guild[]>> {
+    return axios.get('https://discord.com/api/v9/users/@me/guilds', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+  }
+
+  fetchBotGuilds(): Promise<AxiosResponse<Guild[]>> {
+    return axios.get('https://discord.com/api/v9/users/@me/guilds', {
+      headers: {
+        Authorization: `Bot ${process.env.BOT_SECRET}`,
+      },
+    })
+  }
+
+  fetchGuild(guildId: string): Observable<AxiosResponse<Guild>> {
     return this.httpService
       .get(`https://discord.com/api/v9/guilds/${guildId}`, {
         headers: {

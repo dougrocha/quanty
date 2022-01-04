@@ -8,9 +8,9 @@ import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql'
 import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
 import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
-import { Guild } from 'src/guild/models/guild'
+import { Guild } from 'src/guilds/models/guild'
 import { UserObject } from 'src/users/dto/user'
-import { IUsersProvider } from 'src/users/interfaces/users'
+import { IUsersService } from 'src/users/interfaces/users'
 
 import { User as UserSchema } from '../../schemas'
 
@@ -26,7 +26,7 @@ export const CurrentUser = createParamDecorator(
 export class UsersResolver {
   constructor(
     @Inject('USERS_SERVICE')
-    private readonly usersService: IUsersProvider,
+    private readonly usersService: IUsersService,
   ) {}
 
   @Query(() => UserObject, { name: 'user', nullable: false })

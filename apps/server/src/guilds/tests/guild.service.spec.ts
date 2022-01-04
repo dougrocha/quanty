@@ -1,18 +1,18 @@
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { GuildService } from '../services/guild.service'
+import { GuildsService } from '../services/guilds.service'
 
 describe('GuildService', () => {
-  let service: GuildService
+  let service: GuildsService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [GuildService],
+      providers: [GuildsService],
     }).compile()
 
-    service = module.get<GuildService>(GuildService)
+    service = module.get<GuildsService>(GuildsService)
   })
 
   it('should be defined', () => {

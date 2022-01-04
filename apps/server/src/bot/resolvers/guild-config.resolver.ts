@@ -18,13 +18,6 @@ import { IGuildConfigProvider } from 'src/bot/interfaces/types'
 import { GuildConfig } from 'src/bot/models/guildConfig'
 import { GuildDocument } from 'src/schemas'
 
-export const CurrentUser = createParamDecorator(
-  (data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context)
-    return ctx.getContext().req
-  },
-)
-
 @Resolver('GuildConfig')
 @UseGuards(GraphQLAuthGuard)
 export class GuildConfigResolver {

@@ -72,15 +72,19 @@ type Guild {
   afk_timeout: Int!
   channels: [Channel!]
   description: String
+  discovery_splash: String!
   emojis: [Emojis!]!
   features: [String!]!
   icon: String
+  icon_hash: String
   id: String!
+  member_count: Float!
   members: GuildMember
   name: String!
   nsfw_level: Float!
   owner: Boolean
   owner_id: String!
+  permissions: String
   preferred_locale: String!
   premium_subscription_count: Float!
   premium_tier: Float!
