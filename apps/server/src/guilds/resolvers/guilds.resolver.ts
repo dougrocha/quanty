@@ -32,7 +32,6 @@ export class GuildsResolver {
     @Parent() guild: Guild,
   ): Promise<Observable<AxiosResponse<Channel[]>>> {
     const { id } = guild
-    this.GuildsService.getMutualGuilds('jrq19zeaAxGSrsAMC8prZOfb4VzjFK')
     return this.Guilds_Http_Service.fetchGuildChannels(id)
   }
 }

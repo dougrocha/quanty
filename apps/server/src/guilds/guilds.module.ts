@@ -13,8 +13,8 @@ import { GuildsService } from './services/guilds.service'
     MongooseModule.forFeature([{ name: Guilds.name, schema: GuildSchema }]),
   ],
   providers: [
-    { provide: 'GUILDS_SERVICE', useClass: GuildsService },
     { provide: 'GUILDS_HTTP_SERVICE', useClass: GuildsHttpService },
+    { provide: 'GUILDS_SERVICE', useClass: GuildsService },
     GuildsResolver,
   ],
 })

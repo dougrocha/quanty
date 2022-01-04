@@ -1,15 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import {
-  GuildVerificationLevel,
-  GuildDefaultMessageNotifications,
-  GuildExplicitContentFilter,
-  GuildMFALevel,
-  GuildSystemChannelFlags,
-  APIGuildWelcomeScreen,
-  APIStageInstance,
-  GatewayPresenceUpdate,
-  GatewayVoiceState,
-} from 'discord-api-types'
 
 import { Channel } from './channel'
 import { Emojis } from './emojis'

@@ -7,7 +7,6 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { map } from 'rxjs'
 import {
   IGuildsHttpService,
   IGuildsService,

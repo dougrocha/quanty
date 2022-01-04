@@ -1,4 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing'
+import { HttpModule } from '@nestjs/axios'
+import { TestingModule, Test } from '@nestjs/testing'
 
 import { GuildsHttpService } from '../services/guilds-http.service'
 
@@ -7,6 +8,7 @@ describe('GuildsHttpService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [HttpModule],
       providers: [GuildsHttpService],
     }).compile()
 

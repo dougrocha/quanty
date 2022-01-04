@@ -1,6 +1,9 @@
+import { HttpModule } from '@nestjs/axios'
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
+import { Model } from 'mongoose'
 import { User } from 'src/schemas'
+import { UsersService } from 'src/users/services/users.service'
 
 import { AuthService } from '../services/auth.service'
 
@@ -9,11 +12,13 @@ describe('AuthService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [HttpModule],
       providers: [
         AuthService,
+        { provide: 'USERS_SERVICE', useClass: UsersService },
         {
           provide: getModelToken(User.name),
-          useClass: Mock,
+          useValue: Model,
         },
       ],
     }).compile()
@@ -25,9 +30,3 @@ describe('AuthService', () => {
     expect(service).toBeDefined()
   })
 })
-
-class Mock {
-  public async save(): Promise<string> {
-    return 'name'
-  }
-}

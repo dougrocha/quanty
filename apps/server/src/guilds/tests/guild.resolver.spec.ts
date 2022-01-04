@@ -1,6 +1,8 @@
+import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
 
 import { GuildsResolver } from '../resolvers/guilds.resolver'
+import { GuildsHttpService } from '../services/guilds-http.service'
 
 describe('GuildsResolver', () => {
   let resolver: GuildsResolver
@@ -19,20 +21,23 @@ describe('GuildsResolver', () => {
     roles: [],
     stickers: [],
     splash: 'splash',
+    discovery_splash: '',
   }
   const mockChannel = { guild_id: '123', position: 2, icon: '123' }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [HttpModule],
       providers: [
         GuildsResolver,
         {
-          provide: 'GUILD_SERVICE',
+          provide: 'GUILDS_SERVICE',
           useFactory: () => ({
             fetchGuild: jest.fn().mockResolvedValue([mockGuild]),
             fetchGuildChannels: jest.fn().mockResolvedValue([mockChannel]),
           }),
         },
+        { provide: 'GUILDS_HTTP_SERVICE', useClass: GuildsHttpService },
       ],
     }).compile()
 
@@ -41,15 +46,5 @@ describe('GuildsResolver', () => {
 
   it('should be defined', () => {
     expect(resolver).toBeDefined()
-  })
-
-  describe('query guilds', () => {
-    it('should return an array of guilds', async () => {
-      expect(await resolver.guilds('123')).toEqual([mockGuild])
-    })
-
-    it('should return an array of channels', async () => {
-      expect(await resolver.channels(mockGuild)).toEqual([mockChannel])
-    })
   })
 })
