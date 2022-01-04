@@ -1,8 +1,7 @@
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
-import { UsersService } from 'src/users/services/users/users.service'
-
-import { UsersResolver } from './users.resolver'
+import { UsersService } from 'src/users/services/users.service'
+import { UsersResolver } from '../resolvers/users.resolver'
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver

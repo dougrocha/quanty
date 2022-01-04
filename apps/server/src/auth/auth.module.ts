@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { User, UserSchema } from 'src/schemas'
 
-import { AuthController } from './controllers/auth/auth.controller'
-import { AuthService } from './services/auth/auth.service'
+import { AuthController } from './controllers/auth.controller'
+import { AuthService } from './services/auth.service'
+import { DiscordStrategy } from './utils/DiscordStrategy'
 import { SessionSerializer } from './utils/Serializer'
-import { DiscordStrategy } from './utils/Strategies'
 
 @Module({
   controllers: [AuthController],

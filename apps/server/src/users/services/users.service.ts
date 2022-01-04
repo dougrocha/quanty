@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { AxiosResponse } from 'axios'
 import { Observable, map } from 'rxjs'
 import { Guild } from 'src/guild/models/guild'
-import { IUsersProvider } from 'src/users/types'
+import { IUsersProvider } from 'src/users/interfaces/users'
 
 @Injectable()
 export class UsersService implements IUsersProvider {

@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import * as Args from 'src/bot/dto/args'
 import * as Inputs from 'src/bot/dto/input'
-import { IGuildConfigProvider } from 'src/bot/types'
+import { IGuildConfigProvider } from 'src/bot/interfaces/types'
 
-import { GuildDocument, Guilds } from '../../../schemas'
+import { GuildDocument, Guilds } from '../../schemas'
 
 @Injectable()
 export class GuildConfigService implements IGuildConfigProvider {

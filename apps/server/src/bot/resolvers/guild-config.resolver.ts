@@ -14,8 +14,8 @@ import {
 import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
 import * as ArgsDTO from 'src/bot/dto/args'
 import * as Inputs from 'src/bot/dto/input'
+import { IGuildConfigProvider } from 'src/bot/interfaces/types'
 import { GuildConfig } from 'src/bot/models/guildConfig'
-import { IGuildConfigProvider } from 'src/bot/types'
 import { GuildDocument } from 'src/schemas'
 
 export const CurrentUser = createParamDecorator(

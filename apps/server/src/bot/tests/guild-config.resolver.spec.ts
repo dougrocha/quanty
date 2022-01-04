@@ -1,9 +1,9 @@
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
-import { GuildConfigService } from 'src/bot/services/guild-config/guild-config.service'
+import { GuildConfigService } from 'src/bot/services/guild-config.service'
 import { Guilds } from 'src/schemas'
 
-import { GuildConfigResolver } from './guild-config.resolver'
+import { GuildConfigResolver } from '../resolvers/guild-config.resolver'
 
 describe('GuildConfigResolver', () => {
   let resolver: GuildConfigResolver

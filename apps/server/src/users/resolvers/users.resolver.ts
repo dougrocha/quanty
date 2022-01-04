@@ -10,9 +10,9 @@ import { Observable } from 'rxjs'
 import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
 import { Guild } from 'src/guild/models/guild'
 import { UserObject } from 'src/users/dto/user'
-import { IUsersProvider } from 'src/users/types'
+import { IUsersProvider } from 'src/users/interfaces/users'
 
-import { User as UserSchema } from '../../../schemas'
+import { User as UserSchema } from '../../schemas'
 
 export const CurrentUser = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {

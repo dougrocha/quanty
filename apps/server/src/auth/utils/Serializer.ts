@@ -3,7 +3,7 @@ import { PassportSerializer } from '@nestjs/passport'
 import { Done } from 'src/common/types'
 import { User } from 'src/schemas'
 
-import { IAuthenticationProvider } from '../services/auth'
+import { IAuthenticationProvider } from '../interfaces/auth'
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
@@ -19,7 +19,8 @@ export class SessionSerializer extends PassportSerializer {
   }
 
   async deserializeUser(user: User, done: Done) {
-    const userDb = await this.authService.findUser(user.discordID)
+    const userDb = await this.authService.findUser(user.discordId)
+
     return userDb ? done(null, userDb) : done(null, null)
   }
 }

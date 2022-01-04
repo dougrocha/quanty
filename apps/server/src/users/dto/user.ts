@@ -4,7 +4,7 @@ import { IsEmail } from 'class-validator'
 @ObjectType()
 export class UserObject {
   @Field()
-  discordID: string
+  discordId: string
 
   @Field()
   username: string

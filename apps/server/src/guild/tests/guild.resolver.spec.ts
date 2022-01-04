@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { GuildResolver } from './guild.resolver'
+import { GuildResolver } from '../resolvers/guild.resolver'
 
 describe('GuildResolver', () => {
   let resolver: GuildResolver

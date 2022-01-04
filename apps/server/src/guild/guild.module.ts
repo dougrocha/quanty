@@ -1,8 +1,8 @@
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 
-import { GuildResolver } from './resolvers/guild/guild.resolver'
-import { GuildService } from './services/guild/guild.service'
+import { GuildResolver } from './resolvers/guild.resolver'
+import { GuildService } from './services/guild.service'
 
 @Module({
   imports: [HttpModule],

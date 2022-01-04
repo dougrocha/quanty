@@ -4,25 +4,19 @@ import { Model } from 'mongoose'
 import { UserDetails } from 'src/common/types'
 import { User, UserDocument } from 'src/schemas'
 
-import { IAuthenticationProvider } from '../auth'
+import { IAuthenticationProvider } from '../interfaces/auth'
 
 @Injectable()
 export class AuthService implements IAuthenticationProvider {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async validateUser(details: UserDetails): Promise<UserDocument> {
-    const {
-      discordID,
-      avatar,
-      accessToken,
-      username,
-      discriminator,
-      refreshToken,
-    } = details
-    const user = await this.userModel.findOne({ discordID })
+    const { discordId, accessToken, username, discriminator, refreshToken } =
+      details
+    const user = await this.findUser(discordId)
     if (user) {
       return user.update(
-        { username, discriminator, avatar, accessToken, refreshToken },
+        { username, discriminator, accessToken, refreshToken },
         { new: true },
       )
     }
@@ -34,7 +28,7 @@ export class AuthService implements IAuthenticationProvider {
     return createdUser.save()
   }
 
-  async findUser(discordID: string): Promise<UserDocument | null> {
-    return this.userModel.findOne({ discordID })
+  async findUser(discordId: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ discordId })
   }
 }

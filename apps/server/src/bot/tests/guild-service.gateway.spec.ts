@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { GuildServiceGateway } from './guild-service.gateway'
+import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
 describe('GuildServiceGateway', () => {
   let gateway: GuildServiceGateway

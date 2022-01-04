@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { GuildService } from './guild.service'
+import { GuildService } from '../services/guild.service'
 
 describe('GuildService', () => {
   let service: GuildService

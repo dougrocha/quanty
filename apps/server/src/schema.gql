@@ -266,7 +266,7 @@ type User {
 
 type UserObject {
   avatar: String!
-  discordID: String!
+  discordId: String!
   discriminator: String!
   email: String
   flags: Float

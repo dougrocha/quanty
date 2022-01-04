@@ -8,9 +8,6 @@ import { AppModule } from './app.module'
 const ENV = process.env.NODE_ENV
 
 async function bootstrap() {
-  if (ENV) {
-    console.log('NODE_ENV: ', ENV)
-  }
   const app = await NestFactory.create(AppModule)
   const PORT = 3001
   app.setGlobalPrefix('api')
@@ -34,7 +31,8 @@ async function bootstrap() {
       }),
       cookie: {
         maxAge: 60000 * 60 * 24,
-        secure: true,
+        // eslint-disable-next-line capitalized-comments
+        // secure: true,
       },
       secret: process.env.SESSION_COOKIE,
       resave: false,
@@ -46,8 +44,11 @@ async function bootstrap() {
   app.use(passport.session())
 
   await app.listen(PORT, () => {
+    if (ENV) {
+      console.log('NODE_ENV: ', ENV)
+    }
     console.log(`Quanty Backend listening at port ${PORT}`)
   })
 }
 
-bootstrap()
+void bootstrap()

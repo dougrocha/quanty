@@ -4,7 +4,7 @@ import { Document, Model, ObjectId } from 'mongoose'
 import { guildStub } from 'src/common/stubs/guild.stub'
 import { Guilds } from 'src/schemas'
 
-import { GuildConfigService } from './guild-config.service'
+import { GuildConfigService } from '../services/guild-config.service'
 
 type GuildDocumentAndId = Document & Guilds & { _id: ObjectId }
 
