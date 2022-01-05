@@ -1,7 +1,7 @@
 <!-- markdownlint-disable -->
 <div align="center">
 
-# Typescript discord bot framework for creating
+# Typescript discord bot frameworks for the best bots
 
 </div>
 <!-- markdownlint-restore -->
