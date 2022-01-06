@@ -60,7 +60,7 @@ const Footer = () => {
     <FooterWrapper>
       <MainSection />
       <InfoSection />
-      <CopyrightTags>Quantum Realm © - 2021</CopyrightTags>
+      <CopyrightTags>Quantum Realm © - 2022</CopyrightTags>
     </FooterWrapper>
   )
 }
