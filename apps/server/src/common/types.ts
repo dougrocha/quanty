@@ -5,7 +5,6 @@ export interface UserDetails {
   discriminator: string
   discordId: string
   email: string | undefined
-  avatar: string | null
   accessToken: string
   refreshToken: string
 }

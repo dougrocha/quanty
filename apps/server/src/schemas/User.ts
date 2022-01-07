@@ -17,19 +17,7 @@ export class User {
   discriminator: string
 
   @Prop({ nullable: true })
-  avatar?: string
-
-  @Prop({ nullable: true })
   email?: string
-
-  @Prop({ nullable: true })
-  verified?: boolean
-
-  @Prop({ nullable: true })
-  flags?: number
-
-  @Prop({ nullable: true })
-  locale?: string
 
   @Prop({ name: 'access_token' })
   accessToken: string

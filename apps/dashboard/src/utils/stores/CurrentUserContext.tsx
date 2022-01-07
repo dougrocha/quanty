@@ -4,7 +4,7 @@ import { createContext } from 'react'
 // Types
 import { CurrentUser } from '../types'
 
-type CurrentUserType = {
+interface CurrentUserType {
   user?: CurrentUser
   setUser: Function
 }

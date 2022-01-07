@@ -12,9 +12,6 @@ export class UserObject {
   @Field()
   discriminator: string
 
-  @Field({ nullable: false })
-  avatar?: string
-
   @Field({ nullable: true })
   @IsEmail()
   email?: string

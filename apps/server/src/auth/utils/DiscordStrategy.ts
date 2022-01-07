@@ -19,13 +19,12 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(accessToken: string, refreshToken: string, profile: Profile) {
-    const { discriminator, id: discordId, avatar, username, email } = profile
+    const { discriminator, id: discordId, username, email } = profile
 
     const details = {
       discordId,
       username,
       discriminator,
-      avatar,
       email,
       refreshToken,
       accessToken,
