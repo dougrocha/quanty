@@ -27,7 +27,7 @@ class MyDocument extends Document {
           <meta
             name="og:url"
             property="og:url"
-            content="https://www.quanty.gg"
+            content="https://www.quanty.xyz"
           />
 
           <link rel="icon" href="/quantyIcon.ico" />
