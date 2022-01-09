@@ -13,11 +13,14 @@
     "start": "turbo run start",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "format": "prettier --write \"{apps,packages}/**/*.{ts,tsx,json,md}\"",
-    "prepare": "husky install"
+    "format": "turbo run format",
+    "prepare": "husky install",
+    "pre-commit": "yarn test && yarn lint"
   },
   "devDependencies": {
+    "commitizen": "^4.2.4",
     "husky": "^7.0.4",
+    "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -51,7 +54,19 @@
       "lint": {
         "outputs": []
       },
-      "test": {}
+      "test": {},
+      "format": {
+        "cache": true
+      }
     }
+  },
+  "lint-staged": {
+    "apps/**/*.{ts,tsx}": [
+      "yarn pre-commit"
+    ],
+    "packages/**/*.{ts,tsx}": [
+      "yarn pre-commit"
+    ],
+    "*.json": "prettier --write"
   }
 }
