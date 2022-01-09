@@ -11,6 +11,7 @@
     "prebuild": "rimraf lib",
     "build": "tsc",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"{src,bin}/**/*.ts\"",
     "test:cli": "tsnd bin/quanty.ts",
     "test": "echo TESTING QUANTY/CLI"
   },

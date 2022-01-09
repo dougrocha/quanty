@@ -6,7 +6,6 @@ import Head from 'next/head'
 import HeroComponent from '../components/Hero'
 import Layout from '../layouts/Layout'
 
-
 const Home: NextPage = () => {
   return (
     <>

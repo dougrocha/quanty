@@ -15,10 +15,11 @@
     "test": "turbo run test",
     "format": "turbo run format",
     "prepare": "husky install",
-    "pre-commit": "yarn test && yarn lint"
+    "pre-commit": "yarn test && yarn lint && yarn format"
   },
   "devDependencies": {
     "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
@@ -55,9 +56,7 @@
         "outputs": []
       },
       "test": {},
-      "format": {
-        "cache": true
-      }
+      "format": {}
     }
   },
   "lint-staged": {
@@ -68,5 +67,10 @@
       "yarn pre-commit"
     ],
     "*.json": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

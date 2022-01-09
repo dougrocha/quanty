@@ -21,14 +21,16 @@ import {
   WebSocket,
 } from './structures'
 import { ILogger, QuantySettings } from './types'
-import { MusicEvent } from './utils/music'
+import { MusicEvent } from './utils'
 
 /**
  * QuantyClient
  * @class
  * @extends Discord.Client
  */
-class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
+export default class QuantyClient<
+  Ready extends boolean = boolean,
+> extends Client<Ready> {
   public logger: ILogger = new QuantyLogger('Client')
 
   private readonly config: QuantySettings
@@ -254,5 +256,3 @@ class QuantyClient<Ready extends boolean = boolean> extends Client<Ready> {
     })
   }
 }
-
-export default QuantyClient

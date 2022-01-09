@@ -11,7 +11,6 @@ import {
 
 import Button from '../Button'
 
-
 const HeroComponent = () => {
   return (
     <HeroContainer>

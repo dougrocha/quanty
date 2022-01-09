@@ -15,6 +15,7 @@
     "build": "tsc",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "echo TESTING QUANTY/FRAMEWORK",
+    "format": "prettier --write src",
     "mongogen": "mtgen ./src/database/schemas -o ./src/types/"
   },
   "devDependencies": {
@@ -34,12 +35,12 @@
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
     "discord-api-types": "^0.26.0",
-    "discord.js": "13.5.0",
+    "discord.js": "13.5.1",
     "erela.js": "^2.3.3",
     "erela.js-spotify": "^1.2.0",
     "glob": "^7.2.0",
     "mongoose": "^6.1.4",
-    "socket.io-client": "^4.4.0"
+    "socket.io-client": "^4.4.1"
   },
   "repository": {
     "type": "git",

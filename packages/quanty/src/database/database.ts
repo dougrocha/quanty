@@ -7,7 +7,7 @@ import { IDatabase } from '../types'
 /**
  * Quanty Database class for connecting to MongoDB
  */
-class Database implements IDatabase {
+export default class Database implements IDatabase {
   private logger: QuantyLogger = new QuantyLogger('Database')
 
   private URL: string | undefined
@@ -46,5 +46,3 @@ class Database implements IDatabase {
       })
   }
 }
-
-export default Database

@@ -144,7 +144,9 @@ type Mutation {
   addCustomCommand(addCustomCommand: AddCustomCommand!): GuildConfig!
   addLog(addLog: AddLog!): GuildConfig!
   updateAutoMod(updateAutoMod: UpdateAutoModInput!): GuildConfig!
-  updateBlacklistedWords(updateBlacklistedWords: UpdateBlacklistedWords!): GuildConfig!
+  updateBlacklistedWords(
+    updateBlacklistedWords: UpdateBlacklistedWords!
+  ): GuildConfig!
   updateImmortality(updateImmortality: UpdateMusicImmortality!): GuildConfig!
   updateModerationPlugin(updatePlugin: UpdateModerationPlugin!): GuildConfig!
   updateMusicChannel(updateMusicChannel: UpdateMusicChannel!): GuildConfig!
@@ -269,7 +271,6 @@ type User {
 }
 
 type UserObject {
-  avatar: String!
   discordId: String!
   discriminator: String!
   email: String
