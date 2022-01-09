@@ -60,12 +60,8 @@
     }
   },
   "lint-staged": {
-    "apps/**/*.{ts,tsx}": [
-      "yarn pre-commit"
-    ],
-    "packages/**/*.{ts,tsx}": [
-      "yarn pre-commit"
-    ],
+    "apps/**/*.{ts,tsx}": [],
+    "packages/**/*.{ts,tsx}": [],
     "*.json": "prettier --write"
   },
   "config": {
