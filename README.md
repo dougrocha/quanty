@@ -31,7 +31,7 @@ Clone this repository.
 
 To build all apps and packages, run the following command:
 
-```
+```sh
 cd quanty
 yarn build
 ```
@@ -40,7 +40,7 @@ yarn build
 
 To develop all apps and packages, run the following command:
 
-```
+```sh
 cd quanty
 yarn dev
 ```
@@ -49,7 +49,7 @@ yarn dev
 
 If you choose to not have an eslint plugin in your IDE. You can use this.
 
-```
+```sh
 cd quanty
 yarn lint
 ```
