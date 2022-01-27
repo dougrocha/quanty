@@ -1,5 +1,5 @@
 // Next.js && React
-import { memo, useContext } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 
 // Components
@@ -47,8 +47,6 @@ const Layout = ({ children, footer }: LayoutProps) => {
     return <LoadingLayout />
   }
 
-  const MemoFooter = memo(Footer)
-
   if (footer == false) {
     return (
       <Container>
@@ -62,7 +60,7 @@ const Layout = ({ children, footer }: LayoutProps) => {
     <Container>
       <NavBar />
       <Children>{children}</Children>
-      <MemoFooter />
+      <Footer />
     </Container>
   )
 }

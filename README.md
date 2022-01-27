@@ -1,5 +1,8 @@
 # Quanty Monorepo
 
+[![CodeFactor](https://www.codefactor.io/repository/github/slashtp3/quanty/badge)](https://www.codefactor.io/repository/github/slashtp3/quanty)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 This is the official Quanty project.
 
 ## What's inside?
