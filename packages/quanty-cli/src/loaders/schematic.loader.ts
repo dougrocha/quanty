@@ -26,7 +26,7 @@ export class SchematicLoader {
         if (code === 0) {
           resolve(null)
         } else {
-          console.error(`An error occured, I don't know why`)
+          console.error(`An error occurred, I don't know why`)
           reject()
         }
       })

@@ -27,3 +27,15 @@ export interface IGuildConfigProvider {
   addCustomCommand(input: Inputs.AddCustomCommand): Promise<GuildDocument>
   addNewLog(input: Inputs.AddLog): Promise<GuildDocument>
 }
+
+export enum GuildEventsEnum {
+  PREFIX = 'prefixUpdate',
+  AUTOMOD = 'autoModUpdate',
+  MODERATION_PLUGIN = 'moderationPluginUpdate',
+  BL_WORDS = 'blacklistedWordsUpdate',
+  MUSIC_IMMORTALITY = 'musicImmortalityUpdate',
+  MUSIC_PLUGIN = 'musicPluginUpdate',
+  MUSIC_CHANNEL = 'musicChannelUpdate',
+  ADD_LOG = 'addLog',
+  ADD_CUSTOMCOMMAND = 'addCustomCommand',
+}

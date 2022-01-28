@@ -25,6 +25,19 @@ export interface ICommandHandler {
   getCommand(name: string): CommandClass | undefined
 }
 
+export interface IGuildManager {
+  findById(guildId: string): Promise<guildsDocument | undefined>
+  updateGuildById(
+    guildId: string,
+    newGuild: guildsDocument,
+  ): Promise<guildsDocument | undefined>
+  getPrefixAndUpdate(
+    guildId: string,
+    prefix: string,
+  ): Promise<{ oldPrefix: string | undefined; prefix: string }>
+  getPrefix(guildId: string): Promise<string>
+}
+
 export interface ILoaders {
   loadCommands(dir: string): void
   loadSlashCommands(dir: string): void
@@ -81,7 +94,13 @@ export interface IPluginManager {
 }
 
 export interface IWebSocket {
-  recieveGuild(): void
+  receivePrefixUpdate(): void
+  receiveAutoMod(): void
+  receiveModerationPlugin(): void
+  receiveBlacklistedWords(): void
+  receiveImmortality(): void
+  receiveMusicPlugin(): void
+  receiveMusicChannel(): void
 }
 
 export interface IDatabase {

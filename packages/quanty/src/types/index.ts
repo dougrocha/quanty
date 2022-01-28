@@ -29,7 +29,12 @@ export interface QuantySettings {
   featuresDir: string
   testServers?: string[]
   willWarn?: boolean
-  WSUrl?: string
+  WebSocketConfig?: IWebSocketConfig
+}
+
+export interface IWebSocketConfig {
+  url?: string
+  token?: string
 }
 export interface ISpotifyConfig {
   clientID: string | undefined
@@ -43,6 +48,18 @@ export interface INodeConfig {
   host?: string | undefined
   port?: number
   password?: string | undefined
+}
+
+export enum GuildEventsEnum {
+  PREFIX = 'prefixUpdate',
+  AUTOMOD = 'autoModUpdate',
+  MODERATION_PLUGIN = 'moderationPluginUpdate',
+  BL_WORDS = 'blacklistedWordsUpdate',
+  MUSIC_IMMORTALITY = 'musicImmortalityUpdate',
+  MUSIC_PLUGIN = 'musicPluginUpdate',
+  MUSIC_CHANNEL = 'musicChannelUpdate',
+  ADD_LOG = 'addLog',
+  ADD_CUSTOMCOMMAND = 'addCustomCommand',
 }
 
 /**

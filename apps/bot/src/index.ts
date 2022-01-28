@@ -12,9 +12,12 @@ const client = new QuantyClient(
   {
     token: process.env.TOKEN,
     mongoUri: process.env.MONGOURI,
-    WSUrl: process.env.WS_URL,
+    WebSocketConfig: {
+      url: process.env.WS_URL,
+      token: process.env.WEBSOCKET_TOKEN,
+    },
     botOwners: ['571520537587875851'],
-    commandsDir: 'commands',
+    commandsDir: join(__dirname, 'commands'),
     featuresDir: join(__dirname, 'features'),
     testServers: ['871581301713555526'],
   },

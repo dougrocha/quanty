@@ -17,6 +17,9 @@ export class UserObject {
   email?: string
 
   @Field({ nullable: true })
+  avatar?: string
+
+  @Field({ nullable: true })
   verified?: boolean
 
   @Field({ nullable: true })

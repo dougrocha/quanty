@@ -95,7 +95,6 @@ class CommandHandler implements ICommandHandler {
   }
 
   /**
-   * @private
    * Load all commands
    */
   public async init() {

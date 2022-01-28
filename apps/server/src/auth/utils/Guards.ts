@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { AuthGuard } from '@nestjs/passport'
+import { WsException } from '@nestjs/websockets'
+import { Socket } from 'socket.io'
 
 @Injectable()
 export class DiscordAuthGuard extends AuthGuard('discord') {

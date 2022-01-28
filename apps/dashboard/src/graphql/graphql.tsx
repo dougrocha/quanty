@@ -11,7 +11,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>
 }
-const defaultOptions = {}
+const defaultOptions = {} as const
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -96,15 +96,19 @@ export type Guild = {
   afk_timeout: Scalars['Int']
   channels?: Maybe<Array<Channel>>
   description?: Maybe<Scalars['String']>
+  discovery_splash: Scalars['String']
   emojis: Array<Emojis>
   features: Array<Scalars['String']>
   icon?: Maybe<Scalars['String']>
+  icon_hash?: Maybe<Scalars['String']>
   id: Scalars['String']
+  member_count: Scalars['Float']
   members?: Maybe<GuildMember>
   name: Scalars['String']
   nsfw_level: Scalars['Float']
   owner?: Maybe<Scalars['Boolean']>
   owner_id: Scalars['String']
+  permissions?: Maybe<Scalars['String']>
   preferred_locale: Scalars['String']
   premium_subscription_count: Scalars['Float']
   premium_tier: Scalars['Float']
@@ -199,7 +203,7 @@ export type MutationUpdateImmortalityArgs = {
 }
 
 export type MutationUpdateModerationPluginArgs = {
-  updatePlugin: UpdateModerationPlugin
+  updateModerationPlugin: UpdateModerationPlugin
 }
 
 export type MutationUpdateMusicChannelArgs = {
@@ -348,8 +352,8 @@ export type User = {
 
 export type UserObject = {
   __typename?: 'UserObject'
-  avatar: Scalars['String']
-  discordID: Scalars['String']
+  avatar?: Maybe<Scalars['String']>
+  discordId: Scalars['String']
   discriminator: Scalars['String']
   email?: Maybe<Scalars['String']>
   flags?: Maybe<Scalars['Float']>
@@ -365,8 +369,7 @@ export type UserQuery = {
   user: {
     __typename?: 'UserObject'
     username: string
-    discordID: string
-    avatar: string
+    discordId: string
     discriminator: string
     email?: string | null | undefined
     verified?: boolean | null | undefined
@@ -462,6 +465,19 @@ export type UpdatePrefixMutation = {
   }
 }
 
+export type UpdateBlacklistedWordsMutationVariables = Exact<{
+  blWords: UpdateBlacklistedWords
+}>
+
+export type UpdateBlacklistedWordsMutation = {
+  __typename?: 'Mutation'
+  updateBlacklistedWords: {
+    __typename?: 'GuildConfig'
+    guildId: string
+    blacklistedWords?: Array<string> | null | undefined
+  }
+}
+
 export type UpdateAutoModMutationVariables = Exact<{
   autoMod: UpdateAutoModInput
 }>
@@ -482,12 +498,75 @@ export type UpdateAutoModMutation = {
   }
 }
 
+export type UpdateModerationPluginMutationVariables = Exact<{
+  updateModerationPlugin: UpdateModerationPlugin
+}>
+
+export type UpdateModerationPluginMutation = {
+  __typename?: 'Mutation'
+  updateModerationPlugin: {
+    __typename?: 'GuildConfig'
+    guildId: string
+    moderation?:
+      | { __typename?: 'Moderation'; plugin?: boolean | null | undefined }
+      | null
+      | undefined
+  }
+}
+
+export type UpdateMusicPluginMutationVariables = Exact<{
+  updateMusicPlugin: UpdateMusicPlugin
+}>
+
+export type UpdateMusicPluginMutation = {
+  __typename?: 'Mutation'
+  updateMusicPlugin: {
+    __typename?: 'GuildConfig'
+    guildId: string
+    music?:
+      | { __typename?: 'Music'; plugin?: boolean | null | undefined }
+      | null
+      | undefined
+  }
+}
+
+export type UpdateImmortalityMutationVariables = Exact<{
+  updateImmortality: UpdateMusicImmortality
+}>
+
+export type UpdateImmortalityMutation = {
+  __typename?: 'Mutation'
+  updateImmortality: {
+    __typename?: 'GuildConfig'
+    guildId: string
+    music?:
+      | { __typename?: 'Music'; immortal?: boolean | null | undefined }
+      | null
+      | undefined
+  }
+}
+
+export type UpdateMusicChannelMutationVariables = Exact<{
+  updateMusicChannel: UpdateMusicChannel
+}>
+
+export type UpdateMusicChannelMutation = {
+  __typename?: 'Mutation'
+  updateMusicChannel: {
+    __typename?: 'GuildConfig'
+    guildId: string
+    music?:
+      | { __typename?: 'Music'; channel?: string | null | undefined }
+      | null
+      | undefined
+  }
+}
+
 export const UserDocument = gql`
   query user {
     user {
       username
-      discordID
-      avatar
+      discordId
       discriminator
       email
       verified
@@ -771,6 +850,57 @@ export type UpdatePrefixMutationOptions = Apollo.BaseMutationOptions<
   UpdatePrefixMutation,
   UpdatePrefixMutationVariables
 >
+export const UpdateBlacklistedWordsDocument = gql`
+  mutation UpdateBlacklistedWords($blWords: UpdateBlacklistedWords!) {
+    updateBlacklistedWords(updateBlacklistedWords: $blWords) {
+      guildId
+      blacklistedWords
+    }
+  }
+`
+export type UpdateBlacklistedWordsMutationFn = Apollo.MutationFunction<
+  UpdateBlacklistedWordsMutation,
+  UpdateBlacklistedWordsMutationVariables
+>
+
+/**
+ * __useUpdateBlacklistedWordsMutation__
+ *
+ * To run a mutation, you first call `useUpdateBlacklistedWordsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBlacklistedWordsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBlacklistedWordsMutation, { data, loading, error }] = useUpdateBlacklistedWordsMutation({
+ *   variables: {
+ *      blWords: // value for 'blWords'
+ *   },
+ * });
+ */
+export function useUpdateBlacklistedWordsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateBlacklistedWordsMutation,
+    UpdateBlacklistedWordsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateBlacklistedWordsMutation,
+    UpdateBlacklistedWordsMutationVariables
+  >(UpdateBlacklistedWordsDocument, options)
+}
+export type UpdateBlacklistedWordsMutationHookResult = ReturnType<
+  typeof useUpdateBlacklistedWordsMutation
+>
+export type UpdateBlacklistedWordsMutationResult =
+  Apollo.MutationResult<UpdateBlacklistedWordsMutation>
+export type UpdateBlacklistedWordsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateBlacklistedWordsMutation,
+  UpdateBlacklistedWordsMutationVariables
+>
 export const UpdateAutoModDocument = gql`
   mutation updateAutoMod($autoMod: UpdateAutoModInput!) {
     updateAutoMod(updateAutoMod: $autoMod) {
@@ -824,4 +954,218 @@ export type UpdateAutoModMutationResult =
 export type UpdateAutoModMutationOptions = Apollo.BaseMutationOptions<
   UpdateAutoModMutation,
   UpdateAutoModMutationVariables
+>
+export const UpdateModerationPluginDocument = gql`
+  mutation updateModerationPlugin(
+    $updateModerationPlugin: UpdateModerationPlugin!
+  ) {
+    updateModerationPlugin(updateModerationPlugin: $updateModerationPlugin) {
+      guildId
+      moderation {
+        plugin
+      }
+    }
+  }
+`
+export type UpdateModerationPluginMutationFn = Apollo.MutationFunction<
+  UpdateModerationPluginMutation,
+  UpdateModerationPluginMutationVariables
+>
+
+/**
+ * __useUpdateModerationPluginMutation__
+ *
+ * To run a mutation, you first call `useUpdateModerationPluginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateModerationPluginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateModerationPluginMutation, { data, loading, error }] = useUpdateModerationPluginMutation({
+ *   variables: {
+ *      updateModerationPlugin: // value for 'updateModerationPlugin'
+ *   },
+ * });
+ */
+export function useUpdateModerationPluginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateModerationPluginMutation,
+    UpdateModerationPluginMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateModerationPluginMutation,
+    UpdateModerationPluginMutationVariables
+  >(UpdateModerationPluginDocument, options)
+}
+export type UpdateModerationPluginMutationHookResult = ReturnType<
+  typeof useUpdateModerationPluginMutation
+>
+export type UpdateModerationPluginMutationResult =
+  Apollo.MutationResult<UpdateModerationPluginMutation>
+export type UpdateModerationPluginMutationOptions = Apollo.BaseMutationOptions<
+  UpdateModerationPluginMutation,
+  UpdateModerationPluginMutationVariables
+>
+export const UpdateMusicPluginDocument = gql`
+  mutation UpdateMusicPlugin($updateMusicPlugin: UpdateMusicPlugin!) {
+    updateMusicPlugin(updateMusicPlugin: $updateMusicPlugin) {
+      guildId
+      music {
+        plugin
+      }
+    }
+  }
+`
+export type UpdateMusicPluginMutationFn = Apollo.MutationFunction<
+  UpdateMusicPluginMutation,
+  UpdateMusicPluginMutationVariables
+>
+
+/**
+ * __useUpdateMusicPluginMutation__
+ *
+ * To run a mutation, you first call `useUpdateMusicPluginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMusicPluginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMusicPluginMutation, { data, loading, error }] = useUpdateMusicPluginMutation({
+ *   variables: {
+ *      updateMusicPlugin: // value for 'updateMusicPlugin'
+ *   },
+ * });
+ */
+export function useUpdateMusicPluginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateMusicPluginMutation,
+    UpdateMusicPluginMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateMusicPluginMutation,
+    UpdateMusicPluginMutationVariables
+  >(UpdateMusicPluginDocument, options)
+}
+export type UpdateMusicPluginMutationHookResult = ReturnType<
+  typeof useUpdateMusicPluginMutation
+>
+export type UpdateMusicPluginMutationResult =
+  Apollo.MutationResult<UpdateMusicPluginMutation>
+export type UpdateMusicPluginMutationOptions = Apollo.BaseMutationOptions<
+  UpdateMusicPluginMutation,
+  UpdateMusicPluginMutationVariables
+>
+export const UpdateImmortalityDocument = gql`
+  mutation updateImmortality($updateImmortality: UpdateMusicImmortality!) {
+    updateImmortality(updateImmortality: $updateImmortality) {
+      guildId
+      music {
+        immortal
+      }
+    }
+  }
+`
+export type UpdateImmortalityMutationFn = Apollo.MutationFunction<
+  UpdateImmortalityMutation,
+  UpdateImmortalityMutationVariables
+>
+
+/**
+ * __useUpdateImmortalityMutation__
+ *
+ * To run a mutation, you first call `useUpdateImmortalityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateImmortalityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateImmortalityMutation, { data, loading, error }] = useUpdateImmortalityMutation({
+ *   variables: {
+ *      updateImmortality: // value for 'updateImmortality'
+ *   },
+ * });
+ */
+export function useUpdateImmortalityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateImmortalityMutation,
+    UpdateImmortalityMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateImmortalityMutation,
+    UpdateImmortalityMutationVariables
+  >(UpdateImmortalityDocument, options)
+}
+export type UpdateImmortalityMutationHookResult = ReturnType<
+  typeof useUpdateImmortalityMutation
+>
+export type UpdateImmortalityMutationResult =
+  Apollo.MutationResult<UpdateImmortalityMutation>
+export type UpdateImmortalityMutationOptions = Apollo.BaseMutationOptions<
+  UpdateImmortalityMutation,
+  UpdateImmortalityMutationVariables
+>
+export const UpdateMusicChannelDocument = gql`
+  mutation updateMusicChannel($updateMusicChannel: UpdateMusicChannel!) {
+    updateMusicChannel(updateMusicChannel: $updateMusicChannel) {
+      guildId
+      music {
+        channel
+      }
+    }
+  }
+`
+export type UpdateMusicChannelMutationFn = Apollo.MutationFunction<
+  UpdateMusicChannelMutation,
+  UpdateMusicChannelMutationVariables
+>
+
+/**
+ * __useUpdateMusicChannelMutation__
+ *
+ * To run a mutation, you first call `useUpdateMusicChannelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMusicChannelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMusicChannelMutation, { data, loading, error }] = useUpdateMusicChannelMutation({
+ *   variables: {
+ *      updateMusicChannel: // value for 'updateMusicChannel'
+ *   },
+ * });
+ */
+export function useUpdateMusicChannelMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateMusicChannelMutation,
+    UpdateMusicChannelMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateMusicChannelMutation,
+    UpdateMusicChannelMutationVariables
+  >(UpdateMusicChannelDocument, options)
+}
+export type UpdateMusicChannelMutationHookResult = ReturnType<
+  typeof useUpdateMusicChannelMutation
+>
+export type UpdateMusicChannelMutationResult =
+  Apollo.MutationResult<UpdateMusicChannelMutation>
+export type UpdateMusicChannelMutationOptions = Apollo.BaseMutationOptions<
+  UpdateMusicChannelMutation,
+  UpdateMusicChannelMutationVariables
 >

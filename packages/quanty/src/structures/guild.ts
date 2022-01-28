@@ -1,15 +1,40 @@
+import { Collection } from 'discord.js'
+import { guildsDocument } from 'types/mongoose.gen'
+import { IGuildManager } from 'types/structures'
+
 import QuantyClient from '../client'
 import { Guild } from '../database/schemas'
 
-class GuildManager {
+class GuildManager implements IGuildManager {
   private client: QuantyClient
+
+  private guilds: Collection<string, guildsDocument> = new Collection<
+    string,
+    guildsDocument
+  >()
 
   constructor(client: QuantyClient) {
     this.client = client
   }
 
-  async findAll() {
-    return Guild.find({}).lean()
+  async init() {
+    const allGuilds = this.client.guilds.cache.map(guild => guild)
+
+    allGuilds.map(async ({ id }) => {
+      let guild
+
+      guild = await Guild.findOne({ guildId: id })
+
+      if (!guild) {
+        guild = await Guild.create({ guildId: id })
+      }
+
+      this.guilds.set(id, guild)
+    })
+  }
+
+  getGuilds() {
+    return this.guilds.map(guild => guild)
   }
 
   /**
@@ -18,17 +43,25 @@ class GuildManager {
    * @returns Guild Object stripped of functions
    */
   async findById(guildId: string) {
-    return Guild.findOne({ guildId }).lean()
+    return this.guilds.get(guildId)
   }
 
-  async getPrefixandUpdate(guildId: string, prefix: string) {
+  async updateGuildById(guildId: string, newGuild: guildsDocument) {
+    this.guilds.set(guildId, newGuild)
+
+    return this.findById(guildId)
+  }
+
+  async getPrefixAndUpdate(guildId: string, prefix: string) {
     const guild = await this.findById(guildId)
     const oldPrefix = guild?.prefix
 
-    await Guild.findOneAndUpdate({ guildId }, { prefix }).then(() => ({
-      oldPrefix,
-      prefix,
-    }))
+    return await Guild.findOneAndUpdate({ guildId }, { prefix }).then(() => {
+      return {
+        oldPrefix,
+        prefix,
+      }
+    })
   }
 
   /**

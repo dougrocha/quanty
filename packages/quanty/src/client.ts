@@ -20,7 +20,7 @@ import {
   SlashCommandHandler,
   WebSocket,
 } from './structures'
-import { ILogger, QuantySettings } from './types'
+import { ILogger, IWebSocketConfig, QuantySettings } from './types'
 import { MusicEvent } from './utils'
 
 /**
@@ -55,7 +55,7 @@ export default class QuantyClient<
 
   public guildManager: GuildManager
 
-  private readonly WSUrl: string | undefined = ''
+  private readonly WebSocketConfig: IWebSocketConfig | undefined = {}
 
   public readonly willWarn: boolean | undefined = true
 
@@ -74,6 +74,7 @@ export default class QuantyClient<
         intents: 32509, // Enables all Intents
       },
     )
+
     /**
      * Config for Bot
      * @property {object}
@@ -101,12 +102,12 @@ export default class QuantyClient<
     /**
      * Websocket URL
      */
-    this.WSUrl = this.config.WSUrl
+    this.WebSocketConfig = this.config.WebSocketConfig
 
     /**
      * Websocket
      */
-    this.WebSocket = new WebSocket(this.WSUrl)
+    this.WebSocket = new WebSocket(this, this.WebSocketConfig)
 
     /**
      * Database using MongoDB
@@ -189,7 +190,9 @@ export default class QuantyClient<
     await this.commandHandler.init()
     await this.featuresHandler.init()
 
-    await this.login(token)
+    await this.login(token).then(async () => {
+      await this.guildManager.init()
+    })
 
     return this
   }

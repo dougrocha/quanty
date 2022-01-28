@@ -8,5 +8,6 @@ declare namespace NodeJS {
     PORT: string
     MONGO_STORE_SECRET: string
     BOT_SECRET: string
+    WEBSOCKET_TOKEN: string
   }
 }

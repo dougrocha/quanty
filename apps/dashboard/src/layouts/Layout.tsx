@@ -9,7 +9,6 @@ import Footer from '../components/Footer'
 import NavBar from '../components/Navbar'
 import { useUserQuery } from '../graphql/graphql'
 import { CurrentUserContext } from '../utils/stores/CurrentUserContext'
-import { CurrentUser } from '../utils/types'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -38,7 +37,7 @@ const Layout = ({ children, footer }: LayoutProps) => {
 
   const { data, loading, error } = useUserQuery({
     fetchPolicy: 'cache-first',
-    onCompleted({ user }: { user: CurrentUser }) {
+    onCompleted({ user }) {
       setUser(user)
     },
   })

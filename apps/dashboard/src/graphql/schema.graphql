@@ -1,8 +1,7 @@
 query user {
   user {
     username
-    discordID
-    avatar
+    discordId
     discriminator
     email
     verified
@@ -67,6 +66,13 @@ mutation updatePrefix($prefix: UpdatePrefixInput!) {
   }
 }
 
+mutation UpdateBlacklistedWords($blWords: UpdateBlacklistedWords!) {
+  updateBlacklistedWords(updateBlacklistedWords: $blWords) {
+    guildId
+    blacklistedWords
+  }
+}
+
 mutation updateAutoMod($autoMod: UpdateAutoModInput!) {
   updateAutoMod(updateAutoMod: $autoMod) {
     guildId
@@ -77,34 +83,51 @@ mutation updateAutoMod($autoMod: UpdateAutoModInput!) {
   }
 }
 
-input AddCustomCommand {
-  customCommand: CustomCommand!
+mutation updateModerationPlugin(
+  $updateModerationPlugin: UpdateModerationPlugin!
+) {
+  updateModerationPlugin(updateModerationPlugin: $updateModerationPlugin) {
+    guildId
+    moderation {
+      plugin
+    }
+  }
+}
+
+mutation UpdateMusicPlugin($updateMusicPlugin: UpdateMusicPlugin!) {
+  updateMusicPlugin(updateMusicPlugin: $updateMusicPlugin) {
+    guildId
+    music {
+      plugin
+    }
+  }
+}
+
+mutation updateImmortality($updateImmortality: UpdateMusicImmortality!) {
+  updateImmortality(updateImmortality: $updateImmortality) {
+    guildId
+    music {
+      immortal
+    }
+  }
+}
+
+mutation updateMusicChannel($updateMusicChannel: UpdateMusicChannel!) {
+  updateMusicChannel(updateMusicChannel: $updateMusicChannel) {
+    guildId
+    music {
+      channel
+    }
+  }
+}
+
+input UpdatePrefixInput {
   guildId: String!
-}
-
-input AddLog {
-  guildId: String!
-  log: Log!
-}
-
-input CustomCommand {
-  description: String!
-  id: String!
-  name: String!
-}
-
-input Log {
-  action: String!
-  name: String!
+  prefix: String!
 }
 
 input UpdateAutoModInput {
   autoMod: Boolean!
-  guildId: String!
-}
-
-input UpdateBlacklistedWords {
-  blacklistedWords: [String!]!
   guildId: String!
 }
 
@@ -113,8 +136,8 @@ input UpdateModerationPlugin {
   plugin: Boolean!
 }
 
-input UpdateMusicChannel {
-  channel: String!
+input UpdateBlacklistedWords {
+  blacklistedWords: [String!]!
   guildId: String!
 }
 
@@ -128,7 +151,7 @@ input UpdateMusicPlugin {
   plugin: Boolean!
 }
 
-input UpdatePrefixInput {
+input UpdateMusicChannel {
+  channel: String!
   guildId: String!
-  prefix: String!
 }

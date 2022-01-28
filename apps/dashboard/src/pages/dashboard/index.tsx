@@ -7,7 +7,6 @@ import Layout from '../../layouts/Layout'
 import LoadingLayout from '../../layouts/LoadingLayout'
 // GraphQL
 import { CurrentUserContext } from '../../utils/stores/CurrentUserContext'
-import { CurrentUser } from '../../utils/types'
 
 const Dashboard = () => {
   const { user, setUser } = useContext(CurrentUserContext)
@@ -16,7 +15,7 @@ const Dashboard = () => {
 
   const userQuery = useUserQuery({
     fetchPolicy: 'cache-first',
-    onCompleted({ user }: { user: CurrentUser }) {
+    onCompleted({ user }) {
       setUser(user)
     },
   })

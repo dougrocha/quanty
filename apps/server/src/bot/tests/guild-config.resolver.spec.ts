@@ -4,6 +4,7 @@ import { GuildConfigService } from 'src/bot/services/guild-config.service'
 import { Guilds } from 'src/schemas'
 
 import { GuildConfigResolver } from '../resolvers/guild-config.resolver'
+import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
 describe('GuildConfigResolver', () => {
   let resolver: GuildConfigResolver
@@ -13,6 +14,7 @@ describe('GuildConfigResolver', () => {
       providers: [
         GuildConfigResolver,
         { provide: 'GUILD_CONFIG_SERVICE', useClass: GuildConfigService },
+        GuildServiceGateway,
         {
           provide: getModelToken(Guilds.name),
           useClass: Mock,
