@@ -1,16 +1,16 @@
-import Command from './command'
-import CommandHandler from './commandHandler'
-import FeatureHandler from './featureHandler'
-import GuildManager from './guild'
-import QuantyLogger from './logger'
-import MessageHandler from './messageHandler'
-import PluginManager from './plugin'
-import SlashCommandHandler from './slashCommands'
-import WebSocket from './ws'
+import Command from './Command'
+import CommandHandler from './CommandHandler'
+import FeatureHandler from './FeatureHandler'
+import GuildManager from './GuildManager'
+import QuantyLogger from './Logger'
+import MessageHandler from './MessageHandler'
+import PluginManager from './PluginManager'
+import SlashCommandHandler from './SlashCommandHandler'
+import WebSocketManager from './WebSocketManager'
 
 export {
   QuantyLogger,
-  WebSocket,
+  WebSocketManager,
   PluginManager,
   CommandHandler,
   FeatureHandler,

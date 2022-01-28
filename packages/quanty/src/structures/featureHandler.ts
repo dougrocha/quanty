@@ -4,7 +4,7 @@ import { promisify } from 'util'
 import { Collection } from 'discord.js'
 import { glob } from 'glob'
 
-import Logger from './logger'
+import Logger from './Logger'
 
 import QuantyClient from '../client'
 import { BaseFeature, IFeatureHandler } from '../types'
@@ -40,6 +40,10 @@ class FeatureHandler implements IFeatureHandler {
     this.client = client
 
     this.dir = dir
+
+    this.client.once('ready', async () => {
+      await this.init()
+    })
   }
 
   /**
@@ -47,7 +51,7 @@ class FeatureHandler implements IFeatureHandler {
    * This includes both regular features and for new interactions
    * @param dir Directory for features/events
    */
-  public async init() {
+  private async init() {
     const featureFiles: string[] = await globPromise(
       `${this.dir}/**/*{.ts,.js}`,
     )

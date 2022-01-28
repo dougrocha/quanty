@@ -4,8 +4,8 @@ import { promisify } from 'util'
 import { Collection } from 'discord.js'
 import { glob } from 'glob'
 
-import Command from './command'
-import Logger from './logger'
+import Command from './Command'
+import Logger from './Logger'
 
 import QuantyClient from '../client'
 import { BaseCommand, ICommandHandler } from '../types'
@@ -44,16 +44,20 @@ class CommandHandler implements ICommandHandler {
     this.client = client
 
     this.dir = dir
-  }
 
-  public getCommands(): Command[] | undefined {
-    const cmds = this.commands.toJSON()
-    return cmds
+    this.client.once('ready', async () => {
+      await this.init()
+    })
   }
 
   public getCommand(name: string): Command | undefined {
     const cmd = this.commands.get(name)
     return cmd
+  }
+
+  public getCommands(): Command[] | undefined {
+    const cmds = this.commands.toJSON()
+    return cmds
   }
 
   /**
@@ -97,7 +101,7 @@ class CommandHandler implements ICommandHandler {
   /**
    * Load all commands
    */
-  public async init() {
+  private async init() {
     const commandFiles: string[] = await globPromise(
       `${this.dir}/../commands/**/*{.ts,.js}`,
     )

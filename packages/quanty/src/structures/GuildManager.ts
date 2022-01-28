@@ -15,9 +15,13 @@ class GuildManager implements IGuildManager {
 
   constructor(client: QuantyClient) {
     this.client = client
+
+    this.client.once('ready', async () => {
+      await this.init()
+    })
   }
 
-  async init() {
+  private async init() {
     const allGuilds = this.client.guilds.cache.map(guild => guild)
 
     allGuilds.map(async ({ id }) => {

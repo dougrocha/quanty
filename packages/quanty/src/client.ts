@@ -18,7 +18,7 @@ import {
   PluginManager,
   QuantyLogger,
   SlashCommandHandler,
-  WebSocket,
+  WebSocketManager,
 } from './structures'
 import { ILogger, IWebSocketConfig, QuantySettings } from './types'
 import { MusicEvent } from './utils'
@@ -39,7 +39,7 @@ export default class QuantyClient<
 
   public player: Manager
 
-  public WebSocket: WebSocket
+  public WebSocketManager: WebSocketManager
 
   public PluginManager: PluginManager
 
@@ -107,7 +107,7 @@ export default class QuantyClient<
     /**
      * Websocket
      */
-    this.WebSocket = new WebSocket(this, this.WebSocketConfig)
+    this.WebSocketManager = new WebSocketManager(this, this.WebSocketConfig)
 
     /**
      * Database using MongoDB
@@ -181,18 +181,14 @@ export default class QuantyClient<
         )
       }
     }
+
     this.loadMusic(this)
 
     if (mongoUri) {
       await this.Database.initDBProvider(mongoUri)
     }
 
-    await this.commandHandler.init()
-    await this.featuresHandler.init()
-
-    await this.login(token).then(async () => {
-      await this.guildManager.init()
-    })
+    await this.login(token)
 
     return this
   }
