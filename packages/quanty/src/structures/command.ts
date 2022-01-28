@@ -154,6 +154,7 @@ class Command {
     if (this.cmdType == 'slash') {
       return
     }
+
     if (!options) {
       return
     }

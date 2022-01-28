@@ -29,7 +29,18 @@ export interface QuantySettings {
   featuresDir: string
   testServers?: string[]
   willWarn?: boolean
+  defaultValues?: DefaultValues
   WebSocketConfig?: IWebSocketConfig
+}
+
+export interface DefaultValues {
+  defaultCommands: {
+    all: boolean
+    help: boolean
+  }
+  defaultFeatures: {
+    ready: boolean
+  }
 }
 
 export interface IWebSocketConfig {
@@ -225,6 +236,7 @@ type CommandReturnObjects =
   | ReplyMessageOptions
   | InteractionReplyOptions
   | WebhookEditMessageOptions
+  | string
   | void
 
 /**

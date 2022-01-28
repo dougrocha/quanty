@@ -40,6 +40,8 @@ class CommandHandler implements ICommandHandler {
     number
   >()
 
+  public static commandsCount = 0
+
   constructor(client: QuantyClient, dir: PathLike) {
     this.client = client
 
@@ -58,6 +60,10 @@ class CommandHandler implements ICommandHandler {
   public getCommands(): Command[] | undefined {
     const cmds = this.commands.toJSON()
     return cmds
+  }
+
+  public get commandsCount() {
+    return CommandHandler.commandsCount
   }
 
   /**
@@ -108,9 +114,20 @@ class CommandHandler implements ICommandHandler {
 
     commandFiles.map(async (file: string) => {
       await this.createCommand(file)
+      CommandHandler.commandsCount++
     })
 
-    this.logger.success('All Commands Loaded')
+    if (this.client.defaults?.defaultCommands.all == true) {
+      const localCommandFiles: string[] = await globPromise(
+        '../commands/**/*{.ts}',
+      )
+      localCommandFiles.map(async (file: string) => {
+        await this.createCommand(file)
+        CommandHandler.commandsCount++
+      })
+    }
+
+    this.logger.success(`${CommandHandler.commandsCount} Commands Loaded`)
   }
 }
 

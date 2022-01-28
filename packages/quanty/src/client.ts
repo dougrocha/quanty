@@ -20,7 +20,12 @@ import {
   SlashCommandHandler,
   WebSocketManager,
 } from './structures'
-import { ILogger, IWebSocketConfig, QuantySettings } from './types'
+import {
+  DefaultValues,
+  ILogger,
+  IWebSocketConfig,
+  QuantySettings,
+} from './types'
 import { MusicEvent } from './utils'
 
 /**
@@ -58,6 +63,8 @@ export default class QuantyClient<
   private readonly WebSocketConfig: IWebSocketConfig | undefined = {}
 
   public readonly willWarn: boolean | undefined = true
+
+  public readonly defaults: DefaultValues | undefined
 
   private args: any
 
@@ -103,6 +110,11 @@ export default class QuantyClient<
      * Websocket URL
      */
     this.WebSocketConfig = this.config.WebSocketConfig
+
+    /**
+     * Default Commands/Features
+     */
+    this.defaults = this.config.defaultValues
 
     /**
      * Websocket

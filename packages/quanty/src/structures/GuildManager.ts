@@ -25,9 +25,9 @@ class GuildManager implements IGuildManager {
     const allGuilds = this.client.guilds.cache.map(guild => guild)
 
     allGuilds.map(async ({ id }) => {
-      let guild
+      let guild: guildsDocument
 
-      guild = await Guild.findOne({ guildId: id })
+      guild = await Guild.findOne({ guildId: id }).lean()
 
       if (!guild) {
         guild = await Guild.create({ guildId: id })
@@ -38,11 +38,13 @@ class GuildManager implements IGuildManager {
   }
 
   getGuilds() {
-    return this.guilds.map(guild => guild)
+    return this.guilds.toJSON()
   }
 
   /**
    * Get guild object with guild id
+   *
+   * Will not create guild if not found
    * @param guildId Guild Id
    * @returns Guild Object stripped of functions
    */
