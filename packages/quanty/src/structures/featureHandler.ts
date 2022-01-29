@@ -4,7 +4,7 @@ import { promisify } from 'util'
 import { Collection } from 'discord.js'
 import { glob } from 'glob'
 
-import Logger from './Logger'
+import Logger from './logger'
 
 import QuantyClient from '../client'
 import { BaseFeature, IFeatureHandler } from '../types'

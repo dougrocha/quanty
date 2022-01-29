@@ -3,7 +3,7 @@ import ms from 'ms'
 
 import { CommandHandler, QuantyLogger } from '.'
 
-import GuildManager from './GuildManager'
+import GuildManager from './guildManager'
 
 import QuantyClient from '../client'
 

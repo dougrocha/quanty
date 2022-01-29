@@ -4,8 +4,8 @@ import { promisify } from 'util'
 import { Collection } from 'discord.js'
 import { glob } from 'glob'
 
-import Command from './Command'
-import Logger from './Logger'
+import Command from './command'
+import Logger from './logger'
 
 import QuantyClient from '../client'
 import { BaseCommand, ICommandHandler } from '../types'
