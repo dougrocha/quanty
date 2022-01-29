@@ -56,19 +56,21 @@ class FeatureHandler implements IFeatureHandler {
       `${this.dir}/**/*{.ts,.js}`,
     )
 
-    featureFiles.map(async (value: string) => {
-      const { feature } = (await require(value)) as FeatureImport
+    const loadFeatures = async () => {
+      featureFiles.map(async (value: string) => {
+        const { feature } = (await require(value)) as FeatureImport
 
-      if (feature.once) {
-        this.client.once(feature.name, feature.run.bind(null, this.client))
-      } else {
-        this.client.on(feature.name, feature.run.bind(null, this.client))
-      }
+        if (feature.once) {
+          this.client.once(feature.name, feature.run.bind(null, this.client))
+        } else {
+          this.client.on(feature.name, feature.run.bind(null, this.client))
+        }
 
-      this.features.set(feature.name, feature)
-    })
+        this.features.set(feature.name, feature)
+      })
+    }
 
-    this.logger.success('All Features Loaded')
+    await loadFeatures().then(() => this.logger.success('Features Loaded'))
   }
 }
 

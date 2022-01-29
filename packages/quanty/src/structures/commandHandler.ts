@@ -1,7 +1,7 @@
 import { PathLike } from 'fs'
 import { promisify } from 'util'
 
-import { Collection } from 'discord.js'
+import { Collection, GuildScheduledEvent } from 'discord.js'
 import { glob } from 'glob'
 
 import Command from './Command'
@@ -40,8 +40,6 @@ class CommandHandler implements ICommandHandler {
     number
   >()
 
-  public static commandsCount = 0
-
   constructor(client: QuantyClient, dir: PathLike) {
     this.client = client
 
@@ -60,10 +58,6 @@ class CommandHandler implements ICommandHandler {
   public getCommands(): Command[] | undefined {
     const cmds = this.commands.toJSON()
     return cmds
-  }
-
-  public get commandsCount() {
-    return CommandHandler.commandsCount
   }
 
   /**
@@ -102,6 +96,8 @@ class CommandHandler implements ICommandHandler {
     )
 
     this.setCommand(command.name, cmd)
+
+    return cmd
   }
 
   /**
@@ -112,22 +108,48 @@ class CommandHandler implements ICommandHandler {
       `${this.dir}/../commands/**/*{.ts,.js}`,
     )
 
-    commandFiles.map(async (file: string) => {
-      await this.createCommand(file)
-      CommandHandler.commandsCount++
-    })
-
-    if (this.client.defaults?.defaultCommands.all == true) {
-      const localCommandFiles: string[] = await globPromise(
-        '../commands/**/*{.ts}',
-      )
-      localCommandFiles.map(async (file: string) => {
+    await Promise.all(
+      commandFiles.map(async (file: string) => {
         await this.createCommand(file)
-        CommandHandler.commandsCount++
-      })
+      }),
+    )
+
+    const defaultsValue = this.client.defaults?.defaultCommands.all
+
+    if (!defaultsValue || defaultsValue == true) {
+      // This glob pattern is set to support both local testing and production
+      // the [!.d] will ignore .d.ts files
+      // while .ts is for local and .js is for production package
+      const localCommandFiles: string[] = await globPromise(
+        `${__dirname}/../commands/**/*[!.d]{.ts,.js}`,
+      )
+
+      const commands: Command[] = []
+
+      await Promise.all(
+        localCommandFiles.map(async (file: string) => {
+          const cmd = await this.createCommand(file)
+          commands.push(cmd)
+        }),
+      )
+
+      await this.loadDefaultCommands(commands)
     }
 
-    this.logger.success(`${CommandHandler.commandsCount} Commands Loaded`)
+    this.logger.success(`Commands Loaded: ${this.commands.size}`)
+  }
+
+  private async loadDefaultCommands(commands: Command[]) {
+    const client = this.client
+    const globalCommands = client.application?.commands
+
+    commands.map(async cmd => {
+      await globalCommands?.create({
+        name: cmd.name,
+        description: cmd.description,
+        options: cmd.options,
+      })
+    })
   }
 }
 

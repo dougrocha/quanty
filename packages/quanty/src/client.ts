@@ -194,8 +194,6 @@ export default class QuantyClient<
       }
     }
 
-    this.loadMusic(this)
-
     if (mongoUri) {
       await this.Database.initDBProvider(mongoUri)
     }
@@ -206,18 +204,27 @@ export default class QuantyClient<
   }
 
   private loadMusic(client: this): Manager {
-    const manager = new Manager({
-      nodes: [this.args.nodeConfig],
+    if (this.args) {
+      const manager = new Manager({
+        nodes: [this.args.nodeConfig],
+        send(id, payload) {
+          const guild = client.guilds.cache.get(id)
+          if (guild) guild.shard.send(payload)
+        },
+        plugins: [new Spotify(this.args.spotifyConfig), new AppleMusic()],
+      })
+
+      MusicEvent(manager, this) // Starts Events for music player
+
+      return (this.player = manager)
+    }
+
+    return new Manager({
       send(id, payload) {
         const guild = client.guilds.cache.get(id)
         if (guild) guild.shard.send(payload)
       },
-      plugins: [new Spotify(this.args.spotifyConfig), new AppleMusic()],
     })
-
-    MusicEvent(manager, this) // Starts Events for music player
-
-    return (this.player = manager)
   }
 
   /**

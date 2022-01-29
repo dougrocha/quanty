@@ -24,13 +24,8 @@ export const command: Command = {
   ],
   run: async ({ client, guild, options, args }) => {
     const pluginName =
-      options.getString('plugin-name')?.toLowerCase() ?? args[0].toLowerCase()
-
-    if (!(<any>Object).values(PossiblePlugins).includes(`car`)) {
-      return {
-        content: `The plugin: ${pluginName} does not exist. Use \`/help plugins\` to see possible plugins.`,
-      }
-    }
+      options?.getString('plugin-name')?.toLowerCase() ??
+      args?.slice(0, 1).shift()?.toLowerCase()
 
     const guildConfig = await client.guildManager.findById(guild.id)
 
@@ -47,15 +42,15 @@ export const command: Command = {
 
       const descStringArray = []
 
-      if (guildConfig?.music.plugin == true) {
+      if (guildConfig?.music?.plugin == true) {
         descStringArray.push(musicString)
       }
 
-      if (guildConfig?.moderation.plugin == true) {
+      if (guildConfig?.moderation?.plugin == true) {
         descStringArray.push(moderationString)
       }
 
-      if (guildConfig?.anime.plugin == true) {
+      if (guildConfig?.anime?.plugin == true) {
         descStringArray.push(animeString)
       }
 
@@ -67,6 +62,12 @@ export const command: Command = {
 
       return {
         embeds: [embed],
+      }
+    }
+
+    if (!(<any>Object).values(PossiblePlugins).includes(pluginName)) {
+      return {
+        content: `The plugin: ${pluginName} does not exist. Use \`/help plugins\` to see possible plugins.`,
       }
     }
 
