@@ -1,7 +1,7 @@
 import { PathLike } from 'fs'
 import { promisify } from 'util'
 
-import { Collection, GuildScheduledEvent } from 'discord.js'
+import { Collection } from 'discord.js'
 import { glob } from 'glob'
 
 import Command from './Command'
