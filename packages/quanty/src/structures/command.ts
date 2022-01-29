@@ -6,7 +6,7 @@ import {
   PermissionString,
 } from 'discord.js'
 
-import Logger from './logger'
+import Logger from './Logger'
 
 import QuantyClient from '../client'
 import {
@@ -154,6 +154,7 @@ class Command {
     if (this.cmdType == 'slash') {
       return
     }
+
     if (!options) {
       return
     }

@@ -9,7 +9,7 @@ import { ILogger } from '../types'
 class Logger implements ILogger {
   private logger: Consola = consola
 
-  private name: string
+  private readonly name: string
 
   /**
    * @param {string} [name] - Name for this logger

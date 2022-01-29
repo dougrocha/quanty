@@ -18,9 +18,14 @@ import {
   PluginManager,
   QuantyLogger,
   SlashCommandHandler,
-  WebSocket,
+  WebSocketManager,
 } from './structures'
-import { ILogger, IWebSocketConfig, QuantySettings } from './types'
+import {
+  DefaultValues,
+  ILogger,
+  IWebSocketConfig,
+  QuantySettings,
+} from './types'
 import { MusicEvent } from './utils'
 
 /**
@@ -39,7 +44,7 @@ export default class QuantyClient<
 
   public player: Manager
 
-  public WebSocket: WebSocket
+  public WebSocketManager: WebSocketManager
 
   public PluginManager: PluginManager
 
@@ -58,6 +63,8 @@ export default class QuantyClient<
   private readonly WebSocketConfig: IWebSocketConfig | undefined = {}
 
   public readonly willWarn: boolean | undefined = true
+
+  public readonly defaults: DefaultValues | undefined
 
   private args: any
 
@@ -105,9 +112,14 @@ export default class QuantyClient<
     this.WebSocketConfig = this.config.WebSocketConfig
 
     /**
+     * Default Commands/Features
+     */
+    this.defaults = this.config.defaultValues
+
+    /**
      * Websocket
      */
-    this.WebSocket = new WebSocket(this, this.WebSocketConfig)
+    this.WebSocketManager = new WebSocketManager(this, this.WebSocketConfig)
 
     /**
      * Database using MongoDB
@@ -181,35 +193,38 @@ export default class QuantyClient<
         )
       }
     }
-    this.loadMusic(this)
 
     if (mongoUri) {
       await this.Database.initDBProvider(mongoUri)
     }
 
-    await this.commandHandler.init()
-    await this.featuresHandler.init()
-
-    await this.login(token).then(async () => {
-      await this.guildManager.init()
-    })
+    await this.login(token)
 
     return this
   }
 
   private loadMusic(client: this): Manager {
-    const manager = new Manager({
-      nodes: [this.args.nodeConfig],
+    if (this.args) {
+      const manager = new Manager({
+        nodes: [this.args.nodeConfig],
+        send(id, payload) {
+          const guild = client.guilds.cache.get(id)
+          if (guild) guild.shard.send(payload)
+        },
+        plugins: [new Spotify(this.args.spotifyConfig), new AppleMusic()],
+      })
+
+      MusicEvent(manager, this) // Starts Events for music player
+
+      return (this.player = manager)
+    }
+
+    return new Manager({
       send(id, payload) {
         const guild = client.guilds.cache.get(id)
         if (guild) guild.shard.send(payload)
       },
-      plugins: [new Spotify(this.args.spotifyConfig), new AppleMusic()],
     })
-
-    MusicEvent(manager, this) // Starts Events for music player
-
-    return (this.player = manager)
   }
 
   /**

@@ -1,4 +1,4 @@
-import QuantyLogger from './logger'
+import QuantyLogger from './Logger'
 
 import QuantyClient from '../client'
 import { Guild } from '../database/schemas'
@@ -34,8 +34,13 @@ class PluginManager implements IPluginManager {
     return this.guildModel.create({ guildId })
   }
 
+  /**
+   *
+   * @returns
+   */
   public async createAllGuilds() {
     const allGuilds = (await this.client.guilds.fetch()).toJSON()
+
     allGuilds.map(async ({ id }) => {
       await this.getGuild(id)
       await this.createGuild(id)

@@ -1,4 +1,4 @@
-import { Command, GuildSettingsEnum } from '@quanty/framework'
+import { Command } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
 export const command: Command = {
@@ -7,7 +7,7 @@ export const command: Command = {
   options: [
     {
       type: 'STRING',
-      name: 'add-ons',
+      name: 'add-on',
       description: 'Shows specific commands for this add-on.',
       required: false,
     },
@@ -25,16 +25,6 @@ export const command: Command = {
 
     if (!serverPlugins) {
       await client.PluginManager.createGuild(guild.id)
-    }
-
-    if (!plugin && !Object.values<string>(GuildSettingsEnum).includes(plugin)) {
-      return {
-        embeds: [
-          embed.setDescription(
-            '``Choose one of the following plugins:`` \n Anime, Moderation, Music',
-          ),
-        ],
-      }
     }
 
     switch (plugin) {

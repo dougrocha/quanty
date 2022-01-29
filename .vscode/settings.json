@@ -1,13 +1,16 @@
 {
   "cSpell.words": [
     "AUTOMOD",
+    "cmds",
     "consola",
     "Cooldown",
     "Cooldowns",
     "CUSTOMCOMMAND",
+    "erela",
     "nekos",
     "nestjs",
     "prebuild",
+    "tsgen",
     "tsnd",
     "websockets"
   ]

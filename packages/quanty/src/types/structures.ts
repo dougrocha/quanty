@@ -1,28 +1,22 @@
 import { Collection } from 'discord.js'
+import { Command } from 'structures'
 
 import { guildsDocument, guildsObject, guilds } from './mongoose.gen'
 
-import CommandClass from '../structures/command'
-
-export interface IFeatureHandler {
-  /**
-   * Directory for all features.
-   * @param dir Directory
-   */
-  init(dir: string): Promise<void>
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IFeatureHandler {}
 
 export interface ICommandHandler {
   /**
    * @returns {Command} Returns all commands.
    */
-  getCommands(): CommandClass[] | undefined
+  getCommands(): Command[] | undefined
 
   /**
    * Gets a single command when supplied with an existing name.
    * @returns {Command} Returns a single command.
    */
-  getCommand(name: string): CommandClass | undefined
+  getCommand(name: string): Command | undefined
 }
 
 export interface IGuildManager {
