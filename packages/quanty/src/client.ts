@@ -194,6 +194,8 @@ export default class QuantyClient<
       }
     }
 
+    this.loadMusic(this)
+
     if (mongoUri) {
       await this.Database.initDBProvider(mongoUri)
     }
