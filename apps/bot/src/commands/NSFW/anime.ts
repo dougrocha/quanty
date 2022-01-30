@@ -1,8 +1,6 @@
 import { Command } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { MessageEmbed, TextChannel } from 'discord.js'
 import Client from 'nekos.life'
-
-const neko = new Client()
 
 export const command: Command = {
   name: 'anime',
@@ -49,7 +47,9 @@ export const command: Command = {
   ],
   category: 'nsfw',
   cmdType: 'slash',
-  run: async ({ options }) => {
+  run: async ({ options, channel }) => {
+    const neko = new Client()
+
     const embed = new MessageEmbed()
 
     if (options.getSubcommand() === 'sfw') {
@@ -97,6 +97,11 @@ export const command: Command = {
     }
 
     if (options.getSubcommand() === 'nsfw') {
+      if ((channel as TextChannel).nsfw) {
+        return {
+          content: `Can't use this command here.`,
+        }
+      }
       const type = options.getString('type')
 
       let image: { url: string }

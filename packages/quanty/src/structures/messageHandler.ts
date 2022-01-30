@@ -1,9 +1,8 @@
 import { Message } from 'discord.js'
 import ms from 'ms'
+import { ICommandHandler, IGuildManager } from 'types'
 
 import { CommandHandler, QuantyLogger } from '.'
-
-import GuildManager from './guildManager'
 
 import QuantyClient from '../client'
 
@@ -12,14 +11,14 @@ class MessageHandler {
 
   private logger: QuantyLogger = new QuantyLogger('Message-Handler')
 
-  private commandHandler: CommandHandler
+  private commandHandler: ICommandHandler
 
-  private guildManager: GuildManager
+  private guildManager: IGuildManager
 
   constructor(
     client: QuantyClient,
     commandHandler: CommandHandler,
-    guildManager: GuildManager,
+    guildManager: IGuildManager,
   ) {
     this.client = client
     this.commandHandler = commandHandler
@@ -56,8 +55,8 @@ class MessageHandler {
       if (!cmd) return
 
       const command =
-        client.commandHandler.getCommand(cmd) ||
-        client.commandHandler.aliases.get(cmd)
+        this.commandHandler.getCommand(cmd) ||
+        this.commandHandler.aliases.get(cmd)
 
       if (!command?.isGuildOnly) {
         return

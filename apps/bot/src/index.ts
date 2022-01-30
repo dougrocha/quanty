@@ -20,6 +20,9 @@ const client = new QuantyClient(
     commandsDir: join(__dirname, 'commands'),
     featuresDir: join(__dirname, 'features'),
     testServers: ['871581301713555526'],
+    defaultValues: {
+      defaultCommands: true,
+    },
   },
   { intents: 32509 },
   {

@@ -1,74 +1,106 @@
+import { join } from 'path'
+
 import { Command } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
+
+import { uppercaseFirst } from '../../libs/extra'
+import { turnOffPlugin, turnOnPlugin } from '../../libs/pluginHandler'
+
+const PossiblePlugins = {
+  MODERATION: 'moderation',
+  ANIME: 'anime',
+  MUSIC: 'music',
+  //   ECONOMY: 'economy',
+} as const
 
 export const command: Command = {
   name: 'plugins',
   description: 'Shows the commands available in this server.',
   options: [
     {
-      type: 'STRING',
-      name: 'add-on',
-      description: 'Shows specific commands for this add-on.',
-      required: false,
+      type: 'SUB_COMMAND',
+      name: 'on',
+      description: 'Turn on plugins',
+      options: [
+        {
+          name: 'plugin-name',
+          description: 'Plugin to turn on',
+          type: 'STRING',
+        },
+      ],
+    },
+    {
+      type: 'SUB_COMMAND',
+      name: 'off',
+      description: 'Turn off plugins',
+      options: [
+        {
+          name: 'plugin-name',
+          description: 'Plugin to turn off',
+          type: 'STRING',
+        },
+      ],
     },
   ],
   category: 'util',
   userPermissions: ['ADMINISTRATOR'],
   cmdType: 'both',
   run: async ({ client, guild, options, args }) => {
-    const plugin =
-      options?.getString('add-ons')?.toLowerCase() ?? args[0].toLowerCase()
-
-    const serverPlugins = await client.PluginManager.getGuild(guild.id)
-
     const embed = new MessageEmbed().setColor('RANDOM')
 
-    if (!serverPlugins) {
-      await client.PluginManager.createGuild(guild.id)
-    }
+    const subCmd =
+      options?.getSubcommand().toLowerCase() ?? args[0]
+        ? args[0].toLowerCase()
+        : undefined
 
-    switch (plugin) {
-      case 'music':
-        const { plugin, immortal, musicChannel } =
-          await client.PluginManager.getMusicConfig(guild.id)
+    const pluginName =
+      options?.getString('plugin-name')?.toLowerCase() ?? args[1]
+        ? args[1].toLowerCase()
+        : undefined
 
-        embed.setTitle('Music Settings')
-        embed.addFields(
-          {
-            name: 'Plugin',
-            value: `\`\`${
-              `${plugin || false}`.charAt(0).toUpperCase() +
-              `${plugin || false}`.slice(1)
-            }\`\``,
-          },
-          {
-            name: 'Immortality',
-            value: `\`\`${
-              `${immortal || false}`.charAt(0).toUpperCase() +
-              `${immortal || false}`.slice(1)
-            }\`\``,
-          },
-          {
-            name: 'Channel',
-            value: `\`\`${
-              guild.channels.cache.get(musicChannel ?? '')?.name || 'Any Room'
-            }\`\``,
-          },
-        )
-        break
-
-      default:
-        return {
-          embeds: [
-            embed.setDescription(
-              `Currently being worked on. Here is your response: `,
+    if (
+      !(<any>Object).values(PossiblePlugins).includes(pluginName) ||
+      !subCmd
+    ) {
+      return {
+        embeds: [
+          embed
+            .setTitle('Plugins you can turn on/off:')
+            .setDescription(
+              `${Object.values(PossiblePlugins).map(
+                string => `\`${uppercaseFirst(string)}\``,
+              )}`,
             ),
-          ],
-        }
+        ],
+      }
     }
 
-    return {
-      embeds: [embed],
+    const guildConfig = client.guildManager.findGuild(guild.id)
+
+    if (!guildConfig) {
+      return `It seems that I don't have your guild saved. Log in to https://quanty.xyz to active plugins.`
+    }
+
+    const staticPath = join(__dirname, `../${pluginName}`)
+
+    if (subCmd == 'off') {
+      turnOffPlugin(staticPath, client, guild.id)
+      return {
+        embeds: [
+          embed
+            .setTitle(`Turned off:`)
+            .setDescription(uppercaseFirst(pluginName ?? '')),
+        ],
+      }
+    } else if (subCmd == 'on') {
+      turnOnPlugin(staticPath, client, guild.id)
+      return {
+        embeds: [
+          embed
+            .setTitle(`Turned on:`)
+            .setDescription(uppercaseFirst(pluginName ?? '')),
+        ],
+      }
     }
   },
 }

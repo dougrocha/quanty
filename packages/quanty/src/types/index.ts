@@ -34,13 +34,8 @@ export interface QuantySettings {
 }
 
 export interface DefaultValues {
-  defaultCommands: {
-    all: boolean
-    help: boolean
-  }
-  defaultFeatures: {
-    ready: boolean
-  }
+  defaultCommands?: boolean
+  defaultFeatures?: boolean
 }
 
 export interface IWebSocketConfig {

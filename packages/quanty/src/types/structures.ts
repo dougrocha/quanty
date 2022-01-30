@@ -1,12 +1,22 @@
 import { Collection } from 'discord.js'
+import { Socket } from 'socket.io-client'
 import { Command } from 'structures'
+import { BaseFeature } from 'types'
 
 import { guildsDocument, guildsObject, guilds } from './mongoose.gen'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IFeatureHandler {}
+export interface IFeatureHandler {
+  features: Collection<string, BaseFeature>
+}
 
 export interface ICommandHandler {
+  readonly categories: Set<string>
+
+  readonly commands: Collection<string, Command>
+  readonly aliases: Collection<string, Command>
+  readonly cooldowns: Collection<string, number>
+
   /**
    * @returns {Command} Returns all commands.
    */
@@ -17,25 +27,31 @@ export interface ICommandHandler {
    * @returns {Command} Returns a single command.
    */
   getCommand(name: string): Command | undefined
+
+  /**
+   * Deletes all commands
+   */
+  sweepCommands(): void
+  /**
+   * Deletes Commands
+   * @param name Name of Command
+   */
+  deleteCommand(name: string): void
 }
 
 export interface IGuildManager {
-  findById(guildId: string): Promise<guildsDocument | undefined>
+  readonly guilds: Collection<string, guildsDocument>
+
+  findGuild(guildId: string): guildsDocument | undefined
   updateGuildById(
     guildId: string,
-    newGuild: guildsDocument,
-  ): Promise<guildsDocument | undefined>
+    data: guildsDocument,
+  ): guildsDocument | undefined
   getPrefixAndUpdate(
     guildId: string,
     prefix: string,
-  ): Promise<{ oldPrefix: string | undefined; prefix: string }>
-  getPrefix(guildId: string): Promise<string>
-}
-
-export interface ILoaders {
-  loadCommands(dir: string): void
-  loadSlashCommands(dir: string): void
-  loadFeatures(dir: string): void
+  ): Promise<guildsDocument | undefined>
+  getPrefix(guildId: string): string
 }
 
 export interface ILogger {
@@ -88,6 +104,8 @@ export interface IPluginManager {
 }
 
 export interface IWebSocketManager {
+  socket: Socket | undefined
+
   receivePrefixUpdate(): void
   receiveAutoMod(): void
   receiveModerationPlugin(): void

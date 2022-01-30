@@ -8,7 +8,7 @@ import { Guild } from '../database/schemas'
 class GuildManager implements IGuildManager {
   private client: QuantyClient
 
-  private guilds: Collection<string, guildsDocument> = new Collection<
+  readonly guilds: Collection<string, guildsDocument> = new Collection<
     string,
     guildsDocument
   >()
@@ -37,37 +37,41 @@ class GuildManager implements IGuildManager {
     })
   }
 
-  getGuilds() {
+  updateGuildById(
+    guildId: string,
+    newGuild: guildsDocument,
+  ): guildsDocument | undefined {
+    this.guilds.set(guildId, newGuild)
+
+    return this.findGuild(guildId)
+  }
+
+  getGuilds(): guildsDocument[] {
     return this.guilds.toJSON()
   }
 
   /**
    * Get guild object with guild id
-   *
-   * Will not create guild if not found
    * @param guildId Guild Id
    * @returns Guild Object stripped of functions
    */
-  async findById(guildId: string) {
+  findGuild(guildId: string): guildsDocument | undefined {
     return this.guilds.get(guildId)
   }
 
-  async updateGuildById(guildId: string, newGuild: guildsDocument) {
-    this.guilds.set(guildId, newGuild)
+  async getPrefixAndUpdate(
+    guildId: string,
+    prefix: string,
+  ): Promise<guildsDocument | undefined> {
+    const guild = await this.findGuild(guildId)
 
-    return this.findById(guildId)
-  }
+    if (!guild) await Guild.create({ guildId })
 
-  async getPrefixAndUpdate(guildId: string, prefix: string) {
-    const guild = await this.findById(guildId)
-    const oldPrefix = guild?.prefix
-
-    return await Guild.findOneAndUpdate({ guildId }, { prefix }).then(() => {
-      return {
-        oldPrefix,
-        prefix,
-      }
-    })
+    return await Guild.findOneAndUpdate(
+      { guildId },
+      { prefix },
+      { upsert: true, new: true },
+    )
   }
 
   /**
@@ -75,8 +79,8 @@ class GuildManager implements IGuildManager {
    * @param guildId Guild Id
    * @returns Guild prefix or `q!` if prefix doesnt exist
    */
-  async getPrefix(guildId: string) {
-    const guild = await this.findById(guildId)
+  getPrefix(guildId: string): string {
+    const guild = this.findGuild(guildId)
 
     const prefix = guild?.prefix
 

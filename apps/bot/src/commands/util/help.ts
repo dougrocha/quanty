@@ -1,5 +1,7 @@
+import { Command } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
-import { Command } from 'index'
+
+import { uppercaseFirst } from '../../libs/extra'
 
 const PossiblePlugins = {
   MODERATION: 'moderation',
@@ -27,7 +29,7 @@ export const command: Command = {
       options?.getString('plugin-name')?.toLowerCase() ??
       args?.slice(0, 1).shift()?.toLowerCase()
 
-    const guildConfig = await client.guildManager.findById(guild.id)
+    const guildConfig = client.guildManager.findGuild(guild.id)
 
     if (!guildConfig) {
       return `It seems that I don't have you guild save. Log in to https://quanty.xyz to active plugins.`
@@ -36,23 +38,22 @@ export const command: Command = {
     const embed = new MessageEmbed().setColor('RANDOM')
 
     if (!pluginName) {
-      const musicString = `\`/help music\``
-      const moderationString = `\`/help moderation\``
-      const animeString = `\`/help anime\``
+      const pluginStrings: readonly {
+        name: PossiblePluginsType
+        value: string
+      }[] = [
+        { name: 'music', value: `\`/help music\`` },
+        { name: 'moderation', value: `\`/help moderation\`` },
+        { name: 'anime', value: `\`/help anime\`` },
+      ] as const
 
-      const descStringArray = []
+      const descStringArray: string[] = []
 
-      if (guildConfig?.music?.plugin == true) {
-        descStringArray.push(musicString)
-      }
-
-      if (guildConfig?.moderation?.plugin == true) {
-        descStringArray.push(moderationString)
-      }
-
-      if (guildConfig?.anime?.plugin == true) {
-        descStringArray.push(animeString)
-      }
+      pluginStrings.map(plugin => {
+        if (guildConfig[plugin.name]?.plugin) {
+          descStringArray.push(plugin.value)
+        }
+      })
 
       const descString = descStringArray.join(' ')
 
@@ -67,18 +68,18 @@ export const command: Command = {
 
     if (!(<any>Object).values(PossiblePlugins).includes(pluginName)) {
       return {
-        content: `The plugin: ${pluginName} does not exist. Use \`/help plugins\` to see possible plugins.`,
+        content: `The plugin: ${pluginName} does not exist. Use \`/help\` to see possible plugins.`,
       }
     }
 
-    const availablePlugins =
-      guildConfig[pluginName as unknown as PossiblePluginsType]
+    embed.setTitle(`${uppercaseFirst(pluginName)} plugin.`)
 
-    embed.setTitle(`${pluginName} plugin.`)
-
-    const descString = `${JSON.stringify(availablePlugins)}`
-
-    embed.setDescription(descString)
+    Object.keys(guildConfig[pluginName as unknown as PossiblePluginsType]).map(
+      name => {
+        const value = (guildConfig as any)[pluginName as any][name as any]
+        embed.addField(uppercaseFirst(name), value ? 'On' : 'Off')
+      },
+    )
 
     return {
       embeds: [embed],

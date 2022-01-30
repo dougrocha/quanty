@@ -15,15 +15,12 @@ export const command: Command = {
   category: 'config',
   userPermissions: ['ADMINISTRATOR'],
   run: async ({ client, options, guild, args, member }) => {
-    const prefix = await client.PluginManager.getGuildSetting({
-      guildId: guild.id,
-      setting: 'PREFIX',
-    })
+    const prefix = await client.guildManager.getPrefix(guild.id)
 
-    const embed = new MessageEmbed().setFooter(
-      `${member?.user.discriminator} | ${member?.user.username}`,
-      member?.user.displayAvatarURL({ format: 'png', dynamic: true }),
-    )
+    const embed = new MessageEmbed().setFooter({
+      text: `${member?.user.discriminator} | ${member?.user.username}`,
+      iconURL: member?.user.displayAvatarURL({ format: 'png', dynamic: true }),
+    })
 
     const input = options?.getString('prefix') || args[0]
 

@@ -3,7 +3,7 @@ import QuantyClient, { Feature } from '@quanty/framework'
 export const feature: Feature<'ready'> = {
   name: 'ready',
   once: true,
-  run: (client: QuantyClient) => {
+  run: async (client: QuantyClient) => {
     client.logger.success(`${client.user?.tag} is online!`)
 
     client.user?.setPresence({

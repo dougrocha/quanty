@@ -27,9 +27,10 @@ class SlashCommandHandler {
       const command = this.commandHandler.getCommand(interaction.commandName)
 
       if (!command) {
-        return interaction.reply({
+        await interaction.editReply({
           content: 'Sorry this command doesnt exist.',
         })
+        return
       }
 
       const { guild, channel, options } = interaction

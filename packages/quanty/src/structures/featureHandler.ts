@@ -41,9 +41,7 @@ class FeatureHandler implements IFeatureHandler {
 
     this.dir = dir
 
-    this.client.once('ready', async () => {
-      await this.init()
-    })
+    void this.init()
   }
 
   /**
@@ -56,7 +54,7 @@ class FeatureHandler implements IFeatureHandler {
       `${this.dir}/**/*{.ts,.js}`,
     )
 
-    const loadFeatures = async () => {
+    await Promise.all(
       featureFiles.map(async (value: string) => {
         const { feature } = (await require(value)) as FeatureImport
 
@@ -67,10 +65,10 @@ class FeatureHandler implements IFeatureHandler {
         }
 
         this.features.set(feature.name, feature)
-      })
-    }
+      }),
+    )
 
-    await loadFeatures().then(() => this.logger.success('Features Loaded'))
+    this.logger.success(`Features Loaded: ${this.features.size}`)
   }
 }
 

@@ -45,9 +45,7 @@ class CommandHandler implements ICommandHandler {
 
     this.dir = dir
 
-    this.client.once('ready', async () => {
-      await this.init()
-    })
+    void this.init()
   }
 
   public getCommand(name: string): Command | undefined {
@@ -60,17 +58,10 @@ class CommandHandler implements ICommandHandler {
     return cmds
   }
 
-  /**
-   * Deletes all commands
-   */
   public sweepCommands() {
     this.commands.sweep(() => true)
   }
 
-  /**
-   * Deletes Commands
-   * @param name Name of Command
-   */
   public deleteCommand(name: string) {
     this.commands.delete(name)
   }
@@ -105,7 +96,7 @@ class CommandHandler implements ICommandHandler {
    */
   private async init() {
     const commandFiles: string[] = await globPromise(
-      `${this.dir}/../commands/**/*{.ts,.js}`,
+      `${this.dir}/**/*{.ts,.js}`,
     )
 
     await Promise.all(
@@ -114,9 +105,9 @@ class CommandHandler implements ICommandHandler {
       }),
     )
 
-    const defaultsValue = this.client.defaults?.defaultCommands.all
+    const defaultCommands = this.client.defaults?.defaultCommands
 
-    if (!defaultsValue || defaultsValue == true) {
+    if (defaultCommands == undefined || defaultCommands == true) {
       // This glob pattern is set to support both local testing and production
       // the [!.d] will ignore .d.ts files
       // while .ts is for local and .js is for production package
@@ -133,7 +124,8 @@ class CommandHandler implements ICommandHandler {
         }),
       )
 
-      await this.loadDefaultCommands(commands)
+      // eslint-disable-next-line capitalized-comments
+      // await this.loadDefaultCommands(commands)
     }
 
     this.logger.success(`Commands Loaded: ${this.commands.size}`)
@@ -142,6 +134,8 @@ class CommandHandler implements ICommandHandler {
   private async loadDefaultCommands(commands: Command[]) {
     const client = this.client
     const globalCommands = client.application?.commands
+
+    // TODO change this to a rest api call
 
     commands.map(async cmd => {
       await globalCommands?.create({

@@ -22,6 +22,7 @@ import {
 } from './structures'
 import {
   DefaultValues,
+  IGuildManager,
   ILogger,
   IWebSocketConfig,
   QuantySettings,
@@ -58,7 +59,7 @@ export default class QuantyClient<
 
   public messageHandler: MessageHandler
 
-  public guildManager: GuildManager
+  public guildManager: IGuildManager
 
   private readonly WebSocketConfig: IWebSocketConfig | undefined = {}
 

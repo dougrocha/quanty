@@ -11,6 +11,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Quanty - Discord Bot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
           content="Quanty gives you freedom. While you focus on your chat, Quanty will do the heavy lifting behind scenes."

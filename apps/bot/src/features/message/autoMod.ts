@@ -1,11 +1,9 @@
-import { Feature, Guild } from '@quanty/framework'
+import { Feature } from '@quanty/framework'
 
 export const feature: Feature<'messageCreate'> = {
   name: 'messageCreate',
   run: async (client, message) => {
-    const guildPlugins = await Guild.findOne({
-      guildId: message.guild?.id,
-    })
+    const guildPlugins = client.guildManager.findGuild(message.guild?.id || '')
 
     const isAutomod = guildPlugins?.moderation.autoMod
 
