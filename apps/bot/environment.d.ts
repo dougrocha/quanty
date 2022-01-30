@@ -10,5 +10,7 @@ declare namespace NodeJS {
 
     SPOTIFY_CLIENT_ID?: string
     SPOTIFY_CLIENT_SECRET?: string
+
+    WEBSOCKET_TOKEN?: string
   }
 }
