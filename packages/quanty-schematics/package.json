@@ -1,6 +1,6 @@
 {
   "name": "@quanty/schematics",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Quanty schematics for discord bot development",
   "main": "dist/src/index.js",
   "files": [
