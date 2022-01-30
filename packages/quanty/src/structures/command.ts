@@ -6,7 +6,7 @@ import {
   PermissionString,
 } from 'discord.js'
 
-import Logger from './Logger'
+import Logger from './logger'
 
 import QuantyClient from '../client'
 import {

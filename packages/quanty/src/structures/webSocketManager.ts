@@ -4,9 +4,9 @@ import { guildsDocument } from 'types/mongoose.gen'
 
 import { QuantyLogger } from '.'
 
-import { GuildEventsEnum, IWebSocket, IWebSocketConfig } from '../types'
+import { GuildEventsEnum, IWebSocketManager, IWebSocketConfig } from '../types'
 
-class WebSocket implements IWebSocket {
+class WebSocketManager implements IWebSocketManager {
   private logger: QuantyLogger = new QuantyLogger('Websocket')
 
   private client: QuantyClient
@@ -96,4 +96,4 @@ class WebSocket implements IWebSocket {
   }
 }
 
-export default WebSocket
+export default WebSocketManager

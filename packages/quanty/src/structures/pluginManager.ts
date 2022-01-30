@@ -1,4 +1,4 @@
-import QuantyLogger from './Logger'
+import QuantyLogger from './logger'
 
 import QuantyClient from '../client'
 import { Guild } from '../database/schemas'

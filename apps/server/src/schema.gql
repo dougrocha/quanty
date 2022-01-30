@@ -144,9 +144,13 @@ type Mutation {
   addCustomCommand(addCustomCommand: AddCustomCommand!): GuildConfig!
   addLog(addLog: AddLog!): GuildConfig!
   updateAutoMod(updateAutoMod: UpdateAutoModInput!): GuildConfig!
-  updateBlacklistedWords(updateBlacklistedWords: UpdateBlacklistedWords!): GuildConfig!
+  updateBlacklistedWords(
+    updateBlacklistedWords: UpdateBlacklistedWords!
+  ): GuildConfig!
   updateImmortality(updateImmortality: UpdateMusicImmortality!): GuildConfig!
-  updateModerationPlugin(updateModerationPlugin: UpdateModerationPlugin!): GuildConfig!
+  updateModerationPlugin(
+    updateModerationPlugin: UpdateModerationPlugin!
+  ): GuildConfig!
   updateMusicChannel(updateMusicChannel: UpdateMusicChannel!): GuildConfig!
   updateMusicPlugin(updateMusicPlugin: UpdateMusicPlugin!): GuildConfig!
   updatePrefix(updatePrefix: UpdatePrefixInput!): GuildConfig!

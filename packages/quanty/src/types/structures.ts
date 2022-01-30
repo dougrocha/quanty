@@ -87,7 +87,7 @@ export interface IPluginManager {
   getGuild(guildId: string): Promise<guildsObject>
 }
 
-export interface IWebSocket {
+export interface IWebSocketManager {
   receivePrefixUpdate(): void
   receiveAutoMod(): void
   receiveModerationPlugin(): void
