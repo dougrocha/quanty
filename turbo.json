@@ -7,18 +7,22 @@
     "start": {
       "dependsOn": ["^build"]
     },
-    "dashboard#start": {
-      "dependsOn": ["^server#start"]
-    },
     "build": {
-      "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "lib/**"],
+      "cache": true
+    },
+    "app-bot#build": {
+      "dependsOn": ["@quanty/framework#build"],
       "cache": true
     },
     "lint": {
       "outputs": []
     },
-    "test": {},
-    "format": {}
+    "test": {
+      "outputs": []
+    },
+    "format": {
+      "outputs": []
+    }
   }
 }

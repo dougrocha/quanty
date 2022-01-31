@@ -131,14 +131,11 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
         player.textChannel,
       ) as TextChannel
 
-      const guildConfig = await client.PluginManager.getGuildSetting({
-        guildId: player.guild,
-        setting: 'MUSIC',
-      })
+      const guildConfig = client.guildManager.findGuild(player.guild)
 
       await channel.send('Queue has ended.')
 
-      if (guildConfig?.immortal == true) {
+      if (guildConfig?.music.immortal == true) {
       } else {
         await client.wait(1000 * 60 * 5) // 10 Minutes
         if (player.playing) return
