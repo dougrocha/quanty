@@ -22,7 +22,10 @@ const HeroComponent = () => {
             lifting!
           </p>
           <MainSectionButton>
-            <Link href="/invite" passHref>
+            <Link
+              href="https://discord.com/api/oauth2/authorize?client_id=824106276404854844&permissions=8&scope=bot%20applications.commands"
+              passHref
+            >
               <a>
                 <Button text="Add to Server" />
               </a>

@@ -35,7 +35,7 @@ const NavBar = () => {
             <NavItemWrapper text="Dashboard" url="/dashboard" />
             <NavItemWrapper
               text="Support"
-              url="https://discord.com/oauth2/authorize?client_id=824106276404854844&scope=bot&permissions=8"
+              url="https://discord.gg/Pgbran8GGH"
             />
           </div>
           {user ? <UserProfile user={user} /> : <LoginButton />}
