@@ -1,6 +1,6 @@
 {
   "name": "@quanty/schematics",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Quanty schematics for discord bot development",
   "main": "dist/src/index.js",
   "files": [
@@ -10,7 +10,7 @@
     "postbuild": "yarn copy:collection && yarn copy:templates",
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "copy:collection": "cpx src/collection.json dist/src && cpx 'src/templates/**/*.json' dist/src/templates",
+    "copy:collection": "cpx src/collection.json dist/src && cpx src/templates/**/*.json dist/src/templates",
     "copy:templates": "cpx src/templates/**/files/**/*.* dist/src/templates",
     "format": "prettier --write src",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
