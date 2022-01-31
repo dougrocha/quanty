@@ -52,7 +52,7 @@ export const checkChannel = ({
   const player = client.player.get(curGuild.id)
 
   if (!channel) {
-    return { player, content: 'Please join a voice channel first.' }
+    return { player, content: 'Use `/join` to connect to Quanty.' }
   }
 
   if (channel.id !== player?.voiceChannel)

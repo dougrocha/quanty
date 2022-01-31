@@ -1,4 +1,4 @@
-import { checkChannel, Command } from '@quanty/framework'
+import { checkChannel, Command, createPlayer } from '@quanty/framework'
 import {
   MessageActionRow,
   MessageEmbed,
@@ -143,7 +143,9 @@ export const command: Command = {
           embed.setTitle(`Added to queue: `).setDescription(`${track.title}`)
 
           player.queue.add(track)
+
           collectedSongs + 1
+
           if (!player.playing && !player.paused && !player.queue.size)
             await player.play()
 
