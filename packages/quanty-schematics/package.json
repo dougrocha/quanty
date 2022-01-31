@@ -35,6 +35,7 @@
     "@types/node": "^16.11.13",
     "config": "*",
     "cpx": "^1.5.0",
+    "cz-conventional-changelog": "3.3.0",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.2",
     "tsconfig": "*",
@@ -52,5 +53,10 @@
   "bugs": {
     "url": "https://github.com/slashtp3/quanty/issues"
   },
-  "homepage": "https://github.com/slashtp3/quanty#readme"
+  "homepage": "https://github.com/slashtp3/quanty#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
