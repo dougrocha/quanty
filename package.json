@@ -1,8 +1,8 @@
 {
   "name": "quanty-monorepo",
-  "packageManager": "yarn@3.1.1",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.17",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -23,41 +23,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.3.2",
     "prettier": "^2.5.1",
-    "turbo": "1.0.29"
-  },
-  "turbo": {
-    "baseBranch": "origin/master",
-    "pipeline": {
-      "dev": {
-        "cache": false
-      },
-      "start": {
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "dashboard#start": {
-        "dependsOn": [
-          "^server#start"
-        ]
-      },
-      "build": {
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "dist/**",
-          ".next/**",
-          "lib/**"
-        ],
-        "cache": true
-      },
-      "lint": {
-        "outputs": []
-      },
-      "test": {},
-      "format": {}
-    }
+    "turbo": "1.1.1"
   },
   "lint-staged": {
     "apps/**/*.{ts,tsx}": [],
