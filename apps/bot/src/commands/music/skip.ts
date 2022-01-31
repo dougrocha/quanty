@@ -14,7 +14,11 @@ export const command: Command = {
   ],
   category: 'music',
   run: async ({ client, options, guild, member, args }) => {
-    const skipToSong = options?.getInteger('song') ?? args[0]
+    let skipToSong
+
+    if (options?.getInteger('song')) skipToSong = options?.getInteger('song')
+    else skipToSong = args ? Number(args[0]) : 1
+
     const player = client.player.get(guild.id)
 
     if (!player) return { content: 'Play a few songs first' }
@@ -61,7 +65,8 @@ export const command: Command = {
 
       await client.wait(500)
 
-      embed.setTitle(`\`${amount - 1} songs were skipped.\``)
+      if (amount > 1) embed.setTitle(`\`${amount - 1} songs were skipped.\``)
+      else embed.setTitle(`\`Skipped ${current}\``)
 
       return { embeds: [embed] }
     }

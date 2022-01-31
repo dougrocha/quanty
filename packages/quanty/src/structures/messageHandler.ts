@@ -100,7 +100,6 @@ class MessageHandler {
           .missing(userPermissions)
         if (missingPerms?.length) {
           await channel.sendTyping()
-          console.log('test2')
           await message.reply(
             `You are missing \`${missingPerms.map(val => `${val}`)}\``,
           )

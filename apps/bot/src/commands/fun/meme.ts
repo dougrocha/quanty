@@ -16,7 +16,7 @@ export const command: Command = {
           .setTitle(data.title)
           .setURL(data.postLink)
           .setImage(data.url)
-          .setFooter(`${data.subreddit} - ${data.ups}`)
+          .setFooter({ text: `${data.subreddit} - ${data.ups}` })
           .setTimestamp(Date.now())
           .setColor('#FF5F9F')
 

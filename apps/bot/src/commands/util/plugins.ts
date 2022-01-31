@@ -58,6 +58,8 @@ export const command: Command = {
         ? args[1].toLowerCase()
         : undefined
 
+    if (subCmd == 'all')
+      await (await guild.commands.fetch()).map(async cmd => await cmd.delete())
     if (
       !(<any>Object).values(PossiblePlugins).includes(pluginName) ||
       !subCmd
@@ -84,7 +86,7 @@ export const command: Command = {
     const staticPath = join(__dirname, `../${pluginName}`)
 
     if (subCmd == 'off') {
-      turnOffPlugin(staticPath, client, guild.id)
+      await turnOffPlugin(staticPath, client, guild.id)
       return {
         embeds: [
           embed
@@ -93,7 +95,7 @@ export const command: Command = {
         ],
       }
     } else if (subCmd == 'on') {
-      turnOnPlugin(staticPath, client, guild.id)
+      await turnOnPlugin(staticPath, client, guild.id)
       return {
         embeds: [
           embed

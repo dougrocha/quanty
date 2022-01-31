@@ -21,7 +21,10 @@ export const command: Command = {
 
     const { queue } = player
 
-    const pageNumber = options?.getInteger('pages') ?? Number(args[0])
+    let pageNumber
+
+    if (options?.getInteger('pages')) pageNumber = options?.getInteger('pages')
+    else pageNumber = args ? Number(args[0]) : 0
 
     const multiple = 10
     const page = pageNumber || 1 // Default page is one if page number does not exist
@@ -31,7 +34,9 @@ export const command: Command = {
 
     const tracks: (Track | UnresolvedTrack)[] = queue.slice(start, end)
 
-    const embed = new MessageEmbed().setAuthor(`Queue for ${guild.name}`)
+    const embed = new MessageEmbed().setAuthor({
+      name: `Queue for ${guild.name}`,
+    })
 
     if (queue.current)
       embed.addField(
@@ -59,9 +64,9 @@ export const command: Command = {
 
     const maxPages = Math.ceil(queue.length / multiple)
     if (maxPages !== 0)
-      embed.setFooter(
-        `Page ${page > maxPages ? maxPages : page} of ${maxPages}`,
-      )
+      embed.setFooter({
+        text: `Page ${page > maxPages ? maxPages : page} of ${maxPages}`,
+      })
 
     return { embeds: [embed] }
   },

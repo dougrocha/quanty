@@ -43,6 +43,7 @@ export interface IGuildManager {
   readonly guilds: Collection<string, guildsDocument>
 
   findGuild(guildId: string): guildsDocument | undefined
+  createGuild(guildId: string): Promise<guildsDocument | undefined>
   updateGuildById(
     guildId: string,
     data: guildsDocument,

@@ -59,19 +59,31 @@ class GuildManager implements IGuildManager {
     return this.guilds.get(guildId)
   }
 
+  async createGuild(guildId: string): Promise<guildsDocument | undefined> {
+    const guild = await Guild.create({ guildId })
+
+    this.guilds.set(guild.id, guild)
+
+    return guild
+  }
+
   async getPrefixAndUpdate(
     guildId: string,
     prefix: string,
   ): Promise<guildsDocument | undefined> {
-    const guild = await this.findGuild(guildId)
+    const guild = this.findGuild(guildId)
 
-    if (!guild) await Guild.create({ guildId })
+    if (!guild) await this.createGuild(guildId)
 
-    return await Guild.findOneAndUpdate(
+    const newGuild = await Guild.findOneAndUpdate(
       { guildId },
       { prefix },
       { upsert: true, new: true },
     )
+
+    this.guilds.set(guildId, newGuild)
+
+    return newGuild
   }
 
   /**

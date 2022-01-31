@@ -4,7 +4,7 @@ import QuantyClient from '@quanty/framework'
 import * as dotenv from 'dotenv'
 
 const ENV = process.env.NODE_ENV
-dotenv.config({ path: !ENV ? '.env' : `.env.${ENV}` })
+dotenv.config({ path: `.env.${ENV}` })
 
 import { spotifyConfig, nodeConfig } from './utils/clientConfig'
 
@@ -21,7 +21,7 @@ const client = new QuantyClient(
     featuresDir: join(__dirname, 'features'),
     testServers: ['871581301713555526'],
     defaultValues: {
-      defaultCommands: true,
+      defaultCommands: false,
     },
   },
   { intents: 32509 },

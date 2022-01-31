@@ -5,7 +5,7 @@ export const command: Command = {
   description: 'Bans members',
   category: 'moderation',
   cmdType: 'both',
-  run: async () => {
+  run: async ({ client }) => {
     return {
       content: 'Command not yet built',
     }

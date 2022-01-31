@@ -87,12 +87,12 @@ export const command: Command = {
       return {
         embeds: [
           new MessageEmbed()
-            .setAuthor(
-              `Current song playing:`,
-              client.user?.displayAvatarURL({
+            .setAuthor({
+              name: `Current song playing:`,
+              iconURL: client.user?.displayAvatarURL({
                 dynamic: true,
               }),
-            )
+            })
             .setThumbnail(
               `https://img.youtube.com/vi/${song.identifier}/mqdefault.jpg`,
             )
@@ -107,14 +107,15 @@ export const command: Command = {
               true,
             )
             .addField(`🎛️ Progress: `, createBar(player) ?? 'none')
-            .setFooter(
-              `Requested by: ${song.requester.username}`,
-              // !TODO
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-              song.requester.displayAvatarURL({
-                dynamic: true,
-              }),
-            ),
+            .setFooter({
+              text: `Requested by: ${song.requester.username}`,
+              iconURL:
+                // !TODO
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                song.requester.displayAvatarURL({
+                  dynamic: true,
+                }),
+            }),
         ],
       }
     } catch (e: any) {

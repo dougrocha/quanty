@@ -15,7 +15,7 @@ export const command: Command = {
   category: 'config',
   userPermissions: ['ADMINISTRATOR'],
   run: async ({ client, options, guild, args, member }) => {
-    const prefix = await client.guildManager.getPrefix(guild.id)
+    const prefix = client.guildManager.getPrefix(guild.id)
 
     const embed = new MessageEmbed().setFooter({
       text: `${member?.user.discriminator} | ${member?.user.username}`,
@@ -47,14 +47,16 @@ export const command: Command = {
           ],
         }
 
-      await client.PluginManager.updatePrefix({
-        guildId: guild.id,
-        prefix: input,
-      })
+      const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
+        guild.id,
+        input,
+      )
 
       return {
         embeds: [
-          embed.setDescription(`Your prefix has been set to \`${prefix}\``),
+          embed.setDescription(
+            `Your prefix has been set to \`${newGuildConfig?.prefix}\``,
+          ),
         ],
       }
     }

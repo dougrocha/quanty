@@ -19,7 +19,9 @@ export const command: Command = {
       }
     }
 
-    const embed = new MessageEmbed().setAuthor(`Queue for ${guild.name}`)
+    const embed = new MessageEmbed().setAuthor({
+      name: `Queue for ${guild.name}`,
+    })
 
     if (player.queue.length == 0) {
       return { embeds: [embed.setDescription('Queue is empty')] }
