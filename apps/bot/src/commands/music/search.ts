@@ -119,6 +119,8 @@ export const command: Command = {
           time: 15000,
         })
 
+        const collectedSongs = 0
+
         collector.on('collect', async (collector: SelectMenuInteraction) => {
           if (collector.user.id !== interaction.user.id) {
             await collector.reply({
@@ -141,6 +143,7 @@ export const command: Command = {
           embed.setTitle(`Added to queue: `).setDescription(`${track.title}`)
 
           player.queue.add(track)
+          collectedSongs + 1
           if (!player.playing && !player.paused && !player.queue.size)
             await player.play()
 
@@ -150,10 +153,10 @@ export const command: Command = {
           })
         })
 
-        collector.on('end', async collected => {
+        collector.on('end', async () => {
           embed
             .setTitle(`Search has ended`)
-            .setDescription(`Added ${collected.size} songs to the queue.`)
+            .setDescription(`Added ${collectedSongs} songs to the queue.`)
 
           await interaction.editReply({ embeds: [embed], components: [] })
           await client.wait(5000)
