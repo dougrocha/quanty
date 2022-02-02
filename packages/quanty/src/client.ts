@@ -67,6 +67,8 @@ export default class QuantyClient<
 
   public readonly defaults: DefaultValues | undefined
 
+  public readonly testServers?: string[]
+
   private args: any
 
   /**
@@ -163,6 +165,8 @@ export default class QuantyClient<
       this.commandHandler,
       this.guildManager,
     )
+
+    this.testServers = this.config.testServers
   }
 
   /**

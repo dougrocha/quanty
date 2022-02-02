@@ -58,10 +58,6 @@ class MessageHandler {
         this.commandHandler.getCommand(cmd) ||
         this.commandHandler.aliases.get(cmd)
 
-      if (!command?.isGuildOnly) {
-        return
-      }
-
       if (!command) {
         return this.logger.log(
           `\`${cmd.substring(
@@ -74,13 +70,19 @@ class MessageHandler {
       const {
         isOwnerOnly,
         userPermissions,
+        isGuildOnly,
         clientPermissions,
-        name,
         userCooldowns,
+        maxArgs,
       } = command
 
+      if (maxArgs && args.length > maxArgs) return
+
+      if (command.test && client.testServers?.some(id => id == guild.id)) return
+      if (!isGuildOnly) return
+
       // Checks if command is Bot owner Only
-      if (isOwnerOnly && !client.botOwners?.some(id => author.id == id)) {
+      if (isOwnerOnly && !client.botOwners?.some(id => id == author.id)) {
         await message.reply('Only the owner of Quanty can use this command.')
         return
       }
@@ -122,24 +124,24 @@ class MessageHandler {
         }
       }
 
-      const cd = `${name}-${author.id}`
+      const cd = `${guild.id}-${author.id}`
 
       const userCooldown = userCooldowns.get(author.id)
 
       /** Checks if cooldown exists for command */
       if (userCooldown) {
-        if (client.commandHandler.cooldowns.has(cd)) {
+        if (command.userCooldowns.has(cd)) {
           await message.reply(
             `You can use this command in ${ms(
-              (client.commandHandler.cooldowns.get(cd) as number) - Date.now(),
+              (command.userCooldowns.get(cd) as number) - Date.now(),
               { long: true },
             )}`,
           )
         } else {
           /** Sets time to delete cooldown from collection */
-          client.commandHandler.cooldowns.set(cd, Date.now() + userCooldown)
+          command.userCooldowns.set(cd, Date.now() + userCooldown)
           setTimeout(() => {
-            client.commandHandler.cooldowns.delete(cd)
+            command.userCooldowns.delete(cd)
           }, userCooldown)
         }
       }
