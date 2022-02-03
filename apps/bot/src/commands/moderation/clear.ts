@@ -6,7 +6,7 @@ export const command: Command = {
   description: 'Deletes up to 99 messages above this one',
   options: [
     {
-      type: 'NUMBER',
+      type: 'INTEGER',
       name: 'amount',
       description: 'Number of messages to delete',
       required: true,
@@ -19,11 +19,11 @@ export const command: Command = {
     },
   ],
   category: 'util',
-  userPermissions: ['MANAGE_CHANNELS'],
+  userPermissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
   cmdType: 'slash',
   run: async ({ client, channel, options }) => {
-    const amount = options.getInteger('amount') ?? -1
-    const user = options.getUser('member')
+    const amount = options.getInteger('amount', true)
+    const user = options.getUser('member', false)
 
     if (amount <= 0 || amount > 100) {
       return {
@@ -51,22 +51,22 @@ export const command: Command = {
           embed.setDescription(
             `Cleared ${messages.size} messages from ${user}.`,
           )
-          return { embeds: [embed], ephemeral: true }
         })
+      return { embeds: [embed], ephemeral: true }
     } else {
       await (channel as TextBasedChannelFields)
         .bulkDelete(amount, true)
         .then(messages => {
           embed.setDescription(`Cleared ${messages.size} messages.`)
-          return { embeds: [embed], ephemeral: true }
         })
         .catch((err: any) => {
           client.logger.error(err)
           return {
-            content: 'An error happened',
+            embeds: [embed.setDescription('An error happened')],
             ephemeral: true,
           }
         })
+      return { embeds: [embed], ephemeral: true }
     }
   },
 }

@@ -1,4 +1,4 @@
-import { checkChannel, Command, createPlayer } from '@quanty/framework'
+import { checkChannel, Command } from '@quanty/framework'
 import {
   MessageActionRow,
   MessageEmbed,
@@ -103,7 +103,7 @@ export const command: Command = {
               tracks.map((song, index) => ({
                 label: song.title,
                 value: song.identifier,
-                description: `Search results from searching ${song}`,
+                description: `Search results from searching ${song.title}`,
                 emoji: emojis[index],
               })),
             ),

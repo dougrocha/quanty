@@ -108,13 +108,16 @@ export const command: Command = {
         player.queue.add(res.tracks[0])
 
         await player.play()
-        if (!player.playing && !player.paused && !player.queue.size) {
-        } else {
+
+        if (!player.playing && !player.paused && !player.queue.size)
           return {
-            embeds: [
-              embed.setDescription(`enqueuing \`${res.tracks[0].title}\`.`),
-            ],
+            embeds: [embed.setDescription(`Starting up...`)],
           }
+
+        return {
+          embeds: [
+            embed.setDescription(`enqueuing \`${res.tracks[0].title}\`.`),
+          ],
         }
 
         break

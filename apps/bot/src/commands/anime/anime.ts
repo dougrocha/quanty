@@ -47,6 +47,7 @@ export const command: Command = {
   ],
   category: 'nsfw',
   cmdType: 'slash',
+  nsfw: true,
   run: async ({ options, channel }) => {
     const neko = new Client()
 
