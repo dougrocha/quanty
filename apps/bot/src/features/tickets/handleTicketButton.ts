@@ -35,13 +35,15 @@ export const feature: Feature<'interactionCreate'> = {
       channelId: channel.id,
     }).catch(err => console.log(err))
 
-    if (!ticket)
-      return await interaction.reply({
+    if (!ticket) {
+      await interaction.followUp({
         embeds: [
           embed.setDescription('No ticket was found. Please delete manually.'),
         ],
         ephemeral: true,
       })
+      return
+    }
 
     const isTicketLocked = ticket?.locked
 

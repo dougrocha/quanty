@@ -3,6 +3,7 @@ import { Feature } from '@quanty/framework'
 export const feature: Feature<'messageCreate'> = {
   name: 'messageCreate',
   run: async (client, message) => {
+    return
     const guildPlugins = client.guildManager.findGuild(message.guild?.id || '')
 
     const isAutomod = guildPlugins?.moderation.autoMod
