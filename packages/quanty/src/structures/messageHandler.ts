@@ -37,7 +37,7 @@ class MessageHandler {
       const { client } = this
       const { guild, channel, member, author } = message
 
-      const guildPrefix = await this.guildManager.getPrefix(guild.id)
+      const guildPrefix = this.guildManager.getPrefix(guild.id)
 
       const prefix = message.content.match(clientMention)
         ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -51,16 +51,21 @@ class MessageHandler {
         .trim()
         .split(/ +/g)
 
-      const cmd: string | undefined = args.shift()?.toLowerCase()
-      if (!cmd) return
+      const cmdName: string | undefined = args.shift()?.toLowerCase()
+
+      if (!cmdName) return
 
       const command =
-        this.commandHandler.getCommand(cmd) ||
-        this.commandHandler.aliases.get(cmd)
+        this.commandHandler.getCommand(cmdName) ||
+        this.commandHandler.aliases.get(cmdName)
+
+      if (!command?.isGuildOnly) return
 
       if (!command) {
+        client.commandHandler.deleteCommand(cmdName)
+
         return this.logger.log(
-          `\`${cmd.substring(
+          `\`${cmdName.substring(
             0,
             20,
           )}\` message command does not exist. Please refresh command list.`,
@@ -72,6 +77,7 @@ class MessageHandler {
         userPermissions,
         isGuildOnly,
         clientPermissions,
+        name: commandName,
         userCooldowns,
         maxArgs,
       } = command
@@ -124,7 +130,7 @@ class MessageHandler {
         }
       }
 
-      const cd = `${guild.id}-${author.id}`
+      const cd = `${commandName}-${author.id}`
 
       const userCooldown = userCooldowns.get(author.id)
 

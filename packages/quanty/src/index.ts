@@ -12,16 +12,12 @@ export {
   ContextCommand,
   Feature,
   ILogger,
-  GuildSettingsEnum,
+  GuildEventsEnum,
+  GuildEventsEnum as GuildSettingsEnum,
 } from './types/index'
 
 // Handlers && Managers
-export {
-  QuantyLogger,
-  GuildManager,
-  PluginManager,
-  CommandHandler,
-} from './structures'
+export { QuantyLogger, GuildManager, CommandHandler } from './structures'
 
 // Utils
 export * from './utils'

@@ -8,36 +8,6 @@
 import mongoose from 'mongoose'
 
 /**
- * Lean version of guildsCustomCommandDocument
- *
- * This has all Mongoose getters & functions removed. This type will be returned from `guildsDocument.toObject()`.
- * ```
- * const guildsObject = guilds.toObject();
- * ```
- */
-export type guildsCustomCommand = {
-  id: string
-  name: string
-  description: string
-  _id: mongoose.Types.ObjectId
-}
-
-/**
- * Lean version of guildsLogDocument
- *
- * This has all Mongoose getters & functions removed. This type will be returned from `guildsDocument.toObject()`.
- * ```
- * const guildsObject = guilds.toObject();
- * ```
- */
-export type guildsLog = {
-  name: string
-  action: string
-  updatedAt?: Date
-  _id: mongoose.Types.ObjectId
-}
-
-/**
  * Lean version of guildsDocument
  *
  * This has all Mongoose getters & functions removed. This type will be returned from `guildsDocument.toObject()`. To avoid conflicts with model names, use the type alias `guildsObject`.
@@ -62,9 +32,7 @@ export type guilds = {
     nsfw?: boolean
     plugin?: boolean
   }
-  customCommands: guildsCustomCommand[]
-  premium?: boolean
-  logs: guildsLog[]
+  ticketChannel?: string
   _id: mongoose.Types.ObjectId
   updatedAt?: Date
   createdAt?: Date
@@ -84,12 +52,17 @@ export type guilds = {
 export type guildsObject = guilds
 
 /**
- * Mongoose Query types
+ * Mongoose Query type
  *
- * Pass this type to the Mongoose Model constructor:
- * ```
- * const guilds = mongoose.model<guildsDocument, guildsModel>("guilds", guildsSchema);
- * ```
+ * This type is returned from query functions. For most use cases, you should not need to use this type explicitly.
+ */
+export type guildsQuery = mongoose.Query<any, guildsDocument, guildsQueries> &
+  guildsQueries
+
+/**
+ * Mongoose Query helper types
+ *
+ * This type represents `guildsSchema.query`. For most use cases, you should not need to use this type explicitly.
  */
 export type guildsQueries = {}
 
@@ -105,7 +78,11 @@ export type guildsStatics = {}
  * const guilds = mongoose.model<guildsDocument, guildsModel>("guilds", guildsSchema);
  * ```
  */
-export type guildsModel = mongoose.Model<guildsDocument, guildsQueries> &
+export type guildsModel = mongoose.Model<
+  guildsDocument,
+  guildsQueries,
+  guildsMethods
+> &
   guildsStatics
 
 /**
@@ -116,31 +93,12 @@ export type guildsModel = mongoose.Model<guildsDocument, guildsQueries> &
  * const guildsSchema: guildsSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type guildsSchema = mongoose.Schema<guildsDocument, guildsModel>
-
-/**
- * Mongoose Subdocument type
- *
- * Type of `guildsDocument["customCommands"]` element.
- */
-export type guildsCustomCommandDocument = mongoose.Types.Subdocument & {
-  id: string
-  name: string
-  description: string
-  _id: mongoose.Types.ObjectId
-}
-
-/**
- * Mongoose Subdocument type
- *
- * Type of `guildsDocument["logs"]` element.
- */
-export type guildsLogDocument = mongoose.Types.Subdocument & {
-  name: string
-  action: string
-  updatedAt?: Date
-  _id: mongoose.Types.ObjectId
-}
+export type guildsSchema = mongoose.Schema<
+  guildsDocument,
+  guildsModel,
+  guildsMethods,
+  guildsQueries
+>
 
 /**
  * Mongoose Document type
@@ -171,9 +129,7 @@ export type guildsDocument = mongoose.Document<
       nsfw?: boolean
       plugin?: boolean
     }
-    customCommands: mongoose.Types.DocumentArray<guildsCustomCommandDocument>
-    premium?: boolean
-    logs: mongoose.Types.DocumentArray<guildsLogDocument>
+    ticketChannel?: string
     _id: mongoose.Types.ObjectId
     updatedAt?: Date
     createdAt?: Date
@@ -227,12 +183,21 @@ export type userGuild = {
 export type userGuildObject = userGuild
 
 /**
- * Mongoose Query types
+ * Mongoose Query type
  *
- * Pass this type to the Mongoose Model constructor:
- * ```
- * const userGuild = mongoose.model<userGuildDocument, userGuildModel>("userGuild", userGuildSchema);
- * ```
+ * This type is returned from query functions. For most use cases, you should not need to use this type explicitly.
+ */
+export type userGuildQuery = mongoose.Query<
+  any,
+  userGuildDocument,
+  userGuildQueries
+> &
+  userGuildQueries
+
+/**
+ * Mongoose Query helper types
+ *
+ * This type represents `userGuildSchema.query`. For most use cases, you should not need to use this type explicitly.
  */
 export type userGuildQueries = {}
 
@@ -250,7 +215,8 @@ export type userGuildStatics = {}
  */
 export type userGuildModel = mongoose.Model<
   userGuildDocument,
-  userGuildQueries
+  userGuildQueries,
+  userGuildMethods
 > &
   userGuildStatics
 
@@ -262,7 +228,12 @@ export type userGuildModel = mongoose.Model<
  * const userGuildSchema: userGuildSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type userGuildSchema = mongoose.Schema<userGuildDocument, userGuildModel>
+export type userGuildSchema = mongoose.Schema<
+  userGuildDocument,
+  userGuildModel,
+  userGuildMethods,
+  userGuildQueries
+>
 
 /**
  * Mongoose Subdocument type
@@ -344,12 +315,21 @@ export type userLogs = {
 export type userLogsObject = userLogs
 
 /**
- * Mongoose Query types
+ * Mongoose Query type
  *
- * Pass this type to the Mongoose Model constructor:
- * ```
- * const userLogs = mongoose.model<userLogsDocument, userLogsModel>("userLogs", userLogsSchema);
- * ```
+ * This type is returned from query functions. For most use cases, you should not need to use this type explicitly.
+ */
+export type userLogsQuery = mongoose.Query<
+  any,
+  userLogsDocument,
+  userLogsQueries
+> &
+  userLogsQueries
+
+/**
+ * Mongoose Query helper types
+ *
+ * This type represents `userLogsSchema.query`. For most use cases, you should not need to use this type explicitly.
  */
 export type userLogsQueries = {}
 
@@ -365,7 +345,11 @@ export type userLogsStatics = {}
  * const userLogs = mongoose.model<userLogsDocument, userLogsModel>("userLogs", userLogsSchema);
  * ```
  */
-export type userLogsModel = mongoose.Model<userLogsDocument, userLogsQueries> &
+export type userLogsModel = mongoose.Model<
+  userLogsDocument,
+  userLogsQueries,
+  userLogsMethods
+> &
   userLogsStatics
 
 /**
@@ -376,7 +360,12 @@ export type userLogsModel = mongoose.Model<userLogsDocument, userLogsQueries> &
  * const userLogsSchema: userLogsSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type userLogsSchema = mongoose.Schema<userLogsDocument, userLogsModel>
+export type userLogsSchema = mongoose.Schema<
+  userLogsDocument,
+  userLogsModel,
+  userLogsMethods,
+  userLogsQueries
+>
 
 /**
  * Mongoose Subdocument type
@@ -441,12 +430,17 @@ export type user = {
 export type userObject = user
 
 /**
- * Mongoose Query types
+ * Mongoose Query type
  *
- * Pass this type to the Mongoose Model constructor:
- * ```
- * const user = mongoose.model<userDocument, userModel>("user", userSchema);
- * ```
+ * This type is returned from query functions. For most use cases, you should not need to use this type explicitly.
+ */
+export type userQuery = mongoose.Query<any, userDocument, userQueries> &
+  userQueries
+
+/**
+ * Mongoose Query helper types
+ *
+ * This type represents `userSchema.query`. For most use cases, you should not need to use this type explicitly.
  */
 export type userQueries = {}
 
@@ -462,7 +456,8 @@ export type userStatics = {}
  * const user = mongoose.model<userDocument, userModel>("user", userSchema);
  * ```
  */
-export type userModel = mongoose.Model<userDocument, userQueries> & userStatics
+export type userModel = mongoose.Model<userDocument, userQueries, userMethods> &
+  userStatics
 
 /**
  * Mongoose Schema type
@@ -472,7 +467,12 @@ export type userModel = mongoose.Model<userDocument, userQueries> & userStatics
  * const userSchema: userSchema = new mongoose.Schema({ ... })
  * ```
  */
-export type userSchema = mongoose.Schema<userDocument, userModel>
+export type userSchema = mongoose.Schema<
+  userDocument,
+  userModel,
+  userMethods,
+  userQueries
+>
 
 /**
  * Mongoose Document type

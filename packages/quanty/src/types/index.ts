@@ -66,6 +66,7 @@ export enum GuildEventsEnum {
   MUSIC_CHANNEL = 'musicChannelUpdate',
   ADD_LOG = 'addLog',
   ADD_CUSTOMCOMMAND = 'addCustomCommand',
+  TICKETCHANNEL = 'ticketChannel',
 }
 
 /**
@@ -194,6 +195,7 @@ export type MessageRunOptions = Omit<
 export type SlashRunOptions = Omit<RunOptions<'slash'>, 'message' | 'args'>
 
 interface InteractionType {
+  both: CommandInteraction
   slash: CommandInteraction
   context: ContextMenuInteraction
   button: ButtonInteraction

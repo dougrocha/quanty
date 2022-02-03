@@ -15,7 +15,6 @@ import {
   FeatureHandler,
   GuildManager,
   MessageHandler,
-  PluginManager,
   QuantyLogger,
   SlashCommandHandler,
   WebSocketManager,
@@ -46,8 +45,6 @@ export default class QuantyClient<
   public player: Manager
 
   public WebSocketManager: WebSocketManager
-
-  public PluginManager: PluginManager
 
   public Database: Database
 
@@ -128,11 +125,6 @@ export default class QuantyClient<
      * Database using MongoDB
      */
     this.Database = new Database(this, this.config.mongoUri)
-
-    /**
-     * Plugin Manager
-     */
-    this.PluginManager = new PluginManager(this)
 
     /**
      * Command Handler

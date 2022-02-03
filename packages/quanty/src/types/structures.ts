@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client'
 import { Command } from 'structures'
 import { BaseFeature } from 'types'
 
-import { guildsDocument, guildsObject, guilds } from './mongoose.gen'
+import { guildsDocument } from './mongoose.gen'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IFeatureHandler {
@@ -98,12 +98,6 @@ export interface ILogger {
 
 export type GuildCollection = Collection<string, guildsDocument>
 
-export interface IPluginManager {
-  createGuild(guildId: string): Promise<guildsDocument>
-  createAllGuilds(): Promise<guildsObject[]>
-  getGuild(guildId: string): Promise<guildsObject>
-}
-
 export interface IWebSocketManager {
   socket: Socket | undefined
 
@@ -119,32 +113,3 @@ export interface IWebSocketManager {
 export interface IDatabase {
   ping(): Promise<number>
 }
-
-export enum GuildSettingsEnum {
-  ANIME = 'anime',
-  MODERATION = 'moderation',
-  MUSIC = 'music',
-  BANNEDWORDS = 'blacklistedWords',
-  CUSTOMCOMMAND = 'customCommands',
-  PREFIX = 'prefix',
-}
-
-export type GuildSettingsType = keyof typeof GuildSettingsEnum
-
-type GuildObject<T extends GuildSettingsEnum> = Pick<guilds, T>
-
-type Keys<T> = T extends Record<string, infer U> ? U : never
-
-export type GuildResponseType<T> = T extends 'ANIME'
-  ? Keys<GuildObject<GuildSettingsEnum.ANIME>>
-  : T extends 'MUSIC'
-  ? Keys<GuildObject<GuildSettingsEnum.MUSIC>>
-  : T extends 'CUSTOMCOMMAND'
-  ? Keys<GuildObject<GuildSettingsEnum.CUSTOMCOMMAND>>
-  : T extends 'MODERATION'
-  ? Keys<GuildObject<GuildSettingsEnum.MODERATION>>
-  : T extends 'PREFIX'
-  ? Keys<GuildObject<GuildSettingsEnum.PREFIX>>
-  : T extends 'BANNEDWORDS'
-  ? Keys<GuildObject<GuildSettingsEnum.BANNEDWORDS>>
-  : never

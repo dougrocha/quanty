@@ -33,22 +33,10 @@ const schema: guildsSchema = new Schema(
       nsfw: { type: Boolean, default: false },
       plugin: { type: Boolean, default: false },
     },
-    customCommands: [
-      {
-        id: { type: String, required: true },
-        name: { type: String, required: true },
-        description: { type: String, required: true },
-      },
-    ],
-    premium: { type: Boolean, default: false },
-    logs: [
-      {
-        name: { type: String, required: true },
-        action: { type: String, required: true },
-        updatedAt: { type: Date, default: Date.now() },
-      },
-      { max: 10 },
-    ],
+    ticketChannel: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true },
 )

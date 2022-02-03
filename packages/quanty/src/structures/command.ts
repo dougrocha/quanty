@@ -195,7 +195,7 @@ class Command {
       return
     }
 
-    await interaction.editReply(reply)
+    await interaction.reply(reply)
   }
 }
 
