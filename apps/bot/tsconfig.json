@@ -8,6 +8,8 @@
     "declaration": false,
     "declarationMap": false,
 
+    "strictPropertyInitialization": false,
+
     "skipLibCheck": true
   },
   "include": ["src", "environment.d.ts", ".eslintrc.js"],
