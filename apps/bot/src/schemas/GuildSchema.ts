@@ -75,10 +75,10 @@ export class Guild {
 
   @Prop({
     type: () => String,
-    enum: Object.values(PremiumTiers),
-    default: 'free',
+    enum: PremiumTiers,
+    default: PremiumTiers.free,
   })
-  premium: boolean
+  premium: PremiumTiers
 
   @Prop({ type: () => [String], nullable: true, lowercase: true })
   blacklistedWords: string[]
@@ -102,6 +102,15 @@ export class Guild {
 
   @Prop({ type: () => String, required: false })
   ticketTranscriptChannel?: string
+
+  @Prop({
+    type: () => Number,
+    required: false,
+    default: 1,
+    min: [1, 'Must at least have one'],
+    max: [5, 'Max Tickets'],
+  })
+  maxTickets: number
 }
 
 const GuildModel = getModelForClass<typeof Guild>(Guild)

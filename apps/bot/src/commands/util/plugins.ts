@@ -58,8 +58,13 @@ export const command: Command = {
         ? args[1].toLowerCase()
         : undefined
 
-    if (subCmd == 'all')
-      await (await guild.commands.fetch()).map(async cmd => await cmd.delete())
+    if (subCmd == 'all') {
+      ;(await guild.commands.fetch()).map(async cmd => {
+        await cmd.delete()
+      })
+      return
+    }
+
     if (
       !(<any>Object).values(PossiblePlugins).includes(pluginName) ||
       !subCmd

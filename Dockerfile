@@ -21,3 +21,5 @@ COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
 RUN yarn turbo run build --scope=app-bot --include-dependencies --no-deps
+
+CMD [ "yarn", "dev" ]

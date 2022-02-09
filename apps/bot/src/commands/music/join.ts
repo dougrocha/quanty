@@ -16,5 +16,7 @@ export const command: Command = {
     const guildId = guild.id
 
     createPlayer({ client, guildId, channelId, voiceChannelId })
+
+    return { content: 'Joined' }
   },
 }

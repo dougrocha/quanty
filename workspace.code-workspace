@@ -1,0 +1,33 @@
+{
+  "folders": [
+	{
+		"name": "✨ quanty-monorepo",
+		"path": "."
+	},
+	{
+		"name": "🚀 app-bot",
+		"path": "apps\\bot"
+	},
+	{
+		"name": "🚀 app-dashboard",
+		"path": "apps\\dashboard"
+	},
+	{
+		"name": "🚀 app-backend",
+		"path": "apps\\server"
+	},
+	{
+		"name": "📦 @quanty/framework",
+		"path": "packages\\quanty"
+	},
+	{
+		"name": "📦 @quanty/cli",
+		"path": "packages\\quanty-cli"
+	},
+	{
+		"name": "📦 @quanty/schematics",
+		"path": "packages\\quanty-schematics"
+	}
+],
+  "settings": {}
+}

@@ -31,8 +31,7 @@ async function bootstrap() {
       }),
       cookie: {
         maxAge: 60000 * 60 * 24,
-        // eslint-disable-next-line capitalized-comments
-        // secure: true,
+        // Secure: true,
       },
       secret: process.env.SESSION_COOKIE,
       resave: false,

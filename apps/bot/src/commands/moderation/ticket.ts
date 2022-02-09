@@ -1,108 +1,90 @@
 import { Command } from '@quanty/framework'
 import dayjs from 'dayjs'
 import {
+  InteractionButtonOptions,
   MessageActionRow,
+  MessageButton,
   MessageEmbed,
-  MessageSelectMenu,
-  MessageSelectOptionData,
 } from 'discord.js'
 
 import { GuildModel } from '../../schemas'
 
-export const ticketTypes: MessageSelectOptionData[] = [
-  {
-    label: 'Report',
-    value: 'report',
-    description: 'Report user.',
-    emoji: '🔴',
-  },
-  {
-    label: 'Suggestion',
-    value: 'suggestion',
-    description: 'Suggest a feature for the server.',
-    emoji: '📃',
-  },
-  {
-    label: 'Other',
-    value: 'other',
-    description: 'Other reports not mentioned above.',
-    emoji: '💡',
-  },
-]
-
 export const command: Command = {
   name: `ticket`,
-  description: 'Creates a ticket for any issues you may have.',
+  description: 'Opens a ticket for any issues you may have.',
   category: 'moderation',
-  userPermissions: ['ADMINISTRATOR'],
+  userPermissions: ['SEND_MESSAGES'],
   cmdType: 'slash',
-  options: [
-    {
-      name: 'set-category',
-      description:
-        'Set a category for all tickets to go under & Channel for all transcripts',
-      type: 'CHANNEL',
-    },
-  ],
-  run: async ({ interaction, guild }) => {
+  run: async ({ guild, member }) => {
     const embed = new MessageEmbed().setColor('#FF5F9F')
 
-    const optionsTicketChannel =
-      interaction.options.getChannel('set-category') ?? undefined
-
-    if (optionsTicketChannel) {
-      if (
-        interaction.guild?.channels.cache.get(optionsTicketChannel?.id)?.type !=
-        'GUILD_TEXT'
-      )
-        return {
-          content: 'That is not a valid channel. Please try again later.',
-        }
-
-      const parentChannelId = guild.channels.cache.get(
-        optionsTicketChannel.id,
-      )?.parentId
-
-      await GuildModel.findOneAndUpdate(
-        { guildId: guild.id },
-        {
-          $set: {
-            ticketCategory: parentChannelId,
-            ticketTranscriptChannel: optionsTicketChannel.id,
-          },
+    const guildConfig = await GuildModel.findOne(
+      {
+        guildId: guild.id,
+      },
+      'guildId maxTickets',
+      {
+        populate: {
+          path: 'tickets',
+          match: { memberId: { $eq: member.id }, closed: false },
+          select: 'memberId closed',
         },
-      )
-
-      return {
-        content: 'Channel set',
-        ephemeral: true,
-      }
-    }
-
-    const component = new MessageActionRow().addComponents(
-      new MessageSelectMenu()
-        .setCustomId('select-ticket-type')
-        .setPlaceholder(
-          'Please select the type of ticket you would like to submit.',
-        )
-        .addOptions(
-          ticketTypes.map(({ label, value, description, emoji }) => ({
-            label,
-            value,
-            description,
-            emoji,
-          })),
-        ),
+      },
     )
 
-    embed.setDescription(`Open a ticket for ${guild.name}.`).setFooter({
+    const maxTickets = guildConfig?.maxTickets ?? 5
+
+    if ((guildConfig?.tickets?.length ?? -1) > maxTickets)
+      return {
+        embeds: [
+          embed
+            .setDescription(
+              `You already have the \`max number\` of tickets open.`,
+            )
+            .addField('Max Tickets:', String(maxTickets))
+            .setFooter({
+              text: dayjs(Date.now()).format('DD/MM/YYYY'),
+              iconURL: guild.iconURL({ dynamic: true }) ?? '',
+            }),
+        ],
+      }
+
+    embed.setDescription(`Open a ticket for \`${guild.name}\`.`).setFooter({
       text: dayjs(Date.now()).format('DD/MM/YYYY'),
-      iconURL: guild.iconURL({ dynamic: true })?.toString(),
+      iconURL: guild.iconURL({ dynamic: true }) ?? '',
     })
+
+    const component = new MessageActionRow().addComponents(
+      ticketTypes.map(({ label, customId: id, style }) =>
+        new MessageButton()
+          .setCustomId(id)
+          .setLabel(label ?? 'DNE')
+          .setStyle(style),
+      ),
+    )
 
     return {
       embeds: [embed],
       components: [component],
+      ephemeral: true,
     }
   },
 }
+
+export const ticketTypes: InteractionButtonOptions[] = [
+  {
+    customId: 'report-ticket',
+    label: '🔴 Report',
+    style: 'DANGER',
+  },
+  {
+    customId: 'suggestion-ticket',
+    label: '📃 Suggestion',
+    style: 'PRIMARY',
+  },
+  {
+    customId: 'other-ticket',
+    label: '💡 Other',
+    style: 'SECONDARY',
+  },
+]

@@ -29,6 +29,8 @@ export default class Database implements IDatabase {
      * Client/Bot Class
      */
     this.client = client
+
+    void this.initDBProvider(this.URL)
   }
 
   async ping(): Promise<number> {
@@ -38,7 +40,9 @@ export default class Database implements IDatabase {
     return (time[0] * 1e9 + time[1]) * 1e-6
   }
 
-  public async initDBProvider(URL: string): Promise<void> {
+  private async initDBProvider(URL?: string): Promise<void> {
+    if (!URL) return
+
     await connect(URL, { keepAlive: true, autoIndex: false })
       .then(() => this.logger.success('Connected to MongoDB'))
       .catch((e: any) => {

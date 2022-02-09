@@ -1,16 +1,16 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    TOKEN?: string
-    MONGOURI?: string
-    WS_URL?: string
+    TOKEN: string
+    MONGOURI?: string | undefined
+    WS_URL?: string | undefined
 
-    LAVA_LINK_HOST?: string
-    LAVA_LINK_PORT?: string
-    LAVA_LINK_PASS?: string
+    LAVA_LINK_HOST?: string | undefined
+    LAVA_LINK_PORT?: string | undefined
+    LAVA_LINK_PASS?: string | undefined
 
-    SPOTIFY_CLIENT_ID?: string
-    SPOTIFY_CLIENT_SECRET?: string
+    SPOTIFY_CLIENT_ID?: string | undefined
+    SPOTIFY_CLIENT_SECRET?: string | undefined
 
-    WEBSOCKET_TOKEN?: string
+    WEBSOCKET_TOKEN?: string | undefined
   }
 }

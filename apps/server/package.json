@@ -40,7 +40,7 @@
     "discord-api-types": "^0.26.0",
     "express-session": "^1.17.2",
     "graphql": "^15.8",
-    "mongoose": "^6.1.8",
+    "mongoose": "^6.2.0",
     "passport": "^0.5.2",
     "passport-discord": "^0.1.4",
     "reflect-metadata": "^0.1.13",

@@ -27,11 +27,11 @@
   "license": "MIT",
   "schematics": "./dist/src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^13.2.0",
-    "@angular-devkit/schematics": "^13.2.0"
+    "@angular-devkit/core": "^13.2.2",
+    "@angular-devkit/schematics": "^13.2.2"
   },
   "devDependencies": {
-    "@schematics/angular": "^13.2.0",
+    "@schematics/angular": "^13.2.2",
     "@types/node": "^16.11.13",
     "config": "*",
     "cpx": "^1.5.0",

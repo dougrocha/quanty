@@ -4,18 +4,18 @@ import QuantyClient from '@quanty/framework'
 import * as dotenv from 'dotenv'
 
 const ENV = process.env.NODE_ENV
-dotenv.config({ path: `.env.${ENV}` })
+dotenv.config({ path: ENV ? `.env.${ENV}` : '.env' })
 
-import { spotifyConfig, nodeConfig } from './utils/clientConfig'
+import { extraPlugins } from './utils/clientConfig'
 
 const client = new QuantyClient(
   {
     token: process.env.TOKEN,
     mongoUri: process.env.MONGOURI,
-    WebSocketConfig: {
-      url: process.env.WS_URL,
-      token: process.env.WEBSOCKET_TOKEN,
-    },
+    // WebSocketConfig: {
+    //   url: process.env.WS_URL,
+    //   token: process.env.WEBSOCKET_TOKEN,
+    // },
     botOwners: ['571520537587875851'],
     commandsDir: join(__dirname, 'commands'),
     featuresDir: join(__dirname, 'features'),
@@ -25,10 +25,7 @@ const client = new QuantyClient(
     },
   },
   { intents: 32509 },
-  {
-    spotifyConfig,
-    nodeConfig,
-  },
+  // ExtraPlugins,
 )
 
 void client.start()

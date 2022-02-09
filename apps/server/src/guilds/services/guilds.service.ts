@@ -41,10 +41,8 @@ export class GuildsService implements IGuildsService {
     const adminUserGuilds = userGuilds.filter(
       ({ permissions }) => (parseInt(permissions ?? '') & 0x8) === 0x8,
     )
-    console.log('admin', adminUserGuilds)
     const mutualGuilds = userGuilds.filter(guild =>
       botGuilds.some(botGuild => botGuild.id === guild.id),
     )
-    console.log('mutual', mutualGuilds)
   }
 }

@@ -24,57 +24,67 @@ class WebSocketManager implements IWebSocketManager {
 
     this.client = client
 
-    if (this.url?.length) {
-      this.socket = io('http://localhost:3001/', {
-        auth: { token: this.token ?? null },
-      })
-      this.socket
-        .on('connect', () => {
-          this.logger.info('Websocket successfully Connected.')
+    client.once('ready', () => {
+      if (this.url?.length) {
+        this.socket = io('http://localhost:3001/', {
+          auth: { token: this.token ?? null },
         })
-        .on('disconnected', () => {
-          this.logger.info('Websocket disconnected.')
-        })
+        this.socket
+          .on('connect', () => {
+            this.logger.info('Websocket successfully Connected.')
+          })
+          .on('disconnected', reason => {
+            this.logger.info('Websocket disconnected.')
+            if (reason === 'io server disconnect') {
+              this.socket?.connect()
+            }
+          })
+          .on('connect_error', error => {
+            this.logger.info('Websocket not connected')
+            this.socket?.disconnect()
+            if (client.willWarn == true) this.logger.warn('WS Error: ', error)
+          })
 
-      this.receivePrefixUpdate()
-      this.receiveAutoMod()
-      this.receiveBlacklistedWords()
-      this.receiveImmortality()
-      this.receiveModerationPlugin()
-      this.receiveMusicPlugin()
-      this.receiveMusicChannel()
-    } else {
-      this.logger.warn('WebSocket config needed to start this')
-    }
+        this.receivePrefixUpdate()
+        this.receiveAutoMod()
+        this.receiveBlacklistedWords()
+        this.receiveImmortality()
+        this.receiveModerationPlugin()
+        this.receiveMusicPlugin()
+        this.receiveMusicChannel()
+      } else {
+        this.logger.warn('WebSocket config needed to start this')
+      }
+    })
   }
   receivePrefixUpdate(): void {
     this.socket?.on(GuildEventsEnum.PREFIX, async (data: guildsDocument) => {
-      await this.client.guildManager.updateGuildById(data.guildId, data)
+      this.client.guildManager.updateGuildById(data.guildId, data)
     })
   }
   receiveAutoMod(): void {
     this.socket?.on(GuildEventsEnum.AUTOMOD, async (data: guildsDocument) => {
-      await this.client.guildManager.updateGuildById(data.guildId, data)
+      this.client.guildManager.updateGuildById(data.guildId, data)
     })
   }
   receiveModerationPlugin(): void {
     this.socket?.on(
       GuildEventsEnum.MODERATION_PLUGIN,
       async (data: guildsDocument) => {
-        await this.client.guildManager.updateGuildById(data.guildId, data)
+        this.client.guildManager.updateGuildById(data.guildId, data)
       },
     )
   }
   receiveBlacklistedWords(): void {
     this.socket?.on(GuildEventsEnum.BL_WORDS, async (data: guildsDocument) => {
-      await this.client.guildManager.updateGuildById(data.guildId, data)
+      this.client.guildManager.updateGuildById(data.guildId, data)
     })
   }
   receiveImmortality(): void {
     this.socket?.on(
       GuildEventsEnum.MUSIC_IMMORTALITY,
       async (data: guildsDocument) => {
-        await this.client.guildManager.updateGuildById(data.guildId, data)
+        this.client.guildManager.updateGuildById(data.guildId, data)
       },
     )
   }
@@ -82,7 +92,7 @@ class WebSocketManager implements IWebSocketManager {
     this.socket?.on(
       GuildEventsEnum.MUSIC_PLUGIN,
       async (data: guildsDocument) => {
-        await this.client.guildManager.updateGuildById(data.guildId, data)
+        this.client.guildManager.updateGuildById(data.guildId, data)
       },
     )
   }
@@ -90,7 +100,7 @@ class WebSocketManager implements IWebSocketManager {
     this.socket?.on(
       GuildEventsEnum.MUSIC_CHANNEL,
       async (data: guildsDocument) => {
-        await this.client.guildManager.updateGuildById(data.guildId, data)
+        this.client.guildManager.updateGuildById(data.guildId, data)
       },
     )
   }

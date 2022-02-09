@@ -6,8 +6,7 @@ export default QuantyClient
 // Types
 export {
   QuantySettings,
-  ISpotifyConfig,
-  INodeConfig,
+  IExtraClientArgs,
   Command,
   ContextCommand,
   Feature,

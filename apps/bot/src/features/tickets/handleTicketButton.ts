@@ -51,6 +51,14 @@ export const feature: Feature<'interactionCreate'> = {
 
     switch (customId) {
       case 'close-ticket':
+        await channel?.permissionOverwrites.edit(
+          ticket.memberId,
+          {
+            SEND_MESSAGES: false,
+          },
+          { reason: 'Closed Ticket', type: 1 },
+        )
+
         if (isTicketClosed == true) {
           await interaction.followUp({
             embeds: [
@@ -65,20 +73,12 @@ export const feature: Feature<'interactionCreate'> = {
 
         const guildConfig = await GuildModel.findOne({
           guildId: guild?.id,
-        }).catch(err => console.log(err))
+        })
 
         if (!guildConfig?.ticketTranscriptChannel)
           return await interaction.reply(
             'Please set a transcript channel first before closing a ticket.',
           )
-
-        await channel?.permissionOverwrites.edit(
-          ticket.memberId,
-          {
-            SEND_MESSAGES: false,
-          },
-          { reason: 'Closed Ticket', type: 1 },
-        )
 
         await GuildTicketModel.updateOne(
           { channelId: channel.id },

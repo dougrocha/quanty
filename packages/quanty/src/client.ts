@@ -6,7 +6,7 @@ import {
   MessageEmbedOptions,
   User,
 } from 'discord.js'
-import { Manager } from 'erela.js'
+import { Manager, Plugin } from 'erela.js'
 import Spotify from 'erela.js-spotify'
 
 import Database from './database/database'
@@ -21,6 +21,7 @@ import {
 } from './structures'
 import {
   DefaultValues,
+  IExtraClientArgs,
   IGuildManager,
   ILogger,
   IWebSocketConfig,
@@ -66,7 +67,7 @@ export default class QuantyClient<
 
   public readonly testServers?: string[]
 
-  private args: any
+  private args?: IExtraClientArgs
 
   /**
    * Quanty Client Constructor
@@ -75,7 +76,11 @@ export default class QuantyClient<
    * @param {ManagerOptions} [Player_Options] - Settings for ErelaJs
    */
 
-  constructor(config: QuantySettings, settings?: ClientOptions, args?: any) {
+  constructor(
+    config: QuantySettings,
+    settings?: ClientOptions,
+    args?: IExtraClientArgs,
+  ) {
     super(
       settings ?? {
         intents: 32509, // Enables all Intents
@@ -193,24 +198,26 @@ export default class QuantyClient<
 
     this.loadMusic(this)
 
-    if (mongoUri) {
-      await this.Database.initDBProvider(mongoUri)
-    }
-
     await this.login(token)
 
     return this
   }
 
   private loadMusic(client: this): Manager {
-    if (this.args) {
+    const plugins: Plugin[] = [new AppleMusic()]
+
+    if (this.args?.spotifyPlugin) {
+      plugins.push(new Spotify(this.args.spotifyPlugin))
+    }
+
+    if (this.args?.lavalink) {
       const manager = new Manager({
-        nodes: [this.args.nodeConfig],
+        nodes: [this.args.lavalink],
         send(id, payload) {
           const guild = client.guilds.cache.get(id)
           if (guild) guild.shard.send(payload)
         },
-        plugins: [new Spotify(this.args.spotifyConfig), new AppleMusic()],
+        plugins,
       })
 
       MusicEvent(manager, this) // Starts Events for music player

@@ -16,6 +16,8 @@ import {
   TextBasedChannel,
   WebhookEditMessageOptions,
 } from 'discord.js'
+import { NodeOptions } from 'erela.js'
+import { SpotifyOptions } from 'erela.js-spotify/dist/plugin'
 
 import QuantyClient from '../index'
 
@@ -42,18 +44,10 @@ export interface IWebSocketConfig {
   url?: string
   token?: string
 }
-export interface ISpotifyConfig {
-  clientID: string | undefined
-  clientSecret: string | undefined
-  playlistLimit: number
-  albumLimit: number
-  convertUnresolved?: null
-}
 
-export interface INodeConfig {
-  host?: string | undefined
-  port?: number
-  password?: string | undefined
+export interface IExtraClientArgs {
+  lavalink?: NodeOptions
+  spotifyPlugin?: SpotifyOptions
 }
 
 export enum GuildEventsEnum {

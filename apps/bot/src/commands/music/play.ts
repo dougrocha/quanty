@@ -107,12 +107,12 @@ export const command: Command = {
         /// This only plays the first song in search, Use search command for more options
         player.queue.add(res.tracks[0])
 
-        await player.play()
-
-        if (!player.playing && !player.paused && !player.queue.size)
+        if (!player.playing && !player.paused && !player.queue.size) {
+          await player.play()
           return {
             embeds: [embed.setDescription(`Starting up...`)],
           }
+        }
 
         return {
           embeds: [

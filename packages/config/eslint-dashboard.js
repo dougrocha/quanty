@@ -12,17 +12,19 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
 
-  plugins: ['@typescript-eslint', '@next/eslint-plugin-next'],
+  plugins: ['@next/eslint-plugin-next', 'import', '@typescript-eslint'],
 
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:@next/next/recommended',
-    'next/core-web-vitals',
+    'plugin:@next/next/core-web-vitals',
   ],
   rules: {
+    'react/prop-types': 'off',
     'import/no-unresolved': 'off',
     'import/no-named-default': 'error',
     'import/order': [
@@ -43,5 +45,9 @@ module.exports = {
       },
     ],
     '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
+    // suppress errors for missing 'import React' in files
+    'react/react-in-jsx-scope': 'off',
+    // allow jsx syntax in js files (for next.js project)
+    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }], //should add ".ts" if typescript project
   },
 }

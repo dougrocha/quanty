@@ -84,12 +84,13 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
     .on('nodeConnect', node => {
       client.logger.success(`Node ${node.options.identifier} connected`)
     })
-    .on('nodeError', (node, error) =>
-      client.logger.error(
-        `Node ${node.options.identifier} had an error`,
-        error.message,
-      ),
-    )
+    .on('nodeError', (node, error) => {
+      client.logger.info(`Node ${node.options.identifier} had an error`)
+
+      if (client.willWarn == true) {
+        client.logger.error(`Lavalink ${node.options.identifier}:`, error)
+      }
+    })
     .on('trackStart', async (player, track: Track) => {
       if (!player.textChannel) {
         return
@@ -159,5 +160,26 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
 
       await channel.send("I'm dead, ask the owner for help")
     })
-  client.on('raw', d => manager.updateVoiceState(d))
+
+  client
+    .on('raw', d => manager.updateVoiceState(d))
+    .on('channelUpdate', (oldChannel, newChannel) => {
+      if (
+        oldChannel.type === 'GUILD_VOICE' &&
+        newChannel.type === 'GUILD_VOICE'
+      ) {
+        const player = client.player.players.get(newChannel.guild.id)
+
+        if (player) {
+          if (player.voiceChannel === newChannel.id) {
+            if (player.playing && !player.paused) {
+              player.pause(true)
+              setTimeout(() => {
+                player.pause(false)
+              }, 500)
+            }
+          }
+        }
+      }
+    })
 }
