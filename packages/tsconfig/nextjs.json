@@ -5,7 +5,7 @@
   "compilerOptions": {
     "target": "ES2021",
     "module": "ESNEXT",
-    "lib": ["ES6", "ES7", "ESNext", "DOM"],
+    "lib": ["ES6", "ES7", "ESNext", "DOM", "DOM.Iterable"],
     "allowJs": true,
 
     "jsx": "preserve",

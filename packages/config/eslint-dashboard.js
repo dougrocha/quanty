@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es6: true,
+    es2021: true,
     node: true,
   },
   settings: {
@@ -13,16 +13,31 @@ module.exports = {
   parser: '@typescript-eslint/parser',
 
   plugins: ['@next/eslint-plugin-next', 'import', '@typescript-eslint'],
-
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
+    'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:@next/next/recommended',
+
     'plugin:@next/next/core-web-vitals',
   ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 13,
+    sourceType: 'module',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+  plugins: ['react', '@typescript-eslint', '@next/eslint-plugin-next'],
   rules: {
     'react/prop-types': 'off',
     'import/no-unresolved': 'off',

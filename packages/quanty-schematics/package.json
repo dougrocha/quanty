@@ -27,17 +27,17 @@
   "license": "MIT",
   "schematics": "./dist/src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^13.2.2",
-    "@angular-devkit/schematics": "^13.2.2"
+    "@angular-devkit/core": "^13.2.3",
+    "@angular-devkit/schematics": "^13.2.3"
   },
   "devDependencies": {
-    "@schematics/angular": "^13.2.2",
-    "@types/node": "^16.11.13",
+    "@schematics/angular": "^13.2.3",
+    "@types/node": "^17.0.16",
     "config": "*",
     "cpx": "^1.5.0",
     "cz-conventional-changelog": "3.3.0",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.5.2",
+    "rxjs": "^7.5.4",
     "tsconfig": "*",
     "typescript": "^4.5.5"
   },

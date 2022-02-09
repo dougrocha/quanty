@@ -20,13 +20,13 @@
     "@types/inquirer": "^8.2.0",
     "config": "*",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.5.0",
     "tsconfig": "*",
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@angular-devkit/core": "^13.2.2",
-    "@angular-devkit/schematics-cli": "^13.2.2",
+    "@angular-devkit/core": "^13.2.3",
+    "@angular-devkit/schematics-cli": "^13.2.3",
     "@quanty/schematics": "*",
     "chalk": "4.1.2",
     "commander": "^9.0.0",
