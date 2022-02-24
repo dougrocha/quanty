@@ -1,6 +1,4 @@
-import { ModelOptions, Prop, Ref } from '@typegoose/typegoose'
-
-import { Guild } from './GuildSchema'
+import { ModelOptions, Prop } from '@typegoose/typegoose'
 
 @ModelOptions({
   schemaOptions: { timestamps: { createdAt: 'issuedOn', updatedAt: false } },
@@ -24,6 +22,6 @@ export class GuildTicket {
   @Prop({ type: () => String, required: true })
   type: string
 
-  @Prop({ required: true, ref: () => 'Guild', type: () => Guild })
-  guild: Ref<Guild>
+  @Prop({ required: true })
+  guildId: string
 }

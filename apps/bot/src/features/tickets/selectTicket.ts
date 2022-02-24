@@ -6,9 +6,10 @@ import {
   MessageEmbed,
   TextBasedChannel,
 } from 'discord.js'
+import mongoose from 'mongoose'
 
+import { GuildModel, GuildTicketModel } from '../../database/schemas'
 import { uppercaseFirst } from '../../libs/extra'
-import { GuildModel, GuildTicketModel } from '../../schemas'
 
 export const feature: Feature<'interactionCreate'> = {
   name: 'interactionCreate',
@@ -16,6 +17,8 @@ export const feature: Feature<'interactionCreate'> = {
     if (!interaction.isButton()) return
 
     const { guild, member, customId } = interaction
+
+    if (!guild) return
 
     if (
       !['report-ticket', 'suggestion-ticket', 'other-ticket'].includes(customId)
@@ -28,9 +31,24 @@ export const feature: Feature<'interactionCreate'> = {
       Math.random() * Math.floor(Math.random() * Date.now()),
     )
 
-    const guildConfig = await GuildModel.findOne({ guildId: guild?.id })
+    const guildConfig = await GuildModel.findOne(
+      { guildId: guild.id },
+      {},
+      {
+        populate: {
+          path: 'GuildPlugins',
+          select: 'ticketCategory',
+        },
+      },
+    )
 
-    if (!member) return
+    console.log('testing', { guildConfig })
+
+    const guildPlugins = guildConfig?.GuildPlugins
+
+    if (guildPlugins instanceof mongoose.Types.ObjectId) return
+
+    if (!member || !guildPlugins) return
 
     await guild?.channels
       .create(`${customId}-${ticketId}`, {
@@ -45,7 +63,7 @@ export const feature: Feature<'interactionCreate'> = {
             deny: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
           },
         ],
-        parent: guildConfig?.ticketCategory,
+        parent: guildPlugins?.ticketCategory,
       })
       .then(async channel => {
         const ticket = await GuildTicketModel.create({
@@ -55,7 +73,7 @@ export const feature: Feature<'interactionCreate'> = {
           closed: false,
           locked: false,
           type: customId,
-          guild: guildConfig,
+          guildId: guild.id,
         })
         guildConfig?.tickets?.push(ticket._id)
 

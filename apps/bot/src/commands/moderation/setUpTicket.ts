@@ -1,6 +1,6 @@
 import { Command } from '@quanty/framework'
 
-import { GuildModel } from '../../schemas'
+import { GuildModel, GuildPluginModel } from '../../database/schemas'
 
 export const command: Command = {
   name: `setup-ticket`,
@@ -28,7 +28,7 @@ export const command: Command = {
     const ticketCategory = options.getChannel('category')
 
     if (transcriptChannel) {
-      await GuildModel.findOneAndUpdate(
+      await GuildPluginModel.findOneAndUpdate(
         { guildId: guild.id },
         {
           $set: {
@@ -39,7 +39,7 @@ export const command: Command = {
     }
 
     if (ticketCategory) {
-      await GuildModel.findOneAndUpdate(
+      await GuildPluginModel.findOneAndUpdate(
         { guildId: guild.id },
         {
           $set: {

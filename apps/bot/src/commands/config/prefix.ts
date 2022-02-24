@@ -1,6 +1,8 @@
 import { Command } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
+import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
+
 export const command: Command = {
   name: 'prefix',
   description: 'desc',
@@ -27,6 +29,8 @@ export const command: Command = {
     if (input) {
       const user = guild.members.cache.get(member.user.id)
 
+      if (!user) return
+
       if (!user?.permissions.has('ADMINISTRATOR'))
         return { content: 'You can not edit the prefix.' }
 
@@ -52,6 +56,16 @@ export const command: Command = {
         input,
       )
 
+      await createLog({
+        guildId: guild.id,
+        action: CreateLogActionsEnum.CHANGEPREFIX,
+        user: {
+          discriminator: user.user.discriminator,
+          username: user.user.username,
+          id: user.id,
+        },
+      })
+
       return {
         embeds: [
           embed.setDescription(
@@ -62,6 +76,11 @@ export const command: Command = {
     }
     return {
       embeds: [embed.setDescription(`Your prefix is  \`${prefix}\``)],
+    }
+  },
+  error: async () => {
+    return {
+      content: 'Hey man your prefix broke. Contact someone to fix this plugin',
     }
   },
 }

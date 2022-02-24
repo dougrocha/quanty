@@ -7,7 +7,7 @@ import {
   MessageEmbed,
 } from 'discord.js'
 
-import { GuildModel } from '../../schemas'
+import { GuildModel } from '../../database/schemas'
 
 export const command: Command = {
   name: `ticket`,
@@ -32,7 +32,8 @@ export const command: Command = {
       },
     )
 
-    const maxTickets = guildConfig?.maxTickets ?? 5
+    // TODO: Decide whether max tickets should be user based or guild based
+    const maxTickets = guildConfig?.maxTickets ?? 10
 
     if ((guildConfig?.tickets?.length ?? -1) > maxTickets)
       return {

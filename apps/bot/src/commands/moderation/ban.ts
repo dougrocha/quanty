@@ -1,6 +1,6 @@
 import { Command } from '@quanty/framework'
 
-import { GuildBanLogsModel, GuildModel } from '../../schemas'
+import { GuildBanLogsModel, GuildModel } from '../../database/schemas'
 
 export const command: Command = {
   name: `ban`,
@@ -38,10 +38,17 @@ export const command: Command = {
 
       const banLogs = await GuildBanLogsModel.create({
         guildId: guild.id,
-        bannedUserId: user.id,
+        bannedUser: {
+          username: user.username,
+          discriminator: user.discriminator,
+          id: user.id,
+        },
         reason: reason,
-        issuedBy: issuer.id,
-        guild: guildConfig,
+        issuedBy: {
+          username: issuer.user.username,
+          discriminator: issuer.user.discriminator,
+          id: issuer.id,
+        },
         issuedOn: new Date(),
       })
 

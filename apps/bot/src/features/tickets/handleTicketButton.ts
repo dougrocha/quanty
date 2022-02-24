@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { createTranscript } from 'discord-html-transcripts'
 import { MessageEmbed, TextBasedChannel } from 'discord.js'
 
-import { GuildTicketModel, GuildModel } from '../../schemas'
+import { GuildTicketModel, GuildPluginModel } from '../../database/schemas'
 
 export const feature: Feature<'interactionCreate'> = {
   name: 'interactionCreate',
@@ -22,6 +22,8 @@ export const feature: Feature<'interactionCreate'> = {
 
     const { guild, customId, channel, user, memberPermissions } = interaction
 
+    if (!guild) return
+
     if (!memberPermissions?.has('ADMINISTRATOR'))
       return await interaction.reply({
         content: 'Only a mod can access these buttons',
@@ -33,7 +35,8 @@ export const feature: Feature<'interactionCreate'> = {
 
     const ticket = await GuildTicketModel.findOne({
       channelId: channel.id,
-    }).catch(err => console.log(err))
+      guildId: guild.id,
+    }).catch(err => console.log('guildTicketModel failed', err))
 
     if (!ticket) {
       await interaction.followUp({
@@ -45,9 +48,9 @@ export const feature: Feature<'interactionCreate'> = {
       return
     }
 
-    const isTicketLocked = ticket?.locked
+    const isTicketLocked = ticket.locked
 
-    const isTicketClosed = ticket?.closed
+    const isTicketClosed = ticket.closed
 
     switch (customId) {
       case 'close-ticket':
@@ -71,14 +74,16 @@ export const feature: Feature<'interactionCreate'> = {
           return
         }
 
-        const guildConfig = await GuildModel.findOne({
-          guildId: guild?.id,
+        const guildPlugins = await GuildPluginModel.findOne({
+          guildId: guild.id,
         })
 
-        if (!guildConfig?.ticketTranscriptChannel)
-          return await interaction.reply(
+        if (!guildPlugins?.ticketTranscriptChannel) {
+          await interaction.followUp(
             'Please set a transcript channel first before closing a ticket.',
           )
+          return
+        }
 
         await GuildTicketModel.updateOne(
           { channelId: channel.id },
@@ -88,49 +93,60 @@ export const feature: Feature<'interactionCreate'> = {
         const attachment = await createTranscript(channel, {
           limit: -1,
           returnBuffer: false,
-          fileName: `${ticket?.type}-${ticket?.ticketId}.html`,
+          fileName: `${ticket.type}-${ticket.ticketId}.html`,
         })
 
-        const transcriptChannel = guild?.channels.cache.get(
-          guildConfig?.ticketTranscriptChannel,
+        const transcriptChannel = guild.channels.cache.get(
+          guildPlugins?.ticketTranscriptChannel,
         ) as TextBasedChannel
 
+        // Transcript embed saved in transcript channel set
         const transcriptMessage = await transcriptChannel.send({
           files: [attachment],
           embeds: [
             embed
-              .setTitle(`Transcript for ticket: ${ticket?.ticketId}`)
-              .setDescription(
-                `Ticket type: ${ticket?.type}\nUser id: ${ticket.memberId}`,
-              )
+              .setTitle(`Transcript for ticket: ${ticket.ticketId}`)
+              .addFields([
+                {
+                  name: 'Ticket type:',
+                  value: ticket.type,
+                },
+                { name: 'User id:', value: ticket.memberId },
+              ])
               .setFooter({ text: `${dayjs(Date.now()).format('DD/MM/YYYY')}` }),
           ],
         })
 
-        await channel.send({
-          embeds: [
-            embed
-              .setAuthor({
-                name: user.username,
-                iconURL: user.defaultAvatarURL,
-              })
-              .setDescription(
-                `The transcript is now saved: ${transcriptMessage.url} \nThis message will be deleted in 10 seconds.`,
-              ),
-          ],
-        })
+        // Final message
+        await channel
+          .send({
+            embeds: [
+              embed
+                .setAuthor({
+                  name: user.username,
+                  iconURL: user.defaultAvatarURL,
+                })
+                .setDescription(
+                  `The transcript is now saved: ${transcriptMessage.url} \nThis message will be deleted in 10 seconds.`,
+                ),
+            ],
+          })
+          .then(async () => {
+            await channel?.permissionOverwrites.edit(
+              ticket.memberId,
+              {
+                SEND_MESSAGES: false,
+              },
+              { reason: `Locked Ticket: ${ticket.ticketId}`, type: 1 },
+            )
 
-        await channel?.permissionOverwrites.edit(
-          ticket.memberId,
-          {
-            SEND_MESSAGES: false,
-          },
-          { reason: `Locked Ticket: ${ticket.ticketId}`, type: 1 },
-        )
+            await client.wait(10000)
 
-        await client.wait(10000)
-
-        await channel.delete()
+            await channel.delete()
+          })
+          .catch(async err => {
+            console.trace('handleTicketButtonError: ', err)
+          })
 
         break
       case 'lock-ticket':
@@ -159,7 +175,7 @@ export const feature: Feature<'interactionCreate'> = {
           embeds: [
             embed
               .setDescription(
-                `Ticket: ${ticket?.ticketId} is now locked for review. `,
+                `Ticket: ${ticket.ticketId} is now locked for review. `,
               )
               .setFooter({ text: `${dayjs(Date.now()).format('DD/MM/YYYY')}` }),
           ],
@@ -192,7 +208,7 @@ export const feature: Feature<'interactionCreate'> = {
           embeds: [
             embed
               .setDescription(
-                `Ticket: ${ticket?.ticketId} is now un-locked. Please add anything to your issue here.`,
+                `Ticket: ${ticket.ticketId} is now un-locked. Please add anything to your issue here.`,
               )
               .setFooter({ text: `${dayjs(Date.now()).format('DD/MM/YYYY')}` }),
           ],

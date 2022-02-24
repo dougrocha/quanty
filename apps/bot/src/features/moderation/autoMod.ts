@@ -1,14 +1,23 @@
 import { Feature } from '@quanty/framework'
 
+import { GuildPluginModel } from '../../database/schemas'
+
 export const feature: Feature<'messageCreate'> = {
   name: 'messageCreate',
   run: async (client, message) => {
-    return
-    const guildPlugins = client.guildManager.findGuild(message.guild?.id || '')
+    if (!message.guild || message.type != 'DEFAULT') return
 
-    const isAutomod = guildPlugins?.moderation.autoMod
+    const guildPlugins = await GuildPluginModel.findOne(
+      {
+        guildId: message.guild.id,
+        plugins: 'automod',
+      },
+      'guildId plugins blacklistedWords',
+    ).lean()
 
-    if (!isAutomod) {
+    const isAutoModOn = guildPlugins?.plugins
+
+    if (!isAutoModOn) {
       return
     }
 
@@ -41,7 +50,9 @@ export const feature: Feature<'messageCreate'> = {
       return
     }
 
-    const blacklistedWords = ['fuck', 'bitch']
+    const blacklistedWords = guildPlugins?.blacklistedWords
+
+    if (!blacklistedWords?.length) return
 
     for (let i = 0; i < blacklistedWords.length; i++) {
       const isIncludedMsg = message?.content
@@ -49,7 +60,7 @@ export const feature: Feature<'messageCreate'> = {
         .includes(blacklistedWords[i])
 
       if (isIncludedMsg) {
-        await message.reply('You cannot send messages')
+        await message.reply('You cannot say that here')
         await message.delete()
 
         return
