@@ -8,14 +8,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   images: {
-    domains: ['via.placeholder.com', 'cdn.vox-cdn.com', 'images.unsplash.com'],
+    domains: ['cdn.discordapp.com'],
   },
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
-  webpack: (config, { isServer }) => {
-    // Fixes npm packages (mdx) that depend on `fs` module
-    if (!isServer) {
-      config.resolve.fallback.fs = false
-    }
-    return config
+  webp: {
+    preset: 'default',
+    quality: 100,
   },
+  pageExtensions: ['ts', 'tsx'],
 })

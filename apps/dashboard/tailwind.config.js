@@ -15,12 +15,12 @@ module.exports = {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: {},
+        primary: {
+          red: '#123132',
+        },
         secondary: {},
       },
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

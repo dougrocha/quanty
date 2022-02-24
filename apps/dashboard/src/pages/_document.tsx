@@ -28,7 +28,7 @@ class MyDocument extends Document {
             content="https://www.quanty.xyz"
           />
 
-          <link rel="icon" href="/quantyIcon.ico" />
+          <link rel="icon" href="/quanty-64.png" />
         </Head>
         <body>
           <Main />

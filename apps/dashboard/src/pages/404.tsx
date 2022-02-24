@@ -1,18 +1,25 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const Custom404 = () => {
+  const router = useRouter()
+
   return (
-    <div className="bg-bg-600 flex h-screen w-screen items-center justify-center">
-      <div className="bg-bg-600-600 border-bg-500 shadow-form mx-5 flex flex-col items-center justify-center rounded-3xl border p-20 brightness-125">
-        <p className="text-primary-white text-2xl">
+    <div className="flex h-screen w-screen items-center justify-center bg-[#919FF0]/10">
+      <div className="mx-5 flex flex-col items-center justify-center rounded-3xl bg-[#919FF0]/10  p-20 shadow-xl ">
+        <h1 className="mb-5 text-9xl text-white/90">404</h1>
+
+        <p className="text-2xl text-white/60">
           Sorry, you are at the wrong page.
         </p>
         <Link href="/" passHref>
-          <a>
-            <button className="text-primary-white bg-secondary-red border-bg-light mt-5 rounded-md border px-3 py-1 text-xl">
-              Go Home
-            </button>
-          </a>
+          <button
+            type="button"
+            className=" mt-5 rounded-md  bg-blue-400 px-5 py-2 text-xl text-white transition-transform hover:scale-110 "
+            onClick={router.back}
+          >
+            Go Home
+          </button>
         </Link>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { PongSpinner } from 'react-spinners-kit'
 
 const LoadingLayout = () => {
   return (
-    <div className="bg-feldgray-400 dark:bg-bg-600 flex h-screen items-center justify-center">
+    <div className="flex h-screen items-center justify-center bg-[#919FF0]/10">
       <PongSpinner size={6} color={'#eaeaea'} sizeUnit="rem" />
     </div>
   )
