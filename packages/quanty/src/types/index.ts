@@ -1,5 +1,7 @@
+import { APIApplicationCommandOption } from 'discord-api-types'
 import {
   ApplicationCommandOption,
+  ApplicationCommandOptionData,
   ApplicationCommandType,
   AutocompleteInteraction,
   ButtonInteraction,
@@ -92,7 +94,7 @@ export interface BaseCommand {
   aliases?: string[]
   category: string
   description: string
-  options?: ApplicationCommandOption[]
+  options?: ApplicationCommandOptionData[]
   isGuildOnly?: boolean
   isOwnerOnly?: boolean
   nsfw?: boolean

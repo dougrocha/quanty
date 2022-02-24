@@ -1,6 +1,6 @@
 import { Nullable } from 'discord-api-types/utils/internals'
 import {
-  ApplicationCommandOption,
+  ApplicationCommandOptionData,
   ApplicationCommandType,
   Collection,
   PermissionString,
@@ -23,7 +23,7 @@ import {
 class Command {
   private client: QuantyClient
 
-  private logger: Logger = new Logger('Command Class', false)
+  private static logger: Logger = new Logger('Command Class', false)
 
   readonly name: string
 
@@ -33,7 +33,7 @@ class Command {
 
   readonly description: string
 
-  readonly options?: ApplicationCommandOption[]
+  readonly options?: ApplicationCommandOptionData[]
 
   readonly isGuildOnly: boolean
 
@@ -165,13 +165,22 @@ class Command {
       return
     }
 
-    const reply = await this.run(options)
+    try {
+      const reply = await this.run(options)
+      if (!reply) return
 
-    if (!reply) {
-      return
+      await message.reply(reply)
+    } catch (err) {
+      if (!this.error || !err) return
+
+      Command.logger.warn(`${this.name} is broken: `, err)
+
+      const reply = await this.error(options, err)
+
+      if (!reply) return
+
+      await message.reply(reply)
     }
-
-    await message.reply(reply)
   }
 
   async runSlashCommand(options?: Nullable<SlashRunOptions>) {
@@ -189,13 +198,22 @@ class Command {
       return
     }
 
-    const reply = await this.run(options)
+    try {
+      const reply = await this.run(options)
+      if (!reply) return
 
-    if (!reply) {
-      return
+      await interaction.reply(reply)
+    } catch (err) {
+      if (!this.error || !err) return
+
+      Command.logger.warn(`${this.name} is broken: `, err)
+
+      const reply = await this.error(options, err)
+
+      if (!reply) return
+
+      await interaction.reply(reply)
     }
-
-    await interaction.reply(reply)
   }
 }
 
