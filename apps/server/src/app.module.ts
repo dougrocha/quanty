@@ -1,5 +1,4 @@
-import { join } from 'path'
-
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
@@ -24,12 +23,13 @@ const ENV = process.env.NODE_ENV
       useNewUrlParser: true,
     }),
     PassportModule.register({ session: true }),
-    GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'src/schema.gql',
       sortSchema: true,
       useGlobalPrefix: true,
       cors: {
-        origin: ['http://localhost:3000'],
+        origin: ['http://localhost:3000', 'https://quanty.xyz'],
       },
     }),
     AuthModule,

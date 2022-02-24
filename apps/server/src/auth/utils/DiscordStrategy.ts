@@ -30,7 +30,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
       refreshToken,
       accessToken,
     }
-    console.log(details)
     return this.authService.validateUser(details)
   }
 }
