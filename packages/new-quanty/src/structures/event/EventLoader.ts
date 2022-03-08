@@ -1,15 +1,10 @@
 import path from 'path'
-import { promisify } from 'util'
-
-import glob from 'glob'
 
 import { Event } from './Event'
 import { EventRegistry } from './EventRegistry'
 
 import { Logger, logger } from '../../util/Logger'
 import { QuantyClient } from '../client/Client'
-
-const globPromise = promisify(glob)
 
 export class EventLoader {
   private readonly client: QuantyClient
@@ -32,7 +27,9 @@ export class EventLoader {
       `${this.client.baseDir || ''}${eventsDir}`,
     )
 
-    const eventFiles: string[] = await globPromise(`${eventsPath}/**/*.ts`)
+    const eventFiles: string[] = await this.client.globPromise(
+      `${eventsPath}/**/*.ts`,
+    )
 
     eventFiles.map(async file => {
       const event = await require(file)

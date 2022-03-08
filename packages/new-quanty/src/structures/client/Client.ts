@@ -1,9 +1,14 @@
 import 'dotenv'
 
+import { promisify } from 'util'
+
 import { Client, ClientOptions, Snowflake } from 'discord.js'
+import glob from 'glob'
 
 import { IQuantyConfig, IQuantyDefaultCommands } from './typings/IQuantyClient'
 
+import { ConfigError } from '../../errors/Errors'
+import { Messages } from '../../errors/Messages'
 import { logger, Logger } from '../../util/Logger'
 import { CommandLoader } from '../command/CommandLoader'
 import { CommandRegistry } from '../command/CommandRegistry'
@@ -13,7 +18,7 @@ import { EventRegistry } from '../event/EventRegistry'
 export class QuantyClient extends Client {
   public owner: Snowflake | Snowflake[]
 
-  public prefix?: string | string[]
+  public prefix?: string
 
   public mentionPrefix?: boolean
 
@@ -39,6 +44,8 @@ export class QuantyClient extends Client {
   @logger()
   public readonly _logger!: Logger
 
+  public _RegExpPrefix = RegExp(`^<@!?${this.user?.id}>`)
+
   constructor(quanty: IQuantyConfig, config: ClientOptions) {
     super(config)
 
@@ -58,7 +65,7 @@ export class QuantyClient extends Client {
     process.env.LOGLEVEL = logLevel || 'WARN'
 
     if (prefix) this.prefix = prefix
-    if (mentionPrefix !== undefined) this.mentionPrefix = mentionPrefix
+    if (mentionPrefix) this.mentionPrefix = mentionPrefix
     if (baseDir) this.baseDir = baseDir
     if (defaultCommands) this.defaultCommands = defaultCommands
     if (devGuilds) this.devGuilds = devGuilds
@@ -90,10 +97,35 @@ export class QuantyClient extends Client {
   }
 
   public checkConfig() {
-    this._logger.debug('error')
+    this._logger.debug('Checking config.')
+
+    if (!this.commandDir || typeof this.commandDir != 'string') {
+      this._logger.error(
+        new ConfigError(Messages.MISSING_CLIENT_CONFIG('commandDir')),
+      )
+    }
+
+    if (!this.eventDir || typeof this.eventDir != 'string') {
+      this._logger.error(
+        new ConfigError(Messages.MISSING_CLIENT_CONFIG('eventDir')),
+      )
+    }
   }
 
   public setTimeout(callback: () => void, timeout: number) {
     return setTimeout(callback, timeout)
+  }
+
+  public globPromise = promisify(glob)
+
+  // Offer support for prefix in databases
+  public getPrefix() {
+    if (this.prefix) return this.prefix
+
+    return 'q!'
+  }
+
+  public checkOwner(userId: Snowflake): boolean {
+    return this.owner.includes(userId)
   }
 }

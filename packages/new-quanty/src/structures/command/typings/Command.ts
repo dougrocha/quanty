@@ -5,32 +5,23 @@ import {
   CommandInteractionOptionResolver,
   Guild,
   GuildMember,
-  Message,
+  InteractionReplyOptions,
   PermissionString,
+  ReplyMessageOptions,
   TextBasedChannel,
+  WebhookEditMessageOptions,
 } from 'discord.js'
 
-import { CommandReturnType } from './old'
+import { ICooldownOptions } from './Cooldown'
 
+import { Optional } from '../../../util/types'
 import { QuantyClient } from '../../client/Client'
-
-import Timer = NodeJS.Timer
-
-export { Timer }
-
-export declare type Nullable<T> = {
-  [P in keyof T]: T[P] | null
-}
-
-export declare type Undefined<T> = {
-  [P in keyof T]: T[P] | undefined
-}
 
 export interface ICommandOptions {
   /**
    * Name of command
    */
-  name: string
+  commandName: string
   /**
    * Description of command
    *
@@ -38,7 +29,6 @@ export interface ICommandOptions {
    */
   description: string
   category: string
-  cmdType: CommandsTypeStrings
   aliases: string | string[]
   /**
    * Slash commands options
@@ -52,8 +42,9 @@ export interface ICommandOptions {
   /**
    * Cooldown for users
    */
-  cooldown: ICooldown
-  globalCooldown: number
+  cooldown: ICooldownOptions
+  guildCooldown: number
+  test: boolean
 }
 
 export interface BaseCommand {
@@ -73,7 +64,6 @@ export interface BaseCommand {
   format: string
   cooldown: number
   globalCooldown: number
-  cmdType: CommandsTypeStrings
   type: ApplicationCommandType
   test: boolean
   ephemeral: boolean
@@ -82,34 +72,34 @@ export interface BaseCommand {
   error: (options: any, error: any) => CommandReturnType
 }
 
-export interface BaseRunOptions {
+export interface SlashCommandRunOptions {
   client: QuantyClient
-  message: Message
   interaction: CommandInteraction
-  args: string[]
   member: GuildMember
   guild: Guild
   channel: TextBasedChannel
-  options: CommandInteractionOptionResolver
+  options: Omit<CommandInteractionOptionResolver, 'getMessage' | 'getFocused'>
 }
 
-export interface ICooldown {
-  uses: number
-  timeout: number
-  includeOwners: boolean
+export type CommandReturnType =
+  | Promise<CommandReturnObjects>
+  | CommandReturnObjects
+
+type CommandReturnObjects =
+  | ReplyMessageOptions
+  | InteractionReplyOptions
+  | WebhookEditMessageOptions
+  | string
+  | void
+
+export interface IVerifyReturnObj {
+  customVerify?: boolean
+  guild?: boolean
+  nsfw?: boolean
+  userPerms?: boolean
+  clientPerms?: boolean
+  owner?: boolean
+  cooldown?: boolean
+  dm?: boolean
+  channel?: true
 }
-
-export type IActiveUserCooldown = ICooldown
-
-export interface CooldownObject {
-  start: number
-  uses: number
-  timeout?: Timer
-}
-
-export enum CommandTypes {
-  SLASH = 'slash',
-  MESSAGE = 'message',
-}
-
-export type CommandsTypeStrings = keyof typeof CommandTypes

@@ -2,7 +2,7 @@ import { Snowflake } from 'discord.js'
 
 export interface IQuantyConfig {
   owner: Snowflake | Snowflake[]
-  prefix?: string | string[]
+  prefix?: string
   mentionPrefix?: boolean
   defaultPrefix?: string | 'mention'
   baseDir?: string

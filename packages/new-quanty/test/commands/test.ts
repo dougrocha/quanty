@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { SlashCommand } from '../../src/decorators/SlashCommandDecorators'
 import { Command } from '../../src/structures/command/Command'
 
@@ -6,9 +8,8 @@ import { Command } from '../../src/structures/command/Command'
   description: 'testCommand description',
 })
 export class TestCommand extends Command {
-  run(): void {
-    throw new Error('Method not implemented.')
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  run(): void {}
   error(): void {
     throw new Error('Method not implemented.')
   }

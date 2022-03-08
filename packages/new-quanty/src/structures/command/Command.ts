@@ -3,15 +3,21 @@ import {
   PermissionString,
   Collection,
   Snowflake,
+  Interaction,
+  CommandInteraction,
+  TextChannel,
+  DMChannel,
 } from 'discord.js'
 
 import {
-  CommandsTypeStrings,
-  CooldownObject,
+  CommandReturnType,
   ICommandOptions,
-  ICooldown,
+  IVerifyReturnObj,
+  SlashCommandRunOptions,
 } from './typings/Command'
+import { CooldownObject, ICooldownOptions } from './typings/Cooldown'
 
+import { CommandVerificationError } from '../../errors/Errors'
 import { Logger, logger } from '../../util/Logger'
 import { QuantyClient } from '../client/Client'
 
@@ -25,9 +31,7 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
   @logger()
   private _logger!: Logger
 
-  public cmdType!: CommandsTypeStrings
-
-  public name!: string
+  public commandName!: string
 
   public description!: string
 
@@ -47,17 +51,30 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
 
   public clientPermissions!: PermissionString[]
 
-  public cooldown!: ICooldown
+  public extendedVerify!: (
+    interaction: Interaction,
+    client: C,
+  ) => IVerifyReturnObj
+
+  public customVerify!: (
+    interaction: Interaction,
+    client: C,
+  ) => IVerifyReturnObj
+
+  public test!: boolean
+
+  public cooldown!: ICooldownOptions
 
   public userCooldowns: Collection<Snowflake, CooldownObject> = new Collection()
 
-  public globalCooldown!: number
+  public guildCooldown!: number
 
   public guildCooldowns: Collection<Snowflake, number> = new Collection()
 
   protected constructor(commandOptions?: ICommandOptions) {
     if (commandOptions) {
-      if (commandOptions.name) this.name = commandOptions.name
+      if (commandOptions.commandName)
+        this.commandName = commandOptions.commandName
       if (commandOptions.description)
         this.description = commandOptions.description
       if (commandOptions.category) this.category = commandOptions.category
@@ -65,33 +82,28 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
       if (commandOptions.guildOnly) this.guildOnly = commandOptions.guildOnly
       if (commandOptions.aliases) this.aliases = commandOptions.aliases
       if (commandOptions.cooldown) this.cooldown = commandOptions.cooldown
-      if (commandOptions.globalCooldown)
-        this.globalCooldown = commandOptions.globalCooldown
+      if (commandOptions.guildCooldown)
+        this.guildCooldown = commandOptions.guildCooldown
       if (commandOptions.options) this.options = commandOptions.options
       if (commandOptions.userPermissions)
         this.userPermissions = commandOptions.userPermissions
       if (commandOptions.clientPermissions)
         this.clientPermissions = commandOptions.clientPermissions
     }
-
-    this.verifyOptions()
   }
 
   public _init(client: C): this {
     this.client = client
-    if (!this.name)
-      throw new TypeError('Cannot register command without a name.')
-    if (!this.description && this.cmdType == 'SLASH')
-      throw new TypeError('Cannot register slash command without a description')
+    if (!this.commandName)
+      throw new TypeError('Cannot register a command without a name.')
 
     return this
   }
 
-  public userCooldown(userId: Snowflake): CooldownObject | null {
+  public getUserCooldown(userId: Snowflake): CooldownObject | null {
     if (this.client.owner.includes(userId) || !this.cooldown) return null
 
     let cooldown = this.userCooldowns.get(userId)
-
     if (!cooldown) {
       cooldown = {
         start: Date.now(),
@@ -107,17 +119,76 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
     return cooldown
   }
 
-  abstract run(): void
+  abstract run(options?: SlashCommandRunOptions): CommandReturnType
 
   abstract error(): void
 
-  private verifyOptions() {
-    const log = this._logger.debug
-
-    if (this.cooldown && this.globalCooldown) {
-      log(
-        `Command ${this.name} has both guild and global cooldowns! Please choose one!`,
+  private async verifyOptions(
+    interaction: CommandInteraction,
+    client: C,
+  ): Promise<IVerifyReturnObj> {
+    if (!client && !this.client)
+      throw new CommandVerificationError(
+        `Command: ${this.commandName} cannot verify without client.`,
       )
+    if (this.cooldown && this.guildCooldown)
+      throw new CommandVerificationError(
+        `Command: ${this.commandName} has both user and guild cooldowns. Please choose one!`,
+      )
+
+    if (this.customVerify !== undefined) {
+      this.customVerify(interaction, client)
+      return { customVerify: true }
     }
+
+    if (this.extendedVerify !== undefined) {
+      this.extendedVerify(interaction, client)
+    }
+
+    const { guild, channel, user } = interaction
+
+    if (this.ownerOnly && !this.client.checkOwner(user.id))
+      return { owner: true }
+
+    if (this.cooldown) {
+      const cooldown = this.getUserCooldown(user.id)
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      cooldown!.uses++
+
+      if (cooldown && cooldown.uses > this.cooldown.uses) {
+        const timeout =
+          (cooldown.start + this.cooldown.timeout * 1000 - Date.now()) / 1000
+        await interaction.reply(
+          `This command is on cooldown for ${timeout.toFixed(2)} seconds`,
+        )
+        return { cooldown: true }
+      }
+    }
+
+    if (
+      this.userPermissions &&
+      user.id != guild?.ownerId &&
+      interaction.memberPermissions?.has(this.userPermissions)
+    )
+      return { userPerms: true }
+
+    if (
+      this.client.user &&
+      channel &&
+      this.clientPermissions &&
+      guild?.members.cache
+        .get(this.client.user?.id)
+        ?.permissionsIn(channel?.id)
+        .missing(this.clientPermissions)
+    )
+      return { clientPerms: true }
+
+    if (guild && this.nsfwOnly && (channel as TextChannel).nsfw)
+      return { nsfw: true }
+    if (this.guildOnly && !guild) return { guild: true }
+    if (channel as DMChannel) return { dm: true }
+
+    return { channel: true }
   }
 }

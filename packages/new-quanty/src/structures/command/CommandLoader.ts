@@ -1,7 +1,4 @@
 import path from 'path'
-import { promisify } from 'util'
-
-import glob from 'glob'
 
 import { Command } from './Command'
 import { CommandRegistry } from './CommandRegistry'
@@ -9,8 +6,6 @@ import { CommandRegistry } from './CommandRegistry'
 import { Logger, logger } from '../../util/Logger'
 import { QuantyClient } from '../client/Client'
 import { IQuantyDefaultCommands } from '../client/typings/IQuantyClient'
-
-const globPromise = promisify(glob)
 
 export class CommandLoader {
   private client: QuantyClient
@@ -42,7 +37,9 @@ export class CommandLoader {
         : `${this.client.baseDir || ''}${commandsDir}`,
     )
 
-    const commandFiles: string[] = await globPromise(`${commandsPath}/**/*.ts`)
+    const commandFiles: string[] = await this.client.globPromise(
+      `${commandsPath}/**/*.ts`,
+    )
 
     commandFiles.map(async file => {
       const command = await require(file)

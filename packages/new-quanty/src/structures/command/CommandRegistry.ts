@@ -11,6 +11,8 @@ export class CommandRegistry extends Collection<string, Command> {
   @logger()
   private readonly _logger!: Logger
 
+  public aliases: Collection<string, Command> = new Collection()
+
   constructor(client: QuantyClient) {
     super()
 
@@ -18,10 +20,12 @@ export class CommandRegistry extends Collection<string, Command> {
   }
 
   public registerCommand(command: Command) {
-    this._logger.debug(`Registrating command: ${command.name.toUpperCase()}`)
+    this._logger.debug(
+      `Registrating command: ${command.commandName.toUpperCase()}`,
+    )
 
     command._init(this.client)
 
-    this.set(command.name, command)
+    this.set(command.commandName, command)
   }
 }

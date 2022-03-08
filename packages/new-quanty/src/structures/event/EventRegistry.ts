@@ -22,8 +22,6 @@ export class EventRegistry extends Collection<string, Event> {
 
     this._logger.debug(`Registrating event: ${event.eventName}`)
 
-    console.log(event.eventName, event.once)
-
     this.set(event.eventName, event)
 
     event._init(this.client)
