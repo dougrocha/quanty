@@ -1,6 +1,6 @@
 import { Command } from '@quanty/framework'
 
-import { GuildModel, GuildPluginModel } from '../../database/schemas'
+import { GuildPluginModel } from '../../database/schemas'
 
 export const command: Command = {
   name: `setup-ticket`,
@@ -19,6 +19,12 @@ export const command: Command = {
       description: 'Set a category for all tickets to be put under.',
       type: 'CHANNEL',
       channelTypes: ['GUILD_CATEGORY'],
+    },
+    {
+      name: 'ticketChannel',
+      description: 'Set a channel for users to open tickets in.',
+      type: 'CHANNEL',
+      channelTypes: ['GUILD_TEXT'],
     },
   ],
   userPermissions: ['MANAGE_CHANNELS', 'MANAGE_GUILD'],

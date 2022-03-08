@@ -6,8 +6,6 @@ import * as dotenv from 'dotenv'
 const ENV = process.env.NODE_ENV
 dotenv.config({ path: ENV ? `.env.${ENV}` : '.env' })
 
-import { extraPlugins } from './utils/clientConfig'
-
 const client = new QuantyClient(
   {
     token: process.env.TOKEN,

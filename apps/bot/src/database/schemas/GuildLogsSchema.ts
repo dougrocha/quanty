@@ -10,6 +10,6 @@ export class GuildLogs {
   @Prop({ required: true })
   guildId: string
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   action: string
 }

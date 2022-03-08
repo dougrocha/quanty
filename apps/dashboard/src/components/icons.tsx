@@ -37,8 +37,11 @@ export const ClipboardIcon = ({ ...props }: Partial<IconProps>) => {
 export const ClipboardCheckIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="bi:clipboard-check" />
 }
+export const QuantumIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="clarity:atom-solid" />
+}
 
-const BaseIcon = ({ icon, className, ...props }: Partial<IconProps>) => {
+const BaseIcon = ({ icon, className, color, ...props }: Partial<IconProps>) => {
   return (
     <>
       {icon && (
@@ -46,8 +49,7 @@ const BaseIcon = ({ icon, className, ...props }: Partial<IconProps>) => {
           {...props}
           className={'cursor-pointer '.concat(className ?? '')}
           icon={icon}
-          width={35}
-          color={props.color || '#ffbd44'}
+          color={color}
         />
       )}
     </>

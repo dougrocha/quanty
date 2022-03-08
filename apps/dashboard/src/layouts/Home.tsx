@@ -1,5 +1,9 @@
 import Head from 'next/head'
 
+import Footer from '../components/Footer'
+import HelpBox from '../components/Home/HelpBox'
+import Navbar from '../components/Navbar'
+
 interface LayoutProps {
   children: React.ReactNode
 }
@@ -22,11 +26,16 @@ const HomeLayout = ({ children }: LayoutProps) => {
         <meta property="og:url" content="https://quanty.xyz/" />
         <meta property="og:type" content="website" />
 
-        <meta name="theme-color" content="#121e44"></meta>
+        <meta name="theme-color" content="#1C1A25"></meta>
       </Head>
 
-      <div className=" block min-h-screen overflow-auto bg-gradient-to-r from-[#321569]/95 to-[#121e44] antialiased">
-        <main>{children}</main>
+      <div className="block h-screen overflow-auto bg-primary-darkPurpleBg antialiased ">
+        <div className="mx-auto max-w-6xl px-4 text-primary-white sm:px-6 xl:px-0">
+          <Navbar />
+          {children}
+        </div>
+        <HelpBox />
+        <Footer />
       </div>
     </>
   )

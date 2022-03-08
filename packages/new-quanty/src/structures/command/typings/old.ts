@@ -1,67 +1,22 @@
 import {
   ApplicationCommandOptionData,
-  ApplicationCommandType,
-  AutocompleteInteraction,
-  ButtonInteraction,
-  ClientEvents,
-  CommandInteraction,
-  CommandInteractionOptionResolver,
-  ContextMenuInteraction,
-  Guild,
-  GuildMember,
-  InteractionReplyOptions,
-  Message,
   PermissionString,
-  ReplyMessageOptions,
+  ApplicationCommandType,
+  Message,
+  CommandInteraction,
+  GuildMember,
+  Guild,
   TextBasedChannel,
+  ContextMenuInteraction,
+  ButtonInteraction,
+  AutocompleteInteraction,
+  CommandInteractionOptionResolver,
+  ReplyMessageOptions,
+  InteractionReplyOptions,
   WebhookEditMessageOptions,
 } from 'discord.js'
-import { NodeOptions } from 'erela.js'
-import { SpotifyOptions } from 'erela.js-spotify/dist/plugin'
 
-import QuantyClient from '../index'
-
-export * from './structures'
-
-export interface QuantySettings {
-  token: string | undefined
-  mongoUri?: string
-  botOwners: string[]
-  commandsDir: string
-  featuresDir: string
-  testServers?: string[]
-  willWarn?: boolean
-  defaultValues?: DefaultValues
-  WebSocketConfig?: IWebSocketConfig
-}
-
-export interface DefaultValues {
-  defaultCommands?: boolean
-  defaultFeatures?: boolean
-}
-
-export interface IWebSocketConfig {
-  url?: string
-  token?: string
-}
-
-export interface IExtraClientArgs {
-  lavalink?: NodeOptions
-  spotifyPlugin?: SpotifyOptions
-}
-
-export enum GuildEventsEnum {
-  PREFIX = 'prefixUpdate',
-  AUTOMOD = 'autoModUpdate',
-  MODERATION_PLUGIN = 'moderationPluginUpdate',
-  BL_WORDS = 'blacklistedWordsUpdate',
-  MUSIC_IMMORTALITY = 'musicImmortalityUpdate',
-  MUSIC_PLUGIN = 'musicPluginUpdate',
-  MUSIC_CHANNEL = 'musicChannelUpdate',
-  ADD_LOG = 'addLog',
-  ADD_CUSTOMCOMMAND = 'addCustomCommand',
-  TICKETCHANNEL = 'ticketChannel',
-}
+import { QuantyClient } from '../../client/Client'
 
 /**
  * Interface for Commands
@@ -111,6 +66,12 @@ export interface BaseCommand {
   hidden?: boolean
   run: (options: any) => CommandReturnType
   error?: (options: any, error: any) => CommandReturnType
+}
+
+export interface ICooldown {
+  times: number
+  timeout: number
+  includeOwners: boolean
 }
 
 interface MsgCommand
@@ -228,39 +189,4 @@ type CommandReturnObjects =
   | InteractionReplyOptions
   | WebhookEditMessageOptions
   | string
-  | void
-
-/**
- * Interface for Features/Events
- *
- * The generic type for FeatureBuilder will have all discord js events.
- * The event use choose will then auto type the params for the run object in your feature.
- * This makes it a bit easier so you're not looking throught Discord.JS Docs every 5 minutes.
- *
- * But just in case,
- * https://discord.js.org/#/docs/main/stable/typedef/WSEventType
- * @example
- * const feature: Feature<'ready'> = {
- *  name: 'ready',
- *  run: async (client, message) => {}
- * }
- */
-
-export interface Feature<K extends keyof ClientEvents> {
-  name: K
-  once?: boolean
-  run: (client: QuantyClient, ...args: ClientEvents[K]) => FeatureRunReturn
-}
-export interface BaseFeature {
-  name: string
-  once?: boolean
-  run: (client: QuantyClient, ...args: string[]) => FeatureRunReturn
-}
-
-type FeatureRunReturn = Promise<FeatureRunObject> | FeatureRunObject
-
-type FeatureRunObject =
-  | ReplyMessageOptions
-  | InteractionReplyOptions
-  | WebhookEditMessageOptions
   | void
