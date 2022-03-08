@@ -28,7 +28,7 @@ export class MessageHandler extends Event<'messageCreate'> {
       userCooldowns,
     } = command
 
-    // command.runMsgCommand({
+    // Command.runMsgCommand({
     //   client,
     //   message,
     //   guild,
