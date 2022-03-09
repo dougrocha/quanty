@@ -1,6 +1,6 @@
 import { Client } from 'discord.js'
 
-import { Once } from '../../src/decorators/EventDecorators'
+import { Once } from '../../src/decorators/event/EventDecorators'
 import { Event } from '../../src/structures/event/Event'
 import { logger, Logger } from '../../src/util/Logger'
 

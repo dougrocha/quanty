@@ -1,7 +1,7 @@
 import { PermissionString } from 'discord.js'
 
-import { CooldownObject } from '../structures/command/typings/Command'
-import { setMetaData } from '../util/setMetaData'
+import { CooldownObject } from '../../structures/command/typings/Cooldown'
+import { setMetaData } from '../util'
 
 export function Alias(...aliases: string[]): ClassDecorator {
   return setMetaData('aliases', aliases)

@@ -1,6 +1,16 @@
+export function createClassDecorator<T extends (...args: any[]) => void>(
+  fn: T,
+): ClassDecorator {
+  return fn
+}
+
+export function createMethodDecorator(fn: MethodDecorator): MethodDecorator {
+  return fn
+}
+
 export const setMetaData = (key: string, value: unknown): ClassDecorator => {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  return function <T extends Function>(target: T) {
+  return createClassDecorator<(...args: any[]) => void>(target => {
     Object.defineProperty(target.prototype, key, {
       value,
       enumerable: false,
@@ -8,5 +18,5 @@ export const setMetaData = (key: string, value: unknown): ClassDecorator => {
       writable: true,
     })
     return target
-  }
+  })
 }

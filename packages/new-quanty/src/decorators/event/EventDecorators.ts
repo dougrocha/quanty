@@ -17,7 +17,7 @@ function setMetaData(data: {
     Object.defineProperties(target.prototype, {
       eventName: {
         value: data.eventName,
-        enumerable: false,
+        enumerable: true,
         configurable: true,
         writable: true,
       },

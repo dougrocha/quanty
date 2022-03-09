@@ -1,6 +1,6 @@
 import { Message } from 'discord.js'
 
-import { On } from '../../src/decorators/EventDecorators'
+import { On } from '../../src/decorators/event/EventDecorators'
 import { Event } from '../../src/structures/event/Event'
 import { logger, Logger } from '../../src/util/Logger'
 
