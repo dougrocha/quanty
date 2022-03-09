@@ -4,6 +4,7 @@ import QuantyClient from '@quanty/framework'
 import * as dotenv from 'dotenv'
 
 const ENV = process.env.NODE_ENV
+console.log(ENV)
 dotenv.config({ path: ENV ? `.env.${ENV}` : '.env' })
 
 const client = new QuantyClient(

@@ -12,7 +12,7 @@ const client: QuantyClient = new QuantyClient(
     token: process.env.TOKEN!,
     commandDir: 'commands/',
     eventDir: 'events/',
-    owner: '',
+    owner: '1259812597',
     baseDir: 'test/',
     defaultCommands: {
       help: true,

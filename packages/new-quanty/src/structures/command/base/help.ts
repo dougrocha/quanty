@@ -1,4 +1,4 @@
-import { SlashCommand } from '../../../decorators/SlashCommandDecorators'
+import { SlashCommand } from '../../../decorators/command/SlashCommandDecorators'
 import { Command } from '../Command'
 import { SlashCommandRunOptions, CommandReturnType } from '../typings/Command'
 

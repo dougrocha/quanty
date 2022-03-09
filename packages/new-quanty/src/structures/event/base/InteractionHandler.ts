@@ -1,6 +1,6 @@
 import { Interaction, CacheType } from 'discord.js'
 
-import { On } from '../../../decorators/EventDecorators'
+import { On } from '../../../decorators/event/EventDecorators'
 import { CommandVerificationError } from '../../../errors/Errors'
 import { Logger, logger } from '../../../util/Logger'
 import { Command } from '../../command/Command'
