@@ -29,7 +29,7 @@ export class PrefixCommand extends Command {
     options,
     guild,
   }: SlashCommandRunOptions): AsyncCommandReturnType {
-    // const prefix = client.guildManager.getPrefix(guild.id)
+    // Const prefix = client.guildManager.getPrefix(guild.id)
     const prefix = ''
     const embed = new MessageEmbed().setFooter({
       text: `${user.discriminator} | ${user.username}`,
@@ -63,7 +63,7 @@ export class PrefixCommand extends Command {
           ],
         }
 
-      // const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
+      // Const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
       //   guild.id,
       //   input,
       // )
@@ -93,7 +93,7 @@ export class PrefixCommand extends Command {
     }
   }
   error(): void {
-    // return {
+    // Return {
     //   content: 'Hey man your prefix broke. Contact someone to fix this plugin',
     // }
   }

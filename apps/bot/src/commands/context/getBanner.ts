@@ -1,4 +1,4 @@
-// import { ContextCommand } from '@quanty/framework'
+// Import { ContextCommand } from '@quanty/framework'
 // import axios, { AxiosResponse } from 'axios'
 // import { MessageEmbed, User } from 'discord.js'
 

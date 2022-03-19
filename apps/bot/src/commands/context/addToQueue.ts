@@ -1,4 +1,4 @@
-// import { ContextCommand } from '@quanty/framework'
+// Import { ContextCommand } from '@quanty/framework'
 
 // const command: ContextCommand = {
 //   name: 'Add to queue',
