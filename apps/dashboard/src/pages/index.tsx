@@ -1,41 +1,43 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import { gql } from '@apollo/client'
 
+import FeatureBox from '../components/Home/FeatureBox'
+import Hero from '../components/Home/Hero'
+import TempHome from '../components/TempHome'
 import HomeLayout from '../layouts/Home'
-import { StaticLinks } from '../utils/staticLinks'
+import client from '../libs/apollo-client'
 
 const Home = () => {
+  if (process.env.NODE_ENV == 'production') {
+    return <TempHome />
+  }
+
+  const test = async () => {
+    const { data } = await client.query({
+      query: gql`
+        query User {
+          user {
+            discriminator
+            discordId
+            username
+            email
+            avatar
+            locale
+            verified
+            flags
+          }
+        }
+      `,
+    })
+  }
+
+  test()
+
+  // TODO: Use next-auth to try server side auth and site generation
+
   return (
     <HomeLayout>
-      <div className="flex h-screen flex-col items-center justify-center">
-        <div className="relative mx-auto h-56 w-56 overflow-hidden rounded-full">
-          <Image
-            src={`${StaticLinks.DISCORD_CDN}/app-assets/824106276404854844/941227160679624745.png?size=256`}
-            alt="Quanty Icon Picture"
-            objectFit="cover"
-            layout="fill"
-            priority
-            placeholder="blur"
-            blurDataURL="/quanty-64.png"
-          />
-        </div>
-        <br />
-        <Link href={StaticLinks.QUANTY_BOT_INVITE} passHref>
-          <button className="my-2 w-44 rounded-lg bg-blue-500 px-5 py-2 text-white ">
-            Invite Quanty
-          </button>
-        </Link>
-        <Link href={StaticLinks.QUANTY_SERVER_INVITE} passHref>
-          <button className="my-2 w-44 rounded-lg bg-blue-500 px-5 py-2 text-white ">
-            Support Server
-          </button>
-        </Link>
-        <Link href="/servers" passHref>
-          <button className="my-2 w-44 rounded-lg bg-blue-500 px-5 py-2 text-white ">
-            Dashboard (WIP)
-          </button>
-        </Link>
-      </div>
+      <Hero />
+      <FeatureBox />
     </HomeLayout>
   )
 }

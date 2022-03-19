@@ -1,12 +1,17 @@
-import { Command } from '@quanty/framework'
+import {
+  AsyncCommandReturnType,
+  Category,
+  ClientPermissions,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 
-import { GuildModel, GuildPluginModel } from '../../database/schemas'
+import { GuildPluginModel } from '../../database/schemas'
 
-export const command: Command = {
-  name: `setup-ticket`,
+@SlashCommand('setup-ticket', {
   description: 'Creates a ticket for issues in your guild.',
-  category: 'moderation',
-  cmdType: 'slash',
   options: [
     {
       name: 'transcript-channel',
@@ -20,10 +25,22 @@ export const command: Command = {
       type: 'CHANNEL',
       channelTypes: ['GUILD_CATEGORY'],
     },
+    {
+      name: 'ticketChannel',
+      description: 'Set a channel for users to open tickets in.',
+      type: 'CHANNEL',
+      channelTypes: ['GUILD_TEXT'],
+    },
   ],
-  userPermissions: ['MANAGE_CHANNELS', 'MANAGE_GUILD'],
-  clientPermissions: ['MANAGE_CHANNELS', 'MANAGE_GUILD'],
-  run: async ({ options, guild }) => {
+})
+@Category('moderation')
+@UserPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
+@ClientPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
+export class SetupTicketCommand extends Command {
+  async run({
+    options,
+    guild,
+  }: SlashCommandRunOptions): AsyncCommandReturnType {
     const transcriptChannel = options.getChannel('transcript-channel')
     const ticketCategory = options.getChannel('category')
 
@@ -53,5 +70,9 @@ export const command: Command = {
       content: 'Ticket Setup',
       ephemeral: true,
     }
-  },
+  }
+
+  error(): void {
+    throw new Error('Method not implemented.')
+  }
 }

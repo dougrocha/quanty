@@ -1,2 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface test {}
+export interface CurrentUser {
+  username: string
+  discordID: string
+  discriminator: string
+  avatar: string
+}

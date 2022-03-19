@@ -7,6 +7,6 @@
 
     "skipLibCheck": true
   },
-  "include": ["src", ".eslintrc.js"],
+  "include": ["src", "test", ".eslintrc.js", "environment.d.ts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
 }

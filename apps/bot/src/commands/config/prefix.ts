@@ -1,11 +1,17 @@
-import { Command } from '@quanty/framework'
+import {
+  AsyncCommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
 import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
 
-export const command: Command = {
-  name: 'prefix',
-  description: 'desc',
+@SlashCommand('prefix', {
+  description: 'Prefix manager.',
   options: [
     {
       name: 'prefix',
@@ -14,24 +20,30 @@ export const command: Command = {
       type: 'STRING',
     },
   ],
-  category: 'config',
-  userPermissions: ['ADMINISTRATOR'],
-  run: async ({ client, options, guild, args, member }) => {
-    const prefix = client.guildManager.getPrefix(guild.id)
-
+})
+@Category('config')
+@UserPermissions('ADMINISTRATOR')
+export class PrefixCommand extends Command {
+  async run({
+    user,
+    options,
+    guild,
+  }: SlashCommandRunOptions): AsyncCommandReturnType {
+    // Const prefix = client.guildManager.getPrefix(guild.id)
+    const prefix = ''
     const embed = new MessageEmbed().setFooter({
-      text: `${member?.user.discriminator} | ${member?.user.username}`,
-      iconURL: member?.user.displayAvatarURL({ format: 'png', dynamic: true }),
+      text: `${user.discriminator} | ${user.username}`,
+      iconURL: user.displayAvatarURL({ format: 'png', dynamic: true }),
     })
 
-    const input = options?.getString('prefix') || args[0]
+    const input = options?.getString('prefix')
 
     if (input) {
-      const user = guild.members.cache.get(member.user.id)
+      const userObj = guild.members.cache.get(user.id)
 
-      if (!user) return
+      if (!userObj) return
 
-      if (!user?.permissions.has('ADMINISTRATOR'))
+      if (!userObj?.permissions.has('ADMINISTRATOR'))
         return { content: 'You can not edit the prefix.' }
 
       if (!prefix) {
@@ -51,17 +63,19 @@ export const command: Command = {
           ],
         }
 
-      const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
-        guild.id,
-        input,
-      )
+      // Const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
+      //   guild.id,
+      //   input,
+      // )
+
+      const newGuildConfig = { prefix: '' }
 
       await createLog({
         guildId: guild.id,
         action: CreateLogActionsEnum.CHANGEPREFIX,
         user: {
-          discriminator: user.user.discriminator,
-          username: user.user.username,
+          discriminator: user.discriminator,
+          username: user.username,
           id: user.id,
         },
       })
@@ -77,10 +91,10 @@ export const command: Command = {
     return {
       embeds: [embed.setDescription(`Your prefix is  \`${prefix}\``)],
     }
-  },
-  error: async () => {
-    return {
-      content: 'Hey man your prefix broke. Contact someone to fix this plugin',
-    }
-  },
+  }
+  error(): void {
+    // Return {
+    //   content: 'Hey man your prefix broke. Contact someone to fix this plugin',
+    // }
+  }
 }

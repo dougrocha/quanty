@@ -154,11 +154,11 @@ export const MusicEvent = (manager: Manager, client: QuantyClient) => {
       if (!player.textChannel) {
         return
       }
-      const channel = client.channels.cache.get(
-        player.textChannel,
-      ) as TextChannel
+      // Const channel = client.channels.cache.get(
+      //   player.textChannel,
+      // ) as TextChannel
 
-      await channel.send("I'm dead, ask the owner for help")
+      // await channel.send("I'm dead, ask the owner for help")
     })
 
   client

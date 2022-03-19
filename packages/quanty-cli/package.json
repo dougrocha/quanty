@@ -31,7 +31,7 @@
     "chalk": "4.1.2",
     "commander": "^9.0.0",
     "figlet": "^1.5.2",
-    "inquirer": "^8.2.0"
+    "inquirer": "^8.2.1"
   },
   "engines": {
     "node": ">=16.6.0",

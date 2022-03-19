@@ -11,20 +11,21 @@ This monorepo servers to hold all of the apps/services quanty will have. Turbore
 
 ### Apps and Packages
 
-- `dashboard`: a [Next.js](https://nextjs.org) app
-- `server`: a [Nest.js](https://nestjs.com) server
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- `bot`: A discord bot built discord.js, typescript, and my own framework.
+- `dashboard`: A [Next.js](https://nextjs.org) app.
+- `server`: A [Nest.js](https://nestjs.com) server.
+- `ui`: A stub React component library shared by both `web` and `docs` applications.
+- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`).
+- `tsconfig`: `tsconfig.json`s used throughout the monorepo.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Each package/app is 100% built with [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Jest](https://jestjs.io) test runner for all things JavaScript
-- [Prettier](https://prettier.io) for code formatting
+- [TypeScript](https://www.typescriptlang.org/) for static type checking.
+- [ESLint](https://eslint.org/) for code linting.
+- [Jest](https://jestjs.io) test runner for all things JavaScript.
+- [Prettier](https://prettier.io) for code formatting.
 
 ## Setup
 
