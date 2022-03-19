@@ -13,5 +13,8 @@
     "skipLibCheck": true
   },
   "include": ["src", "environment.d.ts", ".eslintrc.js"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"],
+  "ts-node": {
+    "files": true
+  }
 }

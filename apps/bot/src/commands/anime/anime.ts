@@ -1,10 +1,18 @@
-import { Command } from '@quanty/framework'
+import {
+  AsyncCommandReturnType,
+  Category,
+  Command,
+  NSFW,
+  SlashCommand,
+  SlashCommandRunOptions,
+  Test,
+} from '@quanty/framework'
 import { MessageEmbed, TextChannel } from 'discord.js'
 import Client from 'nekos.life'
 
-export const command: Command = {
-  name: 'anime',
-  description: 'Sends a random anime picture',
+@Test()
+@SlashCommand('anime', {
+  description: 'Sends a sfw anime picture.',
   options: [
     {
       type: 'SUB_COMMAND',
@@ -45,10 +53,14 @@ export const command: Command = {
       ],
     },
   ],
-  category: 'nsfw',
-  cmdType: 'slash',
-  nsfw: true,
-  run: async ({ options, channel }) => {
+})
+@Category('nsfw')
+@NSFW()
+export class AnimeCommand extends Command {
+  async run({
+    options,
+    channel,
+  }: SlashCommandRunOptions): AsyncCommandReturnType {
     const neko = new Client()
 
     const embed = new MessageEmbed()
@@ -139,5 +151,9 @@ export const command: Command = {
     return {
       embeds: [embed.setColor('#FF5F9F')],
     }
-  },
+  }
+
+  error(): void {
+    throw new Error('Method not implemented.')
+  }
 }

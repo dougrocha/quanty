@@ -1,12 +1,17 @@
-import { Command } from '@quanty/framework'
+import {
+  AsyncCommandReturnType,
+  Category,
+  ClientPermissions,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 
 import { GuildBanLogsModel, GuildModel } from '../../database/schemas'
 
-export const command: Command = {
-  name: `ban`,
+@SlashCommand('ban', {
   description: 'Bans members',
-  category: 'moderation',
-  cmdType: 'both',
   options: [
     {
       name: 'user',
@@ -20,9 +25,16 @@ export const command: Command = {
       type: 'STRING',
     },
   ],
-  userPermissions: ['BAN_MEMBERS'],
-  clientPermissions: ['BAN_MEMBERS'],
-  run: async ({ options, guild, member: issuer }) => {
+})
+@Category('moderation')
+@UserPermissions('BAN_MEMBERS')
+@ClientPermissions('BAN_MEMBERS')
+export class BanCommand extends Command {
+  async run({
+    options,
+    guild,
+    user: issuer,
+  }: SlashCommandRunOptions): AsyncCommandReturnType {
     const user = options.getUser('user')
     if (!user) return
 
@@ -45,8 +57,8 @@ export const command: Command = {
         },
         reason: reason,
         issuedBy: {
-          username: issuer.user.username,
-          discriminator: issuer.user.discriminator,
+          username: issuer.username,
+          discriminator: issuer.discriminator,
           id: issuer.id,
         },
         issuedOn: new Date(),
@@ -62,5 +74,9 @@ export const command: Command = {
     return {
       content: `Banned ${user} ${reason ?? ''}`,
     }
-  },
+  }
+
+  error(): void {
+    throw new Error('Method not implemented.')
+  }
 }

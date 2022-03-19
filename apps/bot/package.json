@@ -10,7 +10,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "dev": "cross-env tsnd --watch -r dotenv/config src/index.ts",
+    "dev": "tsnd -r dotenv/config --respawn --transpile-only src/index.ts",
     "debug": "tsnd --watch --debug -r dotenv/config src/index.ts",
     "start": "cross-env NODE_ENV=prod node ./dist/src/index.js",
     "test": "echo TESTING BOT",
@@ -22,7 +22,7 @@
     "@quanty/framework": "*",
     "@typegoose/typegoose": "^9.7.0",
     "@types/glob": "^7.2.0",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "chalk": "4.1.2",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
@@ -39,9 +39,9 @@
     "@types/node": "^17.0.21",
     "config": "*",
     "dotenv-cli": "^5.0.0",
-    "ts-node": "^10.5.0",
+    "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig": "*",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   }
 }
