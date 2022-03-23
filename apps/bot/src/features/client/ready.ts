@@ -1,10 +1,13 @@
-import QuantyClient, { Feature } from '@quanty/framework'
+import { Event, logger, Logger, Once } from '@quanty/framework'
+import { Client } from 'discord.js'
 
-export const feature: Feature<'ready'> = {
-  name: 'ready',
-  once: true,
-  run: async (client: QuantyClient) => {
-    client.logger.success(`${client.user?.tag} is online!`)
+@Once('ready')
+export class ReadyEvent extends Event<'ready'> {
+  @logger()
+  private logger!: Logger
+
+  run(client: Client<true>) {
+    this.logger.log(`${client.user?.tag} is online!`)
 
     client.user?.setPresence({
       activities: [{ name: 'Things', type: 'PLAYING' }],
@@ -12,6 +15,6 @@ export const feature: Feature<'ready'> = {
     })
 
     // After Bot is connected, Bot will connect to lavalink music player
-    client.player.init(client.user?.id)
-  },
+    // client.player.init(client.user?.id)
+  }
 }

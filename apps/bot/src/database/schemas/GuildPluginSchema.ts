@@ -6,13 +6,13 @@ export class GuildPlugins {
   guildId: string
 
   @Prop({ type: () => [String], required: false, lowercase: true, default: [] })
-  plugins: string[]
+  plugins?: string[]
 
   @Prop({ type: () => [String], nullable: true, lowercase: true, default: [] })
-  blacklistedWords: string[]
+  blacklistedWords?: string[]
 
   @Prop({ required: false, default: null })
-  djRole: string
+  djRole?: string
 
   @Prop({ default: false })
   immortal?: boolean

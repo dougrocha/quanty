@@ -44,7 +44,11 @@ export interface ICommandOptions {
   cooldown: ICooldownOptions
   guildCooldown: number
   test: boolean
+
+  type: CommandTypes
 }
+
+export type CommandTypes = 'message' | 'slash' | 'context' | 'button'
 
 export interface BaseCommand {
   name: string
@@ -80,9 +84,9 @@ export interface SlashCommandRunOptions {
   options: Omit<CommandInteractionOptionResolver, 'getMessage' | 'getFocused'>
 }
 
-export type AsyncCommandReturnType = Promise<CommandReturnType>
+export type CommandReturnType = Promise<CommandReturnObj>
 
-export type CommandReturnType =
+export type CommandReturnObj =
   | ReplyMessageOptions
   | InteractionReplyOptions
   | WebhookEditMessageOptions

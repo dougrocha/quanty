@@ -1,21 +1,32 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 import { MessageActionRow, MessageButton } from 'discord.js'
 
-export const command: Command = {
-  name: 'dashboard',
+@SlashCommand('dashboard', {
   description: 'Sends a link to your dashboard.',
-  category: 'util',
-  run: async ({ guild }) => {
+})
+@Category('util')
+export class DashboardCommand extends Command {
+  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
     const button = new MessageActionRow().addComponents(
       new MessageButton()
         .setLabel('Go to your dashboard')
         .setStyle('LINK')
-        .setURL('https://www.quanty.xyz'),
+        .setURL(`https://www.quanty.xyz/dashboard/${guild.id}`),
     )
 
     return {
       content: 'Here you go',
       components: [button],
     }
-  },
+  }
+
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

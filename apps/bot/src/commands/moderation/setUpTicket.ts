@@ -1,5 +1,5 @@
 import {
-  AsyncCommandReturnType,
+  CommandReturnType,
   Category,
   ClientPermissions,
   Command,
@@ -37,10 +37,7 @@ import { GuildPluginModel } from '../../database/schemas'
 @UserPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
 @ClientPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
 export class SetupTicketCommand extends Command {
-  async run({
-    options,
-    guild,
-  }: SlashCommandRunOptions): AsyncCommandReturnType {
+  async run({ options, guild }: SlashCommandRunOptions): CommandReturnType {
     const transcriptChannel = options.getChannel('transcript-channel')
     const ticketCategory = options.getChannel('category')
 
@@ -72,7 +69,7 @@ export class SetupTicketCommand extends Command {
     }
   }
 
-  error(): void {
+  async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

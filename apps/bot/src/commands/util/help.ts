@@ -1,4 +1,10 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
 import { uppercaseFirst } from '../../libs/extra'
@@ -12,10 +18,9 @@ const PossiblePlugins = {
 
 type PossiblePluginsType = typeof PossiblePlugins[keyof typeof PossiblePlugins]
 
-export const command: Command = {
-  name: 'help',
-  description: `Displays this bot's help command.`,
-  category: 'pre-built',
+@Category('util')
+@SlashCommand('help', {
+  description: "Displays this bot's help command.",
   options: [
     {
       name: 'plugin-name',
@@ -24,12 +29,13 @@ export const command: Command = {
       required: false,
     },
   ],
-  run: async ({ client, guild, options, args }) => {
-    const pluginName =
-      options?.getString('plugin-name')?.toLowerCase() ??
-      args?.slice(0, 1).shift()?.toLowerCase()
+})
+export class HelpCommand extends Command {
+  async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
+    const pluginName = options?.getString('plugin-name')?.toLowerCase()
 
-    const guildConfig = client.guildManager.findGuild(guild.id)
+    // const guildConfig = client.guildManager.findGuild(guild.id)
+    const guildConfig: any = ''
 
     if (!guildConfig) {
       return `It seems that I don't have you guild save. Log in to https://quanty.xyz to active plugins.`
@@ -84,5 +90,9 @@ export const command: Command = {
     return {
       embeds: [embed],
     }
-  },
+  }
+
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

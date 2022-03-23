@@ -1,9 +1,12 @@
-import { Feature } from '@quanty/framework'
+import { On, Event, logger, Logger } from '@quanty/framework'
+import { GuildBan } from 'discord.js'
 
-export const feature: Feature<'guildBanAdd'> = {
-  name: `guildBanAdd`,
-  once: false,
-  run: async (client, ban) => {
+@On('guildBanAdd')
+export class GuildMemberAddEvent extends Event<'guildBanAdd'> {
+  @logger()
+  private logger!: Logger
+
+  async run(ban: GuildBan) {
     const { guild, user, reason } = ban
-  },
+  }
 }

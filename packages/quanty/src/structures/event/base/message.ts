@@ -6,7 +6,7 @@ import { Command } from '../../command'
 import { Event } from '../Event'
 
 @On('messageCreate')
-export class MessageHandler extends Event<'messageCreate'> {
+export class Base_Message_CommandHandler extends Event<'messageCreate'> {
   @logger()
   private logger!: Logger
 

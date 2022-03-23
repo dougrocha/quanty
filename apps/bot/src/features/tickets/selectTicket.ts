@@ -1,6 +1,8 @@
-import { Feature } from '@quanty/framework'
+import { Event, On } from '@quanty/framework'
 import dayjs from 'dayjs'
 import {
+  CacheType,
+  Interaction,
   MessageActionRow,
   MessageButton,
   MessageEmbed,
@@ -11,9 +13,9 @@ import mongoose from 'mongoose'
 import { GuildModel, GuildTicketModel } from '../../database/schemas'
 import { uppercaseFirst } from '../../libs/extra'
 
-export const feature: Feature<'interactionCreate'> = {
-  name: 'interactionCreate',
-  run: async (client, interaction) => {
+@On('interactionCreate')
+export class SelectTicketEvent extends Event<'interactionCreate'> {
+  async run(interaction: Interaction<CacheType>) {
     if (!interaction.isButton()) return
 
     const { guild, member, customId } = interaction
@@ -131,5 +133,5 @@ export const feature: Feature<'interactionCreate'> = {
           ephemeral: true,
         })
       })
-  },
+  }
 }

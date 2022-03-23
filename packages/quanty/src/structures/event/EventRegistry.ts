@@ -1,4 +1,4 @@
-import { Collection } from 'discord.js'
+import { Collection, CommandInteractionOptionResolver } from 'discord.js'
 
 import { Event } from './Event'
 
@@ -18,11 +18,11 @@ export class EventRegistry extends Collection<string, Event> {
   }
 
   public registerEvent(event: Event) {
-    if (this.get(event.eventName)) this.delete(event.eventName)
+    if (this.get(event._className)) this.delete(event._className)
 
-    this._logger.debug(`Registrating event: ${event.eventName}`)
+    this._logger.debug(`Registrating event: ${event._className}`)
 
-    this.set(event.eventName, event)
+    this.set(event._className, event)
 
     event._init(this.client)
 

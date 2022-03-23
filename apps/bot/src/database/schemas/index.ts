@@ -7,14 +7,18 @@ import { GuildPlugins } from './GuildPluginSchema'
 import { Guild } from './GuildSchema'
 import { GuildTicket } from './GuildTicketSchema'
 
-export const GuildLogsModel = getModelForClass(GuildLogs)
+export const GuildLogsModel = getModelForClass<typeof GuildLogs>(GuildLogs)
 
-export const GuildBanLogsModel = getModelForClass(GuildBanLogs)
+export const GuildBanLogsModel =
+  getModelForClass<typeof GuildBanLogs>(GuildBanLogs)
 
-export const GuildModel = getModelForClass(Guild)
+export const GuildModel = getModelForClass<typeof Guild>(Guild)
 
-export const GuildTicketModel = getModelForClass(GuildTicket)
+export const GuildTicketModel =
+  getModelForClass<typeof GuildTicket>(GuildTicket)
 
-export const GuildPluginModel = getModelForClass(GuildPlugins)
+export const GuildPluginModel =
+  getModelForClass<typeof GuildPlugins>(GuildPlugins)
 
-export const GuildCommandModel = getModelForClass(GuildCommands)
+export const GuildCommandModel =
+  getModelForClass<typeof GuildCommands>(GuildCommands)

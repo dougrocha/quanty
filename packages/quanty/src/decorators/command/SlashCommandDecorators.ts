@@ -15,7 +15,7 @@ export function SlashCommand(
         writable: true,
       },
       description: {
-        value: options.description ?? 'No Description Found',
+        value: options.description ?? '',
         enumerable: true,
         configurable: true,
         writable: true,
@@ -33,7 +33,7 @@ export function SlashCommand(
         writable: false,
       },
       options: {
-        value: options.options,
+        value: options.options ?? [],
         enumerable: true,
         writable: false,
         configurable: false,

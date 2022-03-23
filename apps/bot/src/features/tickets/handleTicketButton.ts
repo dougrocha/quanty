@@ -1,13 +1,18 @@
-import { Feature } from '@quanty/framework'
+import { Event, On } from '@quanty/framework'
 import dayjs from 'dayjs'
 import { createTranscript } from 'discord-html-transcripts'
-import { MessageEmbed, TextBasedChannel } from 'discord.js'
+import {
+  CacheType,
+  Interaction,
+  MessageEmbed,
+  TextBasedChannel,
+} from 'discord.js'
 
 import { GuildTicketModel, GuildPluginModel } from '../../database/schemas'
 
-export const feature: Feature<'interactionCreate'> = {
-  name: 'interactionCreate',
-  run: async (client, interaction) => {
+@On('interactionCreate')
+export class HandleTicketEvent extends Event<'interactionCreate'> {
+  async run(interaction: Interaction<CacheType>) {
     if (!interaction.isButton()) return
 
     if (
@@ -113,7 +118,9 @@ export const feature: Feature<'interactionCreate'> = {
                 },
                 { name: 'User id:', value: ticket.memberId },
               ])
-              .setFooter({ text: `${dayjs(Date.now()).format('DD/MM/YYYY')}` }),
+              .setFooter({
+                text: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
+              }),
           ],
         })
 
@@ -140,7 +147,7 @@ export const feature: Feature<'interactionCreate'> = {
               { reason: `Locked Ticket: ${ticket.ticketId}`, type: 1 },
             )
 
-            await client.wait(10000)
+            await this.client.wait(10000)
 
             await channel.delete()
           })
@@ -177,7 +184,9 @@ export const feature: Feature<'interactionCreate'> = {
               .setDescription(
                 `Ticket: ${ticket.ticketId} is now locked for review. `,
               )
-              .setFooter({ text: `${dayjs(Date.now()).format('DD/MM/YYYY')}` }),
+              .setFooter({
+                text: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
+              }),
           ],
         })
 
@@ -210,7 +219,9 @@ export const feature: Feature<'interactionCreate'> = {
               .setDescription(
                 `Ticket: ${ticket.ticketId} is now un-locked. Please add anything to your issue here.`,
               )
-              .setFooter({ text: `${dayjs(Date.now()).format('DD/MM/YYYY')}` }),
+              .setFooter({
+                text: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
+              }),
           ],
         })
 
@@ -218,5 +229,5 @@ export const feature: Feature<'interactionCreate'> = {
       default:
         break
     }
-  },
+  }
 }

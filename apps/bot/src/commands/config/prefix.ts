@@ -1,13 +1,14 @@
 import {
-  AsyncCommandReturnType,
   Category,
   Command,
+  CommandReturnType,
   SlashCommand,
   SlashCommandRunOptions,
   UserPermissions,
 } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
+import { GuildModel } from '../../database'
 import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
 
 @SlashCommand('prefix', {
@@ -15,7 +16,7 @@ import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
   options: [
     {
       name: 'prefix',
-      description: 'sets a new prefix',
+      description: 'Sets a new prefix.',
       required: false,
       type: 'STRING',
     },
@@ -28,9 +29,12 @@ export class PrefixCommand extends Command {
     user,
     options,
     guild,
-  }: SlashCommandRunOptions): AsyncCommandReturnType {
-    // Const prefix = client.guildManager.getPrefix(guild.id)
-    const prefix = ''
+  }: SlashCommandRunOptions): CommandReturnType {
+    const guildPrefix = await GuildModel.findOne(
+      { guildId: guild.id },
+      'prefix',
+    )
+
     const embed = new MessageEmbed().setFooter({
       text: `${user.discriminator} | ${user.username}`,
       iconURL: user.displayAvatarURL({ format: 'png', dynamic: true }),
@@ -46,10 +50,12 @@ export class PrefixCommand extends Command {
       if (!userObj?.permissions.has('ADMINISTRATOR'))
         return { content: 'You can not edit the prefix.' }
 
-      if (!prefix) {
+      if (!guildPrefix) {
         return {
           embeds: [
-            embed.setDescription(`The current prefix is \`${prefix || 'q!'}\``),
+            embed.setDescription(
+              `The current prefix is \`${this.client.prefix || 'q!'}\``,
+            ),
           ],
         }
       }
@@ -63,13 +69,6 @@ export class PrefixCommand extends Command {
           ],
         }
 
-      // Const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
-      //   guild.id,
-      //   input,
-      // )
-
-      const newGuildConfig = { prefix: '' }
-
       await createLog({
         guildId: guild.id,
         action: CreateLogActionsEnum.CHANGEPREFIX,
@@ -80,19 +79,26 @@ export class PrefixCommand extends Command {
         },
       })
 
+      guildPrefix.prefix = input
+
+      await guildPrefix.save()
+
       return {
         embeds: [
-          embed.setDescription(
-            `Your prefix has been set to \`${newGuildConfig?.prefix}\``,
-          ),
+          embed.setDescription(`Your prefix has been set to \`${input}\``),
         ],
       }
     }
     return {
-      embeds: [embed.setDescription(`Your prefix is  \`${prefix}\``)],
+      embeds: [
+        embed.setDescription(
+          `Your prefix is  \`${guildPrefix?.prefix ?? this.client.prefix}\``,
+        ),
+      ],
     }
   }
-  error(): void {
+
+  async error(): CommandReturnType {
     // Return {
     //   content: 'Hey man your prefix broke. Contact someone to fix this plugin',
     // }

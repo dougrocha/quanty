@@ -1,5 +1,5 @@
 import {
-  AsyncCommandReturnType,
+  CommandReturnType,
   Category,
   ClientPermissions,
   Command,
@@ -34,7 +34,7 @@ export class BanCommand extends Command {
     options,
     guild,
     user: issuer,
-  }: SlashCommandRunOptions): AsyncCommandReturnType {
+  }: SlashCommandRunOptions): CommandReturnType {
     const user = options.getUser('user')
     if (!user) return
 
@@ -76,7 +76,7 @@ export class BanCommand extends Command {
     }
   }
 
-  error(): void {
+  async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

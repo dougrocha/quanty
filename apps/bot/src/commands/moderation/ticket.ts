@@ -1,4 +1,11 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 import dayjs from 'dayjs'
 import {
   InteractionButtonOptions,
@@ -9,13 +16,13 @@ import {
 
 import { GuildModel } from '../../database/schemas'
 
-export const command: Command = {
-  name: `ticket`,
+@SlashCommand('ticket', {
   description: 'Opens a ticket for any issues you may have.',
-  category: 'moderation',
-  userPermissions: ['SEND_MESSAGES'],
-  cmdType: 'slash',
-  run: async ({ guild, member }) => {
+})
+@Category('moderation')
+@UserPermissions('SEND_MESSAGES')
+export class TicketCommand extends Command {
+  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
     const embed = new MessageEmbed().setColor('#FF5F9F')
 
     const guildConfig = await GuildModel.findOne(
@@ -26,7 +33,7 @@ export const command: Command = {
       {
         populate: {
           path: 'tickets',
-          match: { memberId: { $eq: member.id }, closed: false },
+          match: { memberId: { $eq: user.id }, closed: false },
           select: 'memberId closed',
         },
       },
@@ -69,7 +76,11 @@ export const command: Command = {
       components: [component],
       ephemeral: true,
     }
-  },
+  }
+
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }
 
 export const ticketTypes: InteractionButtonOptions[] = [

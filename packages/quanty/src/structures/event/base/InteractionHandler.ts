@@ -4,7 +4,7 @@ import { On, logger, Logger } from '../../../index'
 import { Event } from '../Event'
 
 @On('interactionCreate')
-export class InteractionHandler extends Event<'interactionCreate'> {
+export class Base_Interaction_CommandHandler extends Event<'interactionCreate'> {
   @logger()
   private logger!: Logger
 

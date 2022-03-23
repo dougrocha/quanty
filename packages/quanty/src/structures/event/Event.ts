@@ -18,11 +18,13 @@ export abstract class Event<
   K extends keyof ClientEvents = 'invalidated',
   C extends QuantyClient = QuantyClient,
 > {
+  public readonly _className!: string
+
   public client!: C
 
-  public eventName!: keyof ClientEvents | K
+  public readonly eventName!: keyof ClientEvents | K
 
-  public once!: boolean
+  public readonly once!: boolean
 
   protected constructor(options?: {
     eventName: keyof ClientEvents

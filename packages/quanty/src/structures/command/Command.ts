@@ -10,7 +10,8 @@ import {
 } from 'discord.js'
 
 import {
-  AsyncCommandReturnType,
+  CommandReturnType,
+  CommandTypes,
   ICommandOptions,
   IVerifyReturnObj,
   SlashCommandRunOptions,
@@ -24,7 +25,7 @@ import { QuantyClient } from '../client/Client'
 export abstract class Command<C extends QuantyClient = QuantyClient>
   implements ICommandOptions
 {
-  private client!: C
+  public client!: C
 
   public _className!: string
 
@@ -46,6 +47,8 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
   public ownerOnly!: boolean
 
   public nsfwOnly!: boolean
+
+  public type!: CommandTypes
 
   public userPermissions!: PermissionString[]
 
@@ -119,9 +122,9 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
     return cooldown
   }
 
-  abstract run(options?: SlashCommandRunOptions): AsyncCommandReturnType
+  abstract run(options?: SlashCommandRunOptions): CommandReturnType
 
-  abstract error(): void
+  abstract error(): CommandReturnType
 
   private async verifyOptions(
     interaction: CommandInteraction,

@@ -1,16 +1,15 @@
 import {
-  AsyncCommandReturnType,
+  CommandReturnType,
   Category,
   Command,
   NSFW,
   SlashCommand,
   SlashCommandRunOptions,
-  Test,
 } from '@quanty/framework'
 import { MessageEmbed, TextChannel } from 'discord.js'
 import Client from 'nekos.life'
 
-@Test()
+@Category('nsfw')
 @SlashCommand('anime', {
   description: 'Sends a sfw anime picture.',
   options: [
@@ -54,13 +53,9 @@ import Client from 'nekos.life'
     },
   ],
 })
-@Category('nsfw')
 @NSFW()
 export class AnimeCommand extends Command {
-  async run({
-    options,
-    channel,
-  }: SlashCommandRunOptions): AsyncCommandReturnType {
+  async run({ options, channel }: SlashCommandRunOptions): CommandReturnType {
     const neko = new Client()
 
     const embed = new MessageEmbed()
@@ -153,7 +148,7 @@ export class AnimeCommand extends Command {
     }
   }
 
-  error(): void {
+  async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

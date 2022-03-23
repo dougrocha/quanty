@@ -1,16 +1,16 @@
 import { SlashCommand } from '../../../decorators'
 import { Command } from '../Command'
-import { SlashCommandRunOptions, AsyncCommandReturnType } from '../types'
+import { SlashCommandRunOptions, CommandReturnType } from '../types'
 
 @SlashCommand('help', {
   description: 'Default help command for quanty bot',
 })
 export class HelpCommand extends Command {
-  async run({ guild }: SlashCommandRunOptions): AsyncCommandReturnType {
+  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
     console.log(guild)
   }
 
-  error(): void {
+  error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

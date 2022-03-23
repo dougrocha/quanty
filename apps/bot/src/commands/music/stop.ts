@@ -1,28 +1,34 @@
-import { checkChannel, Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 
-export const command: Command = {
-  name: 'stop',
+@Category('music')
+@SlashCommand('stop', {
   description: 'Stop Quanty and clears the queue.',
-  options: [],
-  category: 'music',
-  run: ({ client, guild, member }) => {
-    const { content, player } = checkChannel({
-      client,
-      guild,
-      member,
-    })
-
-    if (!player) {
-      return {
-        content,
-      }
-    }
-
-    player.disconnect()
-    player.destroy()
-
-    return {
-      content: 'Bye!',
-    }
-  },
+})
+export class StopCommand extends Command {
+  async run(options?: SlashCommandRunOptions): CommandReturnType {
+    //   const { content, player } = checkChannel({
+    //     client,
+    //     guild,
+    //     member,
+    //   })
+    //   if (!player) {
+    //     return {
+    //       content,
+    //     }
+    //   }
+    //   player.disconnect()
+    //   player.destroy()
+    //   return {
+    //     content: 'Bye!',
+    //   }
+  }
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

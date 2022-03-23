@@ -1,5 +1,5 @@
 import {
-  AsyncCommandReturnType,
+  CommandReturnType,
   Category,
   Command,
   Logger,
@@ -33,10 +33,7 @@ export class ClearCommand extends Command {
   @logger()
   private logger: Logger
 
-  async run({
-    channel,
-    options,
-  }: SlashCommandRunOptions): AsyncCommandReturnType {
+  async run({ channel, options }: SlashCommandRunOptions): CommandReturnType {
     const amount = options.getInteger('amount', true)
     const user = options.getUser('member', false)
 
@@ -85,7 +82,7 @@ export class ClearCommand extends Command {
     }
   }
 
-  error(): void {
+  async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

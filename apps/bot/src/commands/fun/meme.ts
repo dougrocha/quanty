@@ -1,5 +1,5 @@
 import {
-  AsyncCommandReturnType,
+  CommandReturnType,
   Category,
   Command,
   SlashCommand,
@@ -7,14 +7,14 @@ import {
 import axios from 'axios'
 import { MessageEmbed } from 'discord.js'
 
-import { MemeType } from '../../types'
+import { MemeType } from '../../types/Meme'
 
 @SlashCommand('meme', {
   description: 'Will send a random meme',
 })
 @Category('fun')
 export class MemeCommand extends Command {
-  async run(): AsyncCommandReturnType {
+  async run(): CommandReturnType {
     await axios
       .get('https://meme-api.herokuapp.com/gimme')
       .then(({ data }: { data: MemeType }) => {
@@ -32,7 +32,7 @@ export class MemeCommand extends Command {
       })
   }
 
-  error(): void {
+  async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

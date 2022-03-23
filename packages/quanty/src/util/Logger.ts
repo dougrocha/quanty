@@ -1,3 +1,5 @@
+import readline from 'readline'
+
 import chalk, { Chalk } from 'chalk'
 import { DiscordAPIError } from 'discord.js'
 import moment from 'moment'
@@ -102,8 +104,8 @@ export class Logger {
    * Clear last line printed on the console.
    */
   public clearLastLine() {
-    process.stdout.moveCursor(0, -1)
-    process.stdout.clearLine(1)
+    readline.moveCursor(process.stdout, 0, -1)
+    readline.clearLine(process.stdout, 1)
   }
 }
 

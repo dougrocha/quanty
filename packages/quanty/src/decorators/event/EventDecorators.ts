@@ -27,6 +27,12 @@ function setMetaData(data: {
         configurable: true,
         writable: true,
       },
+      _className: {
+        value: target.name.toUpperCase(),
+        enumerable: false,
+        configurable: true,
+        writable: true,
+      },
     })
     return target
   }

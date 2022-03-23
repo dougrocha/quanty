@@ -1,13 +1,28 @@
-import { Command, createPlayer } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 
-export const command: Command = {
-  name: `join`,
+@Category('music')
+@SlashCommand('join', {
   description: 'Joins the channel.',
-  category: 'music',
-  cmdType: 'both',
-  run: async ({ guild, member, client, channel }) => {
+})
+export class JoinCommand extends Command {
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
+
+  async run({
+    guild,
+    user,
+    client,
+    channel,
+  }: SlashCommandRunOptions): CommandReturnType {
     const currGuild = client.guilds.cache.get(guild.id)
-    const currMember = currGuild?.members.cache.get(member.user.id)
+    const currMember = currGuild?.members.cache.get(user.id)
     const voiceChannelId = currMember?.voice.channel?.id
 
     if (!voiceChannelId) return { content: 'You need to join a voice channel.' }
@@ -15,8 +30,8 @@ export const command: Command = {
     const channelId = channel.id
     const guildId = guild.id
 
-    createPlayer({ client, guildId, channelId, voiceChannelId })
+    // createPlayer({ client, guildId, channelId, voiceChannelId })
 
     return { content: 'Joined' }
-  },
+  }
 }

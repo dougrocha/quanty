@@ -144,7 +144,7 @@ export class QuantyClient extends Client {
    * @param timeout Time in seconds for timeout.
    * @returns
    */
-  public setTimeout(callback: () => void, timeout: number) {
+  public setTimeout(callback: (value: unknown) => void, timeout: number) {
     return setTimeout(callback, timeout)
   }
 
@@ -167,6 +167,12 @@ export class QuantyClient extends Client {
 
   public checkOwner(userId: Snowflake): boolean {
     return this.owner.includes(userId)
+  }
+
+  public wait(time: number) {
+    return new Promise(res => {
+      this.setTimeout(res, time)
+    })
   }
 
   private handleLoaders() {
