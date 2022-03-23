@@ -30,7 +30,7 @@ export class JoinCommand extends Command {
     const channelId = channel.id
     const guildId = guild.id
 
-    // createPlayer({ client, guildId, channelId, voiceChannelId })
+    // CreatePlayer({ client, guildId, channelId, voiceChannelId })
 
     return { content: 'Joined' }
   }

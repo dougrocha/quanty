@@ -1,4 +1,4 @@
-// import {
+// Import {
 //   ApplicationCommandOptionData,
 //   PermissionString,
 //   ApplicationCommandType,

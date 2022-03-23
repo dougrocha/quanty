@@ -13,7 +13,7 @@ import { MessageEmbed } from 'discord.js'
 })
 export class PreviousCommand extends Command {
   async run(options?: SlashCommandRunOptions): CommandReturnType {
-    // const { content, player } = checkChannel({
+    // Const { content, player } = checkChannel({
     //   client,
     //   guild,
     //   member,

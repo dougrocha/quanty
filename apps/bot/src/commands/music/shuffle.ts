@@ -13,7 +13,7 @@ import { MessageEmbed } from 'discord.js'
 })
 export class TCommand extends Command {
   async run(options?: SlashCommandRunOptions): CommandReturnType {
-    // const player = client.player.get(guild.id)
+    // Const player = client.player.get(guild.id)
     // const embed = new MessageEmbed().setColor('#FF5F9F')
     // if (!player)
     //   return {

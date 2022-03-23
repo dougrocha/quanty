@@ -20,7 +20,7 @@ export class NowPlayingCommand extends Command {
     guild,
     user,
   }: SlashCommandRunOptions): CommandReturnType {
-    // const { content, player } = checkChannel({
+    // Const { content, player } = checkChannel({
     //   client,
     //   guild,
     //   user,
@@ -137,7 +137,7 @@ export class NowPlayingCommand extends Command {
   async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }
-  // name: 'nowplaying',
+  // Name: 'nowplaying',
   // description: 'Shows the current playing song',
   // options: [],
   // category: 'music',

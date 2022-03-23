@@ -86,7 +86,7 @@ export class PluginsCommand extends Command {
       }
     }
 
-    // const guildConfig = client.guildManager.findGuild(guild.id)
+    // Const guildConfig = client.guildManager.findGuild(guild.id)
     const guildConfig: any = ''
 
     if (!guildConfig) {
@@ -95,7 +95,7 @@ export class PluginsCommand extends Command {
 
     const staticPath = join(__dirname, `../${pluginName}`)
 
-    //   if (subCmd == 'off') {
+    //   If (subCmd == 'off') {
     //     await turnOffPlugin(staticPath, client, guild.id)
     //     return {
     //       embeds: [

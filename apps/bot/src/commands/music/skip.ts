@@ -21,7 +21,7 @@ import { MessageEmbed } from 'discord.js'
 })
 export class TCommand extends Command {
   async run(options?: SlashCommandRunOptions): CommandReturnType {
-    //   let skipToSong
+    //   Let skipToSong
     //   if (options?.getInteger('song')) skipToSong = options?.getInteger('song')
     //   else skipToSong = args ? Number(args[0]) : 1
     //   const player = client.player.get(guild.id)

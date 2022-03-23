@@ -34,7 +34,7 @@ export class HelpCommand extends Command {
   async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
     const pluginName = options?.getString('plugin-name')?.toLowerCase()
 
-    // const guildConfig = client.guildManager.findGuild(guild.id)
+    // Const guildConfig = client.guildManager.findGuild(guild.id)
     const guildConfig: any = ''
 
     if (!guildConfig) {

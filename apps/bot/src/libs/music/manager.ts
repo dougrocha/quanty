@@ -78,9 +78,9 @@ class MusicManager extends ErelaManager {
         const channel = this.client.channels.cache.get(
           player.textChannel,
         ) as TextChannel
-        // const guildConfig: any = this.guildManager.findGuild(player.guild)
+        // Const guildConfig: any = this.guildManager.findGuild(player.guild)
         await channel.send('Queue has ended.')
-        // if (guildConfig?.music.immortal == true) {
+        // If (guildConfig?.music.immortal == true) {
         // } else {
         //   await this.client.wait(1000 * 60 * 5) // 10 Minutes
         //   if (player.playing) return

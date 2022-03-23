@@ -17,7 +17,7 @@ import { SearchResult } from 'erela.js'
 })
 export class PlayCommand extends Command {
   async run({}: SlashCommandRunOptions): CommandReturnType {
-    // const currGuild = client.guilds.cache.get(guild.id)
+    // Const currGuild = client.guilds.cache.get(guild.id)
     // const currMember = currGuild?.members.cache.get(member.user.id)
     // const voiceChannelId = currMember?.voice.channel?.id
     // // Let awaitChannel = client.channels.cache.get(interaction.channelId);

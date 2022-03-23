@@ -22,7 +22,7 @@ import { SearchResult, Track } from 'erela.js'
 })
 export class SearchCommand extends Command {
   async run(options?: SlashCommandRunOptions): CommandReturnType {
-    //   const { content, player } = checkChannel({
+    //   Const { content, player } = checkChannel({
     //     client,
     //     guild,
     //     member,

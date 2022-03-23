@@ -8,7 +8,7 @@ export class ContextMenuEvent extends Event<'interactionCreate'> {
 
     await interaction.deferReply({ ephemeral: false })
 
-    // const command = this.client.commandHandler.commands.get(interaction.commandName)
+    // Const command = this.client.commandHandler.commands.get(interaction.commandName)
 
     // if (command) await command.run({ client, interaction })if (!interaction.isContextMenu()) return
 

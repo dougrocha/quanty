@@ -6,7 +6,7 @@ import { GuildPluginModel } from '../../database/schemas'
 @On('messageCreate')
 export class AutoModEvent extends Event<'messageCreate'> {
   async run(message: Message<boolean>) {
-    // if (!message.guild || message.type != 'DEFAULT') return
+    // If (!message.guild || message.type != 'DEFAULT') return
     // const guildPlugins = await GuildPluginModel.findOne(
     //   {
     //     guildId: message.guild.id,

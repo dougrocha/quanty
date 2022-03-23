@@ -17,7 +17,7 @@ export class LoopCommand extends Command {
     guild,
     user,
   }: SlashCommandRunOptions): CommandReturnType {
-    // const { content, player } = checkChannel({
+    // Const { content, player } = checkChannel({
     //   client,
     //   guild,
     //   user,

@@ -21,7 +21,7 @@ import { Track, UnresolvedTrack } from 'erela.js'
 })
 export class QueueCommand extends Command {
   async run(options?: SlashCommandRunOptions): CommandReturnType {
-    // const player = client.player.get(guild.id)
+    // Const player = client.player.get(guild.id)
     // if (!player) return { content: 'There is no queue.' }
     // const { queue } = player
     // let pageNumber
