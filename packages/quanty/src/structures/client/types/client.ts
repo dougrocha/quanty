@@ -1,19 +1,73 @@
-import { Snowflake } from 'discord.js'
+import type { Snowflake } from 'discord.js'
 
 export interface IQuantyConfig {
+  token: string | undefined
+  /**
+   * Owners of this discord bot
+   */
   owner: Snowflake | Snowflake[]
+  /**
+   * Default prefix for the bot
+   */
   prefix?: string
   mentionPrefix?: boolean
-  defaultPrefix?: string | 'mention'
+  /**
+   * Base directory for bot.
+   */
   baseDir?: string
-  commandDir: string
-  eventDir: string
-  token: string | undefined
-  baseCommands?: boolean
+  /**
+   * ``Typescript only``
+   *
+   * Directory for build files.
+   *
+   */
+  outDir?: string
+  /**
+   * Directory of all commands.
+   */
+  commandDir?: string
+  /**
+   * Directory of all events.
+   */
+  eventDir?: string
+  /** Default message that is sent when a user activates a commands cooldown. */
   commandNotFoundError?: string
   rateLimitExceededError?: boolean
   logLevel?: LogLevels
 
+  /**
+   * Default commands and events built in with Quantify
+   *
+   * @see {@link IQuantyDefaults} for default options
+   *
+   * Active all default commands
+   * @example
+   * ```
+   * defaults: true
+   * ```
+   *
+   * Activate either command or events
+   * @example
+   * ```
+   *  defaults {
+   *    commands: true
+   *    events: false
+   *  }
+   * ```
+   *
+   * Activate specific commands
+   * @example
+   * ```
+   *  defaults {
+   *    commands: {
+   *      ping: true,
+   *      help: false
+   *    }
+   *    events: false
+   *  }
+   * ```
+   *
+   */
   defaults?: IQuantyDefaults | boolean
 
   devGuilds?: string | string[]

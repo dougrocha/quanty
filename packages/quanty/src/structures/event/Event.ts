@@ -1,6 +1,6 @@
-import { ClientEvents } from 'discord.js'
+import type { ClientEvents } from 'discord.js'
 
-import { QuantyClient } from '../client/Client'
+import type { QuantyClient } from '../client/Client'
 
 /**
  * Event Class

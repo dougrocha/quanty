@@ -1,9 +1,9 @@
 import { Collection } from 'discord.js'
 
-import { Command } from './Command'
+import type { Command } from './Command'
 
 import { logger, Logger } from '../../util/Logger'
-import { QuantyClient } from '../client/Client'
+import type { QuantyClient } from '../client/Client'
 
 export class CommandRegistry extends Collection<string, Command> {
   private client: QuantyClient

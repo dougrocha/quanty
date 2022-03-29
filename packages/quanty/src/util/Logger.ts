@@ -1,7 +1,7 @@
 import readline from 'readline'
 
 import chalk, { Chalk } from 'chalk'
-import { DiscordAPIError } from 'discord.js'
+import type { DiscordAPIError } from 'discord.js'
 import moment from 'moment'
 
 /**
@@ -66,7 +66,7 @@ export class Logger {
         Logger.format(this.name) +
         `${chalk.red(name)}: ${chalk.redBright(
           message + ' [Code ' + code + ']',
-        )} 
+        )}
         ${chalk.gray(stack?.split('\n').slice(1).join('\n'))} ${chalk.white(
           'Path: ' + path,
         )} 
@@ -120,6 +120,8 @@ export function logger(name?: string): PropertyDecorator {
 
     Object.defineProperty(target, propertyKey, {
       value: logger,
+      enumerable: true,
+      configurable: false,
     })
   }
 }

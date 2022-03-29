@@ -64,4 +64,16 @@ export class Guild {
     max: [10, 'Max Tickets'],
   })
   maxTickets: number
+
+  @Prop({
+    type: () => String,
+    required: false,
+  })
+  defaultJoinRole: string
+
+  @Prop({
+    type: () => String,
+    required: false,
+  })
+  logChannel: string
 }

@@ -1,4 +1,4 @@
-import { ClientEvents } from 'discord.js'
+import type { ClientEvents } from 'discord.js'
 
 export function On(eventName: keyof ClientEvents) {
   return setMetaData({ once: false, eventName })

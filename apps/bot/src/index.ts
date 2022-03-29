@@ -1,22 +1,32 @@
 import { QuantyClient } from '@quanty/framework'
 import * as dotenv from 'dotenv'
 
-dotenv.config({ path: '.env' })
+const production = process.env.production
 
-process.env.production = 'true'
+dotenv.config({ path: production ? '.env.prod' : '.env' })
 
 const client = new QuantyClient(
   {
     token: process.env.TOKEN,
     owner: ['571520537587875851'],
-    commandDir: 'commands/',
-    eventDir: 'features/',
-    baseDir: 'src/',
-    devGuilds: ['871581301713555526'],
+    devGuilds: '871581301713555526',
     defaults: true,
-    logLevel: 'DEBUG',
+    logLevel: production ? 'ALL' : 'DEBUG',
   },
-  { intents: 32509 },
+  {
+    intents: [
+      'GUILDS',
+      'GUILD_MEMBERS',
+      'GUILD_BANS',
+      'GUILD_VOICE_STATES',
+      'GUILD_MEMBERS',
+      'GUILD_WEBHOOKS',
+    ],
+  },
+)
+
+client.setDefaultCommandError(
+  'This command is broken. Please contact the server owner.',
 )
 
 void client.start()

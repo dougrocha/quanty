@@ -1,3 +1,4 @@
+
 FROM node:alpine AS builder
 RUN apk update
 # Set working directory
@@ -22,4 +23,6 @@ COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
 RUN yarn turbo run build --scope=app-bot --include-dependencies --no-deps
 
-CMD [ "yarn", "dev" ]
+EXPOSE 1-65000
+
+CMD [ "yarn", "start" ]

@@ -1,7 +1,5 @@
-import { Logger, logger, QuantyClient } from '@quanty/framework'
+import { Logger, logger } from '@quanty/framework'
 import { connection, connect } from 'mongoose'
-
-import client from '..'
 
 /**
  * Quanty Database class for connecting to MongoDB
@@ -11,8 +9,6 @@ class Database {
   private logger: Logger
 
   private URL: string | undefined
-
-  private client: QuantyClient
 
   /**
    * URL for mongodb database
@@ -24,11 +20,6 @@ class Database {
      * Mongo URL
      */
     this.URL = process.env.MONGOURI
-
-    /**
-     * Client/Bot Class
-     */
-    this.client = client
 
     void this._init()
   }

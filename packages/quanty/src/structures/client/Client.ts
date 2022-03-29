@@ -5,32 +5,59 @@ import { promisify } from 'util'
 import { Client, ClientOptions, Snowflake } from 'discord.js'
 import glob from 'glob'
 
-import { IQuantyConfig, IQuantyDefaults, LogLevels } from './types/client'
+import type { IQuantyConfig, IQuantyDefaults, LogLevels } from './types/client'
 
 import { ConfigError, Messages } from '../../errors'
 import { logger, Logger } from '../../util/Logger'
 import { CommandRegistry, CommandLoader } from '../command'
 import { EventRegistry, EventLoader } from '../event'
 
+/**
+ * The base {@link Client} for Quanty Framework. When building a Discord bot with this framework, you must either choose to use this class or extend from it.
+ *
+ * Quanty does have default presets for many of its options. You can choose to configure any option that is available.
+ *
+ * @see {@link IQuantyConfig} for all options available.
+ */
 export class QuantyClient extends Client {
   /**
    * Owners of this discord bot
    */
   public owner: Snowflake | Snowflake[]
 
+  /**
+   * Default prefix for the bot
+   */
   public prefix?: string
 
   public mentionPrefix?: boolean
 
-  public commandDir: string
+  /**
+   * Directory of all commands.
+   */
+  public commandDir = 'commands/'
 
-  public eventDir: string
+  /**
+   * Directory of all events.
+   */
+  public eventDir = 'events/'
 
-  public baseDir?: string
+  /**
+   * Base directory for bot.
+   */
+  public baseDir?: string = 'src/'
+
+  /**
+   * ``Typescript only``
+   *
+   * Directory for build files.
+   *
+   */
+  public outDir?: string = 'dist/'
 
   public defaults?: IQuantyDefaults | boolean = false
 
-  public readonly devGuilds?: string | string[]
+  public readonly devGuilds: string[] = []
 
   public commands!: CommandRegistry
 
@@ -40,9 +67,11 @@ export class QuantyClient extends Client {
   public commandNotFoundError?: string | undefined
 
   /** Default message that is sent when a user activates a commands cooldown. */
-  public cooldownExceededError?: boolean | undefined
+  public rateLimitExceededError?: boolean | undefined
 
-  public logLevel?: LogLevels | undefined
+  private _logLevel?: LogLevels | undefined
+
+  private _defaultCommandError?: string
 
   /**
    * This is named _token because token is used by discord.js
@@ -50,7 +79,7 @@ export class QuantyClient extends Client {
   private readonly _token!: string
 
   @logger()
-  public readonly _logger!: Logger
+  private _logger!: Logger
 
   public _RegExpPrefix = RegExp(`^<@!?${this.user?.id}>`)
 
@@ -68,21 +97,43 @@ export class QuantyClient extends Client {
       defaults,
       devGuilds,
       logLevel,
+      outDir,
     } = quanty
 
-    process.env.LOGLEVEL = logLevel || 'WARN'
+    ;(process.env.LOGLEVEL as LogLevels) = logLevel || 'WARN'
+    this._logLevel = logLevel || 'WARN'
 
     if (prefix) this.prefix = prefix
+    // Mention prefix is @<client.id>
     if (mentionPrefix) this.mentionPrefix = mentionPrefix
-    if (baseDir) this.baseDir = baseDir
+    if (outDir) this.outDir = outDir
+
+    if (baseDir) {
+      this.baseDir = baseDir
+    }
+
     if (defaults) this.defaults = defaults
-    if (devGuilds) this.devGuilds = devGuilds
+    if (devGuilds) {
+      if (typeof devGuilds == 'string') {
+        this.devGuilds[0] = devGuilds
+      } else {
+        this.devGuilds = devGuilds
+      }
+    }
     if (token) this._token = token
 
     this.owner = owner
 
-    this.commandDir = commandDir
-    this.eventDir = eventDir
+    if (commandDir) this.commandDir = commandDir
+    if (eventDir) this.eventDir = eventDir
+
+    /**
+     * Sets base dir to dist profile
+     * Example: dist/src/
+     */
+    if (process.env.production == 'true') {
+      this.baseDir = `${this.outDir}/${this.baseDir}/`
+    }
 
     this.checkConfig()
 
@@ -192,5 +243,25 @@ export class QuantyClient extends Client {
     if (this.devGuilds) {
       void commandLoader.loadTestCommands(this.devGuilds)
     }
+  }
+
+  // Setters
+
+  public setDefaultCommandError(value: string) {
+    this._defaultCommandError = value
+  }
+
+  public setLogLevel(value: LogLevels): void {
+    this._logLevel = value
+  }
+
+  // Getters
+
+  public get defaultCommandError(): string | undefined {
+    return this._defaultCommandError
+  }
+
+  public get logLevel(): LogLevels | undefined {
+    return this._logLevel
   }
 }

@@ -1,6 +1,8 @@
 import { Event, logger, Logger, Once } from '@quanty/framework'
 import { Client } from 'discord.js'
 
+import MusicManager from '../../libs/music'
+
 @Once('ready')
 export class ReadyEvent extends Event<'ready'> {
   @logger()
@@ -15,6 +17,6 @@ export class ReadyEvent extends Event<'ready'> {
     })
 
     // After Bot is connected, Bot will connect to lavalink music player
-    // client.player.init(client.user?.id)
+    MusicManager.getInstance().init(client.user?.id)
   }
 }

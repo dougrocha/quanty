@@ -1,8 +1,8 @@
-import { logger, Logger, QuantyClient } from '@quanty/framework'
+import { logger, Logger } from '@quanty/framework'
 import AppleMusic from 'better-erela.js-apple/dist'
 import { TextChannel, User } from 'discord.js'
 import { Track, Manager as ErelaManager } from 'erela.js'
-import Spotify from 'erela.js-spotify'
+import { Spotify } from 'erela.js-spotify/dist/plugin'
 
 import client from '../..'
 import { lavalinkNodes, spotifyOptions } from '../../utils'
@@ -18,7 +18,7 @@ class MusicManager extends ErelaManager {
   @logger()
   private logger: Logger
 
-  private client: QuantyClient
+  private static _instance: MusicManager = new MusicManager()
 
   constructor() {
     super({
@@ -27,28 +27,36 @@ class MusicManager extends ErelaManager {
         const guild = client.guilds.cache.get(id)
         if (guild) guild.shard.send(payload)
       },
+      clientName: 'Quanty-Bot',
       plugins: managerPlugins,
     })
 
-    this.client = client
+    MusicManager._instance = this
 
     this._init()
+  }
+
+  public static getInstance(): MusicManager {
+    if (!this._instance) MusicManager._instance = new MusicManager()
+
+    return MusicManager._instance
   }
 
   private _init() {
     this.on('nodeConnect', node => {
       this.logger.log(`Node ${node.options.identifier} connected`)
+      this._initClientEvents()
     })
-      .on('nodeError', (node, error) => {
-        this.logger.warn(`Node ${node.options.identifier} had an error`)
-
-        this.logger.error(error)
+      .on('nodeError', node => {
+        this.logger.error(
+          `Node ${node.options.identifier}:${node.options.port} had an error`,
+        )
       })
       .on('trackStart', async (player, track: Track) => {
         if (!player.textChannel) {
           return
         }
-        const channel = this.client.channels.cache.get(
+        const channel = client.channels.cache.get(
           player.textChannel,
         ) as TextChannel
         const { title, requester } = track
@@ -64,7 +72,7 @@ class MusicManager extends ErelaManager {
         if (!player.textChannel) {
           return
         }
-        const channel = this.client.channels.cache.get(
+        const channel = client.channels.cache.get(
           player.textChannel,
         ) as TextChannel
         await channel.send(
@@ -75,7 +83,7 @@ class MusicManager extends ErelaManager {
         if (!player.textChannel) {
           return
         }
-        const channel = this.client.channels.cache.get(
+        const channel = client.channels.cache.get(
           player.textChannel,
         ) as TextChannel
         // Const guildConfig: any = this.guildManager.findGuild(player.guild)
@@ -102,12 +110,10 @@ class MusicManager extends ErelaManager {
         // ) as TextChannel
         // await channel.send("I'm dead, ask the owner for help")
       })
-
-    this._initClientEvents()
   }
 
   private _initClientEvents() {
-    this.client
+    client
       .on('raw', d => this.updateVoiceState(d))
       .on('channelUpdate', (oldChannel, newChannel) => {
         if (
@@ -115,6 +121,8 @@ class MusicManager extends ErelaManager {
           newChannel.type === 'GUILD_VOICE'
         ) {
           const player = this.players.get(newChannel.guild.id)
+
+          console.log(player)
           if (player) {
             if (player.voiceChannel === newChannel.id) {
               if (player.playing && !player.paused) {
@@ -130,4 +138,4 @@ class MusicManager extends ErelaManager {
   }
 }
 
-export default new MusicManager()
+export default MusicManager

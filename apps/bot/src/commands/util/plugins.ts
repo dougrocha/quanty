@@ -1,4 +1,4 @@
-import { join } from 'path'
+// Import { join } from 'path'
 
 import {
   CommandReturnType,
@@ -8,16 +8,16 @@ import {
   SlashCommandRunOptions,
   UserPermissions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+// Import { MessageEmbed } from 'discord.js'
 
-import { uppercaseFirst } from '../../libs/extra'
+// import { uppercaseFirst } from '../../libs/extra'
 
-const PossiblePlugins = {
-  MODERATION: 'moderation',
-  ANIME: 'anime',
-  MUSIC: 'music',
-  //   ECONOMY: 'economy',
-} as const
+// const PossiblePlugins = {
+//   MODERATION: 'moderation',
+//   ANIME: 'anime',
+//   MUSIC: 'music',
+//   //   ECONOMY: 'economy',
+// } as const
 
 @Category('util')
 @SlashCommand('plugins', {
@@ -51,50 +51,41 @@ const PossiblePlugins = {
 })
 @UserPermissions('ADMINISTRATOR')
 export class PluginsCommand extends Command {
-  async run({
-    client,
-    options,
-    guild,
-  }: SlashCommandRunOptions): CommandReturnType {
-    const embed = new MessageEmbed().setColor('RANDOM')
-
-    const subCmd = options?.getSubcommand().toLowerCase()
-
-    const pluginName = options?.getString('plugin-name')?.toLowerCase()
-
-    if (subCmd == 'all') {
-      ;(await guild.commands.fetch()).map(async cmd => {
-        await cmd.delete()
-      })
-      return
-    }
-
-    if (
-      !(<any>Object).values(PossiblePlugins).includes(pluginName) ||
-      !subCmd
-    ) {
-      return {
-        embeds: [
-          embed
-            .setTitle('Plugins you can turn on/off:')
-            .setDescription(
-              `${Object.values(PossiblePlugins).map(
-                string => `\`${uppercaseFirst(string)}\``,
-              )}`,
-            ),
-        ],
-      }
-    }
-
-    // Const guildConfig = client.guildManager.findGuild(guild.id)
-    const guildConfig: any = ''
-
-    if (!guildConfig) {
-      return `It seems that I don't have your guild saved. Log in to https://quanty.xyz to active plugins.`
-    }
-
-    const staticPath = join(__dirname, `../${pluginName}`)
-
+  async run({}: // Client,
+  // options,
+  // guild,
+  SlashCommandRunOptions): CommandReturnType {
+    // Const embed = new MessageEmbed().setColor('RANDOM')
+    // const subCmd = options?.getSubcommand().toLowerCase()
+    // const pluginName = options?.getString('plugin-name')?.toLowerCase()
+    // if (subCmd == 'all') {
+    //   ;(await guild.commands.fetch()).map(async cmd => {
+    //     await cmd.delete()
+    //   })
+    //   return
+    // }
+    // if (
+    //   !(<any>Object).values(PossiblePlugins).includes(pluginName) ||
+    //   !subCmd
+    // ) {
+    //   return {
+    //     embeds: [
+    //       embed
+    //         .setTitle('Plugins you can turn on/off:')
+    //         .setDescription(
+    //           `${Object.values(PossiblePlugins).map(
+    //             string => `\`${uppercaseFirst(string)}\``,
+    //           )}`,
+    //         ),
+    //     ],
+    //   }
+    // }
+    // // Const guildConfig = client.guildManager.findGuild(guild.id)
+    // const guildConfig: any = ''
+    // if (!guildConfig) {
+    //   return `It seems that I don't have your guild saved. Log in to https://quanty.xyz to active plugins.`
+    // }
+    // const staticPath = join(__dirname, `../${pluginName}`)
     //   If (subCmd == 'off') {
     //     await turnOffPlugin(staticPath, client, guild.id)
     //     return {

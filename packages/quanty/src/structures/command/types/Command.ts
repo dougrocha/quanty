@@ -1,4 +1,4 @@
-import {
+import type {
   ApplicationCommandOptionData,
   ApplicationCommandType,
   CommandInteraction,
@@ -12,9 +12,9 @@ import {
   WebhookEditMessageOptions,
 } from 'discord.js'
 
-import { ICooldownOptions } from './Cooldown'
+import type { ICooldownOptions } from './Cooldown'
 
-import { QuantyClient } from '../../client/Client'
+import type { QuantyClient } from '../../client/Client'
 
 export interface ICommandOptions {
   /**

@@ -1,21 +1,20 @@
-import { QuantyClient } from '@quanty/framework'
-import { Guild as GuildType, GuildMember } from 'discord.js'
+import { Guild as GuildType, User } from 'discord.js'
 
 import Manager from './manager'
 
+import client from '../..'
+
 export const checkChannel = ({
-  client,
   guild: curGuild,
-  member: curMember,
+  user: user,
 }: {
-  client: QuantyClient
   guild: GuildType
-  member: GuildMember
+  user: User
 }) => {
   // Guild
   const guild = client.guilds.cache.get(curGuild.id)
   // Member
-  const member = guild?.members.cache.get(curMember.user.id)
+  const member = guild?.members.cache.get(user.id)
   // Voice channel
   const voice = member?.voice
 
@@ -23,7 +22,7 @@ export const checkChannel = ({
 
   voice ? (channel = voice.channel) : null
 
-  const player = Manager.get(curGuild.id)
+  const player = Manager.getInstance().get(curGuild.id)
 
   if (!channel) {
     return { player, content: 'Use `/join` to connect to Quanty.' }

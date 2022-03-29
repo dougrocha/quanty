@@ -1,7 +1,7 @@
-import { CommandInteraction } from 'discord.js'
+import type { CommandInteraction } from 'discord.js'
 
-import { QuantyClient } from '../../structures/client/Client'
-import { IVerifyReturnObj } from '../../structures/command/types/Command'
+import type { QuantyClient } from '../../structures/client/Client'
+import type { IVerifyReturnObj } from '../../structures/command/types/Command'
 import { setMetaData } from '../utils'
 
 export function Verify(

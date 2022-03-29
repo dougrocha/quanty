@@ -16,6 +16,9 @@
       "dependsOn": ["@quanty/framework#build"],
       "cache": true
     },
+    "app-bot#start": {
+      "dependsOn": ["app-bot#build"]
+    },
     "lint": {
       "outputs": []
     },

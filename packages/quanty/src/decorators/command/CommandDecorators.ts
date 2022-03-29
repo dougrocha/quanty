@@ -1,6 +1,6 @@
-import { PermissionString } from 'discord.js'
+import type { PermissionString } from 'discord.js'
 
-import { CooldownObject } from '../../structures/command/types/Cooldown'
+import type { CooldownObject } from '../../structures/command/types/Cooldown'
 import { setMetaData } from '../utils/decoratorFactories'
 
 /**

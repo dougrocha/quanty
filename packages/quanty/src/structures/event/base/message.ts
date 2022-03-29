@@ -1,8 +1,8 @@
-import { Message } from 'discord.js'
+import type { Message } from 'discord.js'
 
 import { On } from '../../../decorators'
 import { logger, Logger } from '../../../util'
-import { Command } from '../../command'
+import type { Command } from '../../command'
 import { Event } from '../Event'
 
 @On('messageCreate')

@@ -7,7 +7,7 @@ import Manager from './manager'
  * @param {client} QuantyClient
  * @param guildId Guild Id
  * @param channelId Text Channel Id that command was used in
- * @param channel Voice Channel that Quanty will join if connected
+ * @param voiceChannelId Voice Channel that Quanty will join if connected
  * @returns Player Class using Erela
  */
 export const createPlayer = ({
@@ -19,7 +19,7 @@ export const createPlayer = ({
   channelId: string
   voiceChannelId: string
 }): Player =>
-  Manager.create({
+  Manager.getInstance().create({
     guild: guildId,
     voiceChannel: voiceChannelId,
     textChannel: channelId,

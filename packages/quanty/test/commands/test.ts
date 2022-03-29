@@ -1,10 +1,9 @@
 import {
   SlashCommand,
   GuildOnly,
-  Test,
   Command,
   SlashCommandRunOptions,
-  AsyncCommandReturnType,
+  CommandReturnType,
 } from '../../src'
 
 @SlashCommand('echo', {
@@ -12,15 +11,14 @@ import {
   options: [{ name: 'text', description: "Echo's text.", type: 'STRING' }],
 })
 @GuildOnly()
-@Test()
 export class TestCommand extends Command {
-  async run({ options }: SlashCommandRunOptions): AsyncCommandReturnType {
+  async run({ options }: SlashCommandRunOptions): CommandReturnType {
     return {
       content: `${options.getString('text')}`,
     }
   }
 
-  error(): void {
+  error(e: any, options?: SlashCommandRunOptions): CommandReturnType {
     throw new Error('Method not implemented.')
   }
 }

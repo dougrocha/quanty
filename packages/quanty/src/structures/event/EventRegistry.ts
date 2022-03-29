@@ -1,9 +1,9 @@
-import { Collection, CommandInteractionOptionResolver } from 'discord.js'
+import { Collection } from 'discord.js'
 
-import { Event } from './Event'
+import type { Event } from './Event'
 
 import { logger, Logger } from '../../util/Logger'
-import { QuantyClient } from '../client/Client'
+import type { QuantyClient } from '../client/Client'
 
 export class EventRegistry extends Collection<string, Event> {
   private readonly client: QuantyClient

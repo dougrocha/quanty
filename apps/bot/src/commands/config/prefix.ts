@@ -89,6 +89,7 @@ export class PrefixCommand extends Command {
         ],
       }
     }
+
     return {
       embeds: [
         embed.setDescription(
@@ -99,8 +100,8 @@ export class PrefixCommand extends Command {
   }
 
   async error(): CommandReturnType {
-    // Return {
-    //   content: 'Hey man your prefix broke. Contact someone to fix this plugin',
-    // }
+    return {
+      content: 'Hey man your prefix broke. Contact someone to fix this plugin',
+    }
   }
 }

@@ -6,7 +6,6 @@ import {
   logger,
   SlashCommand,
   SlashCommandRunOptions,
-  Test,
 } from '@quanty/framework'
 import {
   BeAnObject,
@@ -21,7 +20,6 @@ import { GuildPlugins } from '../../database/schemas/GuildPluginSchema'
 @SlashCommand('immortal', {
   description: 'Toggles immortality mode.',
 })
-@Test()
 export class ImmortalCommand extends Command {
   @logger()
   private logger: Logger

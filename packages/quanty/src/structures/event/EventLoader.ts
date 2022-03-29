@@ -1,13 +1,13 @@
 import path from 'path'
 
-import { Event } from './Event'
-import { EventRegistry } from './EventRegistry'
+import type { Event } from './Event'
+import type { EventRegistry } from './EventRegistry'
 
 import { Messages } from '../../errors'
 import { isConstructor } from '../../util'
 import { Logger, logger } from '../../util/Logger'
-import { QuantyClient } from '../client/Client'
-import { IQuantyDefaults } from '../client/types/client'
+import type { QuantyClient } from '../client/Client'
+import type { IQuantyDefaults } from '../client/types/client'
 
 export class EventLoader {
   private readonly client: QuantyClient
@@ -40,7 +40,7 @@ export class EventLoader {
     )
 
     const eventFiles: string[] = await this.client.globPromise(
-      `${eventsPath}/**/*[!.d]{.ts,.js}`,
+      `${eventsPath}/**/!(*.d){.ts,.js}`,
     )
 
     eventFiles.map(async file => {

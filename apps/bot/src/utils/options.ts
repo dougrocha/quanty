@@ -1,9 +1,9 @@
-import { NodeOptions } from 'erela.js'
-import { SpotifyOptions } from 'erela.js-spotify/dist/plugin'
+import { type NodeOptions } from 'erela.js'
+import { type SpotifyOptions } from 'erela.js-spotify/dist/plugin'
 
 export const lavalinkNodes: NodeOptions = {
   host: process.env.LAVA_LINK_HOST ?? '',
-  port: Number(process.env.LAVA_LINK_PORT ?? 4000),
+  port: Number(process.env.LAVA_LINK_PORT),
   password: process.env.LAVA_LINK_PASS,
 }
 

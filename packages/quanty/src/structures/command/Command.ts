@@ -9,18 +9,18 @@ import {
   DMChannel,
 } from 'discord.js'
 
-import {
+import type {
   CommandReturnType,
   CommandTypes,
   ICommandOptions,
   IVerifyReturnObj,
   SlashCommandRunOptions,
 } from './types/Command'
-import { CooldownObject, ICooldownOptions } from './types/Cooldown'
+import type { CooldownObject, ICooldownOptions } from './types/Cooldown'
 
 import { CommandVerificationError } from '../../errors/Errors'
 import { Logger, logger } from '../../util/Logger'
-import { QuantyClient } from '../client/Client'
+import type { QuantyClient } from '../client/Client'
 
 export abstract class Command<C extends QuantyClient = QuantyClient>
   implements ICommandOptions
@@ -98,7 +98,7 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
   public _init(client: C): this {
     this.client = client
     if (!this.commandName)
-      throw new TypeError('Cannot register a command without a name.')
+      this._logger.error('Cannot register a command without a name.')
 
     return this
   }
@@ -124,7 +124,12 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
 
   abstract run(options?: SlashCommandRunOptions): CommandReturnType
 
-  abstract error(): CommandReturnType
+  /**
+   * This will run if you throw any errors in the run method.
+   * @param e Error Obj
+   * @param options Command Options
+   */
+  abstract error?(e: any, options?: SlashCommandRunOptions): CommandReturnType
 
   private async verifyOptions(
     interaction: CommandInteraction,

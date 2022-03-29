@@ -6,6 +6,8 @@ import {
   SlashCommandRunOptions,
 } from '@quanty/framework'
 
+import { createPlayer } from '../../libs'
+
 @Category('music')
 @SlashCommand('join', {
   description: 'Joins the channel.',
@@ -30,7 +32,9 @@ export class JoinCommand extends Command {
     const channelId = channel.id
     const guildId = guild.id
 
-    // CreatePlayer({ client, guildId, channelId, voiceChannelId })
+    const player = createPlayer({ guildId, channelId, voiceChannelId })
+
+    player.connect()
 
     return { content: 'Joined' }
   }

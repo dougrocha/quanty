@@ -11,6 +11,9 @@ export class GuildPlugins {
   @Prop({ type: () => [String], nullable: true, lowercase: true, default: [] })
   blacklistedWords?: string[]
 
+  @Prop({ default: false })
+  autoMod?: boolean
+
   @Prop({ required: false, default: null })
   djRole?: string
 

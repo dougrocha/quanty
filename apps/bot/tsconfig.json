@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "tsconfig/quanty.json",
   "compilerOptions": {
     "rootDir": "./",
@@ -13,8 +14,5 @@
     "skipLibCheck": true
   },
   "include": ["src", "environment.d.ts", ".eslintrc.js"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"],
-  "ts-node": {
-    "files": true
-  }
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
 }
