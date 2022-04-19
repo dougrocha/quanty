@@ -1,0 +1,22 @@
+query GetGuildConfig($guildId: String!) {
+  guildConfig(guildId: $guildId) {
+    guildId
+    prefix
+    moderation {
+      autoMod
+      plugin
+    }
+    blacklistedWords
+    customCommands {
+      id
+      name
+      description
+    }
+    premium
+    music {
+      plugin
+      channel
+      immortal
+    }
+  }
+}

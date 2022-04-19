@@ -1,38 +1,27 @@
-import { gql } from '@apollo/client'
+import { useHydrateAtoms, atomWithReset } from 'jotai/utils'
+import { GetServerSidePropsContext } from 'next'
 
 import FeatureBox from '../components/Home/FeatureBox'
 import Hero from '../components/Home/Hero'
 import TempHome from '../components/TempHome'
+import { GetUserDocument } from '../graphql/generated/schema'
 import HomeLayout from '../layouts/Home'
 import client from '../libs/apollo-client'
+import { validateCookies } from '../libs/validateCookies'
+import { CurrentUser } from '../utils/types'
 
-const Home = () => {
+interface HomeProps {
+  user: CurrentUser | null
+}
+
+export const currentUserAtom = atomWithReset<CurrentUser | null>(null)
+
+const Home = ({ user: currentUser }: HomeProps) => {
+  useHydrateAtoms([[currentUserAtom, currentUser]] as const)
+
   if (process.env.NODE_ENV == 'production') {
     return <TempHome />
   }
-
-  const test = async () => {
-    const { data } = await client.query({
-      query: gql`
-        query User {
-          user {
-            discriminator
-            discordId
-            username
-            email
-            avatar
-            locale
-            verified
-            flags
-          }
-        }
-      `,
-    })
-  }
-
-  test()
-
-  // TODO: Use next-auth to try server side auth and site generation
 
   return (
     <HomeLayout>
@@ -40,6 +29,44 @@ const Home = () => {
       <FeatureBox />
     </HomeLayout>
   )
+}
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const headers = validateCookies(context)
+
+  if (!headers)
+    return {
+      props: {
+        user: null,
+      },
+    }
+
+  try {
+    const { data } = await client.query({
+      fetchPolicy: 'cache-first',
+      query: GetUserDocument,
+      context: {
+        headers: {
+          cookie: headers.Cookie,
+        },
+      },
+    })
+
+    return {
+      props: {
+        user: data ? data.user : null,
+      },
+    }
+  } catch (e) {
+    console.log(e)
+    return {
+      props: {
+        user: null,
+      },
+    }
+  }
 }
 
 export default Home

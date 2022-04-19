@@ -22,6 +22,12 @@ export class User {
   @Prop({ nullable: true })
   email?: string
 
+  @Prop({ default: false })
+  verified: boolean
+
+  @Prop({ nullable: true })
+  locale?: string
+
   @Prop({ name: 'access_token' })
   accessToken: string
 

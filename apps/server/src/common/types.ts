@@ -4,7 +4,9 @@ export interface UserDetails {
   username: string
   discriminator: string
   discordId: string
-  email: string | undefined
+  email?: string
+  verified: boolean
+  locale: string
   accessToken: string
   refreshToken: string
 }

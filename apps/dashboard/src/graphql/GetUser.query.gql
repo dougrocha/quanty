@@ -1,0 +1,11 @@
+query GetUser {
+  user {
+    discriminator
+    discordId
+    username
+    email
+    avatar
+    locale
+    verified
+  }
+}

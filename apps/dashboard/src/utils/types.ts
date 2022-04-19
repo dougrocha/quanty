@@ -1,6 +1,9 @@
 export interface CurrentUser {
   username: string
-  discordID: string
+  discordId: string
   discriminator: string
-  avatar: string
+  email?: string | null
+  avatar?: string | null
+  verified?: boolean | null
+  locale?: string | null
 }

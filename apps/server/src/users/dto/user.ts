@@ -20,10 +20,7 @@ export class UserObject {
   avatar?: string
 
   @Field({ nullable: true })
-  verified?: boolean
-
-  @Field({ nullable: true })
-  flags?: number
+  verified: boolean
 
   @Field({ nullable: true })
   locale?: string

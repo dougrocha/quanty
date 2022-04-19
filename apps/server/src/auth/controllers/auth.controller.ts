@@ -47,6 +47,7 @@ export class AuthController {
   @Get('logout')
   logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy(() => {
+      res.clearCookie('session')
       res.redirect('http://localhost:3000')
     })
   }
