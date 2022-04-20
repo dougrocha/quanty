@@ -4,10 +4,11 @@ import React from 'react'
 import UserProfile from './UserProfile'
 
 import { currentUserAtom } from '../pages'
+import { QUANTY_API } from '../utils/constants/API'
 
 const Navbar = () => {
   const handleLogin = () => {
-    window.location.assign(`http://localhost:3001/api/auth/login`)
+    window.location.assign(QUANTY_API + '/api/auth/login')
   }
 
   const user = useAtomValue(currentUserAtom)
@@ -22,7 +23,7 @@ const Navbar = () => {
       </ul>
       <div>
         {user ? (
-          <UserProfile />
+          <UserProfile user={user} />
         ) : (
           <button
             className="rounded-lg bg-primary-bright-purple py-2 px-4"
