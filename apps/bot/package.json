@@ -21,20 +21,20 @@
   },
   "dependencies": {
     "@quanty/framework": "*",
-    "@typegoose/typegoose": "^9.7.0",
-    "axios": "^0.26.1",
+    "@typegoose/typegoose": "^9.8.1",
+    "axios": "^0.27.2",
     "better-erela.js-apple": "^1.0.1",
     "chalk": "4.1.2",
     "consola": "^2.15.3",
-    "dayjs": "^1.10.8",
-    "discord-html-transcripts": "^2.2.6",
+    "dayjs": "^1.11.1",
+    "discord-html-transcripts": "^2.3.2",
     "discord.js": "13.6.0",
     "erela.js": "^2.3.3",
     "erela.js-spotify": "^1.2.0",
     "glob": "^7.2.0",
-    "mongoose": "^6.2.8",
+    "mongoose": "^6.3.1",
     "nekos.life": "^2.0.9",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.5.0"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.56",
@@ -42,7 +42,7 @@
     "@types/glob": "^7.2.0",
     "@types/node": "^17.0.21",
     "chokidar": "^3.5.3",
-    "concurrently": "^7.0.0",
+    "concurrently": "^7.1.0",
     "config": "*",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^5.1.0",
@@ -50,6 +50,6 @@
     "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig": "*",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   }
 }

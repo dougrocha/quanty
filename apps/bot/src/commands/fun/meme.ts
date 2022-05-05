@@ -7,7 +7,7 @@ import {
 import axios from 'axios'
 import { MessageEmbed } from 'discord.js'
 
-import { MemeType } from '../../types/Meme'
+import { IMeme } from '../../types/Meme'
 
 @SlashCommand('meme', {
   description: 'Will send a random meme',
@@ -17,7 +17,7 @@ export class MemeCommand extends Command {
   async run(): CommandReturnType {
     await axios
       .get('https://meme-api.herokuapp.com/gimme')
-      .then(({ data }: { data: MemeType }) => {
+      .then(({ data }: { data: IMeme }) => {
         const embed = new MessageEmbed()
           .setTitle(data.title)
           .setURL(data.postLink)

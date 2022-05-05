@@ -22,15 +22,15 @@ const FooterTags = () => {
       {FooterItems.map(({ items, title }) => {
         return (
           <ul className="list" key={title}>
-            <div className="mb-4 font-semibold">{title}</div>
+            <p className="mb-4 font-semibold">{title}</p>
             <div className="text-secondary-white">
               {items.map(({ name, route }) => {
                 return (
-                  <div className="mb-6" key={name}>
+                  <li className="mb-6" key={name}>
                     <Link href={route} passHref>
                       <a className="item">{name}</a>
                     </Link>
-                  </div>
+                  </li>
                 )
               })}
             </div>

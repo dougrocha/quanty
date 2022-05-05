@@ -18,23 +18,23 @@
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.10",
+    "@apollo/client": "^3.6.1",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/introspection": "^2.1.1",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-react-apollo": "^3.2.11",
     "@heroicons/react": "^1.0.6",
-    "framer-motion": "^6.2.8",
-    "graphql": "^16.3.0",
-    "jotai": "^1.6.2",
-    "next": "^12.1.1",
-    "next-auth": "^4.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "framer-motion": "^6.3.3",
+    "graphql": "^16.4.0",
+    "jotai": "^1.6.5",
+    "next": "^12.1.5",
+    "next-auth": "^4.3.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-spinners-kit": "^1.9.1",
     "react-textarea-autosize": "^8.3.3",
-    "sharp": "^0.30.3"
+    "sharp": "^0.30.4"
   },
   "devDependencies": {
     "@iconify/react": "^3.2.0",
@@ -45,11 +45,11 @@
     "autoprefixer": "^10.4.4",
     "config": "*",
     "cross-env": "^7.0.3",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
     "prettier": "^2.6.1",
     "prettier-plugin-tailwindcss": "^0.1.8",
-    "tailwindcss": "^3.0.23",
+    "tailwindcss": "^3.0.24",
     "tsconfig": "*",
-    "typescript": "4.6.3"
+    "typescript": "4.6.4"
   }
 }

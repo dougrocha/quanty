@@ -5,7 +5,7 @@ import FeatureCard from './FeatureCard'
 const FeatureBox = () => {
   return (
     <section className="mb-44 flex flex-col items-center md:mb-80">
-      <h1 className="mb-3 text-4xl font-semibold">Features</h1>
+      <h3 className="mb-3 text-4xl font-semibold">Features</h3>
       <p className="text-sm font-semibold text-secondary-white">
         QUANTY CAN DO ALMOST EVERYTHING
       </p>

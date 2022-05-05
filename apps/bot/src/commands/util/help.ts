@@ -38,7 +38,7 @@ export class HelpCommand extends Command {
     const guildConfig: any = ''
 
     if (!guildConfig) {
-      return `It seems that I don't have you guild save. Log in to https://quanty.xyz to active plugins.`
+      return `It seems that I don't have your guild saved. Log in to https://quanty.xyz to active plugins.`
     }
 
     const embed = new MessageEmbed().setColor('RANDOM')

@@ -4,8 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 
+import { ArrowIcon } from './Icons'
+
 import useOnClickOutside from '../hooks/useOnClickOutside'
-import { CheckNullProfileImg } from '../libs/ProfileImg'
+import { FetchUserIcon } from '../libs/FetchIcons'
 import { currentUserAtom } from '../pages'
 import { QUANTY_API } from '../utils/constants/API'
 import { CurrentUser } from '../utils/types'
@@ -26,9 +28,6 @@ const UserProfile = ({ user }: userProfileTypes) => {
 
   const [, setUser] = useAtom(currentUserAtom)
 
-  // TODO: Turn down opacity on user.discriminator
-  // Also add arrow button to thing
-
   return (
     <>
       <div className="flex items-center" ref={ref}>
@@ -38,7 +37,7 @@ const UserProfile = ({ user }: userProfileTypes) => {
         >
           <div className="relative h-10 w-10 overflow-hidden rounded-full">
             <Image
-              src={CheckNullProfileImg(user?.discordId, user?.avatar)}
+              src={FetchUserIcon(user.discordId, user.avatar)}
               alt="Quanty Icon Picture"
               objectFit="cover"
               layout="fill"
@@ -46,9 +45,14 @@ const UserProfile = ({ user }: userProfileTypes) => {
               blurDataURL="/basic_discord_logo.png"
             />
           </div>
-          <strong>{user.username}</strong>
+          <strong className="ml-3">{user.username}</strong>
 
           <p className="opacity-75">#{user.discriminator}</p>
+
+          <ArrowIcon
+            width={25}
+            className={`transition ${open && 'rotate-180'}`}
+          />
         </div>
         {open && <DropdownMenu setUser={setUser} />}
       </div>
@@ -68,19 +72,38 @@ interface DropdownProps {
 }
 
 const DropdownMenu = ({ setUser }: DropdownProps) => {
-  // TODO: Animate with framer js, for smooth dropdown box
   return (
-    <div className="absolute top-14 z-50 w-40 overflow-hidden rounded-lg border-2 border-solid border-primary-purple-20">
-      <div className="mt-1 flex flex-col">
-        <hr />
-        <Link href={QUANTY_API + '/api/auth/logout'}>
-          <a className="pt-2 no-underline" onClick={() => setUser}>
-            Log Out
-          </a>
+    <ul className="absolute top-16 z-50 mt-2 w-40 overflow-hidden rounded-xl border-none bg-primary-purple-10 text-sm text-secondary-white">
+      {DropdownMenuItems.map((item, index) => {
+        return (
+          <li key={index} className="mr-3 ml-3 p-2 no-underline">
+            <Link href={item.path}>{item.name}</Link>
+          </li>
+        )
+      })}
+      <li className="mr-3 ml-3 p-2 text-red-500 no-underline">
+        <Link href="http://localhost:3001/api/auth/logout">
+          <a onClick={() => setUser}>Log Out</a>
         </Link>
-      </div>
-    </div>
+      </li>
+    </ul>
   )
 }
+
+interface IDropdownMenuItems {
+  name: string
+  path: string
+}
+
+export const DropdownMenuItems: IDropdownMenuItems[] = [
+  {
+    name: 'My Servers',
+    path: '/dashboard',
+  },
+  {
+    name: 'Changelogs',
+    path: '/docs',
+  },
+]
 
 export default UserProfile

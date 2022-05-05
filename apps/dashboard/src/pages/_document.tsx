@@ -16,17 +16,13 @@ class MyDocument extends Document {
             name="keywords"
             content="Discord, Bot, Discord Bot, Moderation Discord Bot, Music Bot, Music, Moderation"
           />
+          <meta property="og:title" content="Quanty - Discord Bot" />
           <meta
-            name="og:title"
-            property="og:title"
-            content="Best Discord Bot"
+            property="og:description"
+            content="Serving quality of life discord features with Quanty."
           />
-          <meta name="og:type" property="og:type" content="website" />
-          <meta
-            name="og:url"
-            property="og:url"
-            content="https://www.quanty.xyz"
-          />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://www.quanty.xyz" />
 
           <link rel="icon" href="/quanty-64.png" />
         </Head>

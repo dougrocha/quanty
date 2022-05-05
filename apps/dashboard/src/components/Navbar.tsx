@@ -1,8 +1,10 @@
 import { useAtomValue } from 'jotai'
+import Link from 'next/link'
 import React from 'react'
 
 import UserProfile from './UserProfile'
 
+import { NavLinks } from '../data/navLinks'
 import { currentUserAtom } from '../pages'
 import { QUANTY_API } from '../utils/constants/API'
 
@@ -16,10 +18,15 @@ const Navbar = () => {
   return (
     <nav className="flex h-20 items-center justify-between text-sm ">
       <ul className="flex space-x-5">
-        <li>Home</li>
-        <li>Plugins</li>
-        <li>Support</li>
-        <li>Docs</li>
+        {NavLinks.map((link, index) => {
+          return (
+            <li key={index}>
+              <Link href={link.path}>
+                <a>{link.name}</a>
+              </Link>
+            </li>
+          )
+        })}
       </ul>
       <div>
         {user ? (

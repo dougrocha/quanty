@@ -3,20 +3,19 @@ import { useHydrateAtoms } from 'jotai/utils'
 import { GetServerSidePropsContext } from 'next'
 
 import { currentUserAtom } from '..'
-import Navbar from '../../components/Navbar'
+import { GuildCard } from '../../components/GuildCard'
 import {
   GetOwnerGuildsDocument,
   GetOwnerGuildsQuery,
   GetUserDocument,
   GetUserQuery,
+  Guild,
 } from '../../graphql/generated/schema'
+import GuildsLayout from '../../layouts/Guilds'
 import { useSsrQuery } from '../../libs/useSsrQuery'
 import { validateCookies } from '../../libs/validateCookies'
 import { CurrentUser } from '../../utils/types'
 
-interface Guild {
-  id: string
-}
 interface GuildPageProps {
   guilds: Guild[]
   user: CurrentUser
@@ -26,15 +25,16 @@ export const GuildPage = ({ guilds, user: currentUser }: GuildPageProps) => {
   useHydrateAtoms([[currentUserAtom, currentUser]] as const)
 
   return (
-    <div className="mx-auto max-w-6xl px-4 text-primary-white sm:px-6 xl:px-0">
-      <Navbar />
-      Guild Page
-      <div className="text-xl text-green-600">
-        {guilds.map(({ id }) => {
-          return <p key={id}>{id}</p>
+    <GuildsLayout>
+      <h1 className="mt-24 text-center text-4xl">Your Servers</h1>
+      <div className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center py-10 text-primary-white">
+        {guilds.map(({ id, icon, name }) => {
+          return (
+            <GuildCard key={`guild-${id}`} id={id} name={name} icon={icon} />
+          )
         })}
       </div>
-    </div>
+    </GuildsLayout>
   )
 }
 

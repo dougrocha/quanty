@@ -3,7 +3,6 @@ import { GetServerSidePropsContext } from 'next'
 
 import FeatureBox from '../components/Home/FeatureBox'
 import Hero from '../components/Home/Hero'
-import TempHome from '../components/TempHome'
 import { GetUserDocument } from '../graphql/generated/schema'
 import HomeLayout from '../layouts/Home'
 import client from '../libs/apollo-client'
@@ -17,11 +16,12 @@ interface HomeProps {
 export const currentUserAtom = atomWithReset<CurrentUser | null>(null)
 
 const Home = ({ user: currentUser }: HomeProps) => {
-  useHydrateAtoms([[currentUserAtom, currentUser]] as const)
+  if (currentUser != null)
+    useHydrateAtoms([[currentUserAtom, currentUser]] as const)
 
-  if (process.env.NODE_ENV == 'production') {
-    return <TempHome />
-  }
+  // if (process.env.NODE_ENV == 'production') {
+  //   return <TempHome />
+  // }
 
   return (
     <HomeLayout>

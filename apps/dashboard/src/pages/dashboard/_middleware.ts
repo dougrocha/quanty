@@ -14,7 +14,7 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
   const headers = validateCookies()
 
   const url = req.nextUrl.clone()
-  url.pathname = '/guilds'
+  url.pathname = '/dashboard'
 
   if (!headers) return NextResponse.rewrite(url)
 }

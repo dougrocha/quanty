@@ -1,12 +1,14 @@
+import { StaticLinks } from '../utils/staticLinks'
+
 const FooterItems = [
   {
     title: 'Quanty',
     items: [
-      { name: 'Discord', route: '/discord' },
+      { name: 'Discord', route: StaticLinks.QUANTY_SERVER_INVITE },
       { name: 'Docs', route: '/docs' },
       {
         name: 'Support',
-        route: '/support',
+        route: StaticLinks.QUANTY_SERVER_INVITE,
       },
       {
         name: 'GitHub',
