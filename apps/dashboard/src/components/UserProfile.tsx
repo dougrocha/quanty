@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 
-import { ArrowIcon } from './Icons'
+import { ArrowIcon } from './icons'
 
 import useOnClickOutside from '../hooks/useOnClickOutside'
 import { FetchUserIcon } from '../libs/FetchIcons'
@@ -82,7 +82,7 @@ const DropdownMenu = ({ setUser }: DropdownProps) => {
         )
       })}
       <li className="mr-3 ml-3 p-2 text-red-500 no-underline">
-        <Link href="http://localhost:3001/api/auth/logout">
+        <Link href={`${QUANTY_API}/api/auth/logout`}>
           <a onClick={() => setUser}>Log Out</a>
         </Link>
       </li>

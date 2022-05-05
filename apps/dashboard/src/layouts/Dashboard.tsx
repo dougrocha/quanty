@@ -1,5 +1,3 @@
-import { useAtom } from 'jotai'
-import { atomWithReset } from 'jotai/utils'
 import Head from 'next/head'
 import { useState } from 'react'
 
