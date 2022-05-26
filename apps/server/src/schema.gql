@@ -70,13 +70,12 @@ type Emojis {
 
 type Guild {
   afk_timeout: Int!
+  bot: Boolean
   channels: [Channel!]
   description: String
-  discovery_splash: String!
   emojis: [Emojis!]!
   features: [String!]!
   icon: String
-  icon_hash: String
   id: String!
   member_count: Float!
   members: GuildMember
@@ -86,10 +85,8 @@ type Guild {
   owner_id: String!
   permissions: String
   preferred_locale: String!
-  premium_subscription_count: Float!
   premium_tier: Float!
   roles: [Roles!]!
-  splash: String!
   stickers: [Sticker!]!
   threads: [Channel!]
   unavailable: Boolean
@@ -144,9 +141,13 @@ type Mutation {
   addCustomCommand(addCustomCommand: AddCustomCommand!): GuildConfig!
   addLog(addLog: AddLog!): GuildConfig!
   updateAutoMod(updateAutoMod: UpdateAutoModInput!): GuildConfig!
-  updateBlacklistedWords(updateBlacklistedWords: UpdateBlacklistedWords!): GuildConfig!
+  updateBlacklistedWords(
+    updateBlacklistedWords: UpdateBlacklistedWords!
+  ): GuildConfig!
   updateImmortality(updateImmortality: UpdateMusicImmortality!): GuildConfig!
-  updateModerationPlugin(updateModerationPlugin: UpdateModerationPlugin!): GuildConfig!
+  updateModerationPlugin(
+    updateModerationPlugin: UpdateModerationPlugin!
+  ): GuildConfig!
   updateMusicChannel(updateMusicChannel: UpdateMusicChannel!): GuildConfig!
   updateMusicPlugin(updateMusicPlugin: UpdateMusicPlugin!): GuildConfig!
   updatePrefix(updatePrefix: UpdatePrefixInput!): GuildConfig!
@@ -162,7 +163,7 @@ type OverWrite {
 type Query {
   guildConfig(guildId: String!): GuildConfig!
   guilds(guildId: String!): Guild!
-  ownerGuilds: [Guild!]!
+  mutualGuilds: [Guild!]!
   user: UserObject!
 }
 

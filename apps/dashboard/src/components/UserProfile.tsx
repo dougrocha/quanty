@@ -1,23 +1,21 @@
-import { useAtom } from 'jotai'
-import { RESET } from 'jotai/utils'
+import { ChevronDownIcon } from '@heroicons/react/outline'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRef, useState } from 'react'
 
-import { ArrowIcon } from './icons'
-
-import useOnClickOutside from '../hooks/useOnClickOutside'
+import { useCurrentUser, useOnClickOutside } from '../hooks'
 import { FetchUserIcon } from '../libs/FetchIcons'
-import { currentUserAtom } from '../pages'
-import { QUANTY_API } from '../utils/constants/API'
-import { CurrentUser } from '../utils/types'
 
-interface userProfileTypes {
-  user: CurrentUser
+const UserProfileDropdownMenu = dynamic(import('./UserProfileDropdownMenu'), {
+  ssr: false,
+})
+
+interface IUserProfileTypes {
+  small?: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const UserProfile = ({ user }: userProfileTypes) => {
+const UserProfile = ({ small }: IUserProfileTypes) => {
   const ref = useRef(null)
 
   const [open, setOpen] = useState(false)
@@ -26,16 +24,22 @@ const UserProfile = ({ user }: userProfileTypes) => {
 
   useOnClickOutside(ref, closeDropdown)
 
-  const [, setUser] = useAtom(currentUserAtom)
+  const { user, setUser } = useCurrentUser()
+
+  if (!user) return <></>
 
   return (
     <>
-      <div className="flex items-center" ref={ref}>
+      <div className={`flex items-center ${small && 'text-sm'}`} ref={ref}>
         <div
           className="flex items-center justify-center"
           onClick={() => setOpen(!open)}
         >
-          <div className="relative h-10 w-10 overflow-hidden rounded-full">
+          <div
+            className={`relative overflow-hidden rounded-full ${
+              small ? 'h-7 w-7' : 'h-10 w-10'
+            }`}
+          >
             <Image
               src={FetchUserIcon(user.discordId, user.avatar)}
               alt="Quanty Icon Picture"
@@ -49,61 +53,16 @@ const UserProfile = ({ user }: userProfileTypes) => {
 
           <p className="opacity-75">#{user.discriminator}</p>
 
-          <ArrowIcon
-            width={25}
-            className={`transition ${open && 'rotate-180'}`}
+          <ChevronDownIcon
+            className={`ml-2 w-4 text-secondary-white transition ${
+              open && 'rotate-180'
+            }`}
           />
         </div>
-        {open && <DropdownMenu setUser={setUser} />}
+        {open && <UserProfileDropdownMenu setUser={setUser} />}
       </div>
     </>
   )
 }
-
-interface DropdownProps {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  setUser: (
-    update:
-      | CurrentUser
-      | typeof RESET
-      | ((prev: CurrentUser | null) => CurrentUser | null)
-      | null,
-  ) => void
-}
-
-const DropdownMenu = ({ setUser }: DropdownProps) => {
-  return (
-    <ul className="absolute top-16 z-50 mt-2 w-40 overflow-hidden rounded-xl border-none bg-primary-purple-10 text-sm text-secondary-white">
-      {DropdownMenuItems.map((item, index) => {
-        return (
-          <li key={index} className="mr-3 ml-3 p-2 no-underline">
-            <Link href={item.path}>{item.name}</Link>
-          </li>
-        )
-      })}
-      <li className="mr-3 ml-3 p-2 text-red-500 no-underline">
-        <Link href={`${QUANTY_API}/api/auth/logout`}>
-          <a onClick={() => setUser}>Log Out</a>
-        </Link>
-      </li>
-    </ul>
-  )
-}
-
-interface IDropdownMenuItems {
-  name: string
-  path: string
-}
-
-export const DropdownMenuItems: IDropdownMenuItems[] = [
-  {
-    name: 'My Servers',
-    path: '/dashboard',
-  },
-  {
-    name: 'Changelogs',
-    path: '/docs',
-  },
-]
 
 export default UserProfile

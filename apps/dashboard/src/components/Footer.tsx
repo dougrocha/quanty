@@ -21,9 +21,9 @@ const FooterTags = () => {
     <div className="flex flex-col md:flex-row md:space-x-10">
       {FooterItems.map(({ items, title }) => {
         return (
-          <ul className="list" key={title}>
+          <div className="list-none" key={title}>
             <p className="mb-4 font-semibold">{title}</p>
-            <div className="text-secondary-white">
+            <ul className="text-secondary-white">
               {items.map(({ name, route }) => {
                 return (
                   <li className="mb-6" key={name}>
@@ -33,8 +33,8 @@ const FooterTags = () => {
                   </li>
                 )
               })}
-            </div>
-          </ul>
+            </ul>
+          </div>
         )
       })}
     </div>

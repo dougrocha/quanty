@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@nestjs/apollo": "^10.0.8",
-    "@nestjs/axios": "^0.0.7",
+    "@nestjs/axios": "^0.0.8",
     "@nestjs/common": "^8.4.3",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.4.3",
@@ -32,18 +32,19 @@
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.4.3",
     "@nestjs/platform-socket.io": "^8.4.3",
+    "@nestjs/throttler": "^2.0.1",
     "@nestjs/websockets": "^8.4.3",
+    "@quanty/schemas": "*",
     "@types/express-session": "^1.17.4",
-    "@types/node": "^17.0.23",
     "@types/passport": "^1.0.7",
     "apollo-server-express": "^3.6.6",
     "class-validator": "^0.13.1",
     "connect-mongo": "^4.6.0",
-    "discord-api-types": "^0.30.0",
+    "discord-api-types": "^0.33.0",
     "express-session": "^1.17.2",
     "graphql": "^16.3.0",
-    "mongoose": "^6.2.8",
-    "passport": "^0.5.2",
+    "mongoose": "^6.3.4",
+    "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
@@ -69,7 +70,7 @@
     "ts-node": "^10.7.0",
     "tsconfig": "*",
     "tsconfig-paths": "^3.14.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.7.2"
   },
   "jest": {
     "moduleFileExtensions": [

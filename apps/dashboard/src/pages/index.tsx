@@ -1,23 +1,21 @@
-import { useHydrateAtoms, atomWithReset } from 'jotai/utils'
+import { useHydrateAtoms } from 'jotai/utils'
 import { GetServerSidePropsContext } from 'next'
+import Image from 'next/image'
 
 import FeatureBox from '../components/Home/FeatureBox'
 import Hero from '../components/Home/Hero'
 import { GetUserDocument } from '../graphql/generated/schema'
 import HomeLayout from '../layouts/Home'
-import client from '../libs/apollo-client'
-import { validateCookies } from '../libs/validateCookies'
+import { addApolloState, initializeApollo } from '../libs/apolloClient'
+import { currentUserAtom } from '../utils/store/currentUser'
 import { CurrentUser } from '../utils/types'
 
 interface HomeProps {
   user: CurrentUser | null
 }
 
-export const currentUserAtom = atomWithReset<CurrentUser | null>(null)
-
 const Home = ({ user: currentUser }: HomeProps) => {
-  if (currentUser != null)
-    useHydrateAtoms([[currentUserAtom, currentUser]] as const)
+  if (currentUser != null) useHydrateAtoms([[currentUserAtom, currentUser]])
 
   // if (process.env.NODE_ENV == 'production') {
   //   return <TempHome />
@@ -26,6 +24,13 @@ const Home = ({ user: currentUser }: HomeProps) => {
   return (
     <HomeLayout>
       <Hero />
+      <div className="relative mb-36 mt-28 block h-96 flex-col items-center justify-center xl:mb-64 xl:mt-48">
+        <Image
+          src={'/dashboard_preview.jpg'}
+          layout="fill"
+          objectFit="contain"
+        />
+      </div>
       <FeatureBox />
     </HomeLayout>
   )
@@ -34,37 +39,21 @@ const Home = ({ user: currentUser }: HomeProps) => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
-  const headers = validateCookies(context)
-
-  if (!headers)
-    return {
-      props: {
-        user: null,
-      },
-    }
+  const client = initializeApollo({ headers: context?.req?.headers })
 
   try {
-    const { data } = await client.query({
-      fetchPolicy: 'cache-first',
+    const {
+      data: { user },
+    } = await client.query({
       query: GetUserDocument,
-      context: {
-        headers: {
-          cookie: headers.Cookie,
-        },
-      },
     })
 
-    return {
-      props: {
-        user: data ? data.user : null,
-      },
-    }
+    return addApolloState(client, {
+      props: { user },
+    })
   } catch (e) {
-    console.log(e)
     return {
-      props: {
-        user: null,
-      },
+      props: {},
     }
   }
 }

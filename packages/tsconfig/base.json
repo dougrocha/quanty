@@ -20,10 +20,5 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "preserveWatchOutput": true
-  },
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true,
-    "swc": true
   }
 }

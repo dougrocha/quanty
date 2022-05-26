@@ -1,6 +1,24 @@
 {
   "name": "@quanty/schemas",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src/**"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@typegoose/typegoose": "^9.8.1",
+    "config": "*",
+    "tsconfig": "*",
+    "typescript": "^4.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0",
+    "rimraf": "^3.0.2"
+  }
 }

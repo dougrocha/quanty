@@ -2,10 +2,11 @@ import { join } from 'path'
 
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { MongooseModule } from '@nestjs/mongoose'
 import { PassportModule } from '@nestjs/passport'
+import { ThrottlerModule } from '@nestjs/throttler'
 
 import { AuthModule } from './auth/auth.module'
 import { BotModule } from './bot/bot.module'
@@ -33,6 +34,15 @@ const ENV = process.env.NODE_ENV
       cors: {
         origin: ['http://localhost:3000', 'https://quanty.xyz'],
       },
+      context: ({ req, res }) => ({ req, res }),
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        ttl: config.get('THROTTLE_TTL'),
+        limit: config.get('THROTTLE_LIMIT'),
+      }),
     }),
     AuthModule,
     GuildsModule,

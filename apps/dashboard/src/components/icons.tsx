@@ -44,15 +44,16 @@ export const ClipboardCheckIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="bi:clipboard-check" />
 }
 
-export const QuantumIcon = ({ ...props }: Partial<IconProps>) => {
-  return <BaseIcon {...props} icon="clarity:atom-solid" />
-}
-
 export const ArrowIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="gridicons:dropdown" />
 }
 
-const BaseIcon = ({ icon, className, color, ...props }: Partial<IconProps>) => {
+export const BaseIcon = ({
+  icon,
+  className,
+  color,
+  ...props
+}: Partial<IconProps>) => {
   return (
     <>
       {icon && (

@@ -23,6 +23,7 @@ class Client extends QuantyClient {
           'GUILD_VOICE_STATES',
           'GUILD_MEMBERS',
           'GUILD_WEBHOOKS',
+          'GUILD_MESSAGES',
         ],
       },
     )

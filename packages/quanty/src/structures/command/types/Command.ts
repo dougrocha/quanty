@@ -5,6 +5,7 @@ import type {
   CommandInteractionOptionResolver,
   Guild,
   InteractionReplyOptions,
+  MessagePayload,
   PermissionString,
   ReplyMessageOptions,
   TextBasedChannel,
@@ -84,14 +85,13 @@ export interface SlashCommandRunOptions {
   options: Omit<CommandInteractionOptionResolver, 'getMessage' | 'getFocused'>
 }
 
-export type CommandReturnType = Promise<CommandReturnObj>
-
 export type CommandReturnObj =
-  | ReplyMessageOptions
   | InteractionReplyOptions
-  | WebhookEditMessageOptions
+  | MessagePayload
   | string
   | void
+
+export type CommandReturnType = Promise<CommandReturnObj>
 
 export interface IVerifyReturnObj {
   customVerify?: boolean

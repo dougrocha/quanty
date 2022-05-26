@@ -41,18 +41,18 @@ export class AnimeCommand extends Command {
     const embed = new MessageEmbed()
 
     const allsfw = [
-      await neko.sfw.waifu(),
-      await neko.sfw.baka(),
-      await neko.sfw.cuddle(),
-      await neko.sfw.pat(),
-      await neko.sfw.tickle(),
-      await neko.sfw.feed(),
-      await neko.sfw.hug(),
-      await neko.sfw.kiss(),
-      await neko.sfw.slap(),
-      await neko.sfw.smug(),
-      await neko.sfw.poke(),
-      await neko.sfw.holo(),
+      await neko.waifu(),
+      await neko.baka(),
+      await neko.cuddle(),
+      await neko.pat(),
+      await neko.tickle(),
+      await neko.feed(),
+      await neko.hug(),
+      await neko.kiss(),
+      await neko.slap(),
+      await neko.smug(),
+      await neko.poke(),
+      await neko.holo(),
     ]
 
     const res = allsfw[Math.floor(Math.random() * allsfw.length)]

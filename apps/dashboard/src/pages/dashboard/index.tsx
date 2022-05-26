@@ -1,38 +1,36 @@
 import { ApolloError } from '@apollo/client'
-import { useHydrateAtoms } from 'jotai/utils'
+import { useAtom } from 'jotai'
 import { GetServerSidePropsContext } from 'next'
 
-import { currentUserAtom } from '..'
 import { GuildCard } from '../../components/GuildCard'
 import {
-  GetOwnerGuildsDocument,
-  GetOwnerGuildsQuery,
+  GetMutualGuildsDocument,
+  GetMutualGuildsQuery,
   GetUserDocument,
   GetUserQuery,
-  Guild,
+  useGetMutualGuildsQuery,
 } from '../../graphql/generated/schema'
+import { useCurrentUser } from '../../hooks/useCurrentUser'
 import GuildsLayout from '../../layouts/Guilds'
-import { useSsrQuery } from '../../libs/useSsrQuery'
-import { validateCookies } from '../../libs/validateCookies'
-import { CurrentUser } from '../../utils/types'
+import { addApolloState, initializeApollo } from '../../libs/apolloClient'
+import { mutualGuildsAtom } from '../../utils/store'
 
-interface GuildPageProps {
-  guilds: Guild[]
-  user: CurrentUser
-}
+export const GuildPage = () => {
+  useCurrentUser()
+  const [mutualGuilds, setMutualGuilds] = useAtom(mutualGuildsAtom)
 
-export const GuildPage = ({ guilds, user: currentUser }: GuildPageProps) => {
-  useHydrateAtoms([[currentUserAtom, currentUser]] as const)
+  useGetMutualGuildsQuery({
+    onCompleted: ({ mutualGuilds }) => setMutualGuilds(mutualGuilds as never),
+    skip: mutualGuilds?.length !== 0,
+  })
 
   return (
     <GuildsLayout>
       <h1 className="mt-24 text-center text-4xl">Your Servers</h1>
       <div className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center py-10 text-primary-white">
-        {guilds.map(({ id, icon, name }) => {
-          return (
-            <GuildCard key={`guild-${id}`} id={id} name={name} icon={icon} />
-          )
-        })}
+        {mutualGuilds?.map(guild => (
+          <GuildCard key={`guild-${guild.id}`} guild={guild} />
+        ))}
       </div>
     </GuildsLayout>
   )
@@ -41,35 +39,29 @@ export const GuildPage = ({ guilds, user: currentUser }: GuildPageProps) => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
-  const headers = validateCookies(context)
-
-  if (!headers)
-    return {
-      redirect: { destination: '/login' },
-    }
+  const client = initializeApollo({ headers: context?.req?.headers })
 
   try {
-    const { data } = await useSsrQuery<GetOwnerGuildsQuery>(
-      GetOwnerGuildsDocument,
-      headers,
-    )
+    await client.query<GetMutualGuildsQuery>({
+      query: GetMutualGuildsDocument,
+    })
 
-    const { data: userData } = await useSsrQuery<GetUserQuery>(
-      GetUserDocument,
-      headers,
-    )
+    await client.query<GetUserQuery>({
+      query: GetUserDocument,
+    })
 
-    return {
-      props: {
-        guilds: data.ownerGuilds,
-        user: userData.user,
-      },
-    }
+    return addApolloState(client, {
+      props: {},
+    })
   } catch (e: unknown) {
     if (e instanceof ApolloError) {
       if (e.message === 'You must be logged in first.') {
         return {
           redirect: { destination: '/login' },
+        }
+      } else {
+        return {
+          notFound: true,
         }
       }
     }

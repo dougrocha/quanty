@@ -7,7 +7,7 @@ import { Guild } from '../models/guild'
 
 export interface IGuildsService {
   getGuildConfig(guildId: string): Promise<GuildDocument | null>
-  getMutualGuilds(accessToken: string): any
+  getMutualGuilds(accessToken: string): Promise<Guild[]>
 }
 
 export interface IGuildsHttpService {

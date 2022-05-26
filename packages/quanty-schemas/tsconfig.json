@@ -1,0 +1,16 @@
+{
+  "extends": "tsconfig/quanty.json",
+  "compilerOptions": {
+    "incremental": true,
+
+    "rootDir": ".",
+    "baseUrl": ".",
+    "sourceRoot": "src",
+    "outDir": "dist",
+
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src", ".eslintrc.js"],
+  "exclude": ["node_modules"]
+}

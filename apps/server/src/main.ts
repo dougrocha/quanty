@@ -31,7 +31,7 @@ async function bootstrap() {
       }),
       cookie: {
         maxAge: 60000 * 60 * 24 * 7,
-        // Secure: true,
+        secure: ENV === 'production' ? true : false,
       },
       secret: process.env.SESSION_COOKIE,
       resave: false,

@@ -4,14 +4,12 @@ dotenv.config({ path: '.env' })
 
 import { QuantyClient } from '../src/structures/client/Client'
 
-process.env.production = 'true'
-
 const client: QuantyClient = new QuantyClient(
   {
     token: process.env.TOKEN,
     commandDir: 'commands/',
     eventDir: 'events/',
-    owner: '1259812597',
+    owner: '979178442140549230',
     baseDir: 'test/',
     defaults: true,
     logLevel: 'DEBUG',

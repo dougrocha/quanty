@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-css-tags */
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
@@ -5,11 +6,33 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <html lang="en" />
+
           <meta charSet="utf-8" />
 
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-            rel="stylesheet"
+            rel="preload"
+            href="/fonts/Poppins-Regular.ttf"
+            as="font"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/Poppins-Medium.ttf"
+            as="font"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/Poppins-SemiBold.ttf"
+            as="font"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/Poppins-Bold.ttf"
+            as="font"
+            crossOrigin="anonymous"
           />
 
           <meta
@@ -26,7 +49,7 @@ class MyDocument extends Document {
 
           <link rel="icon" href="/quanty-64.png" />
         </Head>
-        <body>
+        <body className="font-poppins">
           <Main />
           <NextScript />
         </body>

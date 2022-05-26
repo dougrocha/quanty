@@ -1,10 +1,4 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  Inject,
-  Injectable,
-} from '@nestjs/common'
-import { GqlExecutionContext } from '@nestjs/graphql'
+import { Inject, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import {
@@ -13,12 +7,7 @@ import {
 } from 'src/guilds/interfaces/guilds'
 import { GuildDocument, Guilds } from 'src/schemas'
 
-export const CurrentUser = createParamDecorator(
-  (data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context)
-    return ctx.getContext().req
-  },
-)
+import { Guild } from '../models/guild'
 
 @Injectable()
 export class GuildsService implements IGuildsService {
@@ -38,11 +27,16 @@ export class GuildsService implements IGuildsService {
     )
     const { data: botGuilds } = await this.guildsHttpService.fetchBotGuilds()
 
-    const adminUserGuilds = userGuilds.filter(
-      ({ permissions }) => (parseInt(permissions ?? '') & 0x8) === 0x8,
+    const adminUserGuilds: Guild[] = userGuilds.filter(
+      ({ permissions }) => (parseInt(permissions ?? '0') & 0x8) === 0x8,
     )
-    const mutualGuilds = userGuilds.filter(guild =>
-      botGuilds.some(botGuild => botGuild.id === guild.id),
+
+    adminUserGuilds.filter(guild =>
+      botGuilds.some(botGuild =>
+        botGuild.id === guild.id ? (guild.bot = true) : (guild.bot = false),
+      ),
     )
+
+    return adminUserGuilds
   }
 }

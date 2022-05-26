@@ -2,6 +2,14 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: [
+          'Poppins',
+          ' -apple-system',
+          'BlinkMacSystemFont',
+          'sans-serif',
+        ],
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',
@@ -24,5 +32,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
 }

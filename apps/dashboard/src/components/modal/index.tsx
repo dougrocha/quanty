@@ -1,8 +1,9 @@
-import { ClosedHamburgerIcon } from 'components/Icons'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 
 import Backdrop from './Backdrop'
+
+import { ClosedHamburgerIcon } from '../icons'
 
 interface IModal {
   handleModal: () => void

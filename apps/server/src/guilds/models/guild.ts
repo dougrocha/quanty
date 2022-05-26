@@ -9,6 +9,9 @@ import { Sticker } from './sticker'
 @ObjectType()
 export class Guild {
   @Field({ nullable: true })
+  bot?: boolean
+
+  @Field({ nullable: true })
   owner?: boolean
 
   @Field()
@@ -38,8 +41,8 @@ export class Guild {
   @Field()
   premium_tier: GuildPremiumTier
 
-  @Field()
-  premium_subscription_count?: number
+  // @Field()
+  // premium_subscription_count?: number
 
   @Field()
   preferred_locale: string
@@ -56,8 +59,8 @@ export class Guild {
   @Field({ nullable: true })
   icon?: string
 
-  @Field()
-  splash: string
+  // @Field()
+  // splash: string
 
   @Field({ nullable: true })
   unavailable?: boolean
@@ -67,10 +70,10 @@ export class Guild {
 
   @Field(() => [String])
   features: string[]
-  @Field({ nullable: true })
-  icon_hash?: string
-  @Field()
-  discovery_splash: string
+  // @Field({ nullable: true })
+  // icon_hash?: string
+  // @Field()
+  // discovery_splash: string
   @Field({ nullable: true })
   permissions?: string
   // @Field()

@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import { useAtom } from 'jotai'
 
 import { useGetUserQuery } from '../graphql/generated/schema'
-import { CurrentUser } from '../utils/types'
+import { currentUserAtom } from '../utils/store'
 
 export const useCurrentUser = () => {
-  const [user, setUser] = useState<CurrentUser | null>(null)
+  const [user, setUser] = useAtom(currentUserAtom)
 
   useGetUserQuery({
     onCompleted: ({ user }) => {
       setUser(user)
     },
+    fetchPolicy: 'cache-and-network',
   })
 
-  return [user]
+  return { user, setUser }
 }

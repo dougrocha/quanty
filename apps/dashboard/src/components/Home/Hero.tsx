@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { StaticLinks } from '../../utils/staticLinks'
+import { StaticLinks } from '../../utils/constants/API'
 
 const Hero = () => {
   // TODO: Find way to implement background

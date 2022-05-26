@@ -5,8 +5,9 @@
     "baseUrl": "./src",
     "outDir": "dist",
 
-    "importsNotUsedAsValues": "error"
+    "moduleResolution": "node",
+    "importsNotUsedAsValues": "preserve"
   },
   "include": ["src", "test", ".eslintrc.js", "environment.d.ts"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist/**/*", "**/*.spec.ts"]
 }

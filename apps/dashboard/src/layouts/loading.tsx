@@ -1,10 +1,10 @@
 import React from 'react'
-import { PongSpinner } from 'react-spinners-kit'
+import { RotateSpinner } from 'react-spinners-kit'
 
 const LoadingLayout = () => {
   return (
     <div className="flex h-screen items-center justify-center bg-primary-darkPurpleBg antialiased">
-      <PongSpinner size={6} color={'#eaeaea'} sizeUnit="rem" />
+      <RotateSpinner size={4} color={'#6635F0'} sizeUnit="rem" />
     </div>
   )
 }

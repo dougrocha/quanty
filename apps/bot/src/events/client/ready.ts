@@ -8,7 +8,7 @@ export class ReadyEvent extends Event<'ready'> {
   @logger()
   private logger!: Logger
 
-  run(client: Client<true>) {
+  async run(client: Client<true>) {
     this.logger.log(`${client.user?.tag} is online!`)
 
     client.user?.setPresence({

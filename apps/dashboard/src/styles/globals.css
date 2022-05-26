@@ -4,10 +4,52 @@
 
 body {
   margin: 0;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-disply: optional;
+}
 
-  background-color: #1c1a25;
+@layer base {
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: fallback;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: fallback;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: fallback;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: fallback;
+  }
+}
+
+@layer components {
+  .img-glow {
+    border-radius: 50%;
+    box-shadow: 0px 0px 30px 1px #6635f0;
+    animation: glowShadow 3.5s linear infinite alternate;
+  }
+
+  @keyframes glowShadow {
+    to {
+      box-shadow: 0px 0px 60px 5px #6635f0;
+    }
+  }
 }

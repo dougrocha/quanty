@@ -94,13 +94,12 @@ export type Emojis = {
 export type Guild = {
   __typename?: 'Guild'
   afk_timeout: Scalars['Int']
+  bot?: Maybe<Scalars['Boolean']>
   channels?: Maybe<Array<Channel>>
   description?: Maybe<Scalars['String']>
-  discovery_splash: Scalars['String']
   emojis: Array<Emojis>
   features: Array<Scalars['String']>
   icon?: Maybe<Scalars['String']>
-  icon_hash?: Maybe<Scalars['String']>
   id: Scalars['String']
   member_count: Scalars['Float']
   members?: Maybe<GuildMember>
@@ -110,10 +109,8 @@ export type Guild = {
   owner_id: Scalars['String']
   permissions?: Maybe<Scalars['String']>
   preferred_locale: Scalars['String']
-  premium_subscription_count: Scalars['Float']
   premium_tier: Scalars['Float']
   roles: Array<Roles>
-  splash: Scalars['String']
   stickers: Array<Sticker>
   threads?: Maybe<Array<Channel>>
   unavailable?: Maybe<Scalars['Boolean']>
@@ -230,7 +227,7 @@ export type Query = {
   __typename?: 'Query'
   guildConfig: GuildConfig
   guilds: Guild
-  ownerGuilds: Array<Guild>
+  mutualGuilds: Array<Guild>
   user: UserObject
 }
 
@@ -393,15 +390,16 @@ export type GetGuildConfigQuery = {
   }
 }
 
-export type GetOwnerGuildsQueryVariables = Exact<{ [key: string]: never }>
+export type GetMutualGuildsQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetOwnerGuildsQuery = {
+export type GetMutualGuildsQuery = {
   __typename?: 'Query'
-  ownerGuilds: Array<{
+  mutualGuilds: Array<{
     __typename?: 'Guild'
     id: string
     name: string
     icon?: string | null
+    bot?: boolean | null
   }>
 }
 
@@ -496,64 +494,65 @@ export type GetGuildConfigQueryResult = Apollo.QueryResult<
   GetGuildConfigQuery,
   GetGuildConfigQueryVariables
 >
-export const GetOwnerGuildsDocument = gql`
-  query GetOwnerGuilds {
-    ownerGuilds {
+export const GetMutualGuildsDocument = gql`
+  query GetMutualGuilds {
+    mutualGuilds {
       id
       name
       icon
+      bot
     }
   }
 `
 
 /**
- * __useGetOwnerGuildsQuery__
+ * __useGetMutualGuildsQuery__
  *
- * To run a query within a React component, call `useGetOwnerGuildsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOwnerGuildsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetMutualGuildsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMutualGuildsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetOwnerGuildsQuery({
+ * const { data, loading, error } = useGetMutualGuildsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetOwnerGuildsQuery(
+export function useGetMutualGuildsQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetOwnerGuildsQuery,
-    GetOwnerGuildsQueryVariables
+    GetMutualGuildsQuery,
+    GetMutualGuildsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GetOwnerGuildsQuery, GetOwnerGuildsQueryVariables>(
-    GetOwnerGuildsDocument,
+  return Apollo.useQuery<GetMutualGuildsQuery, GetMutualGuildsQueryVariables>(
+    GetMutualGuildsDocument,
     options,
   )
 }
-export function useGetOwnerGuildsLazyQuery(
+export function useGetMutualGuildsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetOwnerGuildsQuery,
-    GetOwnerGuildsQueryVariables
+    GetMutualGuildsQuery,
+    GetMutualGuildsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GetOwnerGuildsQuery, GetOwnerGuildsQueryVariables>(
-    GetOwnerGuildsDocument,
-    options,
-  )
+  return Apollo.useLazyQuery<
+    GetMutualGuildsQuery,
+    GetMutualGuildsQueryVariables
+  >(GetMutualGuildsDocument, options)
 }
-export type GetOwnerGuildsQueryHookResult = ReturnType<
-  typeof useGetOwnerGuildsQuery
+export type GetMutualGuildsQueryHookResult = ReturnType<
+  typeof useGetMutualGuildsQuery
 >
-export type GetOwnerGuildsLazyQueryHookResult = ReturnType<
-  typeof useGetOwnerGuildsLazyQuery
+export type GetMutualGuildsLazyQueryHookResult = ReturnType<
+  typeof useGetMutualGuildsLazyQuery
 >
-export type GetOwnerGuildsQueryResult = Apollo.QueryResult<
-  GetOwnerGuildsQuery,
-  GetOwnerGuildsQueryVariables
+export type GetMutualGuildsQueryResult = Apollo.QueryResult<
+  GetMutualGuildsQuery,
+  GetMutualGuildsQueryVariables
 >
 export const GetUserDocument = gql`
   query GetUser {

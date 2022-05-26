@@ -1,14 +1,32 @@
+import { ApolloProvider } from '@apollo/client'
 import LoadingLayout from 'layouts/loading'
+import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
+
+import { useApollo } from '../libs/apolloClient'
 
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [pageLoading, setPageLoading] = useState<boolean>(false)
 
   const router = useRouter()
+
+  useEffect(() => {
+    if (!router.isReady) return
+  }, [router.isReady])
+
+  const apolloClient = useApollo(pageProps)
 
   useEffect(() => {
     const handleStart = () => {
@@ -23,7 +41,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     router.events.on('routeChangeError', handleComplete)
   })
 
-  return <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
+  const getLayout = Component.getLayout ?? (page => page)
+
+  return (
+    <ApolloProvider client={apolloClient}>
+      {Component.getLayout ? (
+        getLayout(<Component {...pageProps} />)
+      ) : (
+        <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
+      )}
+    </ApolloProvider>
+  )
 }
 
 export default MyApp

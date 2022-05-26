@@ -1,16 +1,17 @@
 import { useAtomValue } from 'jotai'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React from 'react'
 
-import UserProfile from './UserProfile'
-
 import { NavLinks } from '../data/navLinks'
-import { currentUserAtom } from '../pages'
-import { QUANTY_API } from '../utils/constants/API'
+import { StaticLinks } from '../utils/constants/API'
+import { currentUserAtom } from '../utils/store/currentUser'
+
+const UserProfile = dynamic(import('./UserProfile'), { ssr: false })
 
 const Navbar = () => {
   const handleLogin = () => {
-    window.location.assign(QUANTY_API + '/api/auth/login')
+    window.location.assign(StaticLinks.QUANTY_API + '/api/auth/login')
   }
 
   const user = useAtomValue(currentUserAtom)
@@ -30,10 +31,10 @@ const Navbar = () => {
       </ul>
       <div>
         {user ? (
-          <UserProfile user={user} />
+          <UserProfile />
         ) : (
           <button
-            className="rounded-lg bg-primary-bright-purple py-2 px-4"
+            className="rounded-2xl bg-primary-bright-purple py-2 px-4"
             onClick={handleLogin}
           >
             Login

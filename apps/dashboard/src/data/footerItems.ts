@@ -1,4 +1,4 @@
-import { StaticLinks } from '../utils/staticLinks'
+import { StaticLinks } from '../utils/constants/API'
 
 const FooterItems = [
   {

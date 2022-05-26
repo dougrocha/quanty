@@ -35,7 +35,14 @@ class Database {
     if (!this.URL) return
 
     await connect(this.URL, { keepAlive: true, autoIndex: false })
-      .then(() => this.logger.log('Connected to MongoDB'))
+      .then(
+        e => {
+          this.logger.log(
+            `Successful connection to mongoDB: ${e.connection.name}.`,
+          )
+        },
+        err => this.logger.error(`Connection to mongoDB failed. ${err}.`),
+      )
       .catch((e: any) => {
         this.logger.error(e)
       })

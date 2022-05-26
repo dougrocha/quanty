@@ -1,12 +1,24 @@
+import { useAtomValue } from 'jotai'
 import Head from 'next/head'
+import { ClapSpinner } from 'react-spinners-kit'
 
 import Navbar from '../components/Navbar'
+import { currentUserAtom } from '../utils/store/currentUser'
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 const GuildsLayout = ({ children }: LayoutProps) => {
+  const user = useAtomValue(currentUserAtom)
+
+  if (!user)
+    return (
+      <div className="flex h-screen items-center justify-center overflow-auto bg-primary-purple-20 text-primary-white antialiased">
+        <ClapSpinner frontColor="#ffffff" backColor="#6635F0" size={70} />
+      </div>
+    )
+
   return (
     <>
       <Head>
@@ -27,7 +39,7 @@ const GuildsLayout = ({ children }: LayoutProps) => {
         <meta name="theme-color" content="#1C1A25"></meta>
       </Head>
 
-      <div className="block h-screen overflow-auto bg-primary-darkPurpleBg antialiased">
+      <div className="relative block h-screen overflow-y-auto overflow-x-hidden bg-primary-darkPurpleBg antialiased">
         <div className="mx-auto max-w-6xl px-4 text-primary-white sm:px-6 xl:px-0">
           <Navbar />
           {children}
