@@ -1,11 +1,8 @@
-import { useAtom } from 'jotai'
 import Head from 'next/head'
 
 import Footer from '../components/Footer'
 import HelpBox from '../components/Home/HelpBox'
 import Navbar from '../components/Navbar'
-import { useGetUserQuery, GetUserDocument } from '../graphql/generated/schema'
-import { currentUserAtom } from '../utils/store/currentUser'
 
 interface LayoutProps {
   children: React.ReactNode
