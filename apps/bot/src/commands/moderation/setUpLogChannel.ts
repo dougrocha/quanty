@@ -9,7 +9,7 @@ import {
 } from '@quanty/framework'
 import { TextChannel } from 'discord.js'
 
-import { GuildModel } from '../../database'
+import { GuildsModel } from '../../database'
 
 @SlashCommand('setup-logger', {
   description: 'Sets up logs channel.',
@@ -40,7 +40,7 @@ export class BanCommand extends Command {
         reason: 'Quanty Logger',
       })
       .then(async val => {
-        await GuildModel.findOneAndUpdate(
+        await GuildsModel.findOneAndUpdate(
           {
             guildId: val.guildId,
           },

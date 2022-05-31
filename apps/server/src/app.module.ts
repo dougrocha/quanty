@@ -9,7 +9,6 @@ import { PassportModule } from '@nestjs/passport'
 import { ThrottlerModule } from '@nestjs/throttler'
 
 import { AuthModule } from './auth/auth.module'
-import { BotModule } from './bot/bot.module'
 import { GuildsModule } from './guilds/guilds.module'
 import { UsersModule } from './users/users.module'
 
@@ -18,7 +17,7 @@ const ENV = process.env.NODE_ENV
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+      envFilePath: ENV ? `.env.${ENV}` : `.env`,
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGOURI, {
@@ -26,15 +25,17 @@ const ENV = process.env.NODE_ENV
       useNewUrlParser: true,
     }),
     PassportModule.register({ session: true }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-      useGlobalPrefix: true,
-      cors: {
-        origin: ['http://localhost:3000', 'https://quanty.xyz'],
-      },
-      context: ({ req, res }) => ({ req, res }),
+      useFactory: () => ({
+        useGlobalPrefix: true,
+        sortSchema: true,
+        cors: {
+          origin: ENV ? 'https://quanty.xyz' : 'http://localhost:3000',
+        },
+        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+        context: ({ req, res }) => ({ req, res }),
+      }),
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
@@ -46,7 +47,6 @@ const ENV = process.env.NODE_ENV
     }),
     AuthModule,
     GuildsModule,
-    BotModule,
     UsersModule,
   ],
 })

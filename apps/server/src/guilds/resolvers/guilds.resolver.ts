@@ -4,17 +4,10 @@ import {
   Inject,
   UseGuards,
 } from '@nestjs/common'
-import {
-  Args,
-  GqlExecutionContext,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Users } from '@quanty/schemas'
 import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
-import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
 import {
   IGuildsHttpService,
   IGuildsService,
@@ -22,15 +15,11 @@ import {
 import { Channel } from 'src/guilds/models/channel'
 import { Guild } from 'src/guilds/models/guild'
 
-import { User as UserSchema } from '../../schemas'
-import { GqlThrottlerGuard } from '../../utils/guards'
-
-const CurrentUser = createParamDecorator(
-  (data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context)
-    return ctx.getContext().req.user
-  },
-)
+import {
+  GraphQLAuthGuard,
+  GqlThrottlerGuard,
+  GqlCurrentUser,
+} from '../../common'
 
 @Resolver(() => Guild)
 @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard)
@@ -58,7 +47,7 @@ export class GuildsResolver {
   }
 
   @Query(() => [Guild])
-  async mutualGuilds(@CurrentUser() user: UserSchema): Promise<Guild[]> {
+  async mutualGuilds(@GqlCurrentUser() user: Users): Promise<Guild[]> {
     const { accessToken } = user
     return this.GuildsService.getMutualGuilds(accessToken)
   }

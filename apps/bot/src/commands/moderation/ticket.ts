@@ -14,7 +14,7 @@ import {
   MessageEmbed,
 } from 'discord.js'
 
-import { GuildModel } from '../../database/schemas'
+import { GuildsModel } from '../../database'
 
 @SlashCommand('ticket', {
   description: 'Opens a ticket for any issues you may have.',
@@ -25,7 +25,7 @@ export class TicketCommand extends Command {
   async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
     const embed = new MessageEmbed().setColor('#FF5F9F')
 
-    const guildConfig = await GuildModel.findOne(
+    const guildConfig = await GuildsModel.findOne(
       {
         guildId: guild.id,
       },
@@ -40,7 +40,7 @@ export class TicketCommand extends Command {
     )
 
     // TODO: Decide whether max tickets should be user based or guild based
-    const maxTickets = guildConfig?.maxTickets ?? 10
+    const maxTickets = guildConfig?.maxTickets ?? 25
 
     if ((guildConfig?.tickets?.length ?? -1) > maxTickets)
       return {

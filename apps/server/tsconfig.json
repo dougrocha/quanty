@@ -6,14 +6,21 @@
 
     "incremental": true,
 
-    "rootDir": ".",
-    "baseUrl": ".",
+    "rootDirs": ["./", "./test"],
+    "baseUrl": "./",
     "sourceRoot": "src",
     "outDir": "dist",
+
+    "types": ["jest", "node"],
 
     "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "test", "environment.d.ts", ".eslintrc.js"],
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "environment.d.ts",
+    ".eslintrc.js"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,8 +1,8 @@
 import { HttpModule } from '@nestjs/axios'
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
+import { Users } from '@quanty/schemas'
 import { Model } from 'mongoose'
-import { User } from 'src/schemas'
 
 import { UsersService } from '../services/users.service'
 
@@ -15,7 +15,7 @@ describe('UsersService', () => {
       providers: [
         UsersService,
         {
-          provide: getModelToken(User.name),
+          provide: getModelToken(Users.name),
           useValue: Model,
         },
       ],

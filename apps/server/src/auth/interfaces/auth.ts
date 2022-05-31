@@ -1,6 +1,7 @@
-import { UserDetails } from 'src/common/types'
-import { UserDocument } from 'src/schemas'
+import { UsersDocument } from '@quanty/schemas'
+
+import { UserWithToken } from '../../common'
 
 export interface IAuthenticationService {
-  validateUser(user: UserDetails): Promise<UserDocument>
+  validateUser(user: UserWithToken): Promise<UsersDocument>
 }

@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
+import { GuildDocument, Guilds } from '@quanty/schemas'
 import { Model } from 'mongoose'
 import {
   IGuildsHttpService,
   IGuildsService,
 } from 'src/guilds/interfaces/guilds'
-import { GuildDocument, Guilds } from 'src/schemas'
 
 import { Guild } from '../models/guild'
 

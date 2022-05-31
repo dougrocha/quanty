@@ -8,7 +8,7 @@ import {
   UserPermissions,
 } from '@quanty/framework'
 
-import { GuildBanLogsModel, GuildModel } from '../../database/schemas'
+import { GuildBanLogsModel, GuildsModel } from '../../database'
 
 @SlashCommand('ban', {
   description: 'Bans members',
@@ -46,7 +46,7 @@ export class BanCommand extends Command {
         .ban({ reason: reason })
         .catch(err => console.log({ ban: err }))
 
-      const guildConfig = await GuildModel.findOne({ guildId: guild.id })
+      const guildConfig = await GuildsModel.findOne({ guildId: guild.id })
 
       const banLogs = await GuildBanLogsModel.create({
         guildId: guild.id,

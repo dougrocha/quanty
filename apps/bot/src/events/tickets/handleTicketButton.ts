@@ -8,7 +8,7 @@ import {
   TextBasedChannel,
 } from 'discord.js'
 
-import { GuildTicketModel, GuildPluginModel } from '../../database/schemas'
+import { GuildTicketsModel, GuildPluginsModel } from '../../database'
 
 @On('interactionCreate')
 export class HandleTicketEvent extends Event<'interactionCreate'> {
@@ -38,10 +38,10 @@ export class HandleTicketEvent extends Event<'interactionCreate'> {
 
     const embed = new MessageEmbed().setColor('RANDOM')
 
-    const ticket = await GuildTicketModel.findOne({
+    const ticket = await GuildTicketsModel.findOne({
       channelId: channel.id,
       guildId: guild.id,
-    }).catch(err => console.log('guildTicketModel failed', err))
+    }).catch((err: unknown) => console.log('guildTicketModel failed', err))
 
     if (!ticket) {
       await interaction.followUp({
@@ -79,7 +79,7 @@ export class HandleTicketEvent extends Event<'interactionCreate'> {
           return
         }
 
-        const guildPlugins = await GuildPluginModel.findOne({
+        const guildPlugins = await GuildPluginsModel.findOne({
           guildId: guild.id,
         })
 
@@ -90,7 +90,7 @@ export class HandleTicketEvent extends Event<'interactionCreate'> {
           return
         }
 
-        await GuildTicketModel.updateOne(
+        await GuildTicketsModel.updateOne(
           { channelId: channel.id },
           { $set: { closed: true } },
         )
@@ -165,7 +165,7 @@ export class HandleTicketEvent extends Event<'interactionCreate'> {
           return
         }
 
-        await GuildTicketModel.updateOne(
+        await GuildTicketsModel.updateOne(
           { channelId: channel.id },
           { $set: { locked: true } },
         )
@@ -200,7 +200,7 @@ export class HandleTicketEvent extends Event<'interactionCreate'> {
           return
         }
 
-        await GuildTicketModel.updateOne(
+        await GuildTicketsModel.updateOne(
           { channelId: channel.id },
           { $set: { locked: false } },
         )

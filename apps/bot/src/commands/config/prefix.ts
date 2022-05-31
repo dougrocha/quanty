@@ -8,7 +8,7 @@ import {
 } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-import { GuildModel } from '../../database'
+import { GuildsModel } from '../../database'
 import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
 
 @SlashCommand('prefix', {
@@ -30,7 +30,7 @@ export class PrefixCommand extends Command {
     options,
     guild,
   }: SlashCommandRunOptions): CommandReturnType {
-    const guildPrefix = await GuildModel.findOne(
+    const guildPrefix = await GuildsModel.findOne(
       { guildId: guild.id },
       'prefix',
     )

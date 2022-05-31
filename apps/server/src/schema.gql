@@ -2,21 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddCustomCommand {
-  customCommand: CustomCommand!
-  guildId: String!
-}
-
-input AddLog {
-  guildId: String!
-  log: Log!
-}
-
-type Anime {
-  nsfw: Boolean
-  plugin: Boolean
-}
-
 type Channel {
   application_id: String
   bitrate: Int
@@ -45,17 +30,10 @@ type Channel {
   video_quality_mode: Float
 }
 
-input CustomCommand {
-  description: String!
-  id: String!
-  name: String!
-}
-
-type CustomCommands {
-  description: String!
-  id: String!
-  name: String!
-}
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Emojis {
   animated: Boolean
@@ -92,16 +70,18 @@ type Guild {
   unavailable: Boolean
 }
 
-type GuildConfig {
-  anime: Anime
-  blacklistedWords: [String!]
-  customCommands: [CustomCommands!]
+type GuildBanLogs {
+  bannedUser: LoggedUser!
   guildId: String!
-  logs: [Logs!]
-  moderation: Moderation
-  music: Music
-  prefix: String
-  premium: Boolean
+  issuedBy: LoggedUser!
+  issuedOn: DateTime!
+  reason: String!
+}
+
+type GuildLogs {
+  action: String!
+  guildId: String!
+  user: LoggedUser!
 }
 
 type GuildMember {
@@ -116,41 +96,50 @@ type GuildMember {
   user: User
 }
 
-input Log {
-  action: String!
-  name: String!
-}
-
-type Logs {
-  action: String!
-  name: String!
-}
-
-type Moderation {
+type GuildPlugins {
   autoMod: Boolean
-  plugin: Boolean
-}
-
-type Music {
+  blacklistedWords: [String!]
   channel: String
+  defaultGlobalCooldown: Float
+  djRole: String
+  guildId: String!
   immortal: Boolean
-  plugin: Boolean
+  nsfw: Boolean
+  plugins: [String!]
+  ticketCategory: String
+  ticketTranscriptChannel: String
 }
 
-type Mutation {
-  addCustomCommand(addCustomCommand: AddCustomCommand!): GuildConfig!
-  addLog(addLog: AddLog!): GuildConfig!
-  updateAutoMod(updateAutoMod: UpdateAutoModInput!): GuildConfig!
-  updateBlacklistedWords(
-    updateBlacklistedWords: UpdateBlacklistedWords!
-  ): GuildConfig!
-  updateImmortality(updateImmortality: UpdateMusicImmortality!): GuildConfig!
-  updateModerationPlugin(
-    updateModerationPlugin: UpdateModerationPlugin!
-  ): GuildConfig!
-  updateMusicChannel(updateMusicChannel: UpdateMusicChannel!): GuildConfig!
-  updateMusicPlugin(updateMusicPlugin: UpdateMusicPlugin!): GuildConfig!
-  updatePrefix(updatePrefix: UpdatePrefixInput!): GuildConfig!
+type GuildTickets {
+  channelId: String!
+  closed: Boolean!
+  guildId: String!
+  locked: Boolean!
+  memberId: String!
+  ticketId: String!
+  type: String!
+}
+
+"""
+Guild Config for Quantum Bot Users
+"""
+type Guilds {
+  banLogs: [GuildBanLogs!]
+  defaultJoinRole: String
+  guildId: String!
+  logChannel: String
+  logs: [GuildLogs!]
+  maxTickets: Float
+  plugins: GuildPlugins
+  prefix: String
+  premium: [PremiumTiers!]
+  tickets: [GuildTickets!]
+}
+
+type LoggedUser {
+  discriminator: String!
+  id: String!
+  username: String!
 }
 
 type OverWrite {
@@ -160,11 +149,21 @@ type OverWrite {
   type: Float!
 }
 
+"""
+Premium tiers with for Quanty Bot
+"""
+enum PremiumTiers {
+  FREE
+  GOLD
+  QUANTUM
+  SILVER
+}
+
 type Query {
-  guildConfig(guildId: String!): GuildConfig!
+  guildConfig(guildId: String!): Guilds!
   guilds(guildId: String!): Guild!
   mutualGuilds: [Guild!]!
-  user: UserObject!
+  user: Users!
 }
 
 type RoleTags {
@@ -216,41 +215,6 @@ type ThreadMetaData {
   locked: Boolean
 }
 
-input UpdateAutoModInput {
-  autoMod: Boolean!
-  guildId: String!
-}
-
-input UpdateBlacklistedWords {
-  blacklistedWords: [String!]!
-  guildId: String!
-}
-
-input UpdateModerationPlugin {
-  guildId: String!
-  plugin: Boolean!
-}
-
-input UpdateMusicChannel {
-  channel: String!
-  guildId: String!
-}
-
-input UpdateMusicImmortality {
-  guildId: String!
-  immortal: Boolean!
-}
-
-input UpdateMusicPlugin {
-  guildId: String!
-  plugin: Boolean!
-}
-
-input UpdatePrefixInput {
-  guildId: String!
-  prefix: String!
-}
-
 type User {
   accent_color: Float
   avatar: String!
@@ -269,12 +233,15 @@ type User {
   verified: Boolean
 }
 
-type UserObject {
-  avatar: String
+"""
+Returns the logged in user
+"""
+type Users {
+  avatar: String!
   discordId: String!
   discriminator: String!
-  email: String
-  locale: String
+  email: String!
+  locale: String!
   username: String!
-  verified: Boolean
+  verified: Boolean!
 }

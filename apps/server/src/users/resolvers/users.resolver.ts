@@ -1,22 +1,9 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  Inject,
-  UseGuards,
-} from '@nestjs/common'
-import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql'
-import { GraphQLAuthGuard } from 'src/auth/utils/Guards'
-import { UserObject } from 'src/users/dto/user'
+import { Inject, UseGuards } from '@nestjs/common'
+import { Query, Resolver } from '@nestjs/graphql'
+import { Users } from '@quanty/schemas'
 import { IUsersService } from 'src/users/interfaces/users'
 
-import { User as UserSchema } from '../../schemas'
-
-const CurrentUser = createParamDecorator(
-  (data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context)
-    return ctx.getContext().req.user
-  },
-)
+import { GraphQLAuthGuard, GqlCurrentUser } from '../../common'
 
 @Resolver()
 @UseGuards(GraphQLAuthGuard)
@@ -26,8 +13,8 @@ export class UsersResolver {
     private readonly usersService: IUsersService,
   ) {}
 
-  @Query(() => UserObject, { name: 'user', nullable: false })
-  async currentUser(@CurrentUser() user: UserSchema): Promise<UserObject> {
+  @Query(() => Users, { name: 'user', nullable: false })
+  async currentUser(@GqlCurrentUser() user: Users): Promise<Users> {
     return user
   }
 }

@@ -35,6 +35,3 @@ export class GuildPlugins {
   @Prop({ type: () => String, required: false })
   ticketTranscriptChannel?: string
 }
-
-const GuildPluginModel = getModelForClass<typeof GuildPlugins>(GuildPlugins)
-export default GuildPluginModel

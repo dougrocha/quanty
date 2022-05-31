@@ -1,5 +1,6 @@
-import { GuildModel, GuildLogsModel } from '../database/schemas'
-import { BaseUser } from '../database/schemas/extras'
+import { LoggedUser } from '@quanty/schemas'
+
+import { GuildsModel, GuildLogsModel } from '../database'
 
 export const enum CreateLogActionsEnum {
   BANUSER = 'Banned user',
@@ -9,14 +10,14 @@ export const enum CreateLogActionsEnum {
 
 interface ICreateLog {
   guildId: string
-  user: BaseUser
+  user: LoggedUser
   action: CreateLogActionsEnum
 }
 
 export const createLog = async ({ guildId, action, user }: ICreateLog) => {
-  let guildConfig = await GuildModel.findOne({ guildId })
+  let guildConfig = await GuildsModel.findOne({ guildId })
 
-  if (!guildConfig) guildConfig = await GuildModel.create({ guildId })
+  if (!guildConfig) guildConfig = await GuildsModel.create({ guildId })
 
   const guildLog = await GuildLogsModel.create({
     guildId: guildId,

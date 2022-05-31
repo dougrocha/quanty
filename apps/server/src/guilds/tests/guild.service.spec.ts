@@ -1,8 +1,8 @@
 import { HttpModule } from '@nestjs/axios'
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
+import { Guilds } from '@quanty/schemas'
 import { Model } from 'mongoose'
-import { Guilds } from 'src/schemas'
 
 import { GuildsHttpService } from '../services/guilds-http.service'
 import { GuildsService } from '../services/guilds.service'

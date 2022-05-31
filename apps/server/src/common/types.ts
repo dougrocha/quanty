@@ -1,14 +1,9 @@
-import { User } from 'src/schemas'
+import { Users } from '@quanty/schemas'
 
-export interface UserDetails {
-  username: string
-  discriminator: string
-  discordId: string
-  email?: string
-  verified: boolean
-  locale: string
+export interface UserWithToken extends Omit<Users, 'avatar'> {
+  avatar?: string | null
   accessToken: string
   refreshToken: string
 }
 
-export type Done = (err: Error | null, user: User | null) => void
+export type Done = (err: Error | null, user: Users | null) => void

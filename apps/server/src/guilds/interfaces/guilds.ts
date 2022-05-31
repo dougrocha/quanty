@@ -1,6 +1,6 @@
+import { GuildDocument } from '@quanty/schemas'
 import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
-import { GuildDocument } from 'src/schemas'
 
 import { Channel } from '../models/channel'
 import { Guild } from '../models/guild'

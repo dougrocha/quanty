@@ -1,8 +1,12 @@
-import { UserDetails } from 'src/common/types'
-import { UserDocument } from 'src/schemas'
+import { UsersDocument } from '@quanty/schemas'
+
+import { UserWithToken } from '../../common'
 
 export interface IUsersService {
-  createUser(details: UserDetails): Promise<UserDocument>
-  updateUser(user: UserDocument, newDetails: UserDetails): Promise<UserDocument>
-  findUser(discordId: string): Promise<UserDocument | null>
+  createUser(details: UserWithToken): Promise<UsersDocument>
+  updateUser(
+    user: UsersDocument,
+    newDetails: UserWithToken,
+  ): Promise<UsersDocument>
+  findUser(discordId: string): Promise<UsersDocument | null>
 }

@@ -1,13 +1,14 @@
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { User, UserSchema } from 'src/schemas'
+import { Users, UsersSchema } from '@quanty/schemas'
 import { UsersService } from 'src/users/services/users.service'
 
-import { AuthController } from './controllers/auth.controller'
-import { AuthService } from './services/auth.service'
-import { DiscordStrategy } from './utils/DiscordStrategy'
-import { SessionSerializer } from './utils/Serializer'
+import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
+import { DiscordStrategy } from './strategies/discord'
+
+import { SessionSerializer } from '../common'
 
 @Module({
   controllers: [AuthController],
@@ -22,13 +23,7 @@ import { SessionSerializer } from './utils/Serializer'
   ],
   imports: [
     HttpModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
-  exports: [
-    {
-      provide: 'AUTH_SERVICE',
-      useClass: AuthService,
-    },
+    MongooseModule.forFeature([{ name: Users.name, schema: UsersSchema }]),
   ],
 })
 export class AuthModule {}

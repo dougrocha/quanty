@@ -1,27 +1,28 @@
 import { HttpService } from '@nestjs/axios'
 import { Inject, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
+import { Users, UsersDocument } from '@quanty/schemas'
 import { Model } from 'mongoose'
-import { UserDetails } from 'src/common/types'
-import { User, UserDocument } from 'src/schemas'
 import { IUsersService } from 'src/users/interfaces/users'
+
+import { UserWithToken } from '../../common'
 
 @Injectable()
 export class UsersService implements IUsersService {
   constructor(
     @Inject(HttpService) private readonly httpService: HttpService,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Users.name) private userModel: Model<UsersDocument>,
   ) {}
 
-  async createUser(details: UserDetails): Promise<UserDocument> {
+  async createUser(details: UserWithToken): Promise<UsersDocument> {
     const user = await this.userModel.create(details)
     return user.save()
   }
 
   async updateUser(
-    user: UserDocument,
-    newDetails: UserDetails,
-  ): Promise<UserDocument> {
+    user: UserWithToken,
+    newDetails: UserWithToken,
+  ): Promise<UsersDocument> {
     return await this.userModel.findOneAndUpdate(
       { discordId: user.discordId },
       newDetails,
@@ -29,7 +30,7 @@ export class UsersService implements IUsersService {
     )
   }
 
-  async findUser(discordId: string): Promise<UserDocument | null> {
+  async findUser(discordId: string): Promise<UsersDocument | null> {
     return await this.userModel.findOne({ discordId })
   }
 }

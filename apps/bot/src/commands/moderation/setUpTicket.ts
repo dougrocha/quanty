@@ -8,7 +8,7 @@ import {
   UserPermissions,
 } from '@quanty/framework'
 
-import { GuildPluginModel } from '../../database/schemas'
+import { GuildPluginsModel } from '../../database'
 
 @SlashCommand('setup-ticket', {
   description: 'Creates a ticket for issues in your guild.',
@@ -42,7 +42,7 @@ export class SetupTicketCommand extends Command {
     const ticketCategory = options.getChannel('category')
 
     if (transcriptChannel) {
-      await GuildPluginModel.findOneAndUpdate(
+      await GuildPluginsModel.findOneAndUpdate(
         { guildId: guild.id },
         {
           $set: {
@@ -53,7 +53,7 @@ export class SetupTicketCommand extends Command {
     }
 
     if (ticketCategory) {
-      await GuildPluginModel.findOneAndUpdate(
+      await GuildPluginsModel.findOneAndUpdate(
         { guildId: guild.id },
         {
           $set: {

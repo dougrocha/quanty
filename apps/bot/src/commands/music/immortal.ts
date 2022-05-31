@@ -7,15 +7,9 @@ import {
   SlashCommand,
   SlashCommandRunOptions,
 } from '@quanty/framework'
-import {
-  BeAnObject,
-  IObjectWithTypegooseFunction,
-} from '@typegoose/typegoose/lib/types'
 import { MessageEmbed } from 'discord.js'
-import { Document } from 'mongoose'
 
-import { GuildPluginModel } from '../../database'
-import { GuildPlugins } from '../../database/schemas/GuildPluginSchema'
+import { GuildPluginsModel } from '../../database'
 @Category('music')
 @SlashCommand('immortal', {
   description: 'Toggles immortality mode.',
@@ -27,7 +21,7 @@ export class ImmortalCommand extends Command {
   async run({ guild }: SlashCommandRunOptions): CommandReturnType {
     const embed = new MessageEmbed().setTitle('Updating Immortality: ')
 
-    const guildConfig = await GuildPluginModel.findOne(
+    let guildConfig = await GuildPluginsModel.findOne(
       {
         guildId: guild.id,
       },
@@ -36,8 +30,12 @@ export class ImmortalCommand extends Command {
 
     const guildId = guild.id
 
-    if (!guildConfig?.immortal) {
-      await this.updateGuildPlugins(guildConfig, true, guildId).catch(err => {
+    if (!guildConfig) guildConfig = new GuildPluginsModel({ guildId })
+
+    if (!guildConfig.immortal) {
+      guildConfig.immortal = true
+
+      await guildConfig?.save().catch(err => {
         this.logger.error(err)
 
         return {
@@ -50,7 +48,9 @@ export class ImmortalCommand extends Command {
       }
     }
 
-    await this.updateGuildPlugins(guildConfig, false, guildId).catch(err => {
+    guildConfig.immortal = false
+
+    await guildConfig.save().catch(err => {
       this.logger.error(err)
 
       return {
@@ -69,24 +69,4 @@ export class ImmortalCommand extends Command {
       embeds: [embed.setDescription('Error occurred. Try again later.')],
     }
   }
-
-  async updateGuildPlugins(
-    guild: GuildConfig,
-    value: boolean,
-    guildId: string,
-  ) {
-    if (!guild) guild = new GuildPluginModel({ guildId })
-
-    guild.immortal = value
-
-    await guild.save()
-  }
 }
-
-type GuildConfig =
-  | (Document<any, BeAnObject, any> &
-      GuildPlugins &
-      IObjectWithTypegooseFunction & {
-        _id: any
-      })
-  | null

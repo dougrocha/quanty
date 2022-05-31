@@ -10,48 +10,37 @@ import {
 } from 'discord.js'
 import mongoose from 'mongoose'
 
-import { GuildModel, GuildTicketModel } from '../../database/schemas'
+import { GuildsModel, GuildTicketsModel } from '../../database'
 import { uppercaseFirst } from '../../libs/extra'
 
 @On('interactionCreate')
 export class SelectTicketEvent extends Event<'interactionCreate'> {
   async run(interaction: Interaction<CacheType>) {
     if (!interaction.isButton()) return
-
     const { guild, member, customId } = interaction
-
     if (!guild) return
-
     if (
       !['report-ticket', 'suggestion-ticket', 'other-ticket'].includes(customId)
     )
       return
-
     await interaction.deferUpdate()
-
     const ticketId = Math.floor(
       Math.random() * Math.floor(Math.random() * Date.now()),
     )
-
-    const guildConfig = await GuildModel.findOne(
+    const guildConfig = await GuildsModel.findOne(
       { guildId: guild.id },
       {},
       {
         populate: {
-          path: 'GuildPlugins',
+          path: 'plugins',
           select: 'ticketCategory',
         },
       },
     )
-
     console.log('testing', { guildConfig })
-
-    const guildPlugins = guildConfig?.GuildPlugins
-
+    const guildPlugins = guildConfig?.plugins
     if (guildPlugins instanceof mongoose.Types.ObjectId) return
-
     if (!member || !guildPlugins) return
-
     await guild?.channels
       .create(`${customId}-${ticketId}`, {
         reason: `Ticket: ${ticketId}`,
@@ -68,7 +57,7 @@ export class SelectTicketEvent extends Event<'interactionCreate'> {
         parent: guildPlugins?.ticketCategory,
       })
       .then(async channel => {
-        const ticket = await GuildTicketModel.create({
+        const ticket = await GuildTicketsModel.create({
           memberId: member.user.id,
           channelId: channel.id,
           ticketId: ticketId,
@@ -77,10 +66,8 @@ export class SelectTicketEvent extends Event<'interactionCreate'> {
           type: customId,
           guildId: guild.id,
         })
-        guildConfig?.tickets?.push(ticket._id)
-
+        guildConfig?.tickets?.push(ticket)
         await guildConfig?.save()
-
         const embed = new MessageEmbed()
           .setAuthor({
             name: `Type: ${uppercaseFirst(customId).replace('-', ' ')}`,
@@ -104,7 +91,6 @@ export class SelectTicketEvent extends Event<'interactionCreate'> {
               'DD/MM/YYYY - HH:mm:ss, UTC: Z',
             )}`,
           })
-
         const buttons = new MessageActionRow().addComponents(
           new MessageButton()
             .setEmoji('👍')
@@ -122,12 +108,10 @@ export class SelectTicketEvent extends Event<'interactionCreate'> {
             .setLabel('Unlock ticket')
             .setStyle('PRIMARY'),
         )
-
         await (channel as TextBasedChannel)?.send({
           embeds: [embed],
           components: [buttons],
         })
-
         await interaction.followUp({
           content: `Your ticket has been created: ${channel}`,
           ephemeral: true,
