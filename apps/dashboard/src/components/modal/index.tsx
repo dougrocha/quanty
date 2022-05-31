@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 
-import Backdrop from './Backdrop'
+import Backdrop from './backdrop'
 
 import { ClosedHamburgerIcon } from '../icons'
 
