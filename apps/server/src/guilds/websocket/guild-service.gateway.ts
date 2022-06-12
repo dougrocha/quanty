@@ -25,7 +25,7 @@ export class GuildServiceGateway
   private logger: Logger = new Logger('BotGateway')
 
   async afterInit(server: Server) {
-    this.logger.log('Initialized!')
+    this.logger.log(GuildServiceGateway.name, 'Initialized!')
   }
 
   handleConnection(client: Socket, ...args: any[]) {

@@ -15,7 +15,7 @@ export class AuthService implements IAuthenticationService {
   async validateUser(details: UserWithToken): Promise<UsersDocument> {
     const user = await this.usersService.findUser(details.discordId)
     return user
-      ? await this.usersService.updateUser(user, details)
+      ? await this.usersService.updateUser(user.discordId, details)
       : await this.usersService.createUser(details)
   }
 }

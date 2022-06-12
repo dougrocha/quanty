@@ -2,6 +2,47 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Address {
+  city: String
+  country: String
+
+  """
+  Address line 1 (e.g., street, PO Box, or company name).
+  """
+  line1: String
+
+  """
+  Address line 2 (e.g., apartment, suite, unit, or building).
+  """
+  line2: String
+  postal_code: String
+  state: String
+}
+
+type BillingDetails {
+  address: Address!
+  email: String
+  name: String
+
+  """
+  Billing phone number (include extensions)
+  """
+  phone: String
+}
+
+type Card {
+  brand: String!
+  country: String
+  exp_month: Float!
+  exp_year: Float!
+
+  """
+  Card funding type. Can be credit, debit, prepaid, or unknown.
+  """
+  funding: String!
+  last4: String!
+}
+
 type Channel {
   application_id: String
   bitrate: Int
@@ -47,25 +88,25 @@ type Emojis {
 }
 
 type Guild {
-  afk_timeout: Int!
+  afk_timeout: Int
   bot: Boolean
   channels: [Channel!]
   description: String
-  emojis: [Emojis!]!
-  features: [String!]!
+  emojis: [Emojis!]
+  features: [String!]
   icon: String
   id: String!
-  member_count: Float!
+  member_count: Float
   members: GuildMember
   name: String!
-  nsfw_level: Float!
+  nsfw_level: Float
   owner: Boolean
   owner_id: String!
   permissions: String
-  preferred_locale: String!
-  premium_tier: Float!
-  roles: [Roles!]!
-  stickers: [Sticker!]!
+  preferred_locale: String
+  premium_tier: Float
+  roles: [Roles!]
+  stickers: [Sticker!]
   threads: [Channel!]
   unavailable: Boolean
 }
@@ -133,6 +174,11 @@ type Guilds {
   plugins: GuildPlugins
   prefix: String
   premium: [PremiumTiers!]
+
+  """
+  Current provider for guild's premium status
+  """
+  premiumProvider: String
   tickets: [GuildTickets!]
 }
 
@@ -142,6 +188,16 @@ type LoggedUser {
   username: String!
 }
 
+"""
+Mutual Guilds. Guilds that a user can edit
+"""
+type MutualGuild {
+  bot: Boolean!
+  icon: String
+  id: String!
+  name: String!
+}
+
 type OverWrite {
   allow: String!
   deny: String!
@@ -149,20 +205,37 @@ type OverWrite {
   type: Float!
 }
 
+type PaymentMethod {
+  """
+  Billing information associated with the PaymentMethod that may be used or request by certain payment methods
+  """
+  billingDetails: BillingDetails!
+  card: Card!
+
+  """
+  Customer Id
+  """
+  customerId: String!
+  id: String!
+}
+
 """
 Premium tiers with for Quanty Bot
 """
 enum PremiumTiers {
   FREE
-  GOLD
   QUANTUM
-  SILVER
 }
 
 type Query {
+  getPaymentMethods: [PaymentMethod!]
   guildConfig(guildId: String!): Guilds!
   guilds(guildId: String!): Guild!
-  mutualGuilds: [Guild!]!
+
+  """
+  Gets the available guilds that the user can edit.
+  """
+  mutualGuilds: [MutualGuild!]!
   user: Users!
 }
 
@@ -238,10 +311,15 @@ Returns the logged in user
 """
 type Users {
   avatar: String!
+  billingAddress: String
   discordId: String!
   discriminator: String!
   email: String!
-  locale: String!
+  firstName: String
+  lastName: String
+  locale: String
+  stripeId: String
+  subscriptionStatus: String
   username: String!
   verified: Boolean!
 }

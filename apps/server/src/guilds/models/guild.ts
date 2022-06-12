@@ -17,14 +17,14 @@ export class Guild {
   @Field()
   owner_id: string
 
-  @Field(() => Int)
-  afk_timeout: number
+  @Field(() => Int, { nullable: true })
+  afk_timeout?: number
 
-  @Field(() => [Roles])
-  roles: Roles[]
+  @Field(() => [Roles], { nullable: true })
+  roles?: Roles[]
 
-  @Field(() => [Emojis])
-  emojis: Emojis[]
+  @Field(() => [Emojis], { nullable: true })
+  emojis?: Emojis[]
 
   @Field(() => GuildMember, { nullable: true })
   members?: GuildMember[]
@@ -38,20 +38,20 @@ export class Guild {
   @Field({ nullable: true })
   description?: string
 
-  @Field()
-  premium_tier: GuildPremiumTier
+  @Field({ nullable: true })
+  premium_tier?: GuildPremiumTier
 
   // @Field()
   // premium_subscription_count?: number
 
-  @Field()
-  preferred_locale: string
+  @Field({ nullable: true })
+  preferred_locale?: string
 
-  @Field()
-  nsfw_level: GuildNSFWLevel
+  @Field({ nullable: true })
+  nsfw_level?: GuildNSFWLevel
 
-  @Field(() => [Sticker])
-  stickers: Sticker[]
+  @Field(() => [Sticker], { nullable: true })
+  stickers?: Sticker[]
 
   @Field()
   name: string
@@ -68,8 +68,8 @@ export class Guild {
   @Field(() => String)
   id: string
 
-  @Field(() => [String])
-  features: string[]
+  @Field(() => [String], { nullable: true })
+  features?: string[]
   // @Field({ nullable: true })
   // icon_hash?: string
   // @Field()
@@ -104,7 +104,7 @@ export class Guild {
   // joined_at?: string
   // @Field()
   // large?: boolean
-  @Field()
+  @Field({ nullable: true })
   member_count?: number
   // @Field()
   // voice_states?: Omit<GatewayVoiceState, 'guild_id'>[]

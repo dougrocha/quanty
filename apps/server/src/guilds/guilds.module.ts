@@ -27,7 +27,7 @@ import { GuildServiceGateway } from './websocket/guild-service.gateway'
     MongooseModule.forFeature([
       { name: GuildTickets.name, schema: GuildTicketsSchema },
     ]),
-    CacheModule.register({ isGlobal: true, ttl: 5 }),
+    CacheModule.register({ isGlobal: true, ttl: 30 }),
   ],
   providers: [
     { provide: 'GUILD_CONFIG_SERVICE', useClass: GuildConfigService },

@@ -26,7 +26,7 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
-    return res.redirect('http://localhost:3000')
+    return res.redirect(process.env.FRONTEND_URL)
   }
 
   /**

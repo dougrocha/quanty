@@ -8,7 +8,8 @@ import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { DiscordStrategy } from './strategies/discord'
 
-import { SessionSerializer } from '../common'
+import { PAYMENT_SERVICE, SessionSerializer, USERS_SERVICE } from '../common'
+import { PaymentsService } from '../payments/services/payments.service'
 
 @Module({
   controllers: [AuthController],
@@ -19,7 +20,8 @@ import { SessionSerializer } from '../common'
       provide: 'AUTH_SERVICE',
       useClass: AuthService,
     },
-    { provide: 'USERS_SERVICE', useClass: UsersService },
+    { provide: USERS_SERVICE, useClass: UsersService },
+    { provide: PAYMENT_SERVICE, useClass: PaymentsService },
   ],
   imports: [
     HttpModule,

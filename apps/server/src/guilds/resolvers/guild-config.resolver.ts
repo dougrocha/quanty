@@ -1,10 +1,17 @@
-import { CACHE_MANAGER, Inject, UseGuards } from '@nestjs/common'
+import {
+  CACHE_MANAGER,
+  Inject,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
 import { Guilds, GuildDocument } from '@quanty/schemas'
 import { Cache } from 'cache-manager'
 import * as ArgsDTO from 'src/guilds/dto/args'
 
 import { GraphQLAuthGuard } from '../../common'
+import { LoggingInterceptor } from '../../common/interceptors/logging.interceptor'
+import { IGuildsService } from '../interfaces/guilds'
 import { IGuildConfigProvider } from '../interfaces/types'
 import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
@@ -16,10 +23,13 @@ export class GuildConfigResolver {
     private readonly GuildWs: GuildServiceGateway,
     @Inject('GUILD_CONFIG_SERVICE')
     private readonly GuildService: IGuildConfigProvider,
+    @Inject('GUILDS_SERVICE')
+    private readonly GuildsService: IGuildsService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   @Query(() => Guilds, { name: 'guildConfig', nullable: false })
+  @UseInterceptors(LoggingInterceptor)
   async guild(
     @Args() getGuildId: ArgsDTO.GetGuildIdArgs,
   ): Promise<GuildDocument | null> {
@@ -27,11 +37,21 @@ export class GuildConfigResolver {
 
     if (cachedGuild) return <GuildDocument>cachedGuild
 
-    const guild = await this.GuildService.getGuild(getGuildId)
+    const guild = await this.GuildsService.getGuildConfig(getGuildId.guildId)
     await this.cacheManager.set(`guildConfig-${getGuildId}`, guild)
 
     return guild
   }
+
+  // @ResolveField('plugins', () => GuildPlugins, { nullable: true })
+  // async getPlugins(
+  //   @Parent() guild: Guilds,
+  // ): Promise<GuildPluginsDocument | null> {
+  //   const { guildId } = guild
+  //   const plugins = await this.GuildsService.getGuildPlugins(guildId)
+  //   console.log(plugins)
+  //   return plugins
+  // }
 
   // @Mutation(() => GuildConfig)
   // async updatePrefix(

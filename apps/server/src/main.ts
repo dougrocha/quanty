@@ -1,39 +1,52 @@
+import { ValidationPipe } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import MongoStore from 'connect-mongo/build/main/lib/MongoStore'
+import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import passport from 'passport'
 
 import { AppModule } from './app.module'
 
-const ENV = process.env.NODE_ENV
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
-  const PORT = 3001
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: false,
+  })
+
+  const configService = app.get(ConfigService)
+
+  const ENV = configService.get('NODE_ENV')
+
+  const PORT = configService.get('PORT')
   app.setGlobalPrefix('api')
+
+  app.useGlobalPipes(new ValidationPipe())
+
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: configService.get<string>('FRONTEND_URL'),
     credentials: true,
   })
+
+  app.use(cookieParser())
 
   app.use(
     session({
       name: 'session',
       store: MongoStore.create({
-        mongoUrl: process.env.MONGOURI,
+        mongoUrl: configService.get<string>('MONGO_URI'),
         dbName: 'QuantyBotSessions',
         stringify: false,
         ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
         touchAfter: 24 * 3600, // Time period in seconds
         crypto: {
-          secret: process.env.MONGO_STORE_SECRET,
+          secret: configService.get<string>('MONGO_STORE_SECRET') || '',
         },
       }),
       cookie: {
         maxAge: 60000 * 60 * 24 * 7,
         secure: ENV === 'production' ? true : false,
       },
-      secret: process.env.SESSION_COOKIE,
+      secret: configService.get<string>('SESSION_COOKIE') || '',
       resave: false,
       saveUninitialized: false,
     }),
@@ -42,11 +55,10 @@ async function bootstrap() {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  await app.listen(PORT, () => {
-    if (ENV) {
-      console.log('NODE_ENV: ', ENV)
-    }
-    console.log(`Quanty Backend listening at port ${PORT}`)
+  await app.listen(PORT, async () => {
+    console.log('NODE_ENV: ', ENV)
+
+    console.log(`Quanty Backend running at ${await app.getUrl()}`)
   })
 }
 
