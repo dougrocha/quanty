@@ -6,14 +6,16 @@ import { GuildBanLogs, GuildLogs, GuildPlugins, GuildTickets } from './'
 
 export enum PremiumTiers {
   FREE = 'FREE',
-  SILVER = 'SILVER',
-  GOLD = 'GOLD',
   QUANTUM = 'QUANTUM',
 }
 
 registerEnumType(PremiumTiers, {
   name: 'PremiumTiers',
   description: 'Premium tiers with for Quanty Bot',
+  valuesMap: {
+    FREE: { description: 'The free tier' },
+    QUANTUM: { description: 'The premium tier' },
+  },
 })
 
 @ObjectType({ description: 'Guild Config for Quantum Bot Users' })
@@ -33,11 +35,18 @@ export class Guilds {
     default: PremiumTiers.FREE,
     nullable: true,
   })
-  @Field(() => [PremiumTiers], {
+  @Field(() => PremiumTiers, {
     defaultValue: PremiumTiers.FREE,
     nullable: true,
   })
   premium?: PremiumTiers
+
+  @Prop({ nullable: true })
+  @Field({
+    nullable: true,
+    description: "Current provider for guild's premium status",
+  })
+  premiumProvider?: string
 
   @Prop({
     type: [{ type: MongooseSchema.Types.ObjectId, ref: 'GuildLogs' }],

@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportSerializer } from '@nestjs/passport'
-import { Users } from '@quanty/schemas'
-import { Done } from 'src/common/types'
-import { IUsersService } from 'src/users/interfaces/users'
+
+import { User } from '../../@generated/prisma-nestjs-graphql'
+import { IUsersService } from '../../users/interfaces/users'
+import { Done } from '../types'
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
@@ -12,12 +13,12 @@ export class SessionSerializer extends PassportSerializer {
     super()
   }
 
-  serializeUser(user: Users, done: Done) {
+  serializeUser(user: User, done: Done) {
     done(null, user)
   }
 
-  async deserializeUser(user: Users, done: Done) {
-    const userDb = await this.usersService.findUser(user.discordId)
+  async deserializeUser(user: User, done: Done) {
+    const userDb = await this.usersService.findUser(user.id)
 
     return userDb ? done(null, userDb) : done(null, null)
   }

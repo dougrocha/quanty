@@ -1,4 +1,4 @@
-import { Inject, Logger } from '@nestjs/common'
+import { Logger } from '@nestjs/common'
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -8,19 +8,12 @@ import {
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 
-import { IGuildConfigProvider } from '../interfaces/types'
-
 @WebSocketGateway()
 export class GuildServiceGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer()
   ws: Server
-
-  constructor(
-    @Inject('GUILD_CONFIG_SERVICE')
-    private readonly GuildService: IGuildConfigProvider,
-  ) {}
 
   private logger: Logger = new Logger('BotGateway')
 

@@ -5,40 +5,34 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
-import { Guilds, GuildDocument } from '@quanty/schemas'
 import { Cache } from 'cache-manager'
-import * as ArgsDTO from 'src/guilds/dto/args'
 
+import { Guild } from '../../@generated/prisma-nestjs-graphql/guild/guild.model'
 import { GraphQLAuthGuard } from '../../common'
 import { LoggingInterceptor } from '../../common/interceptors/logging.interceptor'
 import { IGuildsService } from '../interfaces/guilds'
-import { IGuildConfigProvider } from '../interfaces/types'
 import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
-@Resolver('GuildConfig')
+@Resolver()
 @UseGuards(GraphQLAuthGuard)
 export class GuildConfigResolver {
   constructor(
     @Inject(GuildServiceGateway)
     private readonly GuildWs: GuildServiceGateway,
-    @Inject('GUILD_CONFIG_SERVICE')
-    private readonly GuildService: IGuildConfigProvider,
     @Inject('GUILDS_SERVICE')
     private readonly GuildsService: IGuildsService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  @Query(() => Guilds, { name: 'guildConfig', nullable: false })
+  @Query(() => Guild, { name: 'guildConfig', nullable: false })
   @UseInterceptors(LoggingInterceptor)
-  async guild(
-    @Args() getGuildId: ArgsDTO.GetGuildIdArgs,
-  ): Promise<GuildDocument | null> {
-    const cachedGuild = await this.cacheManager.get(`guildConfig-${getGuildId}`)
+  async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
+    const cachedGuild = await this.cacheManager.get(`guildConfig-${guildId}`)
 
-    if (cachedGuild) return <GuildDocument>cachedGuild
+    if (cachedGuild) return <Guild>cachedGuild
 
-    const guild = await this.GuildsService.getGuildConfig(getGuildId.guildId)
-    await this.cacheManager.set(`guildConfig-${getGuildId}`, guild)
+    const guild = await this.GuildsService.getGuild({ id: guildId })
+    await this.cacheManager.set(`guildConfig-${guildId}`, guild)
 
     return guild
   }

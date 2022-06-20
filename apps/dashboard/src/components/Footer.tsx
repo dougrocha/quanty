@@ -7,9 +7,12 @@ import FooterItems from '../data/footerItems'
 
 const Footer = () => {
   return (
-    <footer className="mx-auto mt-10 h-72 max-w-6xl items-center justify-between px-4 text-sm text-primary-white sm:px-6 md:flex md:flex-row-reverse xl:px-0">
+    // <footer className="mx-auto mt-10 h-72 max-w-6xl items-center justify-between px-4 text-sm text-primary-white sm:px-6 md:flex md:flex-row-reverse xl:px-0">
+    <footer
+      className={`mx-auto my-12 w-full max-w-7xl items-center justify-between px-4 text-sm md:flex`}
+    >
       <FooterTags />
-      <div className="flex flex-col justify-end">
+      <div className="mr-auto mt-10 md:mt-auto md:mr-0">
         <Copyright />
       </div>
     </footer>
@@ -18,15 +21,15 @@ const Footer = () => {
 
 const FooterTags = () => {
   return (
-    <div className="flex flex-col md:flex-row md:space-x-10">
+    <div className="mt-auto flex flex-col md:flex-row md:space-x-10">
       {FooterItems.map(({ items, title }) => {
         return (
-          <div className="list-none" key={title}>
-            <p className="mb-4 font-semibold">{title}</p>
+          <div className="w-full list-none" key={title}>
+            <p className="mt-4 -mb-2 font-semibold">{title}</p>
             <ul className="text-secondary-white">
               {items.map(({ name, route }) => {
                 return (
-                  <li className="mb-6" key={name}>
+                  <li className="pt-6" key={name}>
                     <Link href={route} passHref>
                       <a className="item">{name}</a>
                     </Link>

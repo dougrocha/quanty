@@ -1,0 +1,11 @@
+input CreateSubscriptionInput {
+  customerId: String!
+  priceId: String!
+}
+
+mutation createSubscription($newSubscriptionParams: CreateSubscriptionInput!) {
+  createSubscription(newSubscriptionParams: $newSubscriptionParams) {
+    clientSecret
+    subscriptionId
+  }
+}

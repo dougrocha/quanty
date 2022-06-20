@@ -7,11 +7,15 @@
     "incremental": true,
 
     "rootDirs": ["./", "./test"],
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "sourceRoot": "src",
     "outDir": "dist",
 
     "types": ["jest", "node"],
+
+    "paths": {
+      "users/*": ["users/*"]
+    },
 
     "skipLibCheck": true,
     "strictPropertyInitialization": false

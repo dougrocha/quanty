@@ -6,4 +6,5 @@ export interface CurrentUser {
   avatar?: string | null
   verified?: boolean | null
   locale?: string | null
+  stripeId?: string | null
 }

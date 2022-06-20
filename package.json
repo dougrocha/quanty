@@ -21,24 +21,17 @@
     "test": "turbo run test",
     "format": "turbo run format",
     "prepare": "husky install",
-    "pre-commit": "yarn test && yarn lint && yarn format"
+    "pre-commit": "yarn lint && yarn format"
   },
   "devDependencies": {
-    "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.1",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.1",
-    "turbo": "1.2.12"
+    "turbo": "^1.2.16"
   },
   "lint-staged": {
     "apps/**/*.{ts,tsx}": [],
     "packages/**/*.{ts,tsx}": [],
     "*.json": "prettier --write"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

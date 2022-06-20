@@ -3,9 +3,9 @@ import dayjs from 'dayjs'
 import { createTranscript } from 'discord-html-transcripts'
 import {
   CacheType,
+  GuildTextBasedChannel,
   Interaction,
   MessageEmbed,
-  TextBasedChannel,
 } from 'discord.js'
 
 import { GuildTicketsModel, GuildPluginsModel } from '../../database'
@@ -103,10 +103,14 @@ export class HandleTicketEvent extends Event<'interactionCreate'> {
 
         const transcriptChannel = guild.channels.cache.get(
           guildPlugins?.ticketTranscriptChannel,
-        ) as TextBasedChannel
+        )
+
+        if (!transcriptChannel) return
 
         // Transcript embed saved in transcript channel set
-        const transcriptMessage = await transcriptChannel.send({
+        const transcriptMessage = await (
+          transcriptChannel as GuildTextBasedChannel
+        ).send({
           files: [attachment],
           embeds: [
             embed

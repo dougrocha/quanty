@@ -1,9 +1,8 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
-import { Users } from '@quanty/schemas'
 import { Response, Request } from 'express'
-import { AuthUser } from 'src/utils/extra'
 
-import { AuthenticatedGuard, DiscordAuthGuard } from '../common'
+import { User } from '../@generated/prisma-nestjs-graphql'
+import { AuthenticatedGuard, DiscordAuthGuard, HttpUser } from '../common'
 
 @Controller('auth')
 export class AuthController {
@@ -37,25 +36,12 @@ export class AuthController {
   @Get('status')
   @UseGuards(AuthenticatedGuard)
   status(
-    @AuthUser()
-    {
-      discordId,
-      discriminator,
-      username,
-      verified,
-      avatar,
-      email,
-      locale,
-    }: Users,
+    @HttpUser()
+    { id }: User,
   ) {
     return {
-      discordId,
-      username,
-      discriminator,
-      avatar,
-      email,
-      verified,
-      locale,
+      loggedIn: true,
+      discordId: id,
     }
   }
 

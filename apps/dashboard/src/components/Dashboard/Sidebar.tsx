@@ -18,7 +18,7 @@ const DashboardSidebar = () => {
   const [open, setOpen] = useState(false)
   const router = useRouter()
 
-  const currGuild = useAtomValue(currentGuildAtom)
+  const currentGuild = useAtomValue(currentGuildAtom)
 
   useEffect(() => {
     if (!router.isReady) return
@@ -37,7 +37,7 @@ const DashboardSidebar = () => {
         />
         <div
           className="img-glow relative mx-auto h-14 w-14 cursor-pointer"
-          onClick={() => router.push(`/dashboard/${currGuild?.id}/`)}
+          onClick={() => router.push(`/dashboard/${currentGuild}/`)}
         >
           <Image
             className="rounded-full"

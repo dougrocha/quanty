@@ -99,12 +99,28 @@ class MusicManager extends ErelaManager {
         if (!newChannel) {
           return player.destroy()
         }
-        player.voiceChannel = newChannel
+
+        if (player) {
+          if (player.voiceChannel === newChannel) {
+            // Pause song for short duration while switching channels
+            if (player.playing && !player.paused) {
+              player.pause(true)
+              setTimeout(() => {
+                player.pause(false)
+              }, 500)
+            }
+          }
+        }
       })
       .on('socketClosed', async player => {
         if (!player.textChannel) {
           return
         }
+
+        this.logger.log(
+          `socketClosed. Guild: ${player.guild}. Channel: ${player.voiceChannel}`,
+        )
+
         // Const channel = this.client.channels.cache.get(
         //   player.textChannel,
         // ) as TextChannel
@@ -113,28 +129,7 @@ class MusicManager extends ErelaManager {
   }
 
   private _initClientEvents() {
-    client
-      .on('raw', d => this.updateVoiceState(d))
-      .on('channelUpdate', (oldChannel, newChannel) => {
-        if (
-          oldChannel.type === 'GUILD_VOICE' &&
-          newChannel.type === 'GUILD_VOICE'
-        ) {
-          const player = this.players.get(newChannel.guild.id)
-
-          console.log(player)
-          if (player) {
-            if (player.voiceChannel === newChannel.id) {
-              if (player.playing && !player.paused) {
-                player.pause(true)
-                setTimeout(() => {
-                  player.pause(false)
-                }, 500)
-              }
-            }
-          }
-        }
-      })
+    client.on('raw', d => this.updateVoiceState(d))
   }
 }
 

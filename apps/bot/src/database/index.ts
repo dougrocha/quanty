@@ -5,7 +5,7 @@ import {
   Guilds,
   GuildTickets,
   GuildCommands,
-  GuildSchema,
+  GuildsSchema,
   GuildBanLogsSchema,
   GuildLogsSchema,
   GuildTicketsSchema,
@@ -26,7 +26,7 @@ export const GuildBanLogsModel = getModelFromClass<GuildBanLogs>(
   GuildBanLogsSchema,
 )
 
-export const GuildsModel = getModelFromClass<Guilds>(Guilds.name, GuildSchema)
+export const GuildsModel = getModelFromClass<Guilds>(Guilds.name, GuildsSchema)
 
 export const GuildTicketsModel = getModelFromClass<GuildTickets>(
   GuildTickets.name,

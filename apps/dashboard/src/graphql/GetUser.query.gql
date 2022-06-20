@@ -1,5 +1,5 @@
 query GetUser {
-  user {
+  me {
     discriminator
     discordId
     username
@@ -7,5 +7,6 @@ query GetUser {
     avatar
     locale
     verified
+    stripeId
   }
 }

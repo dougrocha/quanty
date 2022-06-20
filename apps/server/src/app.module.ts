@@ -9,16 +9,18 @@ import {
 } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RouterModule } from '@nestjs/core'
-import { GraphQLModule } from '@nestjs/graphql'
+import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
 import { MongooseModule } from '@nestjs/mongoose'
 import { PassportModule } from '@nestjs/passport'
 import { ThrottlerModule } from '@nestjs/throttler'
+import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import Joi from 'joi'
 
 import { AuthModule } from './auth/auth.module'
-import { RawBodyMiddleware, JsonBodyMiddleware } from './common'
+import { RawBodyMiddleware, JsonBodyMiddleware, PRISMA_SERVICE } from './common'
 import { GuildsModule } from './guilds/guilds.module'
 import { PaymentsModule } from './payments/payments.module'
+import { PrismaService } from './prisma.service'
 import { StripeModule } from './stripe/stripe.module'
 import { UsersModule } from './users/users.module'
 
@@ -66,9 +68,20 @@ const ENV = process.env.NODE_ENV
       useFactory: (config: ConfigService) => ({
         useGlobalPrefix: true,
         sortSchema: true,
+        debug: false,
         cors: {
           origin: config.get('FRONTEND_URL'),
         },
+        autoTransformHttpErrors: true,
+        csrfPrevention: true,
+        formatError: (error: GraphQLError) => {
+          const graphQLFormattedError: GraphQLFormattedError = {
+            message: error.message,
+            locations: error.locations,
+          }
+          return graphQLFormattedError
+        },
+        resolvers: { DateTime: GraphQLISODateTime },
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         context: ({ req, res }) => ({ req, res }),
       }),
@@ -98,8 +111,9 @@ const ENV = process.env.NODE_ENV
         version: '0.0.1',
       },
     }),
-    PaymentsModule,
+    // PaymentsModule,
   ],
+  providers: [{ provide: PRISMA_SERVICE, useClass: PrismaService }],
 })
 export class AppModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {

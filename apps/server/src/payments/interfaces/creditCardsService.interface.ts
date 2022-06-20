@@ -1,7 +1,11 @@
 import Stripe from 'stripe'
 
+import { AddCreditCardInput } from '../inputs/addCreditCard.input'
+
 export interface ICreditCardsService {
-  addCreditCards(customerId: string): any
+  addCreditCards(
+    createCardData: AddCreditCardInput,
+  ): Promise<Stripe.Response<Stripe.SetupIntent>>
 
   findCreditCards(
     customerId: string,

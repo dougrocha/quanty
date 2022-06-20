@@ -1,33 +1,16 @@
-import { UsersDocument } from '@quanty/schemas'
-
-import { UserWithToken } from '../../common'
-
-export interface CreateStripeCustomerDTO {
-  discordId: string
-  name: string
-  email: string
-}
-
-export interface ChargeCustomerDTO {
-  amount: number
-  paymentMethodId: string
-}
+import {
+  UserCreateWithoutCustomerInput,
+  User,
+  Customer,
+} from '../../@generated/prisma-nestjs-graphql'
 
 export interface IUsersService {
-  createUser(details: UserWithToken): Promise<UsersDocument>
+  createUser(details: UserCreateWithoutCustomerInput): Promise<User>
   updateUser(
     discordId: string,
-    newDetails: UserWithToken,
-  ): Promise<UsersDocument>
-  findUser(discordId: string): Promise<UsersDocument | null>
-  updateSubscriptionStatus(
-    customerId: string,
-    subscriptionStatus: string,
-  ): Promise<void>
-}
+    newDetails: UserCreateWithoutCustomerInput,
+  ): Promise<User>
+  findUser(discordId: string): Promise<User | null>
 
-export interface IStripeUsersService {
-  createStripeCustomer(
-    customer: CreateStripeCustomerDTO,
-  ): Promise<UsersDocument | null>
+  findCustomer(id: string): Promise<Customer | null>
 }

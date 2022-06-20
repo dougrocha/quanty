@@ -4,6 +4,7 @@ import {
   Command,
   SlashCommand,
   SlashCommandRunOptions,
+  Test,
 } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 import { Track, UnresolvedTrack } from 'erela.js'
@@ -19,11 +20,23 @@ import MusicManager from '../../libs/music'
       description: 'Sets page for queue',
       required: false,
     },
+    {
+      type: 'BOOLEAN',
+      name: 'clear',
+      description: 'Clears the queue.',
+      required: false,
+    },
   ],
 })
+@Test()
 export class QueueCommand extends Command {
   async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
     const player = MusicManager.getInstance().get(guild.id)
+
+    if (options.getBoolean('clear')) {
+      player?.queue.clear()
+      return { content: 'Queue is cleared.' }
+    }
     if (!player) return { content: 'There is no queue.' }
     const { queue } = player
 
@@ -63,6 +76,7 @@ export class QueueCommand extends Command {
       })
     return { embeds: [embed] }
   }
+
   async error(): CommandReturnType {
     throw new Error('Method not implemented.')
   }

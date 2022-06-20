@@ -19,7 +19,7 @@ const GuildSelectionMenu = () => {
   const [currentGuild, setCurrentGuild] = useAtom(currentGuildAtom)
 
   useGetMutualGuildsQuery({
-    onCompleted: ({ mutualGuilds }) => setMutualGuilds(mutualGuilds as never),
+    onCompleted: ({ mutualGuilds }) => setMutualGuilds(mutualGuilds),
     fetchPolicy: 'cache-first',
   })
 
@@ -34,15 +34,17 @@ const GuildSelectionMenu = () => {
 
     if (!guild) return
 
-    setCurrentGuild(guild)
+    setCurrentGuild(guild.id)
 
     router.push({
-      href: `/dashboard/${currentGuild?.id}`,
+      href: `/dashboard/${currentGuild}`,
       query: {
         guildId: guild.id,
       },
     })
   }
+
+  const guild = mutualGuilds?.find(({ id }) => id == currentGuild)
 
   const closeDropdown = () => setOpen(false)
 
@@ -61,15 +63,12 @@ const GuildSelectionMenu = () => {
       <Image
         className="rounded-full"
         alt={`Current chosen guild`}
-        src={FetchGuildIcon(
-          currentGuild?.id ?? 'Undefined',
-          currentGuild?.icon,
-        )}
+        src={FetchGuildIcon(guild?.id ?? 'Undefined', guild?.icon)}
         priority
         width={25}
         height={25}
       />
-      <p className="ml-3">{currentGuild?.name}</p>
+      <p className="ml-3">{guild?.name}</p>
       <ChevronDownIcon
         className={`ml-auto w-6 transition duration-300 ${
           open && 'rotate-180'
@@ -80,7 +79,7 @@ const GuildSelectionMenu = () => {
           <ul className="w-full rounded-lg bg-primary-purple-10">
             {mutualGuilds?.map(guild => (
               <li key={guild.id}>
-                {guild.id != currentGuild?.id && guild.bot && (
+                {guild.id != guild?.id && guild.bot && (
                   <div className="flex w-full cursor-pointer items-center p-5 py-4 text-sm">
                     <Image
                       className="rounded-full shadow"

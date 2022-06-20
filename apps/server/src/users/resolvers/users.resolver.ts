@@ -1,20 +1,34 @@
 import { Inject, UseGuards } from '@nestjs/common'
-import { Query, Resolver } from '@nestjs/graphql'
-import { Users } from '@quanty/schemas'
-import { IUsersService } from 'src/users/interfaces/users'
+import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 
+import { Customer, User } from '../../@generated/prisma-nestjs-graphql'
 import { GraphQLAuthGuard, GqlUser, USERS_SERVICE } from '../../common'
+import { IUsersService } from '../interfaces/users'
 
-@Resolver()
+@Resolver(() => User)
 @UseGuards(GraphQLAuthGuard)
 export class UsersResolver {
   constructor(
-    @Inject(USERS_SERVICE)
-    private readonly usersService: IUsersService,
+    @Inject(USERS_SERVICE) private readonly usersService: IUsersService,
   ) {}
 
-  @Query(() => Users, { name: 'user', nullable: false })
-  async currentUser(@GqlUser() user: Users): Promise<Users> {
+  @Query(() => User, {
+    name: 'me',
+    nullable: true,
+    description: 'Returns the user that is logged in the session',
+  })
+  async getCurrentUser(@GqlUser() user: User): Promise<User | null> {
+    await this.usersService.findCustomer(user.id)
+
+    if (!user) return null
     return user
+  }
+
+  @ResolveField('customer', () => Customer, {
+    description: "User's customer account.",
+    nullable: true,
+  })
+  async customer(@Parent() user: User): Promise<Customer | null> {
+    return await this.usersService.findCustomer(user.id)
   }
 }

@@ -1,11 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 
-import { User } from './user'
+import { DiscordUser } from './user'
 
 @ObjectType()
 export class GuildMember {
-  @Field(() => User, { nullable: true })
-  user?: User
+  @Field(() => DiscordUser, { nullable: true })
+  user?: DiscordUser
 
   @Field({ nullable: true })
   nick?: string

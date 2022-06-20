@@ -1,49 +1,44 @@
-import { useAtomValue } from 'jotai'
-import Head from 'next/head'
-import { ClapSpinner } from 'react-spinners-kit'
+import { NextSeo } from 'next-seo'
 
 import Navbar from '../components/Navbar'
-import { currentUserAtom } from '../utils/store/currentUser'
 
 interface LayoutProps {
   children: React.ReactNode
+  title?: string
 }
 
 const GuildsLayout = ({ children }: LayoutProps) => {
-  const user = useAtomValue(currentUserAtom)
-
-  if (!user)
-    return (
-      <div className="flex h-screen items-center justify-center overflow-auto bg-primary-purple-20 text-primary-white antialiased">
-        <ClapSpinner frontColor="#ffffff" backColor="#6635F0" size={70} />
-      </div>
-    )
-
   return (
     <>
-      <Head>
-        <title>{'Quanty | Discord Bot'}</title>
-        <link rel="icon" href="/quanty-64.png" />
-        <meta
-          name="description"
-          content="🤖 Multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard."
-        />
-        <meta property="og:title" content={'Quanty | Discord Bot'} />
-        <meta
-          property="og:description"
-          content="🤖 Multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard."
-        />
-        <meta property="og:url" content="https://quanty.xyz/" />
-        <meta property="og:type" content="website" />
-
-        <meta name="theme-color" content="#1C1A25"></meta>
-      </Head>
-
-      <div className="relative block h-screen overflow-y-auto overflow-x-hidden bg-primary-darkPurpleBg antialiased">
-        <div className="mx-auto max-w-6xl px-4 text-primary-white sm:px-6 xl:px-0">
-          <Navbar />
-          {children}
-        </div>
+      <NextSeo
+        title={'Your Guilds'}
+        titleTemplate="Quanty | %s"
+        defaultTitle="Quanty | Discord Bot"
+        description="🤖 Add Quanty to your discord for a makeover. Quanty is a multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard."
+        canonical={`${process.env.APP_URL}`}
+        openGraph={{
+          type: 'website',
+          url: `${process.env.APP_URL}`,
+          title: `Quanty | Your Guilds`,
+          description:
+            '🤖 Add Quanty to your discord for a makeover. Quanty is a multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard.',
+          images: [
+            {
+              url: `${process.env.APP_URL}/quanty_128.jpg`,
+              width: 800,
+              height: 420,
+              alt: 'Quanty Bot Mascot',
+              type: 'image/jpeg',
+            },
+          ],
+        }}
+        additionalLinkTags={[
+          { rel: 'icon', href: `${process.env.APP_URL}/quanty_128.jpg` },
+        ]}
+      />
+      <div className=" text-primary-white antialiased">
+        <Navbar />
+        {children}
       </div>
     </>
   )

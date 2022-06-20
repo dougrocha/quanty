@@ -9,14 +9,13 @@ import {
   ISidebarContents,
   ISidebaritems,
 } from '../../data/dashboardSidebarItems'
-import { Guild } from '../../graphql/generated/schema'
 import { currentGuildAtom } from '../../utils/store/currentGuild'
 import { BaseIcon } from '../icons'
 
 type ISidebarDrawer = ISidebarContents
 
 const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
-  const guild = useAtomValue(currentGuildAtom)
+  const guildId = useAtomValue(currentGuildAtom)
   const [drawerOpen, setDrawerOpen] = useState(true)
 
   return (
@@ -31,7 +30,7 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
           link={link}
           icon={icon}
           premium={premium}
-          guild={guild}
+          guildId={guildId}
         />
       ))}
       {title && (
@@ -57,7 +56,7 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
             link={link}
             icon={icon}
             premium={premium}
-            guild={guild}
+            guildId={guildId}
           />
         ))}
       </ul>
@@ -66,15 +65,15 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
 }
 
 interface IDrawerItem extends ISidebaritems {
-  guild: Guild | null
+  guildId: string | null
 }
 
-const DrawerItem = ({ name, link, icon, premium, guild }: IDrawerItem) => {
+const DrawerItem = ({ name, link, icon, premium, guildId }: IDrawerItem) => {
   return (
     <Link
       key={`item-${name}`}
       href={{
-        pathname: `/dashboard/${guild?.id}/${link}`,
+        pathname: `/dashboard/${guildId}/${link}`,
       }}
     >
       <a

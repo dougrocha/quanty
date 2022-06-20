@@ -7,7 +7,7 @@ import { Roles } from './roles'
 import { Sticker } from './sticker'
 
 @ObjectType()
-export class Guild {
+export class DiscordGuild {
   @Field({ nullable: true })
   bot?: boolean
 

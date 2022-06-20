@@ -2,51 +2,9 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Address {
-  city: String
-  country: String
-
-  """
-  Address line 1 (e.g., street, PO Box, or company name).
-  """
-  line1: String
-
-  """
-  Address line 2 (e.g., apartment, suite, unit, or building).
-  """
-  line2: String
-  postal_code: String
-  state: String
-}
-
-type BillingDetails {
-  address: Address!
-  email: String
-  name: String
-
-  """
-  Billing phone number (include extensions)
-  """
-  phone: String
-}
-
-type Card {
-  brand: String!
-  country: String
-  exp_month: Float!
-  exp_year: Float!
-
-  """
-  Card funding type. Can be credit, debit, prepaid, or unknown.
-  """
-  funding: String!
-  last4: String!
-}
-
 type Channel {
   application_id: String
   bitrate: Int
-  default_auto_archive_duration: Float
   guild_id: String
   icon: String
   id: String!
@@ -62,13 +20,51 @@ type Channel {
   permission_overwrites: [OverWrite!]
   position: Float
   rate_limit_per_user: Int
-  recipients: [User!]
+  recipients: [DiscordUser!]
   rtc_region: String
   thread_metadata: ThreadMetaData
   topic: String
-  type: Float!
   user_limit: Int
-  video_quality_mode: Float
+}
+
+type Customer {
+  _count: CustomerCount!
+  createdAt: DateTime!
+  email: String
+  id: ID!
+  subscription: [Subscription!]
+  subscriptionId: Boolean!
+  user: User
+  userId: String
+}
+
+type CustomerCount {
+  subscription: Int!
+}
+
+type CustomerCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  email: Int!
+  id: Int!
+  subscriptionId: Int!
+  userId: Int!
+}
+
+type CustomerMaxAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  subscriptionId: Boolean
+  userId: String
+}
+
+type CustomerMinAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  subscriptionId: Boolean
+  userId: String
 }
 
 """
@@ -76,18 +72,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Emojis {
-  animated: Boolean
-  available: Boolean
-  id: String!
-  managed: Boolean
-  name: String!
-  require_colons: Boolean
-  roles: [String!]
-  user: User
-}
-
-type Guild {
+type DiscordGuild {
   afk_timeout: Int
   bot: Boolean
   channels: [Channel!]
@@ -111,18 +96,55 @@ type Guild {
   unavailable: Boolean
 }
 
-type GuildBanLogs {
-  bannedUser: LoggedUser!
-  guildId: String!
-  issuedBy: LoggedUser!
-  issuedOn: DateTime!
-  reason: String!
+type DiscordUser {
+  accent_color: Float
+  avatar: String!
+  banner: String
+  bot: Boolean
+  discriminator: String!
+  email: String
+  flags: Float
+  id: String!
+  locale: String
+  mfa_enabled: Boolean
+  premium_type: Float
+  public_flags: Float
+  system: Boolean
+  username: String!
+  verified: Boolean
 }
 
-type GuildLogs {
-  action: String!
-  guildId: String!
-  user: LoggedUser!
+type Emojis {
+  animated: Boolean
+  available: Boolean
+  id: String!
+  managed: Boolean
+  name: String!
+  require_colons: Boolean
+  roles: [String!]
+  user: DiscordUser
+}
+
+type Guild {
+  guildPlugins: GuildPlugins
+  guildSettings: GuildSettings
+  id: ID!
+  prefix: String!
+  subscription: Subscription
+  tier: Guild_tier!
+}
+
+type GuildCountAggregate {
+  _all: Int!
+  id: Int!
+  prefix: Int!
+  tier: Int!
+}
+
+type GuildMaxAggregate {
+  id: String
+  prefix: String
+  tier: Guild_tier
 }
 
 type GuildMember {
@@ -134,63 +156,94 @@ type GuildMember {
   pending: Boolean
   premium_since: String
   roles: [String!]!
-  user: User
+  user: DiscordUser
+}
+
+type GuildMinAggregate {
+  id: String
+  prefix: String
+  tier: Guild_tier
 }
 
 type GuildPlugins {
+  anime: Boolean!
+  autoMod: Boolean!
+  guild: Guild!
+  id: ID!
+}
+
+type GuildPluginsCountAggregate {
+  _all: Int!
+  anime: Int!
+  autoMod: Int!
+  id: Int!
+}
+
+type GuildPluginsMaxAggregate {
+  anime: Boolean
   autoMod: Boolean
-  blacklistedWords: [String!]
-  channel: String
-  defaultGlobalCooldown: Float
-  djRole: String
-  guildId: String!
-  immortal: Boolean
-  nsfw: Boolean
-  plugins: [String!]
-  ticketCategory: String
-  ticketTranscriptChannel: String
+  id: String
 }
 
-type GuildTickets {
-  channelId: String!
-  closed: Boolean!
-  guildId: String!
-  locked: Boolean!
-  memberId: String!
-  ticketId: String!
-  type: String!
+type GuildPluginsMinAggregate {
+  anime: Boolean
+  autoMod: Boolean
+  id: String
 }
 
-"""
-Guild Config for Quantum Bot Users
-"""
-type Guilds {
-  banLogs: [GuildBanLogs!]
+type GuildSettings {
+  defaultJoinRole: String!
+  djRole: String!
+  globalCooldown: Int!
+  guild: Guild
+  id: ID!
+  musicTimeOut: Boolean!
+  nsfw: Boolean!
+}
+
+type GuildSettingsAvgAggregate {
+  globalCooldown: Float
+}
+
+type GuildSettingsCountAggregate {
+  _all: Int!
+  defaultJoinRole: Int!
+  djRole: Int!
+  globalCooldown: Int!
+  id: Int!
+  musicTimeOut: Int!
+  nsfw: Int!
+}
+
+type GuildSettingsMaxAggregate {
   defaultJoinRole: String
-  guildId: String!
-  logChannel: String
-  logs: [GuildLogs!]
-  maxTickets: Float
-  plugins: GuildPlugins
-  prefix: String
-  premium: [PremiumTiers!]
-
-  """
-  Current provider for guild's premium status
-  """
-  premiumProvider: String
-  tickets: [GuildTickets!]
+  djRole: String
+  globalCooldown: Int
+  id: String
+  musicTimeOut: Boolean
+  nsfw: Boolean
 }
 
-type LoggedUser {
-  discriminator: String!
-  id: String!
-  username: String!
+type GuildSettingsMinAggregate {
+  defaultJoinRole: String
+  djRole: String
+  globalCooldown: Int
+  id: String
+  musicTimeOut: Boolean
+  nsfw: Boolean
 }
 
-"""
-Mutual Guilds. Guilds that a user can edit
-"""
+type GuildSettingsSumAggregate {
+  globalCooldown: Int
+}
+
+enum Guild_tier {
+  FREE
+  QUANTUM
+  SILVER
+}
+
+"""Mutual Guilds. Guilds that a user can edit"""
 type MutualGuild {
   bot: Boolean!
   icon: String
@@ -202,41 +255,106 @@ type OverWrite {
   allow: String!
   deny: String!
   id: String!
-  type: Float!
 }
 
-type PaymentMethod {
-  """
-  Billing information associated with the PaymentMethod that may be used or request by certain payment methods
-  """
-  billingDetails: BillingDetails!
-  card: Card!
-
-  """
-  Customer Id
-  """
-  customerId: String!
-  id: String!
+type Price {
+  _count: PriceCount!
+  currency: String!
+  id: ID!
+  product: Product!
+  productId: String!
+  recurringInterval: DateTime!
+  subscription: [Subscription!]
+  unit_amount: Int!
 }
 
-"""
-Premium tiers with for Quanty Bot
-"""
-enum PremiumTiers {
+type PriceAvgAggregate {
+  unit_amount: Float
+}
+
+type PriceCount {
+  subscription: Int!
+}
+
+type PriceCountAggregate {
+  _all: Int!
+  currency: Int!
+  id: Int!
+  productId: Int!
+  recurringInterval: Int!
+  unit_amount: Int!
+}
+
+type PriceMaxAggregate {
+  currency: String
+  id: String
+  productId: String
+  recurringInterval: DateTime
+  unit_amount: Int
+}
+
+type PriceMinAggregate {
+  currency: String
+  id: String
+  productId: String
+  recurringInterval: DateTime
+  unit_amount: Int
+}
+
+type PriceSumAggregate {
+  unit_amount: Int
+}
+
+type Product {
+  _count: ProductCount!
+  description: String
+  id: ID!
+  name: String!
+  price: [Price!]
+  tier: Product_tier!
+}
+
+type ProductCount {
+  price: Int!
+}
+
+type ProductCountAggregate {
+  _all: Int!
+  description: Int!
+  id: Int!
+  name: Int!
+  tier: Int!
+}
+
+type ProductMaxAggregate {
+  description: String
+  id: String
+  name: String
+  tier: Product_tier
+}
+
+type ProductMinAggregate {
+  description: String
+  id: String
+  name: String
+  tier: Product_tier
+}
+
+enum Product_tier {
   FREE
   QUANTUM
+  SILVER
 }
 
 type Query {
-  getPaymentMethods: [PaymentMethod!]
-  guildConfig(guildId: String!): Guilds!
-  guilds(guildId: String!): Guild!
+  guildConfig(guildId: String!): Guild!
+  guilds(guildId: String!): DiscordGuild!
 
-  """
-  Gets the available guilds that the user can edit.
-  """
+  """Returns the user that is logged in the session"""
+  me: User
+
+  """Gets the available guilds that the user can edit."""
   mutualGuilds: [MutualGuild!]!
-  user: Users!
 }
 
 type RoleTags {
@@ -270,11 +388,70 @@ type Sticker {
   sort_value: Float
   tags: String!
   type: Float!
-  user: User
+  user: DiscordUser
+}
+
+type Subscription {
+  cancel_at_period_end: Boolean!
+  current_period_end: DateTime!
+  customer: Customer!
+  customerId: String!
+  guild: Guild!
+  guildId: String!
+  id: ID!
+  price: Price!
+  priceId: String!
+  status: Subscription_status!
+  tier: Subscription_tier!
+}
+
+type SubscriptionCountAggregate {
+  _all: Int!
+  cancel_at_period_end: Int!
+  current_period_end: Int!
+  customerId: Int!
+  guildId: Int!
+  id: Int!
+  priceId: Int!
+  status: Int!
+  tier: Int!
+}
+
+type SubscriptionMaxAggregate {
+  cancel_at_period_end: Boolean
+  current_period_end: DateTime
+  customerId: String
+  guildId: String
+  id: String
+  priceId: String
+  status: Subscription_status
+  tier: Subscription_tier
+}
+
+type SubscriptionMinAggregate {
+  cancel_at_period_end: Boolean
+  current_period_end: DateTime
+  customerId: String
+  guildId: String
+  id: String
+  priceId: String
+  status: Subscription_status
+  tier: Subscription_tier
+}
+
+enum Subscription_status {
+  ACTIVE
+  CANCELED
+  INCOMPLETE
+}
+
+enum Subscription_tier {
+  FREE
+  QUANTUM
+  SILVER
 }
 
 type ThreadMember {
-  flags: Float!
   id: String
   join_timestamp: String!
   user_id: String
@@ -283,43 +460,52 @@ type ThreadMember {
 type ThreadMetaData {
   archive_timestamp: String!
   archived: Boolean!
-  auto_archive_duration: Float!
   invitable: Boolean
   locked: Boolean
 }
 
 type User {
-  accent_color: Float
-  avatar: String!
-  banner: String
-  bot: Boolean
+  acceptedTermsAndConditions: Boolean!
+  avatar: String
+  createdAt: DateTime!
+  customer: Customer
   discriminator: String!
   email: String
-  flags: Float
-  id: String!
+  id: ID!
   locale: String
-  mfa_enabled: Boolean
-  premium_type: Float
-  public_flags: Float
-  system: Boolean
   username: String!
-  verified: Boolean
 }
 
-"""
-Returns the logged in user
-"""
-type Users {
-  avatar: String!
-  billingAddress: String
-  discordId: String!
-  discriminator: String!
-  email: String!
-  firstName: String
-  lastName: String
+type UserCountAggregate {
+  _all: Int!
+  acceptedTermsAndConditions: Int!
+  avatar: Int!
+  createdAt: Int!
+  discriminator: Int!
+  email: Int!
+  id: Int!
+  locale: Int!
+  username: Int!
+}
+
+type UserMaxAggregate {
+  acceptedTermsAndConditions: Boolean
+  avatar: String
+  createdAt: DateTime
+  discriminator: String
+  email: String
+  id: String
   locale: String
-  stripeId: String
-  subscriptionStatus: String
-  username: String!
-  verified: Boolean!
+  username: String
+}
+
+type UserMinAggregate {
+  acceptedTermsAndConditions: Boolean
+  avatar: String
+  createdAt: DateTime
+  discriminator: String
+  email: String
+  id: String
+  locale: String
+  username: String
 }

@@ -10,7 +10,7 @@ const TempHome = () => {
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="relative mx-auto h-56 w-56 overflow-hidden rounded-full">
           <Image
-            src={`${StaticLinks.DISCORD_CDN}/app-icons/824106276404854844/e64d9f826f0064147f669fe2a778207b.png?size=512`}
+            src={`/quanty-cropped-large.jpg`}
             alt="Quanty Icon Picture"
             objectFit="cover"
             layout="fill"

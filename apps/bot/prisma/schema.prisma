@@ -1,0 +1,132 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Customer {
+  id             String   @id @unique @db.VarChar(255)
+  /// @Validator.IsEmail()
+  email          String?  @unique @db.VarChar(255)
+  subscriptionId Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  user         User           @relation(fields: [userId], references: [id])
+  userId       String         @unique @db.VarChar(18)
+  Subscription Subscription[]
+}
+
+model Guild {
+  id     String     @id @unique @db.VarChar(18)
+  tier   Guild_tier @default(FREE)
+  prefix String     @db.VarChar(10)
+
+  Subscription  Subscription?
+  GuildSettings GuildSettings?
+  GuildPlugins  GuildPlugins?
+}
+
+model GuildPlugins {
+  id      String  @id @unique @db.VarChar(18)
+  autoMod Boolean @default(false)
+  anime   Boolean @default(false)
+
+  guild   Guild  @relation(fields: [guildId], references: [id])
+  guildId String @unique @db.VarChar(18)
+}
+
+model GuildSettings {
+  id              String  @id @unique @db.VarChar(18)
+  defaultJoinRole String  @db.VarChar(18)
+  nsfw            Boolean @default(false)
+  globalCooldown  Int     @default(0)
+  djRole          String  @db.VarChar(18)
+  musicTimeOut    Boolean @default(false)
+
+  guild   Guild?  @relation(fields: [guildId], references: [id])
+  guildId String? @unique @db.VarChar(18)
+}
+
+model Price {
+  id                String   @id @unique @db.VarChar(255)
+  recurringInterval DateTime
+  unit_amount       Int
+  currency          String   @db.VarChar(4)
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @unique
+
+  subscription Subscription[]
+}
+
+model Product {
+  id          String       @id @unique @db.VarChar(255)
+  name        String       @db.VarChar(50)
+  description String       @db.VarChar(350)
+  tier        Product_tier
+  Price       Price[]
+}
+
+model Subscription {
+  id                   String              @id @unique @db.VarChar(255)
+  tier                 Subscription_tier   @default(FREE)
+  status               Subscription_status @default(CANCELED)
+  current_period_end   DateTime
+  cancel_at_period_end Boolean             @default(false)
+
+  guild   Guild  @relation(fields: [guildId], references: [id])
+  guildId String @unique @db.VarChar(18)
+
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique @db.VarChar(255)
+
+  price   Price  @relation(fields: [priceId], references: [id])
+  priceId String @db.VarChar(255)
+}
+
+model User {
+  id            String   @id @unique @db.VarChar(18)
+  username      String   @db.VarChar(32)
+  discriminator String   @db.Char(4)
+  /// @Validator.IsEmail()
+  email         String?  @unique @db.VarChar(254)
+  avatar        String?  @db.VarChar(255)
+  createdAt     DateTime @default(now())
+  locale        String?  @db.VarChar(4)
+
+  /// @HideField()
+  accessToken  String?
+  /// @HideField()
+  refreshToken String?
+
+  Customer Customer?
+}
+
+enum Guild_tier {
+  FREE
+  SILVER
+  QUANTUM
+}
+
+enum Product_tier {
+  FREE
+  SILVER
+  QUANTUM
+}
+
+enum Subscription_tier {
+  FREE
+  SILVER
+  QUANTUM
+}
+
+enum Subscription_status {
+  ACTIVE
+  CANCELED
+  INCOMPLETE
+}

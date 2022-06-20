@@ -1,31 +1,35 @@
 import { HttpModule } from '@nestjs/axios'
 import { DynamicModule, Module, Provider } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
-import { Users, UsersSchema } from '@quanty/schemas'
 import { Stripe } from 'stripe'
 
+import { StripeWebhookController } from './controllers/stripe-webhook.controller'
 import { StripeController } from './controllers/stripe.controller'
-import { StripeWebhookController } from './controllers/stripeWebhook.controller'
-import { StripeService } from './stripe.service'
+import { PricesService } from './services/prices.service'
+import { ProductsService } from './services/products.service'
+import { StripeWebhookService } from './services/stripe-webhook.service'
+import { StripeService } from './services/stripe.service'
 
 import {
   PAYMENT_SERVICE,
   STRIPE_CLIENT,
   STRIPE_SERVICE,
   USERS_SERVICE,
+  PRISMA_SERVICE,
 } from '../common'
 import { PaymentsService } from '../payments/services/payments.service'
+import { PrismaService } from '../prisma.service'
 import { UsersService } from '../users/services/users.service'
 
 @Module({
-  imports: [
-    HttpModule,
-    MongooseModule.forFeature([{ name: Users.name, schema: UsersSchema }]),
-  ],
+  imports: [HttpModule],
   providers: [
     { provide: STRIPE_SERVICE, useClass: StripeService },
     { provide: USERS_SERVICE, useClass: UsersService },
     { provide: PAYMENT_SERVICE, useClass: PaymentsService },
+    { provide: PRISMA_SERVICE, useClass: PrismaService },
+    ProductsService,
+    PricesService,
+    StripeWebhookService,
   ],
   controllers: [StripeWebhookController, StripeController],
 })

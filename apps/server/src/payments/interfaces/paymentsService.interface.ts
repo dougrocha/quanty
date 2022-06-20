@@ -1,5 +1,6 @@
-import { Users } from '@quanty/schemas'
 import Stripe from 'stripe'
+
+import { User } from '../../@generated/prisma-nestjs-graphql'
 
 export interface PaymentRequestBody {
   amount: number
@@ -19,6 +20,6 @@ export interface IPaymentsService {
 
   createPaymentIntent(
     body: PaymentRequestBody,
-    user: Users,
+    user: User,
   ): Promise<Stripe.Response<Stripe.PaymentIntent>>
 }

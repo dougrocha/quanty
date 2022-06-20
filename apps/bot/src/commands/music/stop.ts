@@ -4,10 +4,12 @@ import {
   Command,
   SlashCommand,
   SlashCommandRunOptions,
+  Test,
 } from '@quanty/framework'
 
 import { checkChannel } from '../../libs'
 
+@Test()
 @Category('music')
 @SlashCommand('stop', {
   description: 'Stop Quanty and clears the queue.',

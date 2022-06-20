@@ -1,10 +1,12 @@
 import { ChevronDownIcon } from '@heroicons/react/outline'
+import { useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
-import { useCurrentUser, useOnClickOutside } from '../hooks'
+import { useOnClickOutside } from '../hooks'
 import { FetchUserIcon } from '../libs/FetchIcons'
+import { currentUserAtom } from '../utils/store'
 
 const UserProfileDropdownMenu = dynamic(import('./UserProfileDropdownMenu'), {
   ssr: false,
@@ -24,7 +26,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
 
   useOnClickOutside(ref, closeDropdown)
 
-  const { user, setUser } = useCurrentUser()
+  const user = useAtomValue(currentUserAtom)
 
   if (!user) return <></>
 
@@ -49,9 +51,9 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
               blurDataURL="/basic_discord_logo.png"
             />
           </div>
-          <strong className="ml-3">{user.username}</strong>
+          <strong className="ml-3 hidden sm:block">{user.username}</strong>
 
-          <p className="opacity-75">#{user.discriminator}</p>
+          <p className="hidden opacity-75 sm:block">#{user.discriminator}</p>
 
           <ChevronDownIcon
             className={`ml-2 w-4 text-secondary-white transition ${
@@ -59,7 +61,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
             }`}
           />
         </div>
-        {open && <UserProfileDropdownMenu setUser={setUser} />}
+        {open && <UserProfileDropdownMenu />}
       </div>
     </>
   )

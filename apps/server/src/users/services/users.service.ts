@@ -1,56 +1,81 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { Users, UsersDocument } from '@quanty/schemas'
-import { Model } from 'mongoose'
-import { IUsersService } from 'src/users/interfaces/users'
+import { PrismaClient } from '@prisma/client'
 
-import { PAYMENT_SERVICE, UserWithToken } from '../../common'
+import {
+  Customer,
+  User,
+  UserCreateWithoutCustomerInput,
+} from '../../@generated/prisma-nestjs-graphql'
+import { PAYMENT_SERVICE, PRISMA_SERVICE } from '../../common'
 import { IPaymentsService } from '../../payments/interfaces/paymentsService.interface'
+import { IUsersService } from '../interfaces/users'
 
 @Injectable()
 export class UsersService implements IUsersService {
   constructor(
     @Inject(PAYMENT_SERVICE) private readonly paymentsService: IPaymentsService,
-    @InjectModel(Users.name) private userModel: Model<UsersDocument>,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaClient,
   ) {}
 
-  async createUser(details: UserWithToken): Promise<UsersDocument> {
-    const customer = await this.paymentsService.createCustomer(
-      details.discordId,
-      details.email,
-    )
-    const user = await this.userModel.create({
-      ...details,
-      stripeId: customer.id,
+  async createUser({
+    id,
+    discriminator,
+    avatar,
+    email,
+    username,
+    locale,
+    accessToken,
+    refreshToken,
+  }: UserCreateWithoutCustomerInput): Promise<User> {
+    const customer = await this.paymentsService.createCustomer(id, email)
+
+    const user = await this.prisma.user.create({
+      data: {
+        id,
+        discriminator,
+        avatar,
+        email,
+        locale,
+        username,
+        accessToken,
+        refreshToken,
+        customer: {
+          create: {
+            id: customer.id,
+            email: customer.email,
+          },
+        },
+      },
     })
-    return user.save()
+
+    return user
   }
 
   async updateUser(
-    discordId: string,
-    newDetails: UserWithToken,
-  ): Promise<UsersDocument> {
-    return await this.userModel.findOneAndUpdate({ discordId }, newDetails, {
-      new: true,
-      upsert: true,
+    id: string,
+    newDetails: UserCreateWithoutCustomerInput,
+  ): Promise<User> {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: newDetails,
     })
   }
 
-  async findUser(discordId: string): Promise<UsersDocument | null> {
-    return await this.userModel.findOne({ discordId })
+  async findUser(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
   }
 
-  async updateSubscriptionStatus(
-    customerId: string,
-    subscriptionStatus: string,
-  ) {
-    await this.userModel.findOneAndUpdate(
-      {
-        stripeId: customerId,
+  async findCustomer(id: string): Promise<Customer | null> {
+    return this.prisma.customer.findUnique({
+      where: {
+        userId: id,
       },
-      {
-        subscriptionStatus,
-      },
-    )
+    })
   }
 }

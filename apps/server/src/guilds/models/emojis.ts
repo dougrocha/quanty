@@ -1,14 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 
-import { User } from './user'
+import { DiscordUser } from './user'
 
 @ObjectType()
 export class Emojis {
   @Field(() => [String], { nullable: true })
   roles?: string[]
 
-  @Field(() => User, { nullable: true })
-  user?: User
+  @Field(() => DiscordUser, { nullable: true })
+  user?: DiscordUser
 
   @Field({ nullable: true })
   require_colons?: boolean

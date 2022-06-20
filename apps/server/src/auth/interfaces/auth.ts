@@ -1,7 +1,8 @@
-import { UsersDocument } from '@quanty/schemas'
-
-import { UserWithToken } from '../../common'
+import {
+  User,
+  UserCreateWithoutCustomerInput,
+} from '../../@generated/prisma-nestjs-graphql'
 
 export interface IAuthenticationService {
-  validateUser(user: UserWithToken): Promise<UsersDocument>
+  validateUser(user: UserCreateWithoutCustomerInput): Promise<User>
 }

@@ -21,7 +21,7 @@ export class GraphQLAuthGuard implements CanActivate {
     const { user } = ctx.getContext().req
 
     if (!user) {
-      throw new ForbiddenException('Forbidden')
+      throw new ForbiddenException()
     }
 
     return user

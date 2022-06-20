@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { StripeWebhookController } from '../controllers/stripeWebhook.controller'
+import { StripeWebhookController } from '../controllers/stripe-webhook.controller'
 
 describe('StripeController', () => {
   let controller: StripeWebhookController

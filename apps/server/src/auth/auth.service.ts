@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { UsersDocument } from '@quanty/schemas'
-import { IUsersService } from 'src/users/interfaces/users'
 
 import { IAuthenticationService } from './interfaces/auth'
 
-import { UserWithToken } from '../common'
+import {
+  User,
+  UserCreateWithoutCustomerInput,
+} from '../@generated/prisma-nestjs-graphql'
+import { IUsersService } from '../users/interfaces/users'
 
 @Injectable()
 export class AuthService implements IAuthenticationService {
@@ -12,10 +14,11 @@ export class AuthService implements IAuthenticationService {
     @Inject('USERS_SERVICE') private readonly usersService: IUsersService,
   ) {}
 
-  async validateUser(details: UserWithToken): Promise<UsersDocument> {
-    const user = await this.usersService.findUser(details.discordId)
+  async validateUser(details: UserCreateWithoutCustomerInput): Promise<User> {
+    const user = await this.usersService.findUser(details.id)
+
     return user
-      ? await this.usersService.updateUser(user.discordId, details)
+      ? await this.usersService.updateUser(user.id, details)
       : await this.usersService.createUser(details)
   }
 }

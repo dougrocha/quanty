@@ -4,12 +4,14 @@ import {
   Command,
   SlashCommand,
   SlashCommandRunOptions,
+  Test,
 } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 import { SearchResult } from 'erela.js'
 
 import { createPlayer } from '../../libs'
 
+@Test()
 @Category('music')
 @SlashCommand('play', {
   description: 'Plays song.',

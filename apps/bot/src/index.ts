@@ -11,7 +11,7 @@ class Client extends QuantyClient {
       {
         token: process.env.TOKEN,
         owner: ['571520537587875851'],
-        devGuilds: '871581301713555526',
+        devGuilds: '711679864247156747',
         defaults: true,
         logLevel: production ? 'ALL' : 'DEBUG',
       },

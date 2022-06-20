@@ -9,7 +9,6 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common'
-import { Users } from '@quanty/schemas'
 import { Request, Response } from 'express'
 
 import {
@@ -17,6 +16,7 @@ import {
   PaymentRequestBody,
 } from './interfaces/paymentsService.interface'
 
+import { User } from '../@generated/prisma-nestjs-graphql'
 import { AuthenticatedGuard, HttpUser, PAYMENT_SERVICE } from '../common'
 
 @Controller('payments')
@@ -32,13 +32,15 @@ export class PaymentsController {
    * POST /api/payments/create-intent
    *
    * This will create payment intent for purchases
+   *
+   * TODO: Upload payment-intent ID onto database.
    */
   @Post('create-intent')
   async createIntent(
     @Req() request: Request,
     @Res() response: Response,
     @Body() body: PaymentRequestBody,
-    @HttpUser() user: Users,
+    @HttpUser() user: User,
   ) {
     try {
       const id: string = request.cookies['payment-intent']

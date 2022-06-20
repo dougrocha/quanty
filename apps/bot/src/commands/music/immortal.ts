@@ -10,6 +10,7 @@ import {
 import { MessageEmbed } from 'discord.js'
 
 import { GuildPluginsModel } from '../../database'
+
 @Category('music')
 @SlashCommand('immortal', {
   description: 'Toggles immortality mode.',

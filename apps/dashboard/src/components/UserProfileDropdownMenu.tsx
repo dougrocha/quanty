@@ -1,18 +1,14 @@
+import { useSetAtom } from 'jotai'
 import Link from 'next/link'
-import { SetStateAction } from 'react'
 
 import { StaticLinks } from '../utils/constants/API'
-import { CurrentUser } from '../utils/types'
+import { currentUserAtom } from '../utils/store'
 
-interface IUserProfileDropdownMenuProps {
-  setUser: (update: SetStateAction<CurrentUser | null>) => void
-}
+const UserProfileDropdownMenu = () => {
+  const setUser = useSetAtom(currentUserAtom)
 
-const UserProfileDropdownMenu = ({
-  setUser,
-}: IUserProfileDropdownMenuProps) => {
   return (
-    <ul className="absolute top-16 z-50 mt-2 w-40 overflow-hidden rounded-xl border-none bg-primary-purple-10 text-sm text-secondary-white">
+    <ul className="absolute top-16 right-8 z-50 mt-2 w-40 overflow-hidden rounded-md border-none bg-primary-purple-10 text-sm text-secondary-white shadow-xl xl:right-auto">
       {DropdownMenuItems.map((item, index) => {
         return (
           <li key={index} className="mr-3 ml-3 p-2 no-underline">

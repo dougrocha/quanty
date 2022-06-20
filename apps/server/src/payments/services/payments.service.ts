@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { Users } from '@quanty/schemas'
 import Stripe from 'stripe'
 
+import { User } from '../../@generated/prisma-nestjs-graphql'
 import { STRIPE_CLIENT } from '../../common'
 import {
   IPaymentsService,
@@ -38,12 +38,12 @@ export class PaymentsService implements IPaymentsService {
     return this.stripe.customers.update(customerId, params)
   }
 
-  async createPaymentIntent(body: PaymentRequestBody, user: Users) {
+  async createPaymentIntent(body: PaymentRequestBody, user: User) {
     return this.stripe.paymentIntents.create({
       amount: Number(body.amount) * 100,
       currency: body.currency,
       payment_method_types: body.payment_method_types,
-      customer: user.stripeId,
+      customer: user.customer?.id,
     })
   }
 

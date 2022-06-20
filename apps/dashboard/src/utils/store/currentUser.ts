@@ -2,4 +2,4 @@ import { atom } from 'jotai'
 
 import { CurrentUser } from '../types'
 
-export const currentUserAtom = atom<CurrentUser | null>(null)
+export const currentUserAtom = atom<CurrentUser | null | undefined>(null)

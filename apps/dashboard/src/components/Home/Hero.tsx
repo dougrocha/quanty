@@ -6,7 +6,7 @@ import { StaticLinks } from '../../utils/constants/API'
 const Hero = () => {
   // TODO: Find way to implement background
   return (
-    <div className="relative mb-36 mt-28 flex h-96 flex-col items-center justify-center xl:mb-64 xl:mt-48">
+    <div className="relative mb-36 mt-16 flex h-96 flex-col items-center justify-center lg:mt-28 xl:mb-64 xl:mt-48">
       <h1 className="text-center text-4xl font-bold">Quantum Realm Platform</h1>
       <h2 className="text-md mt-1 text-center text-secondary-white">
         Serving quality of life discord features with Quanty.
