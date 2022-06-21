@@ -120,6 +120,7 @@ export class QuantyClient extends Client {
         this.devGuilds = devGuilds
       }
     }
+
     if (token) this._token = token
 
     this.owner = owner
@@ -131,8 +132,8 @@ export class QuantyClient extends Client {
      * Sets base dir to dist profile
      * Example: dist/src/
      */
-    if (process.env.production == 'true') {
-      this.baseDir = `${this.outDir}/${this.baseDir}/`
+    if (outDir) {
+      this.baseDir = `${this.outDir}${this.baseDir}`
     }
 
     this.checkConfig()
@@ -240,9 +241,7 @@ export class QuantyClient extends Client {
     void eventLoader.loadEvents(this.eventDir, false)
 
     // Load test commands if guilds exist
-    if (this.devGuilds) {
-      void commandLoader.loadTestCommands(this.devGuilds)
-    }
+    if (this.devGuilds) void commandLoader.loadTestCommands(this.devGuilds)
   }
 
   // Setters
