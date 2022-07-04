@@ -1,0 +1,7 @@
+[project]
+id = "io.buildpacks.bash-script"
+name = "Quanty"
+version = "1.0.0"
+
+[[build.buildpacks]]
+uri = "heroku/nodejs-yarn"
