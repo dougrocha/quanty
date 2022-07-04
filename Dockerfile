@@ -21,7 +21,7 @@ WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
-RUN yarn turbo run build --scope=app-bot --include-dependencies --no-deps
+RUN yarn turbo run build --scope=app-backend --include-dependencies --no-deps
 
 EXPOSE 1-65000
 
