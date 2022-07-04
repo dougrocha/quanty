@@ -9,14 +9,14 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc",
-    "predev": "rimraf dist",
-    "dev": "concurrently \"yarn watch-compile\" \"yarn watch-prisma\" \"yarn watch-dev\" \"yarn watch-tsc\"",
+    "build": "swc src -d ./dist/src",
     "debug": "ts-node --debug -r dotenv/config src/index.ts",
-    "watch-compile": "swc src -w -s -d ./dist",
+    "predev": "rimraf dist",
+    "dev": "concurrently \"yarn watch-compile\" \"yarn watch-dev\" \"yarn watch-tsc\"",
+    "watch-compile": "swc src -w -s -d ./dist/src",
     "watch-prisma": "prisma generate --watch",
-    "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/index.js",
-    "watch-tsc": "tsc -w --pretty --skipLibCheck --noEmit",
+    "watch-dev": "nodemon --delay 1 --watch \"dist/**/*\" -e js ./dist/src/index.js",
+    "watch-tsc": "tsc -w --pretty --skipLibCheck --noEmit -p tsconfig.json",
     "start": "cross-env production=true node --experimental-specifier-resolution=node ./dist/src/index.js",
     "test": "echo TESTING BOT",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -52,8 +52,8 @@
     "node-abort-controller": "^3.0.1",
     "prisma": "^3.15.2",
     "rimraf": "^3.0.2",
-    "ts-node-dev": "2.0.0-0",
+    "ts-node": "^10.7.0",
     "tsconfig": "*",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.4"
   }
 }

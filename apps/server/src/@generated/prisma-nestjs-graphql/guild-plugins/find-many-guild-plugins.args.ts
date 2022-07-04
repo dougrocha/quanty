@@ -1,31 +1,32 @@
-import { Field } from '@nestjs/graphql';
-import { ArgsType } from '@nestjs/graphql';
-import { GuildPluginsWhereInput } from './guild-plugins-where.input';
-import { Type } from 'class-transformer';
-import { GuildPluginsOrderByWithRelationInput } from './guild-plugins-order-by-with-relation.input';
-import { GuildPluginsWhereUniqueInput } from './guild-plugins-where-unique.input';
-import { Int } from '@nestjs/graphql';
-import { GuildPluginsScalarFieldEnum } from './guild-plugins-scalar-field.enum';
+import { Field } from '@nestjs/graphql'
+import { ArgsType } from '@nestjs/graphql'
+import { GuildPluginsWhereInput } from './guild-plugins-where.input'
+import { Type } from 'class-transformer'
+import { GuildPluginsOrderByWithRelationAndSearchRelevanceInput } from './guild-plugins-order-by-with-relation-and-search-relevance.input'
+import { GuildPluginsWhereUniqueInput } from './guild-plugins-where-unique.input'
+import { Int } from '@nestjs/graphql'
+import { GuildPluginsScalarFieldEnum } from './guild-plugins-scalar-field.enum'
 
 @ArgsType()
 export class FindManyGuildPluginsArgs {
+  @Field(() => GuildPluginsWhereInput, { nullable: true })
+  @Type(() => GuildPluginsWhereInput)
+  where?: GuildPluginsWhereInput
 
-    @Field(() => GuildPluginsWhereInput, {nullable:true})
-    @Type(() => GuildPluginsWhereInput)
-    where?: GuildPluginsWhereInput;
+  @Field(() => [GuildPluginsOrderByWithRelationAndSearchRelevanceInput], {
+    nullable: true,
+  })
+  orderBy?: Array<GuildPluginsOrderByWithRelationAndSearchRelevanceInput>
 
-    @Field(() => [GuildPluginsOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<GuildPluginsOrderByWithRelationInput>;
+  @Field(() => GuildPluginsWhereUniqueInput, { nullable: true })
+  cursor?: GuildPluginsWhereUniqueInput
 
-    @Field(() => GuildPluginsWhereUniqueInput, {nullable:true})
-    cursor?: GuildPluginsWhereUniqueInput;
+  @Field(() => Int, { nullable: true })
+  take?: number
 
-    @Field(() => Int, {nullable:true})
-    take?: number;
+  @Field(() => Int, { nullable: true })
+  skip?: number
 
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-
-    @Field(() => [GuildPluginsScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof GuildPluginsScalarFieldEnum>;
+  @Field(() => [GuildPluginsScalarFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof GuildPluginsScalarFieldEnum>
 }

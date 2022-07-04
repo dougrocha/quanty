@@ -1,8 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
+  daisyui: {
+    themes: [],
+    styled: false,
+    base: false,
+  },
   theme: {
     extend: {
+      transitionProperty: {
+        spacing: 'margin, padding',
+      },
       fontFamily: {
         poppins: [
           'Poppins',
@@ -33,5 +41,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
+    require('daisyui'),
+  ],
 }

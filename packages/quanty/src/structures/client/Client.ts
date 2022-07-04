@@ -1,3 +1,5 @@
+import 'source-map-support/register'
+
 import 'dotenv'
 
 import { promisify } from 'util'
@@ -7,7 +9,9 @@ import glob from 'glob'
 
 import type { IQuantyConfig, IQuantyDefaults, LogLevels } from './types/client'
 
-import { ConfigError, Messages } from '../../errors'
+import { ValidationError } from '../../errors'
+import { QuantyOptions } from '../../interfaces'
+import { QuantyOptionsSchema } from '../../schemas/QuantyOptionsSchema'
 import { logger, Logger } from '../../util/Logger'
 import { CommandRegistry, CommandLoader } from '../command'
 import { EventRegistry, EventLoader } from '../event'
@@ -83,8 +87,10 @@ export class QuantyClient extends Client {
 
   public _RegExpPrefix = RegExp(`^<@!?${this.user?.id}>`)
 
-  constructor(quanty: IQuantyConfig, config: ClientOptions) {
+  constructor(options: IQuantyConfig, config: ClientOptions) {
     super(config)
+
+    this.validateOptions(options)
 
     const {
       commandDir,
@@ -98,7 +104,7 @@ export class QuantyClient extends Client {
       devGuilds,
       logLevel,
       outDir,
-    } = quanty
+    } = options
 
     ;(process.env.LOGLEVEL as LogLevels) = logLevel || 'WARN'
     this._logLevel = logLevel || 'WARN'
@@ -136,8 +142,6 @@ export class QuantyClient extends Client {
       this.baseDir = `${this.outDir}${this.baseDir}`
     }
 
-    this.checkConfig()
-
     this.commands = new CommandRegistry(this)
     this.events = new EventRegistry(this)
 
@@ -158,36 +162,24 @@ export class QuantyClient extends Client {
   /**
    * Will check config to make sure everything is available before running.
    */
-  public checkConfig() {
-    this._logger.debug('Checking config.')
+  private validateOptions(options: IQuantyConfig) {
+    const validatationResult = QuantyOptionsSchema.validate(options)
 
-    let error = false
-
-    if (!this._token || typeof this._token != 'string') {
-      this._logger.error(
-        new ConfigError(Messages.MISSING_CLIENT_CONFIG('_token')),
+    if (validatationResult.error) {
+      const validationError = new ValidationError(
+        validatationResult.error.message,
       )
-      error = true
+      Error.captureStackTrace(validationError, this.validateOptions)
+      Error.captureStackTrace(validationError, this.constructor)
+
+      validationError.data = validatationResult.error.details
+
+      throw validationError
     }
 
-    if (!this.commandDir || typeof this.commandDir != 'string') {
-      this._logger.error(
-        new ConfigError(Messages.MISSING_CLIENT_CONFIG('commandDir')),
-      )
-      error = true
-    }
-
-    if (!this.eventDir || typeof this.eventDir != 'string') {
-      this._logger.error(
-        new ConfigError(Messages.MISSING_CLIENT_CONFIG('eventDir')),
-      )
-      error = true
-    }
-
-    if (error) process.exit(1)
-
-    this._logger.clearLastLine()
     this._logger.debug('✅ Config checked.')
+
+    return validatationResult.value
   }
 
   /**

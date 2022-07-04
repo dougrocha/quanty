@@ -1,75 +1,50 @@
-import { useAtom } from 'jotai'
-import { useHydrateAtoms } from 'jotai/utils'
-import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
-import {
-  GetMutualGuildsDocument,
-  GetMutualGuildsQuery,
-  Guild,
-  useGetGuildConfigQuery,
-} from '../../../graphql/generated/schema'
+import DashboardContent from '../../../components/Dashboard/DashboardContent'
+import { PrefixForm } from '../../../components/forms'
+import { useGuildConfigSubscription } from '../../../graphql/generated/schema'
 import DashboardLayout from '../../../layouts/Dashboard'
-import { addApolloState, initializeApollo } from '../../../libs/apolloClient'
-import { currentGuildAtom } from '../../../utils/store/currentGuild'
-import { guildConfigAtom } from '../../../utils/store/guildConfig'
+import { StaticLinks } from '../../../utils/constants/API'
 
-interface OverviewPageProps {
-  currentGuild: Guild
-}
+const OverviewPage = () => {
+  const {
+    query: { guildId },
+  } = useRouter()
 
-const OverviewPage = ({ currentGuild }: OverviewPageProps) => {
-  useHydrateAtoms([[currentGuildAtom, currentGuild]] as const)
-
-  const router = useRouter()
-  const { query } = router
-
-  const [guildConfig, setGuildConfig] = useAtom(guildConfigAtom)
-
-  useGetGuildConfigQuery({
-    variables: { guildId: (query.guildId as string) ?? '' },
-    onCompleted: ({ guildConfig }) => {
-      setGuildConfig(guildConfig)
+  useGuildConfigSubscription({
+    variables: {
+      guildId: guildId as string,
     },
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.debug(subscriptionData.data)
+    },
+    context: { test: 'asdasdasd' },
   })
 
   return (
-    <div className="bg-red-500">
-      Prefix: {guildConfig?.guildId || 'Not Available'}
-      {'\n'}
-      {JSON.stringify(guildConfig)}
-    </div>
+    <DashboardContent
+      title="Overview"
+      description="What would you like to change today?"
+      actionButton={
+        <Link href={StaticLinks.QUANTY_SERVER_INVITE}>
+          <a className="rounded-3xl bg-primary-bright-purple px-6 py-2 text-center">
+            Support Server
+          </a>
+        </Link>
+      }
+      seperateTitle
+    >
+      <div className="grid min-h-full w-full grid-cols-3 gap-y-40 gap-x-20">
+        <PrefixForm placeholder={'Change your prefix '} />
+      </div>
+    </DashboardContent>
   )
 }
 
 OverviewPage.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>
-}
-
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const { params } = context
-
-  if (!params)
-    return {
-      redirect: { destination: '/dashboard' },
-    }
-
-  const client = initializeApollo({ headers: context?.req?.headers })
-
-  const {
-    data: { mutualGuilds },
-  } = await client.query<GetMutualGuildsQuery>({
-    query: GetMutualGuildsDocument,
-  })
-
-  const currentGuild = mutualGuilds.find(guild => guild.id === params.guildId)
-
-  return addApolloState(client, {
-    props: { currentGuild },
-  })
 }
 
 export default OverviewPage

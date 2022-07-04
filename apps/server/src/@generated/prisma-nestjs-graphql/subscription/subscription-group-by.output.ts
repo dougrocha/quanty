@@ -1,44 +1,39 @@
-import { Field } from '@nestjs/graphql';
-import { ObjectType } from '@nestjs/graphql';
-import { Subscription_tier } from '../prisma/subscription-tier.enum';
-import { Subscription_status } from '../prisma/subscription-status.enum';
-import { SubscriptionCountAggregate } from './subscription-count-aggregate.output';
-import { SubscriptionMinAggregate } from './subscription-min-aggregate.output';
-import { SubscriptionMaxAggregate } from './subscription-max-aggregate.output';
+import { Field } from '@nestjs/graphql'
+import { ObjectType } from '@nestjs/graphql'
+import { Subscription_status } from '../prisma/subscription-status.enum'
+import { SubscriptionCountAggregate } from './subscription-count-aggregate.output'
+import { SubscriptionMinAggregate } from './subscription-min-aggregate.output'
+import { SubscriptionMaxAggregate } from './subscription-max-aggregate.output'
 
 @ObjectType()
 export class SubscriptionGroupBy {
+  @Field(() => String, { nullable: false })
+  id!: string
 
-    @Field(() => String, {nullable:false})
-    id!: string;
+  @Field(() => Subscription_status, { nullable: false })
+  status!: keyof typeof Subscription_status
 
-    @Field(() => Subscription_tier, {nullable:false})
-    tier!: keyof typeof Subscription_tier;
+  @Field(() => Date, { nullable: false })
+  current_period_end!: Date | string
 
-    @Field(() => Subscription_status, {nullable:false})
-    status!: keyof typeof Subscription_status;
+  @Field(() => Boolean, { nullable: false })
+  cancel_at_period_end!: boolean
 
-    @Field(() => Date, {nullable:false})
-    current_period_end!: Date | string;
+  @Field(() => String, { nullable: false })
+  guildId!: string
 
-    @Field(() => Boolean, {nullable:false})
-    cancel_at_period_end!: boolean;
+  @Field(() => String, { nullable: false })
+  customerId!: string
 
-    @Field(() => String, {nullable:false})
-    guildId!: string;
+  @Field(() => String, { nullable: false })
+  priceId!: string
 
-    @Field(() => String, {nullable:false})
-    customerId!: string;
+  @Field(() => SubscriptionCountAggregate, { nullable: true })
+  _count?: SubscriptionCountAggregate
 
-    @Field(() => String, {nullable:false})
-    priceId!: string;
+  @Field(() => SubscriptionMinAggregate, { nullable: true })
+  _min?: SubscriptionMinAggregate
 
-    @Field(() => SubscriptionCountAggregate, {nullable:true})
-    _count?: SubscriptionCountAggregate;
-
-    @Field(() => SubscriptionMinAggregate, {nullable:true})
-    _min?: SubscriptionMinAggregate;
-
-    @Field(() => SubscriptionMaxAggregate, {nullable:true})
-    _max?: SubscriptionMaxAggregate;
+  @Field(() => SubscriptionMaxAggregate, { nullable: true })
+  _max?: SubscriptionMaxAggregate
 }

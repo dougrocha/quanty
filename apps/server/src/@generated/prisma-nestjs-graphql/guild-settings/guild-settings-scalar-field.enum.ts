@@ -1,13 +1,15 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { registerEnumType } from '@nestjs/graphql'
 
 export enum GuildSettingsScalarFieldEnum {
-    id = "id",
-    defaultJoinRole = "defaultJoinRole",
-    nsfw = "nsfw",
-    globalCooldown = "globalCooldown",
-    djRole = "djRole",
-    musicTimeOut = "musicTimeOut"
+  id = 'id',
+  defaultJoinRole = 'defaultJoinRole',
+  nsfw = 'nsfw',
+  globalCooldown = 'globalCooldown',
+  djRole = 'djRole',
+  musicTimeOut = 'musicTimeOut',
 }
 
-
-registerEnumType(GuildSettingsScalarFieldEnum, { name: 'GuildSettingsScalarFieldEnum', description: undefined })
+registerEnumType(GuildSettingsScalarFieldEnum, {
+  name: 'GuildSettingsScalarFieldEnum',
+  description: undefined,
+})

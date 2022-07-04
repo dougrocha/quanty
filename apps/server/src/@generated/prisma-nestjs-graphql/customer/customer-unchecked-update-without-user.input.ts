@@ -1,26 +1,27 @@
-import { Field } from '@nestjs/graphql';
-import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { SubscriptionUncheckedUpdateManyWithoutCustomerInput } from '../subscription/subscription-unchecked-update-many-without-customer.input';
+import { Field } from '@nestjs/graphql'
+import { InputType } from '@nestjs/graphql'
+import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input'
+import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input'
+import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input'
+import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input'
+import { GuildSubscriptionUncheckedUpdateManyWithoutCustomerNestedInput } from '../guild-subscription/guild-subscription-unchecked-update-many-without-customer-nested.input'
 
 @InputType()
 export class CustomerUncheckedUpdateWithoutUserInput {
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  id?: StringFieldUpdateOperationsInput
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  email?: NullableStringFieldUpdateOperationsInput
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    email?: NullableStringFieldUpdateOperationsInput;
+  @Field(() => BoolFieldUpdateOperationsInput, { nullable: true })
+  subscriptionId?: BoolFieldUpdateOperationsInput
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    subscriptionId?: BoolFieldUpdateOperationsInput;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: DateTimeFieldUpdateOperationsInput
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    createdAt?: DateTimeFieldUpdateOperationsInput;
-
-    @Field(() => SubscriptionUncheckedUpdateManyWithoutCustomerInput, {nullable:true})
-    subscription?: SubscriptionUncheckedUpdateManyWithoutCustomerInput;
+  @Field(() => GuildSubscriptionUncheckedUpdateManyWithoutCustomerNestedInput, {
+    nullable: true,
+  })
+  subscription?: GuildSubscriptionUncheckedUpdateManyWithoutCustomerNestedInput
 }

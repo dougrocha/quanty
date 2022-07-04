@@ -1,26 +1,25 @@
-import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { MutualGuild } from '../graphql/generated/schema'
 import { FetchGuildIcon } from '../libs/FetchIcons'
 import { StaticLinks } from '../utils/constants/API'
-import { currentGuildAtom } from '../utils/store/currentGuild'
 
 interface GuildCardProps {
   guild: MutualGuild
 }
 
 export const GuildCard = ({ guild }: GuildCardProps) => {
-  const setCurrentGuild = useSetAtom(currentGuildAtom)
-
   const { id, icon, name, bot } = guild
+
+  const { push } = useRouter()
 
   return (
     <div
       key={`guild-${id}`}
       className="relative flex h-52 w-full flex-col items-center justify-end overflow-hidden rounded-xl sm:w-80 md:m-2"
-      onClick={() => setCurrentGuild(id)}
+      onClick={() => push(`/dashboard/${id}`)}
     >
       <Image
         className="blur-sm"

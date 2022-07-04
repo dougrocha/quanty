@@ -7,7 +7,7 @@ import {
 } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-import MusicManager from '../../libs/music'
+import { musicManager } from '../../libs/music'
 
 @Category('music')
 @SlashCommand('shuffle', {
@@ -15,7 +15,7 @@ import MusicManager from '../../libs/music'
 })
 export class TCommand extends Command {
   async run({ guild }: SlashCommandRunOptions): CommandReturnType {
-    const player = MusicManager.getInstance().get(guild.id)
+    const player = musicManager.get(guild.id)
 
     const embed = new MessageEmbed().setColor('#FF5F9F')
 

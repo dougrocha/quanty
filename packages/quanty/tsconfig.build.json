@@ -8,5 +8,5 @@
     "importsNotUsedAsValues": "error"
   },
   "include": ["src", ".eslintrc.js", "environment.d.ts"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "generate-joi.ts"]
 }

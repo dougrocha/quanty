@@ -1,15 +1,14 @@
-import { Field } from '@nestjs/graphql';
-import { ObjectType } from '@nestjs/graphql';
+import { Field } from '@nestjs/graphql'
+import { ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class GuildPluginsMaxAggregate {
+  @Field(() => String, { nullable: true })
+  id?: string
 
-    @Field(() => String, {nullable:true})
-    id?: string;
+  @Field(() => Boolean, { nullable: true })
+  autoMod?: boolean
 
-    @Field(() => Boolean, {nullable:true})
-    autoMod?: boolean;
-
-    @Field(() => Boolean, {nullable:true})
-    anime?: boolean;
+  @Field(() => Boolean, { nullable: true })
+  anime?: boolean
 }

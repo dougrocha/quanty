@@ -1,29 +1,36 @@
-import { Field } from '@nestjs/graphql';
-import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
-import { ProductUpdateOneRequiredWithoutPriceInput } from '../product/product-update-one-required-without-price.input';
-import { SubscriptionUpdateManyWithoutPriceInput } from '../subscription/subscription-update-many-without-price.input';
+import { Field } from '@nestjs/graphql'
+import { InputType } from '@nestjs/graphql'
+import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input'
+import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input'
+import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input'
+import { EnumPriceTypeFieldUpdateOperationsInput } from '../prisma/enum-price-type-field-update-operations.input'
+import { ProductUpdateOneRequiredWithoutPriceNestedInput } from '../product/product-update-one-required-without-price-nested.input'
+import { GuildSubscriptionUpdateManyWithoutPriceNestedInput } from '../guild-subscription/guild-subscription-update-many-without-price-nested.input'
 
 @InputType()
 export class PriceUpdateInput {
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  id?: StringFieldUpdateOperationsInput
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  recurringInterval?: NullableStringFieldUpdateOperationsInput
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    recurringInterval?: DateTimeFieldUpdateOperationsInput;
+  @Field(() => IntFieldUpdateOperationsInput, { nullable: true })
+  unit_amount?: IntFieldUpdateOperationsInput
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    unit_amount?: IntFieldUpdateOperationsInput;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  currency?: StringFieldUpdateOperationsInput
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    currency?: StringFieldUpdateOperationsInput;
+  @Field(() => EnumPriceTypeFieldUpdateOperationsInput, { nullable: true })
+  type?: EnumPriceTypeFieldUpdateOperationsInput
 
-    @Field(() => ProductUpdateOneRequiredWithoutPriceInput, {nullable:true})
-    product?: ProductUpdateOneRequiredWithoutPriceInput;
+  @Field(() => ProductUpdateOneRequiredWithoutPriceNestedInput, {
+    nullable: true,
+  })
+  product?: ProductUpdateOneRequiredWithoutPriceNestedInput
 
-    @Field(() => SubscriptionUpdateManyWithoutPriceInput, {nullable:true})
-    subscription?: SubscriptionUpdateManyWithoutPriceInput;
+  @Field(() => GuildSubscriptionUpdateManyWithoutPriceNestedInput, {
+    nullable: true,
+  })
+  subscription?: GuildSubscriptionUpdateManyWithoutPriceNestedInput
 }

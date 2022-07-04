@@ -3,8 +3,11 @@ import { Field, InputType } from '@nestjs/graphql'
 @InputType()
 export class CreateSubscriptionInput {
   @Field()
-  customerId: string
+  userId: string
 
   @Field()
   priceId: string
+
+  @Field()
+  guildId: string
 }

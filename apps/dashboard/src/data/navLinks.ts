@@ -5,7 +5,7 @@ interface INavLinks {
   path: string
 }
 
-export const NavLinks: INavLinks[] = [
+export const NavLinksData: INavLinks[] = [
   {
     name: 'Home',
     path: '/',

@@ -4,13 +4,13 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
+import LoginButton from './Buttons/LoginButton'
+
 import { useOnClickOutside } from '../hooks'
 import { FetchUserIcon } from '../libs/FetchIcons'
 import { currentUserAtom } from '../utils/store'
 
-const UserProfileDropdownMenu = dynamic(import('./UserProfileDropdownMenu'), {
-  ssr: false,
-})
+const UserProfileDropdownMenu = dynamic(import('./UserProfileDropdownMenu'))
 
 interface IUserProfileTypes {
   small?: boolean
@@ -22,13 +22,13 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
 
   const [open, setOpen] = useState(false)
 
+  const user = useAtomValue(currentUserAtom)
+
   const closeDropdown = () => setOpen(false)
 
   useOnClickOutside(ref, closeDropdown)
 
-  const user = useAtomValue(currentUserAtom)
-
-  if (!user) return <></>
+  if (!user) return <LoginButton />
 
   return (
     <>
@@ -37,19 +37,17 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
           className="flex items-center justify-center"
           onClick={() => setOpen(!open)}
         >
-          <div
-            className={`relative overflow-hidden rounded-full ${
-              small ? 'h-7 w-7' : 'h-10 w-10'
-            }`}
-          >
-            <Image
-              src={FetchUserIcon(user.discordId, user.avatar)}
-              alt="Quanty Icon Picture"
-              objectFit="cover"
-              layout="fill"
-              placeholder="blur"
-              blurDataURL="/basic_discord_logo.png"
-            />
+          <div className="avatar">
+            <div className="rounded-full">
+              <Image
+                src={FetchUserIcon(user?.id ?? '', user?.avatar ?? '')}
+                alt="Quanty Icon Picture"
+                width={40}
+                height={40}
+                placeholder="blur"
+                blurDataURL="/basic_discord_logo.png"
+              />
+            </div>
           </div>
           <strong className="ml-3 hidden sm:block">{user.username}</strong>
 

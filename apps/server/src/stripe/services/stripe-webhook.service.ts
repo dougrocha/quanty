@@ -4,9 +4,12 @@ import { IStripeWebhookService } from '../interfaces/stripe-webhook.interface'
 
 @Injectable()
 export class StripeWebhookService implements IStripeWebhookService {
+  // Customer.subscription.created
+  // Customer.subscription.updated
   handleSubscriptionCreate(): void {
     throw new Error('Method not implemented.')
   }
+  //
   handleSubscriptionBilling(): void {
     throw new Error('Method not implemented.')
   }

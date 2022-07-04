@@ -1,12 +1,10 @@
 query GetUser {
   me {
+    id
     discriminator
-    discordId
     username
     email
     avatar
     locale
-    verified
-    stripeId
   }
 }

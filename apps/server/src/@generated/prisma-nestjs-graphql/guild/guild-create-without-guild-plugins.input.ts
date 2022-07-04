@@ -1,24 +1,26 @@
-import { Field } from '@nestjs/graphql';
-import { InputType } from '@nestjs/graphql';
-import { Guild_tier } from '../prisma/guild-tier.enum';
-import { SubscriptionCreateNestedOneWithoutGuildInput } from '../subscription/subscription-create-nested-one-without-guild.input';
-import { GuildSettingsCreateNestedOneWithoutGuildInput } from '../guild-settings/guild-settings-create-nested-one-without-guild.input';
+import { Field } from '@nestjs/graphql'
+import { InputType } from '@nestjs/graphql'
+import { GuildSubscriptionCreateNestedOneWithoutGuildInput } from '../guild-subscription/guild-subscription-create-nested-one-without-guild.input'
+import { GuildSettingsCreateNestedOneWithoutGuildInput } from '../guild-settings/guild-settings-create-nested-one-without-guild.input'
 
 @InputType()
 export class GuildCreateWithoutGuildPluginsInput {
+  @Field(() => String, { nullable: false })
+  id!: string
 
-    @Field(() => String, {nullable:false})
-    id!: string;
+  @Field(() => Boolean, { nullable: true })
+  premium?: boolean
 
-    @Field(() => Guild_tier, {nullable:true})
-    tier?: keyof typeof Guild_tier;
+  @Field(() => String, { nullable: true })
+  prefix?: string
 
-    @Field(() => String, {nullable:true})
-    prefix?: string;
+  @Field(() => GuildSubscriptionCreateNestedOneWithoutGuildInput, {
+    nullable: true,
+  })
+  subscription?: GuildSubscriptionCreateNestedOneWithoutGuildInput
 
-    @Field(() => SubscriptionCreateNestedOneWithoutGuildInput, {nullable:true})
-    subscription?: SubscriptionCreateNestedOneWithoutGuildInput;
-
-    @Field(() => GuildSettingsCreateNestedOneWithoutGuildInput, {nullable:true})
-    guildSettings?: GuildSettingsCreateNestedOneWithoutGuildInput;
+  @Field(() => GuildSettingsCreateNestedOneWithoutGuildInput, {
+    nullable: true,
+  })
+  guildSettings?: GuildSettingsCreateNestedOneWithoutGuildInput
 }

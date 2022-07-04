@@ -9,16 +9,46 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
 }
 
 generator nestgraphql {
-  provider               = "prisma-nestjs-graphql"
-  output                 = "../src/@generated/prisma-nestjs-graphql"
-  fields_Validator_from  = "class-validator"
-  fields_Validator_input = true
-  reExport               = Single
-  noTypeId               = True
+  provider = "prisma-nestjs-graphql"
+  output   = "../src/@generated/prisma-nestjs-graphql"
+
+  reExport    = Single
+  noTypeId    = True
+  purgeOutput = false
+
+  requireSingleFieldsInWhereUniqueInput = false
+  fields_Validator_from                 = "class-validator"
+  fields_Validator_input                = true
+  fields_Scalars_from                   = "graphql-scalars"
+  fields_Scalars_input                  = true
+  useInputType_WhereInput_ALL           = "WhereInput"
+  decorate_1_type                       = "Create@(One|Many)UserArgs"
+  decorate_1_field                      = data
+  decorate_1_name                       = ValidateNested
+  decorate_1_from                       = "class-validator"
+  decorate_1_arguments                  = "[]"
+  decorate_2_type                       = "Create@(One|Many)UserArgs"
+  decorate_2_field                      = data
+  decorate_2_from                       = "class-transformer"
+  decorate_2_arguments                  = "['() => {propertyType.0}']"
+  decorate_2_name                       = Type
+  decorate_2_namedImport                = true
+  decorate_3_type                       = "ProfileUncheckedCreateNestedOneWithoutUserInput"
+  decorate_3_field                      = "!(create)"
+  decorate_3_name                       = "HideField"
+  decorate_3_from                       = "@nestjs/graphql"
+  decorate_3_arguments                  = "[]"
+}
+
+model UserSession {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.Text()
+  expiresAt DateTime
 }
 
 model Customer {
@@ -31,17 +61,17 @@ model Customer {
   user   User?   @relation(fields: [userId], references: [id])
   userId String? @unique @db.VarChar(18)
 
-  subscription Subscription[]
+  subscription GuildSubscription[]
 
   @@index([userId])
 }
 
 model Guild {
-  id     String     @id @unique @db.VarChar(18)
-  tier   Guild_tier @default(FREE)
-  prefix String     @default("q!") @db.VarChar(10)
+  id      String  @id @unique @db.VarChar(18)
+  premium Boolean @default(false)
+  prefix  String  @default("q!") @db.VarChar(10)
 
-  subscription  Subscription?
+  subscription  GuildSubscription?
   guildSettings GuildSettings?
   guildPlugins  GuildPlugins?
 }
@@ -66,30 +96,30 @@ model GuildSettings {
 }
 
 model Price {
-  id                String   @id @unique @db.VarChar(255)
-  recurringInterval DateTime
+  id                String    @id @unique @db.VarChar(255)
+  recurringInterval String?
   unit_amount       Int
-  currency          String   @db.VarChar(4)
+  currency          String    @db.VarChar(4)
+  type              PriceType
 
   product   Product @relation(fields: [productId], references: [id])
   productId String
 
-  subscription Subscription[]
+  subscription GuildSubscription[]
 
   @@index([productId])
 }
 
 model Product {
-  id          String       @id @unique @db.VarChar(255)
-  name        String       @db.VarChar(50)
-  description String?      @db.VarChar(350)
-  tier        Product_tier
+  id          String  @id @unique @db.VarChar(255)
+  name        String  @db.VarChar(50)
+  description String? @db.VarChar(350)
   price       Price[]
 }
 
-model Subscription {
+// Do not name this just "Subscription" will mess with GraphQL Subscription Type
+model GuildSubscription {
   id                   String              @id @unique @db.VarChar(255)
-  tier                 Subscription_tier   @default(FREE)
   status               Subscription_status @default(CANCELED)
   current_period_end   DateTime
   cancel_at_period_end Boolean             @default(false)
@@ -128,28 +158,15 @@ model User {
   customer Customer?
 }
 
-enum Guild_tier {
-  FREE
-  SILVER
-  QUANTUM
-}
-
-enum Product_tier {
-  FREE
-  SILVER
-  QUANTUM
-}
-
-enum Subscription_tier {
-  FREE
-  SILVER
-  QUANTUM
-}
-
 enum Subscription_status {
   ACTIVE
   CANCELED
   INCOMPLETE
+}
+
+enum PriceType {
+  RECURRING
+  ONE_TIME
 }
 
 // type GuildsAnime {

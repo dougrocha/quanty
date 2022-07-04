@@ -1,11 +1,10 @@
-import { useSetAtom } from 'jotai'
 import Link from 'next/link'
 
+import { useAuth } from '../hooks'
 import { StaticLinks } from '../utils/constants/API'
-import { currentUserAtom } from '../utils/store'
 
 const UserProfileDropdownMenu = () => {
-  const setUser = useSetAtom(currentUserAtom)
+  const { logOut } = useAuth()
 
   return (
     <ul className="absolute top-16 right-8 z-50 mt-2 w-40 overflow-hidden rounded-md border-none bg-primary-purple-10 text-sm text-secondary-white shadow-xl xl:right-auto">
@@ -18,7 +17,7 @@ const UserProfileDropdownMenu = () => {
       })}
       <li className="mr-3 ml-3 p-2 text-red-500 no-underline">
         <Link href={`${StaticLinks.QUANTY_API}/api/auth/logout`}>
-          <a onClick={() => setUser}>Log Out</a>
+          <a onClick={() => logOut}>Log Out</a>
         </Link>
       </li>
     </ul>

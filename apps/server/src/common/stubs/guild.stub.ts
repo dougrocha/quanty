@@ -3,7 +3,7 @@ import { Guild } from '../../@generated/prisma-nestjs-graphql'
 export const guildStub = (): Guild => ({
   id: '123',
   prefix: 'q!',
-  tier: 'FREE',
+  premium: false,
   guildSettings: {
     id: '123',
     defaultJoinRole: '123',

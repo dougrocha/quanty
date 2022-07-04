@@ -1,5 +1,5 @@
-import { atomWithReset } from 'jotai/utils'
+import { atom } from 'jotai'
 
-import { Guilds } from '../../graphql/generated/schema'
+import { Guild } from '../../graphql/generated/schema'
 
-export const guildConfigAtom = atomWithReset<Guilds | null>(null)
+export const guildConfigAtom = atom<Guild | null>(null)

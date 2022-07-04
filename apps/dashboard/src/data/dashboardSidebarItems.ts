@@ -1,7 +1,9 @@
+import { IconName } from '../components/DynamicHeroIcon'
+
 export interface ISidebaritems {
   name: string
   link: string
-  icon?: string
+  icon?: IconName
   premium?: boolean
 }
 
@@ -14,17 +16,17 @@ export const DefaultCategory: ISidebaritems[] = [
   {
     name: 'Overview',
     link: '',
-    icon: 'material-symbols:dashboard-outline-rounded',
+    icon: 'ViewGridIcon',
   },
   {
     name: 'Settings',
     link: 'settings',
-    icon: 'bx:cog',
+    icon: 'CogIcon',
   },
   {
     name: 'Premium',
     link: 'premium',
-    icon: 'clarity:atom-solid',
+    icon: 'HeartIcon',
     premium: true,
   },
 ]
@@ -33,12 +35,12 @@ export const ServerManagementCategory: ISidebaritems[] = [
   {
     name: 'Moderation',
     link: 'moderation',
-    icon: 'fluent:wrench-20-regular',
+    icon: 'AnnotationIcon',
   },
   {
     name: 'Custom Commands',
     link: 'custom-cmd',
-    icon: 'jam:write',
+    icon: 'PencilAltIcon',
   },
 ]
 

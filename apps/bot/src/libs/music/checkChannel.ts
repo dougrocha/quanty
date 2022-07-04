@@ -1,8 +1,8 @@
 import { Guild as GuildType, User } from 'discord.js'
 
-import Manager from './manager'
+import { musicManager } from './manager'
 
-import client from '../..'
+import { client } from '../..'
 
 export const checkChannel = ({
   guild: curGuild,
@@ -22,7 +22,7 @@ export const checkChannel = ({
 
   voice ? (channel = voice.channel) : null
 
-  const player = Manager.getInstance().get(curGuild.id)
+  const player = musicManager.get(curGuild.id)
 
   if (!channel) {
     return { player, content: 'Use `/join` to connect to Quanty.' }

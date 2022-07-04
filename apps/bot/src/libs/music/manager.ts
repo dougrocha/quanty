@@ -4,7 +4,7 @@ import { TextChannel, User } from 'discord.js'
 import { Track, Manager as ErelaManager } from 'erela.js'
 import { Spotify } from 'erela.js-spotify/dist/plugin'
 
-import client from '../..'
+import { client } from '../..'
 import { lavalinkNodes, spotifyOptions } from '../../utils'
 
 const managerPlugins = [new AppleMusic(), new Spotify(spotifyOptions)]
@@ -18,8 +18,6 @@ class MusicManager extends ErelaManager {
   @logger()
   private logger: Logger
 
-  private static _instance: MusicManager = new MusicManager()
-
   constructor() {
     super({
       nodes: [lavalinkNodes],
@@ -31,15 +29,7 @@ class MusicManager extends ErelaManager {
       plugins: managerPlugins,
     })
 
-    MusicManager._instance = this
-
     this._init()
-  }
-
-  public static getInstance(): MusicManager {
-    if (!this._instance) MusicManager._instance = new MusicManager()
-
-    return MusicManager._instance
   }
 
   private _init() {
@@ -56,9 +46,11 @@ class MusicManager extends ErelaManager {
         if (!player.textChannel) {
           return
         }
+
         const channel = client.channels.cache.get(
           player.textChannel,
         ) as TextChannel
+
         const { title, requester } = track
         // Send a message when the track starts playing with the track name and the requester's Discord tag, e.g. username#discriminator
         await channel.send({
@@ -95,15 +87,16 @@ class MusicManager extends ErelaManager {
         //   player.destroy()
         // }
       })
-      .on('playerMove', (player, newChannel) => {
+      .on('playerMove', (player, initChannel, newChannel) => {
         if (!newChannel) {
           return player.destroy()
         }
 
         if (player) {
-          if (player.voiceChannel === newChannel) {
+          if (player.voiceChannel === initChannel) {
             // Pause song for short duration while switching channels
             if (player.playing && !player.paused) {
+              player.setVoiceChannel(newChannel)
               player.pause(true)
               setTimeout(() => {
                 player.pause(false)
@@ -129,8 +122,8 @@ class MusicManager extends ErelaManager {
   }
 
   private _initClientEvents() {
-    client.on('raw', d => this.updateVoiceState(d))
+    client.on('raw', (d: any) => this.updateVoiceState(d))
   }
 }
 
-export default MusicManager
+export const musicManager = new MusicManager()

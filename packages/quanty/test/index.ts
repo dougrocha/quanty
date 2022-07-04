@@ -11,6 +11,7 @@ const client: QuantyClient = new QuantyClient(
     eventDir: 'events/',
     owner: '979178442140549230',
     baseDir: 'test/',
+    outDir: 'dist/',
     defaults: true,
     logLevel: 'DEBUG',
     devGuilds: '871581301713555526',
@@ -29,4 +30,4 @@ const client: QuantyClient = new QuantyClient(
   },
 )
 
-void client.start()
+// Void client.start()

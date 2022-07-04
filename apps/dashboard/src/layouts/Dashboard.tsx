@@ -1,51 +1,62 @@
-import { useAtom, useAtomValue } from 'jotai'
+import { motion } from 'framer-motion'
+import { useAtom, useSetAtom } from 'jotai'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { ClapSpinner } from 'react-spinners-kit'
+import { useEffect, useRef } from 'react'
+import { Toaster } from 'react-hot-toast'
+import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
+import { useMedia } from 'react-use'
 
-import { DashboardSidebar, DashboardNavbar } from '../components/Dashboard'
-import {
-  useGetUserQuery,
-  useGetGuildConfigQuery,
-} from '../graphql/generated/schema'
-import { currentGuildAtom, guildConfigAtom } from '../utils/store'
-import { currentUserAtom } from '../utils/store/currentUser'
+import { DashboardNavbar } from '../components/Dashboard'
+import { useGetGuildConfigQuery } from '../graphql/generated/schema'
+import { useAuth, useClickOn } from '../hooks'
+import { guildConfigAtom } from '../utils/store'
+import { dashboardDrawerToggleAtom } from '../utils/store/dashboardSidebarStatus'
+
+const ClapSpinner: typeof ClapSpinnerType = dynamic(() =>
+  import('react-spinners-kit').then(mod => mod['ClapSpinner']),
+)
+
+const DashboardSidebar = dynamic(
+  () => import('../components/Dashboard/Sidebar'),
+  {
+    ssr: false,
+  },
+)
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
-  const [user, setUser] = useAtom(currentUserAtom)
-  const currGuild = useAtomValue(currentGuildAtom)
-  const [guildConfig, setGuildConfig] = useAtom(guildConfigAtom)
+  // const setGuildConfig = useSetAtom(guildConfigAtom)
+  const [sidebarDrawerOpen, toggleSidebarDrawer] = useAtom(
+    dashboardDrawerToggleAtom,
+  )
 
   const router = useRouter()
 
+  const setGuildConfig = useSetAtom(guildConfigAtom)
+
+  useAuth()
+
   useEffect(() => {
     if (!router.isReady) return
-  }, [router.isReady, currGuild])
-
-  useGetUserQuery({
-    onCompleted: ({ user }) => setUser(user),
-    skip: user != null, // Sets the user if the user doesnt exist
-    fetchPolicy: 'cache-and-network',
-  })
+  }, [router.isReady])
 
   const { loading } = useGetGuildConfigQuery({
     onCompleted: ({ guildConfig }) => setGuildConfig(guildConfig),
-    variables: { guildId: router.query.guildId as never },
-    skip: guildConfig != null,
+    variables: { guildId: router.query.guildId as string },
     fetchPolicy: 'cache-and-network',
   })
 
-  if (!user)
-    return (
-      <div className="flex h-screen items-center justify-center overflow-auto bg-primary-purple-20 text-primary-white antialiased">
-        <ClapSpinner frontColor="#ffffff" backColor="#6635F0" size={70} />
-      </div>
-    )
+  const ref = useRef(null)
+  const isLarge = useMedia('(min-width: 1024px)')
+  useClickOn(ref, () => {
+    if (isLarge) return
+    toggleSidebarDrawer(false)
+  })
 
   return (
     <>
@@ -66,14 +77,32 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
         <meta name="theme-color" content="#1C1A25" />
       </Head>
-      <div className="flex h-screen overflow-auto bg-primary-darkPurpleBg text-primary-white antialiased">
+      <div
+        className={`relative flex h-screen w-screen overflow-x-hidden bg-primary-darkPurpleBg text-primary-white antialiased`}
+      >
+        <Toaster />
         <DashboardSidebar />
-        <div className="h-screen w-full bg-primary-purple-20">
+        <div className={`h-full w-full bg-primary-purple-20 `}>
           <DashboardNavbar />
           {loading ? (
-            <ClapSpinner frontColor="#ffffff" backColor="#6635F0" size={70} />
+            <div className="flex h-[calc(100%_-_64px)] items-center justify-center">
+              <ClapSpinner frontColor={'#ffffff'} backColor={'#ffffff'} />
+            </div>
           ) : (
-            <>{children}</>
+            <div ref={ref} className="h-[calc(100%_-_64px)] overflow-auto">
+              <motion.div
+                animate={{
+                  filter: sidebarDrawerOpen ? 'blur(3px)' : 'blur(0px)',
+                }}
+                className={`min-h-full w-full p-10 lg:!blur-0 ${
+                  sidebarDrawerOpen
+                    ? 'pointer-events-none select-none blur-sm lg:pointer-events-auto lg:select-auto'
+                    : ''
+                }`}
+              >
+                {children}
+              </motion.div>
+            </div>
           )}
         </div>
       </div>

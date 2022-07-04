@@ -28,8 +28,11 @@ export class SubscriptionsService implements ISubscriptionService {
     return this.stripe.subscriptions.update(subscriptionId, data)
   }
 
-  async findSubscription(subscriptionId: string) {
-    return this.stripe.subscriptions.retrieve(subscriptionId)
+  async findSubscription(
+    subscriptionId: string,
+    params?: Stripe.SubscriptionRetrieveParams,
+  ) {
+    return this.stripe.subscriptions.retrieve(subscriptionId, params)
   }
 
   async deleteSubscription(subscriptionId: string) {

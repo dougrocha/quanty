@@ -1,6 +1,6 @@
 import { Player } from 'erela.js'
 
-import Manager from './manager'
+import { musicManager } from './manager'
 
 /**
  * Creates Player for music
@@ -19,7 +19,7 @@ export const createPlayer = ({
   channelId: string
   voiceChannelId: string
 }): Player =>
-  Manager.getInstance().create({
+  musicManager.create({
     guild: guildId,
     voiceChannel: voiceChannelId,
     textChannel: channelId,

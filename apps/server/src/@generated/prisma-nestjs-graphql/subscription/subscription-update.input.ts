@@ -1,38 +1,41 @@
-import { Field } from '@nestjs/graphql';
-import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { EnumSubscription_tierFieldUpdateOperationsInput } from '../prisma/enum-subscription-tier-field-update-operations.input';
-import { EnumSubscription_statusFieldUpdateOperationsInput } from '../prisma/enum-subscription-status-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { GuildUpdateOneRequiredWithoutSubscriptionInput } from '../guild/guild-update-one-required-without-subscription.input';
-import { CustomerUpdateOneRequiredWithoutSubscriptionInput } from '../customer/customer-update-one-required-without-subscription.input';
-import { PriceUpdateOneRequiredWithoutSubscriptionInput } from '../price/price-update-one-required-without-subscription.input';
+import { Field } from '@nestjs/graphql'
+import { InputType } from '@nestjs/graphql'
+import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input'
+import { EnumSubscription_statusFieldUpdateOperationsInput } from '../prisma/enum-subscription-status-field-update-operations.input'
+import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input'
+import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input'
+import { GuildUpdateOneRequiredWithoutSubscriptionNestedInput } from '../guild/guild-update-one-required-without-subscription-nested.input'
+import { CustomerUpdateOneRequiredWithoutSubscriptionNestedInput } from '../customer/customer-update-one-required-without-subscription-nested.input'
+import { PriceUpdateOneRequiredWithoutSubscriptionNestedInput } from '../price/price-update-one-required-without-subscription-nested.input'
 
 @InputType()
 export class SubscriptionUpdateInput {
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  id?: StringFieldUpdateOperationsInput
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+  @Field(() => EnumSubscription_statusFieldUpdateOperationsInput, {
+    nullable: true,
+  })
+  status?: EnumSubscription_statusFieldUpdateOperationsInput
 
-    @Field(() => EnumSubscription_tierFieldUpdateOperationsInput, {nullable:true})
-    tier?: EnumSubscription_tierFieldUpdateOperationsInput;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  current_period_end?: DateTimeFieldUpdateOperationsInput
 
-    @Field(() => EnumSubscription_statusFieldUpdateOperationsInput, {nullable:true})
-    status?: EnumSubscription_statusFieldUpdateOperationsInput;
+  @Field(() => BoolFieldUpdateOperationsInput, { nullable: true })
+  cancel_at_period_end?: BoolFieldUpdateOperationsInput
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    current_period_end?: DateTimeFieldUpdateOperationsInput;
+  @Field(() => GuildUpdateOneRequiredWithoutSubscriptionNestedInput, {
+    nullable: true,
+  })
+  guild?: GuildUpdateOneRequiredWithoutSubscriptionNestedInput
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    cancel_at_period_end?: BoolFieldUpdateOperationsInput;
+  @Field(() => CustomerUpdateOneRequiredWithoutSubscriptionNestedInput, {
+    nullable: true,
+  })
+  customer?: CustomerUpdateOneRequiredWithoutSubscriptionNestedInput
 
-    @Field(() => GuildUpdateOneRequiredWithoutSubscriptionInput, {nullable:true})
-    guild?: GuildUpdateOneRequiredWithoutSubscriptionInput;
-
-    @Field(() => CustomerUpdateOneRequiredWithoutSubscriptionInput, {nullable:true})
-    customer?: CustomerUpdateOneRequiredWithoutSubscriptionInput;
-
-    @Field(() => PriceUpdateOneRequiredWithoutSubscriptionInput, {nullable:true})
-    price?: PriceUpdateOneRequiredWithoutSubscriptionInput;
+  @Field(() => PriceUpdateOneRequiredWithoutSubscriptionNestedInput, {
+    nullable: true,
+  })
+  price?: PriceUpdateOneRequiredWithoutSubscriptionNestedInput
 }

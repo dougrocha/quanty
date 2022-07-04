@@ -6,9 +6,13 @@ import {
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  split,
 } from '@apollo/client/core'
 import { onError } from '@apollo/client/link/error'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { getMainDefinition } from '@apollo/client/utilities'
 import merge from 'deepmerge'
+import { createClient } from 'graphql-ws'
 import fetch from 'isomorphic-unfetch'
 import isEqual from 'lodash/isEqual'
 import type { AppProps } from 'next/app'
@@ -32,6 +36,16 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
     }).then(response => response)
   }
 
+  const httpLink = new HttpLink({
+    uri: 'http://localhost:3001/api/graphql',
+    // Make sure that CORS and cookies work
+    fetchOptions: {
+      mode: 'cors',
+    },
+    credentials: 'include',
+    fetch: enhancedFetch,
+  })
+
   return new ApolloClient({
     name: 'Quanty Apollo Client',
     // SSR only for Node.js
@@ -52,16 +66,27 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
           )
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
-      new HttpLink({
-        uri: 'http://localhost:3001/api/graphql',
-        // Make sure that CORS and cookies work
-        fetchOptions: {
-          mode: 'cors',
-        },
-        credentials: 'include',
-        fetch: enhancedFetch,
-      }),
+      typeof window !== 'undefined'
+        ? split(
+            ({ query }) => {
+              const definition = getMainDefinition(query)
+              return (
+                definition.kind === 'OperationDefinition' &&
+                definition.operation === 'subscription'
+              )
+            },
+            new GraphQLWsLink(
+              createClient({
+                url: 'ws://localhost:3001/api/graphql',
+                connectionParams: {},
+                retryAttempts: 5,
+              }),
+            ),
+            httpLink,
+          )
+        : httpLink,
     ]),
+    credentials: 'include',
     ssrForceFetchDelay: 100,
     defaultOptions: {
       query: {

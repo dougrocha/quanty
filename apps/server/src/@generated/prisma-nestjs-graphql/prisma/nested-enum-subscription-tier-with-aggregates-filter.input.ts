@@ -1,30 +1,31 @@
-import { Field } from '@nestjs/graphql';
-import { InputType } from '@nestjs/graphql';
-import { Subscription_tier } from './subscription-tier.enum';
-import { NestedIntFilter } from './nested-int-filter.input';
-import { NestedEnumSubscription_tierFilter } from './nested-enum-subscription-tier-filter.input';
+import { Field } from '@nestjs/graphql'
+import { InputType } from '@nestjs/graphql'
+import { Subscription_tier } from './subscription-tier.enum'
+import { NestedIntFilter } from './nested-int-filter.input'
+import { NestedEnumSubscription_tierFilter } from './nested-enum-subscription-tier-filter.input'
 
 @InputType()
 export class NestedEnumSubscription_tierWithAggregatesFilter {
+  @Field(() => Subscription_tier, { nullable: true })
+  equals?: keyof typeof Subscription_tier;
 
-    @Field(() => Subscription_tier, {nullable:true})
-    equals?: keyof typeof Subscription_tier;
+  @Field(() => [Subscription_tier], { nullable: true })
+  in?: Array<keyof typeof Subscription_tier>
 
-    @Field(() => [Subscription_tier], {nullable:true})
-    in?: Array<keyof typeof Subscription_tier>;
+  @Field(() => [Subscription_tier], { nullable: true })
+  notIn?: Array<keyof typeof Subscription_tier>
 
-    @Field(() => [Subscription_tier], {nullable:true})
-    notIn?: Array<keyof typeof Subscription_tier>;
+  @Field(() => NestedEnumSubscription_tierWithAggregatesFilter, {
+    nullable: true,
+  })
+  not?: NestedEnumSubscription_tierWithAggregatesFilter
 
-    @Field(() => NestedEnumSubscription_tierWithAggregatesFilter, {nullable:true})
-    not?: NestedEnumSubscription_tierWithAggregatesFilter;
+  @Field(() => NestedIntFilter, { nullable: true })
+  _count?: NestedIntFilter
 
-    @Field(() => NestedIntFilter, {nullable:true})
-    _count?: NestedIntFilter;
+  @Field(() => NestedEnumSubscription_tierFilter, { nullable: true })
+  _min?: NestedEnumSubscription_tierFilter
 
-    @Field(() => NestedEnumSubscription_tierFilter, {nullable:true})
-    _min?: NestedEnumSubscription_tierFilter;
-
-    @Field(() => NestedEnumSubscription_tierFilter, {nullable:true})
-    _max?: NestedEnumSubscription_tierFilter;
+  @Field(() => NestedEnumSubscription_tierFilter, { nullable: true })
+  _max?: NestedEnumSubscription_tierFilter
 }

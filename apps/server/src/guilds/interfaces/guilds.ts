@@ -8,6 +8,7 @@ import {
   GuildSettings,
   GuildSettingsWhereUniqueInput,
   GuildWhereUniqueInput,
+  UpdateOneGuildArgs,
 } from '../../@generated/prisma-nestjs-graphql'
 import { Channel } from '../models/channel'
 import { DiscordGuild } from '../models/guild'
@@ -15,6 +16,8 @@ import { MutualGuild } from '../models/mutualGuilds'
 
 export interface IGuildsService {
   getGuild(query: GuildWhereUniqueInput): Promise<Guild | null>
+  updateGuild(query: UpdateOneGuildArgs): Promise<Guild>
+
   getGuildPlugins(
     query: GuildPluginsWhereUniqueInput,
   ): Promise<GuildPlugins | null>

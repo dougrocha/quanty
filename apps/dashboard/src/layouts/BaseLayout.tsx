@@ -3,6 +3,7 @@ import React from 'react'
 
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
+import { useAuth } from '../hooks'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -10,6 +11,8 @@ interface LayoutProps {
 }
 
 const BaseLayout = ({ children, title = 'Discord Bot' }: LayoutProps) => {
+  useAuth()
+
   return (
     <>
       <NextSeo
@@ -41,6 +44,7 @@ const BaseLayout = ({ children, title = 'Discord Bot' }: LayoutProps) => {
       {/* <div className="bg-[url('/new.svg')] bg-contain bg-center bg-repeat-y  text-primary-white antialiased"> */}
       <div className=" text-primary-white antialiased">
         <Navbar />
+
         {children}
         <Footer />
       </div>

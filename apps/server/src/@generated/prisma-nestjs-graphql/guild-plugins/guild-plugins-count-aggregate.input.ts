@@ -1,18 +1,17 @@
-import { Field } from '@nestjs/graphql';
-import { InputType } from '@nestjs/graphql';
+import { Field } from '@nestjs/graphql'
+import { InputType } from '@nestjs/graphql'
 
 @InputType()
 export class GuildPluginsCountAggregateInput {
+  @Field(() => Boolean, { nullable: true })
+  id?: true
 
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
+  @Field(() => Boolean, { nullable: true })
+  autoMod?: true
 
-    @Field(() => Boolean, {nullable:true})
-    autoMod?: true;
+  @Field(() => Boolean, { nullable: true })
+  anime?: true
 
-    @Field(() => Boolean, {nullable:true})
-    anime?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    _all?: true;
+  @Field(() => Boolean, { nullable: true })
+  _all?: true
 }

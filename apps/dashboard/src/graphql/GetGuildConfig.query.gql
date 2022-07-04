@@ -1,6 +1,7 @@
 query GetGuildConfig($guildId: String!) {
   guildConfig(guildId: $guildId) {
-    guildId
+    id
     prefix
+    premium
   }
 }

@@ -1,0 +1,15 @@
+input GuildUpdateInput {
+  prefix: String
+  premium: Boolean
+}
+
+mutation updateGuildById(
+  $guildId: String!
+  $guildUpdateInput: GuildUpdateInput!
+) {
+  updateGuildById(guildId: $guildId, guildUpdateInput: $guildUpdateInput) {
+    id
+    prefix
+    premium
+  }
+}

@@ -10,7 +10,7 @@ import {
 import { MessageEmbed } from 'discord.js'
 import { Player } from 'erela.js'
 
-import MusicManager, { checkChannel } from '../../libs/music'
+import { checkChannel, musicManager } from '../../libs/music'
 
 @Category('music')
 @SlashCommand('nowplaying', {
@@ -75,7 +75,7 @@ export class NowPlayingCommand extends Command {
           console.log(String(e.stack))
         }
       }
-      const player = MusicManager.getInstance().get(guild.id)
+      const player = musicManager.get(guild.id)
       if (!player) {
         return
       }

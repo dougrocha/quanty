@@ -1,11 +1,21 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
+import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common'
 import { Response, Request } from 'express'
 
+import { IAuthenticationService } from './interfaces/auth'
+
 import { User } from '../@generated/prisma-nestjs-graphql'
-import { AuthenticatedGuard, DiscordAuthGuard, HttpUser } from '../common'
+import {
+  AuthenticatedGuard,
+  AUTH_SERVICE,
+  DiscordAuthGuard,
+  HttpUser,
+} from '../common'
 
 @Controller('auth')
 export class AuthController {
+  constructor(
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthenticationService,
+  ) {}
   /**
    * GET /api/auth/login
    *
@@ -48,10 +58,16 @@ export class AuthController {
   /**
    * GET /api/auth/logout
    *
-   * This will logout user.
+   * This will logout the user.
    */
   @Get('logout')
-  logout(@Req() req: Request, @Res() res: Response) {
+  @UseGuards(AuthenticatedGuard)
+  async logout(
+    @Req() req: Request,
+    @Res() res: Response,
+    @HttpUser()
+    { id, username, discriminator }: User,
+  ) {
     req.session.destroy(() => {
       res.clearCookie('session')
       res.redirect('http://localhost:3000')

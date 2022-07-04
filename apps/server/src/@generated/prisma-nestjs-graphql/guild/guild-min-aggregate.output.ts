@@ -1,16 +1,14 @@
-import { Field } from '@nestjs/graphql';
-import { ObjectType } from '@nestjs/graphql';
-import { Guild_tier } from '../prisma/guild-tier.enum';
+import { Field } from '@nestjs/graphql'
+import { ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class GuildMinAggregate {
+  @Field(() => String, { nullable: true })
+  id?: string
 
-    @Field(() => String, {nullable:true})
-    id?: string;
+  @Field(() => Boolean, { nullable: true })
+  premium?: boolean
 
-    @Field(() => Guild_tier, {nullable:true})
-    tier?: keyof typeof Guild_tier;
-
-    @Field(() => String, {nullable:true})
-    prefix?: string;
+  @Field(() => String, { nullable: true })
+  prefix?: string
 }

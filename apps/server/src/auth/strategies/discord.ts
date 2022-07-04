@@ -19,8 +19,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(accessToken: string, refreshToken: string, profile: Profile) {
-    const { discriminator, id, username, email, avatar, verified, locale } =
-      profile
+    const { discriminator, id, username, email, avatar, locale } = profile
 
     const details = {
       id,
@@ -28,7 +27,8 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
       discriminator,
       email,
       avatar: avatar ?? undefined,
-      verified,
+      // Not in schema, most likely dont need it
+      // verified,
       locale,
       refreshToken,
       accessToken,

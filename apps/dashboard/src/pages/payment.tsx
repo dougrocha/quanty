@@ -5,17 +5,13 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import axios from 'axios'
-import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
-import {
-  useCreateSubscriptionMutation,
-  useGetUserQuery,
-} from '../graphql/generated/schema'
+import { useCreateSubscriptionMutation } from '../graphql/generated/schema'
+import { useAuth } from '../hooks'
 import { BaseLayout } from '../layouts'
-import { currentUserAtom } from '../utils/store'
+import { CurrentCustomer } from '../utils/types'
 
 const stripePromise = loadStripe(
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -42,17 +38,27 @@ const CARD_ELEMENT_OPTIONS = {
 
 const PaymentPage = () => {
   const [clientSecret, setClientSecret] = useState<string>('')
-  const user = useAtomValue(currentUserAtom)
+
+  const { user } = useAuth()
 
   const router = useRouter()
 
   const { cost, currency } = router.query
 
+  const [customer, setCustomer] = useState<CurrentCustomer | null | undefined>(
+    null,
+  )
+
+  // useGetCustomerQuery({
+  //   onCompleted: ({ me }) => setCustomer(me?.customer),
+  // })
+
   const [createSubscription] = useCreateSubscriptionMutation({
     variables: {
       newSubscriptionParams: {
-        customerId: user?.stripeId ?? '',
+        userId: user?.id || '',
         priceId: 'price_1LA16RJhkOELoRhmyHcona4g',
+        guildId: '871581301713555526',
       },
     },
     onCompleted: data => {
@@ -92,7 +98,7 @@ const PaymentForm = ({ clientSecret }: { clientSecret: string }) => {
   const stripe = useStripe()
   const elements = useElements()
 
-  const user = useAtomValue(currentUserAtom)
+  const { user } = useAuth()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // We don't want to let default form submission happen here,
@@ -112,7 +118,7 @@ const PaymentForm = ({ clientSecret }: { clientSecret: string }) => {
           email: user?.email ?? '',
         },
         metadata: {
-          discordId: user?.discordId as never,
+          discordId: user?.id as never,
         },
       },
       receipt_email: user?.email ?? '',

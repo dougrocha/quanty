@@ -9,6 +9,7 @@ import {
   GuildPluginsWhereUniqueInput,
   GuildSettingsWhereUniqueInput,
   GuildWhereUniqueInput,
+  UpdateOneGuildArgs,
 } from '../../@generated/prisma-nestjs-graphql'
 import { PRISMA_SERVICE } from '../../common'
 import { DiscordGuild } from '../models/guild'
@@ -26,6 +27,10 @@ export class GuildsService implements IGuildsService {
     return await this.prisma.guild.findUnique({
       where: query,
     })
+  }
+
+  async updateGuild(args: UpdateOneGuildArgs): Promise<Guild> {
+    return await this.prisma.guild.update(args)
   }
 
   async getGuildPlugins(

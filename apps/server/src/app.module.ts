@@ -10,22 +10,22 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RouterModule } from '@nestjs/core'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
-import { MongooseModule } from '@nestjs/mongoose'
 import { PassportModule } from '@nestjs/passport'
 import { ThrottlerModule } from '@nestjs/throttler'
+import { Request } from 'express'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import Joi from 'joi'
 
 import { AuthModule } from './auth/auth.module'
 import { RawBodyMiddleware, JsonBodyMiddleware, PRISMA_SERVICE } from './common'
 import { GuildsModule } from './guilds/guilds.module'
+import { prismaStoreClient, sessionMiddleware } from './main'
 import { PaymentsModule } from './payments/payments.module'
 import { PrismaService } from './prisma.service'
 import { StripeModule } from './stripe/stripe.module'
 import { UsersModule } from './users/users.module'
 
 const ENV = process.env.NODE_ENV
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -51,15 +51,6 @@ const ENV = process.env.NODE_ENV
         MONGO_URI: Joi.string(),
       }),
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        uri: config.get<string>('MONGO_URI'),
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      }),
-    }),
     PassportModule.register({ session: true }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       imports: [ConfigModule],
@@ -68,22 +59,86 @@ const ENV = process.env.NODE_ENV
       useFactory: (config: ConfigService) => ({
         useGlobalPrefix: true,
         sortSchema: true,
-        debug: false,
+        debug: true,
         cors: {
           origin: config.get('FRONTEND_URL'),
+          credentials: true,
+        },
+        installSubscriptionHandlers: true,
+        introspection: true,
+        subscriptions: {
+          'graphql-ws': {
+            onConnect: ctx => {
+              const req = (ctx.extra as any).request as Request
+              const res = {} as any
+              return new Promise(async resolve => {
+                sessionMiddleware(req, res, () => {
+                  return
+                })
+
+                await prismaStoreClient.$connect()
+
+                const userSession =
+                  await prismaStoreClient.userSession.findUnique({
+                    where: {
+                      sid: req.sessionID,
+                    },
+                    select: { expiresAt: true },
+                  })
+
+                if (!userSession) return resolve(false)
+
+                if (userSession.expiresAt < new Date(Date.now()))
+                  return resolve(false)
+
+                resolve(true)
+              })
+            },
+            // onSubscribe: ctx => {
+            //   console.log(
+            //     'onSubscribe',
+            //     ((ctx.extra as any).request as Request).headers.cookie,
+            //   )
+            // },
+            // onClose: ctx => {
+            //   console.log(
+            //     'onClose',
+            //     ((ctx.extra as any).request as Request).headers.cookie,
+            //   )
+            // },
+            // onNext: ctx => {
+            //   console.log(
+            //     'onNext',
+            //     ((ctx.extra as any).request as Request).headers.cookie,
+            //   )
+            // },
+            // onDisconnect: ctx => {
+            //   console.log(
+            //     'onDisconnect',
+            //     ((ctx.extra as any).request as Request).headers.cookie,
+            //   )
+            // },
+          },
+          'subscriptions-transport-ws': true,
         },
         autoTransformHttpErrors: true,
         csrfPrevention: true,
         formatError: (error: GraphQLError) => {
           const graphQLFormattedError: GraphQLFormattedError = {
             message: error.message,
-            locations: error.locations,
           }
           return graphQLFormattedError
         },
         resolvers: { DateTime: GraphQLISODateTime },
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-        context: ({ req, res }) => ({ req, res }),
+        context: ({ req, res, payload, connection }) => {
+          return {
+            req,
+            res,
+            payload,
+            connection,
+          }
+        },
       }),
     }),
     ThrottlerModule.forRootAsync({
@@ -111,7 +166,7 @@ const ENV = process.env.NODE_ENV
         version: '0.0.1',
       },
     }),
-    // PaymentsModule,
+    PaymentsModule,
   ],
   providers: [{ provide: PRISMA_SERVICE, useClass: PrismaService }],
 })

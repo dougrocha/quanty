@@ -1,6 +1,7 @@
 import { NextSeo } from 'next-seo'
 
 import Navbar from '../components/Navbar'
+import { useAuth } from '../hooks'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -8,6 +9,8 @@ interface LayoutProps {
 }
 
 const GuildsLayout = ({ children }: LayoutProps) => {
+  useAuth()
+
   return (
     <>
       <NextSeo

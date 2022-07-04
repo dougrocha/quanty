@@ -9,7 +9,8 @@ import {
 import { MessageEmbed } from 'discord.js'
 import { Track, UnresolvedTrack } from 'erela.js'
 
-import MusicManager from '../../libs/music'
+import { musicManager } from '../../libs/music'
+
 @Category('music')
 @SlashCommand('queue', {
   description: 'Shows the queue',
@@ -31,7 +32,7 @@ import MusicManager from '../../libs/music'
 @Test()
 export class QueueCommand extends Command {
   async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
-    const player = MusicManager.getInstance().get(guild.id)
+    const player = musicManager.get(guild.id)
 
     if (options.getBoolean('clear')) {
       player?.queue.clear()

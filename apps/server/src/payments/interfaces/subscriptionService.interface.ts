@@ -13,6 +13,7 @@ export interface ISubscriptionService {
 
   findSubscription(
     subscriptionId: string,
+    params?: Stripe.SubscriptionRetrieveParams,
   ): Promise<Stripe.Response<Stripe.Subscription>>
 
   deleteSubscription(

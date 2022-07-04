@@ -15,6 +15,9 @@ import {
   STRIPE_SERVICE,
   USERS_SERVICE,
   PRISMA_SERVICE,
+  PRODUCTS_SERVICE,
+  STRIPE_WEBHOOK_SERVICE,
+  PRICES_SERVICE,
 } from '../common'
 import { PaymentsService } from '../payments/services/payments.service'
 import { PrismaService } from '../prisma.service'
@@ -27,9 +30,11 @@ import { UsersService } from '../users/services/users.service'
     { provide: USERS_SERVICE, useClass: UsersService },
     { provide: PAYMENT_SERVICE, useClass: PaymentsService },
     { provide: PRISMA_SERVICE, useClass: PrismaService },
-    ProductsService,
+    { provide: PRODUCTS_SERVICE, useClass: ProductsService },
+    { provide: STRIPE_WEBHOOK_SERVICE, useClass: StripeWebhookService },
+    { provide: PRICES_SERVICE, useClass: PricesService },
+    { provide: PRISMA_SERVICE, useClass: PrismaService },
     PricesService,
-    StripeWebhookService,
   ],
   controllers: [StripeWebhookController, StripeController],
 })

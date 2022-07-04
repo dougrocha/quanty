@@ -11,7 +11,9 @@ import {
   PAYMENT_SERVICE,
   CREDIT_CARDS_SERVICE,
   SUBSCRIPTION_SERVICE,
+  PRISMA_SERVICE,
 } from '../common'
+import { PrismaService } from '../prisma.service'
 
 @Module({
   providers: [
@@ -20,6 +22,7 @@ import {
     CreditCardsResolver,
     SubscriptionsResolver,
     { provide: SUBSCRIPTION_SERVICE, useClass: SubscriptionsService },
+    { provide: PRISMA_SERVICE, useClass: PrismaService },
   ],
   exports: [{ provide: PAYMENT_SERVICE, useClass: PaymentsService }],
   controllers: [PaymentsController],

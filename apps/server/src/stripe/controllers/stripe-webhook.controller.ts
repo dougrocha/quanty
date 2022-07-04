@@ -45,7 +45,7 @@ export class StripeWebhookController {
       const customerId: string = data.customer as string
       const subscriptionStatus = data.status
 
-      // await this.usersService.updateSubscriptionStatus(
+      // Await this.usersService.updateSubscriptionStatus(
       //   customerId,
       //   subscriptionStatus,
       // )
