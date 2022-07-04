@@ -13,11 +13,14 @@
       "cache": true
     },
     "app-bot#build": {
-      "dependsOn": ["@quanty/framework#build"],
       "cache": true
     },
     "app-bot#start": {
       "dependsOn": ["app-bot#build"]
+    },
+    "app-backend#build": {
+      "outputs": ["dist/**"],
+      "cache": true
     },
     "lint": {
       "outputs": []
