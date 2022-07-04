@@ -12,16 +12,6 @@
       "outputs": ["dist/**", ".next/**", "lib/**"],
       "cache": true
     },
-    "app-bot#build": {
-      "cache": true
-    },
-    "app-bot#start": {
-      "dependsOn": ["app-bot#build"]
-    },
-    "app-backend#build": {
-      "outputs": ["dist/**"],
-      "cache": true
-    },
     "lint": {
       "outputs": []
     },
