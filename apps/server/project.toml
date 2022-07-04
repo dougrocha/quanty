@@ -1,9 +1,0 @@
-[[requires]]
-name = "node"
-version = "16.15"
-
-[requires.metadata]
-version-source = "package.json"
-
-[[build.buildpacks]]
-uri = "heroku/nodejs-yarn"
