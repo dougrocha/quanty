@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "yarn@1.22.17",
+  "engines": {
+    "yarn": "1.x"
+  },
   "workspaces": {
     "packages": [
       "apps/*",
