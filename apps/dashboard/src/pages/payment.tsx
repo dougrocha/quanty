@@ -8,7 +8,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
-import { useCreateSubscriptionMutation } from '../graphql/generated/schema'
+import { useCreateGuildSubscriptionMutation } from '../graphql/generated/schema'
 import { useAuth } from '../hooks'
 import { BaseLayout } from '../layouts'
 import { CurrentCustomer } from '../utils/types'
@@ -53,7 +53,7 @@ const PaymentPage = () => {
   //   onCompleted: ({ me }) => setCustomer(me?.customer),
   // })
 
-  const [createSubscription] = useCreateSubscriptionMutation({
+  const [createSubscription] = useCreateGuildSubscriptionMutation({
     variables: {
       newSubscriptionParams: {
         userId: user?.id || '',
