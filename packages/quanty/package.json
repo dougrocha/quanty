@@ -1,32 +1,35 @@
 {
   "name": "@quanty/framework",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "source": "src/index.ts",
   "author": "slashtp3",
   "files": [
-    "dist/src/**"
+    "dist",
+    "README.md",
+    "LICENSE.md"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "swc src -d ./dist/src && tsc --emitDeclarationOnly",
+    "build:watch": "swc src --out-dir dist/src -w --sync & tsc -w --pretty --skipLibCheck --noEmit",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "echo TESTING QUANTY/FRAMEWORK",
-    "test:bot": "tsnd --respawn test/index.ts",
     "dev": "concurrently \"yarn watch-compile-client\" \"yarn watch-compile-bot\" \"yarn watch-dev\" \"yarn watch-tsc\"",
-    "generate-joi-types": "tsnd ./generate-joi.ts",
     "watch-compile-client": "swc src -w -d ./dist/src",
     "watch-compile-bot": "swc test -w -s -d ./dist/test",
     "watch-dev": "nodemon --delay 1 --watch \"dist/**/*\" -e js ./dist/test/index.js",
     "watch-tsc": "tsc -w --pretty --skipLibCheck --noEmit -p tsconfig.json",
-    "dev:build": "swc src --out-dir dist/src -w --sync & tsc -w --pretty --skipLibCheck --noEmit",
     "format": "prettier --write src",
-    "mongogen": "mtgen ./src/database/schemas -o ./src/types/"
+    "prepublish": "yarn build"
+  },
+  "peerDependencies": {
+    "discord.js": ">=13.8.0"
   },
   "dependencies": {
     "chalk": "4.1.2",
-    "discord.js": "^13.8.0",
+    "discord.js": "^13.8.1",
     "dotenv": "^16.0.1",
     "glob": "^7.2.0",
     "joi": "^17.6.0",
@@ -59,11 +62,12 @@
     "npm": ">=7.0.0"
   },
   "keywords": [
-    "discord",
-    "bot",
-    "framework",
-    "typescript",
-    "discord-ts"
+    "Discord",
+    "Bot",
+    "Framework",
+    "Typescript",
+    "Discord-ts",
+    "Typescript"
   ],
   "bugs": {
     "url": "https://github.com/slashtp3/quanty/issues"
