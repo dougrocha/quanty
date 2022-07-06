@@ -8,8 +8,6 @@ import {
   UserPermissions,
 } from '@quanty/framework'
 
-import { GuildPluginsModel } from '../../database'
-
 @SlashCommand('setup-ticket', {
   description: 'Creates a ticket for issues in your guild.',
   options: [
@@ -38,35 +36,32 @@ import { GuildPluginsModel } from '../../database'
 @ClientPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
 export class SetupTicketCommand extends Command {
   async run({ options, guild }: SlashCommandRunOptions): CommandReturnType {
-    const transcriptChannel = options.getChannel('transcript-channel')
-    const ticketCategory = options.getChannel('category')
-
-    if (transcriptChannel) {
-      await GuildPluginsModel.findOneAndUpdate(
-        { guildId: guild.id },
-        {
-          $set: {
-            ticketTranscriptChannel: transcriptChannel.id,
-          },
-        },
-      )
-    }
-
-    if (ticketCategory) {
-      await GuildPluginsModel.findOneAndUpdate(
-        { guildId: guild.id },
-        {
-          $set: {
-            ticketCategory,
-          },
-        },
-      )
-    }
-
-    return {
-      content: 'Ticket Setup',
-      ephemeral: true,
-    }
+    // const transcriptChannel = options.getChannel('transcript-channel')
+    // const ticketCategory = options.getChannel('category')
+    // if (transcriptChannel) {
+    //   await GuildPluginsModel.findOneAndUpdate(
+    //     { guildId: guild.id },
+    //     {
+    //       $set: {
+    //         ticketTranscriptChannel: transcriptChannel.id,
+    //       },
+    //     },
+    //   )
+    // }
+    // if (ticketCategory) {
+    //   await GuildPluginsModel.findOneAndUpdate(
+    //     { guildId: guild.id },
+    //     {
+    //       $set: {
+    //         ticketCategory,
+    //       },
+    //     },
+    //   )
+    // }
+    // return {
+    //   content: 'Ticket Setup',
+    //   ephemeral: true,
+    // }
   }
 
   async error(): CommandReturnType {

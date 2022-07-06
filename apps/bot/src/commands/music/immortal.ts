@@ -9,8 +9,6 @@ import {
 } from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-import { GuildPluginsModel } from '../../database'
-
 @Category('music')
 @SlashCommand('immortal', {
   description: 'Toggles immortality mode.',
@@ -20,47 +18,47 @@ export class ImmortalCommand extends Command {
   private logger: Logger
 
   async run({ guild }: SlashCommandRunOptions): CommandReturnType {
-    const embed = new MessageEmbed().setTitle('Updating Immortality: ')
+    // const embed = new MessageEmbed().setTitle('Updating Immortality: ')
 
-    let guildConfig = await GuildPluginsModel.findOne(
-      {
-        guildId: guild.id,
-      },
-      'immortal',
-    )
+    // let guildConfig = await GuildPluginsModel.findOne(
+    //   {
+    //     guildId: guild.id,
+    //   },
+    //   'immortal',
+    // )
 
-    const guildId = guild.id
+    // const guildId = guild.id
 
-    if (!guildConfig) guildConfig = new GuildPluginsModel({ guildId })
+    // if (!guildConfig) guildConfig = new GuildPluginsModel({ guildId })
 
-    if (!guildConfig.immortal) {
-      guildConfig.immortal = true
+    // if (!guildConfig.immortal) {
+    //   guildConfig.immortal = true
 
-      await guildConfig?.save().catch(err => {
-        this.logger.error(err)
+    //   await guildConfig?.save().catch(err => {
+    //     this.logger.error(err)
 
-        return {
-          embeds: [embed.setDescription('Error occurred. Try again later.')],
-        }
-      })
+    //     return {
+    //       embeds: [embed.setDescription('Error occurred. Try again later.')],
+    //     }
+    //   })
 
-      return {
-        embeds: [embed.setDescription(`Set immortality to: \`True\``)],
-      }
-    }
+    //   return {
+    //     embeds: [embed.setDescription(`Set immortality to: \`True\``)],
+    //   }
+    // }
 
-    guildConfig.immortal = false
+    // guildConfig.immortal = false
 
-    await guildConfig.save().catch(err => {
-      this.logger.error(err)
+    // await guildConfig.save().catch(err => {
+    //   this.logger.error(err)
 
-      return {
-        embeds: [embed.setDescription('Error occurred. Try again later.')],
-      }
-    })
-    return {
-      embeds: [embed.setDescription(`Set immortality to: \`False\``)],
-    }
+    //   return {
+    //     embeds: [embed.setDescription('Error occurred. Try again later.')],
+    //   }
+    // })
+    // return {
+    //   embeds: [embed.setDescription(`Set immortality to: \`False\``)],
+    // }
   }
 
   async error(): CommandReturnType {

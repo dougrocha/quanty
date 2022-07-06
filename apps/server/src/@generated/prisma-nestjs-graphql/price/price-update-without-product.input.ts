@@ -4,7 +4,7 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input'
 import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input'
 import { EnumPriceTypeFieldUpdateOperationsInput } from '../prisma/enum-price-type-field-update-operations.input'
-import { GuildSubscriptionUpdateManyWithoutPriceNestedInput } from '../guild-subscription/guild-subscription-update-many-without-price-nested.input'
+import { GuildSubscriptionUpdateManyWithoutPriceInput } from '../guild-subscription/guild-subscription-update-many-without-price.input'
 
 @InputType()
 export class PriceUpdateWithoutProductInput {
@@ -23,8 +23,6 @@ export class PriceUpdateWithoutProductInput {
   @Field(() => EnumPriceTypeFieldUpdateOperationsInput, { nullable: true })
   type?: EnumPriceTypeFieldUpdateOperationsInput
 
-  @Field(() => GuildSubscriptionUpdateManyWithoutPriceNestedInput, {
-    nullable: true,
-  })
-  subscription?: GuildSubscriptionUpdateManyWithoutPriceNestedInput
+  @Field(() => GuildSubscriptionUpdateManyWithoutPriceInput, { nullable: true })
+  subscription?: GuildSubscriptionUpdateManyWithoutPriceInput
 }

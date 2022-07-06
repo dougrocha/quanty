@@ -1,8 +1,6 @@
 import { Event, logger, Logger, On } from '@quanty/framework'
 import { Role } from 'discord.js'
 
-import { GuildsModel } from '../../database'
-
 @On('roleCreate')
 export class GuildMemberAddEvent extends Event<'roleCreate'> {
   @logger()
@@ -35,12 +33,12 @@ export class GuildMemberAddEvent extends Event<'roleCreate'> {
   }
 
   async fetchGuildConfig(guildId: string) {
-    const guild = await GuildsModel.findOne({ guildId })
+    // const guild = await GuildsModel.findOne({ guildId })
 
-    if (!guild) {
-      return null
-    }
+    // if (!guild) {
+    //   return null
+    // }
 
-    return guild
+    // return guild
   }
 }

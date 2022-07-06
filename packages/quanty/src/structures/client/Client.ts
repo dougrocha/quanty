@@ -10,7 +10,6 @@ import glob from 'glob'
 import type { IQuantyConfig, IQuantyDefaults, LogLevels } from './types/client'
 
 import { ValidationError } from '../../errors'
-import { QuantyOptions } from '../../interfaces'
 import { QuantyOptionsSchema } from '../../schemas/QuantyOptionsSchema'
 import { logger, Logger } from '../../util/Logger'
 import { CommandRegistry, CommandLoader } from '../command'

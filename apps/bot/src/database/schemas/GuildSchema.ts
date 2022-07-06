@@ -1,4 +1,3 @@
-import { PremiumTiers } from '@quanty/schemas'
 import { ModelOptions, Prop, index } from '@typegoose/typegoose'
 import { Ref } from '@typegoose/typegoose/lib/types'
 
@@ -16,12 +15,12 @@ export class Guild {
   @Prop({ default: 'q!', lowercase: true })
   prefix: string
 
-  @Prop({
-    type: () => String,
-    enum: PremiumTiers,
-    default: PremiumTiers.FREE,
-  })
-  premium?: PremiumTiers
+  // @Prop({
+  //   type: () => String,
+  //   enum: PremiumTiers,
+  //   default: PremiumTiers.FREE,
+  // })
+  // premium?: PremiumTiers
 
   @Prop({
     ref: () => GuildLogs,

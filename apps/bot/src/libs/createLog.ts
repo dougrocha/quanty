@@ -1,7 +1,3 @@
-import { LoggedUser } from '@quanty/schemas'
-
-import { GuildsModel, GuildLogsModel } from '../database'
-
 export const enum CreateLogActionsEnum {
   BANUSER = 'Banned user',
   UNBANUSER = 'Unbanned user',
@@ -10,24 +6,10 @@ export const enum CreateLogActionsEnum {
 
 interface ICreateLog {
   guildId: string
-  user: LoggedUser
+  user: unknown
   action: CreateLogActionsEnum
 }
 
 export const createLog = async ({ guildId, action, user }: ICreateLog) => {
-  let guildConfig = await GuildsModel.findOne({ guildId })
-
-  if (!guildConfig) guildConfig = await GuildsModel.create({ guildId })
-
-  const guildLog = await GuildLogsModel.create({
-    guildId: guildId,
-    user,
-    action,
-  })
-
-  if (guildConfig.logs?.length ?? 0 > 200) guildConfig.logs?.pop()
-
-  guildConfig.logs?.push(guildLog)
-
-  await guildConfig.save()
+  throw new Error('Create Log is not implemented')
 }

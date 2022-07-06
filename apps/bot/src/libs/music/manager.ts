@@ -1,6 +1,6 @@
 import { logger, Logger } from '@quanty/framework'
 import AppleMusic from 'better-erela.js-apple/dist'
-import { TextChannel, User } from 'discord.js'
+import { User } from 'discord.js'
 import { Track, Manager as ErelaManager } from 'erela.js'
 import { Spotify } from 'erela.js-spotify/dist/plugin'
 
@@ -47,9 +47,9 @@ class MusicManager extends ErelaManager {
           return
         }
 
-        const channel = client.channels.cache.get(
-          player.textChannel,
-        ) as TextChannel
+        const channel = client.channels.cache.get(player.textChannel)
+
+        if (channel?.type != 'GUILD_TEXT') return
 
         const { title, requester } = track
         // Send a message when the track starts playing with the track name and the requester's Discord tag, e.g. username#discriminator
@@ -64,9 +64,10 @@ class MusicManager extends ErelaManager {
         if (!player.textChannel) {
           return
         }
-        const channel = client.channels.cache.get(
-          player.textChannel,
-        ) as TextChannel
+        const channel = client.channels.cache.get(player.textChannel)
+
+        if (channel?.type != 'GUILD_TEXT') return
+
         await channel.send(
           `Something went wrong, \`\`${track.title}\`\` has been skipped`,
         )
@@ -75,9 +76,10 @@ class MusicManager extends ErelaManager {
         if (!player.textChannel) {
           return
         }
-        const channel = client.channels.cache.get(
-          player.textChannel,
-        ) as TextChannel
+        const channel = client.channels.cache.get(player.textChannel)
+
+        if (channel?.type != 'GUILD_TEXT') return
+
         // Const guildConfig: any = this.guildManager.findGuild(player.guild)
         await channel.send('Queue has ended.')
         // If (guildConfig?.music.immortal == true) {
@@ -116,7 +118,9 @@ class MusicManager extends ErelaManager {
 
         // Const channel = this.client.channels.cache.get(
         //   player.textChannel,
-        // ) as TextChannel
+        // )
+        //
+        // if (channel?.type != 'GUILD_TEXT') return
         // await channel.send("I'm dead, ask the owner for help")
       })
   }

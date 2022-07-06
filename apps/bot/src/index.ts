@@ -1,9 +1,12 @@
+import { PrismaClient } from '@prisma/client'
 import { QuantyClient } from '@quanty/framework'
 import * as dotenv from 'dotenv'
 
 const production = process.env.production
 
 dotenv.config({ path: production ? '.env.prod' : '.env' })
+
+export const prisma = new PrismaClient()
 
 export const client = new QuantyClient(
   {
