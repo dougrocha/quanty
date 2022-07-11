@@ -11,14 +11,10 @@ type Address {
   city: String
   country: String
 
-  """
-  Address line 1 (e.g., street, PO Box, or company name).
-  """
+  """Address line 1 (e.g., street, PO Box, or company name)."""
   line1: String
 
-  """
-  Address line 2 (e.g., apartment, suite, unit, or building).
-  """
+  """Address line 2 (e.g., apartment, suite, unit, or building)."""
   line2: String
   postal_code: String
   state: String
@@ -29,9 +25,7 @@ type BillingDetails {
   email: String
   name: String
 
-  """
-  Billing phone number (include extensions)
-  """
+  """Billing phone number (include extensions)"""
   phone: String
 }
 
@@ -50,9 +44,7 @@ type Card {
   exp_month: Float!
   exp_year: Float!
 
-  """
-  Card funding type. Can be credit, debit, prepaid, or unknown.
-  """
+  """Card funding type. Can be credit, debit, prepaid, or unknown."""
   funding: String!
   last4: String!
 }
@@ -157,7 +149,7 @@ type CustomerMinAggregate {
   userId: String
 }
 
-input CustomerUpdateOneRequiredWithoutSubscriptionInput {
+input CustomerUpdateOneRequiredWithoutSubscriptionNestedInput {
   connect: CustomerWhereUniqueInput
   connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionInput
   create: CustomerCreateWithoutSubscriptionInput
@@ -170,7 +162,7 @@ input CustomerUpdateWithoutSubscriptionInput {
   email: NullableStringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
   subscriptionId: BoolFieldUpdateOperationsInput
-  user: UserUpdateOneWithoutCustomerInput
+  user: UserUpdateOneWithoutCustomerNestedInput
 }
 
 input CustomerUpsertWithoutSubscriptionInput {
@@ -330,7 +322,7 @@ type GuildPluginsMinAggregate {
   id: String
 }
 
-input GuildPluginsUpdateOneWithoutGuildInput {
+input GuildPluginsUpdateOneWithoutGuildNestedInput {
   connect: GuildPluginsWhereUniqueInput
   connectOrCreate: GuildPluginsCreateOrConnectWithoutGuildInput
   create: GuildPluginsCreateWithoutGuildInput
@@ -413,7 +405,7 @@ type GuildSettingsSumAggregate {
   globalCooldown: Int
 }
 
-input GuildSettingsUpdateOneWithoutGuildInput {
+input GuildSettingsUpdateOneWithoutGuildNestedInput {
   connect: GuildSettingsWhereUniqueInput
   connectOrCreate: GuildSettingsCreateOrConnectWithoutGuildInput
   create: GuildSettingsCreateWithoutGuildInput
@@ -498,7 +490,7 @@ type GuildSubscriptionMinAggregate {
   status: Subscription_status
 }
 
-input GuildSubscriptionUpdateOneWithoutGuildInput {
+input GuildSubscriptionUpdateOneWithoutGuildNestedInput {
   connect: GuildSubscriptionWhereUniqueInput
   connectOrCreate: GuildSubscriptionCreateOrConnectWithoutGuildInput
   create: GuildSubscriptionCreateWithoutGuildInput
@@ -511,9 +503,9 @@ input GuildSubscriptionUpdateOneWithoutGuildInput {
 input GuildSubscriptionUpdateWithoutGuildInput {
   cancel_at_period_end: BoolFieldUpdateOperationsInput
   current_period_end: DateTimeFieldUpdateOperationsInput
-  customer: CustomerUpdateOneRequiredWithoutSubscriptionInput
+  customer: CustomerUpdateOneRequiredWithoutSubscriptionNestedInput
   id: StringFieldUpdateOperationsInput
-  price: PriceUpdateOneRequiredWithoutSubscriptionInput
+  price: PriceUpdateOneRequiredWithoutSubscriptionNestedInput
   status: EnumSubscription_statusFieldUpdateOperationsInput
 }
 
@@ -528,12 +520,12 @@ input GuildSubscriptionWhereUniqueInput {
 }
 
 input GuildUpdateInput {
-  guildPlugins: GuildPluginsUpdateOneWithoutGuildInput
-  guildSettings: GuildSettingsUpdateOneWithoutGuildInput
+  guildPlugins: GuildPluginsUpdateOneWithoutGuildNestedInput
+  guildSettings: GuildSettingsUpdateOneWithoutGuildNestedInput
   id: StringFieldUpdateOperationsInput
   prefix: StringFieldUpdateOperationsInput
   premium: BoolFieldUpdateOperationsInput
-  subscription: GuildSubscriptionUpdateOneWithoutGuildInput
+  subscription: GuildSubscriptionUpdateOneWithoutGuildNestedInput
 }
 
 input IntFieldUpdateOperationsInput {
@@ -547,15 +539,11 @@ input IntFieldUpdateOperationsInput {
 type Mutation {
   addCreditCard(createCardData: AddCreditCardInput!): CreatePaymentMethod!
   cancelSubscription(subscriptionId: String!): CancelSubscription!
-  createSubscription(
-    newSubscriptionParams: CreateSubscriptionInput!
-  ): CreateSubscription!
+  createSubscription(newSubscriptionParams: CreateSubscriptionInput!): CreateSubscription!
   updateGuildById(guildId: String!, guildUpdateInput: GuildUpdateInput!): Guild!
 }
 
-"""
-Mutual Guilds. Guilds that a user can edit
-"""
+"""Mutual Guilds. Guilds that a user can edit"""
 type MutualGuild {
   bot: Boolean!
   icon: String
@@ -580,9 +568,7 @@ type PaymentMethod {
   billingDetails: BillingDetails!
   card: Card!
 
-  """
-  Customer Id
-  """
+  """Customer Id"""
   customerId: String!
   id: String!
 }
@@ -664,7 +650,7 @@ enum PriceType {
   RECURRING
 }
 
-input PriceUpdateOneRequiredWithoutSubscriptionInput {
+input PriceUpdateOneRequiredWithoutSubscriptionNestedInput {
   connect: PriceWhereUniqueInput
   connectOrCreate: PriceCreateOrConnectWithoutSubscriptionInput
   create: PriceCreateWithoutSubscriptionInput
@@ -675,7 +661,7 @@ input PriceUpdateOneRequiredWithoutSubscriptionInput {
 input PriceUpdateWithoutSubscriptionInput {
   currency: StringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
-  product: ProductUpdateOneRequiredWithoutPriceInput
+  product: ProductUpdateOneRequiredWithoutPriceNestedInput
   recurringInterval: NullableStringFieldUpdateOperationsInput
   type: EnumPriceTypeFieldUpdateOperationsInput
   unit_amount: IntFieldUpdateOperationsInput
@@ -738,7 +724,7 @@ type ProductMinAggregate {
   name: String
 }
 
-input ProductUpdateOneRequiredWithoutPriceInput {
+input ProductUpdateOneRequiredWithoutPriceNestedInput {
   connect: ProductWhereUniqueInput
   connectOrCreate: ProductCreateOrConnectWithoutPriceInput
   create: ProductCreateWithoutPriceInput
@@ -766,14 +752,10 @@ type Query {
   guildConfig(guildId: String!): Guild!
   guilds(guildId: String!): DiscordGuild!
 
-  """
-  Returns the user that is logged in the session
-  """
+  """Returns the user that is logged in the session"""
   me: User
 
-  """
-  Gets the available guilds that the user can edit.
-  """
+  """Gets the available guilds that the user can edit."""
   mutualGuilds: [MutualGuild!]!
 }
 
@@ -817,37 +799,6 @@ input StringFieldUpdateOperationsInput {
 
 type Subscription {
   updatedGuildConfig(id: String!): Guild!
-}
-
-type SubscriptionCountAggregate {
-  _all: Int!
-  cancel_at_period_end: Int!
-  current_period_end: Int!
-  customerId: Int!
-  guildId: Int!
-  id: Int!
-  priceId: Int!
-  status: Int!
-}
-
-type SubscriptionMaxAggregate {
-  cancel_at_period_end: Boolean
-  current_period_end: DateTime
-  customerId: String
-  guildId: String
-  id: String
-  priceId: String
-  status: Subscription_status
-}
-
-type SubscriptionMinAggregate {
-  cancel_at_period_end: Boolean
-  current_period_end: DateTime
-  customerId: String
-  guildId: String
-  id: String
-  priceId: String
-  status: Subscription_status
 }
 
 enum Subscription_status {
@@ -961,7 +912,7 @@ type UserSessionMinAggregate {
   sid: String
 }
 
-input UserUpdateOneWithoutCustomerInput {
+input UserUpdateOneWithoutCustomerNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutCustomerInput
   create: UserCreateWithoutCustomerInput
