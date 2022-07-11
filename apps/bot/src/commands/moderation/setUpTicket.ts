@@ -36,7 +36,7 @@ import {
 @ClientPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
 export class SetupTicketCommand extends Command {
   async run({ options, guild }: SlashCommandRunOptions): CommandReturnType {
-    // const transcriptChannel = options.getChannel('transcript-channel')
+    // Const transcriptChannel = options.getChannel('transcript-channel')
     // const ticketCategory = options.getChannel('category')
     // if (transcriptChannel) {
     //   await GuildPluginsModel.findOneAndUpdate(

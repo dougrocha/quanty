@@ -21,7 +21,6 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:@next/next/recommended',
-
     'plugin:@next/next/core-web-vitals',
   ],
   parser: '@typescript-eslint/parser',

@@ -1,6 +1,6 @@
-import { ValidationPipe } from '@nestjs/common'
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { NestFactory } from '@nestjs/core'
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core'
 import { PrismaClient } from '@prisma/client'
 import { PrismaSessionStore } from '@quixo3/prisma-session-store'
 import cookieParser from 'cookie-parser'
@@ -8,6 +8,7 @@ import session from 'express-session'
 import passport from 'passport'
 
 import { AppModule } from './app.module'
+import { PrismaClientExceptionFilter } from './prisma-client-exception.filter'
 
 const ENV = process.env.NODE_ENV
 
@@ -16,19 +17,18 @@ export const prismaStoreClient = new PrismaClient()
 export const sessionMiddleware = session({
   name: 'session',
   store: new PrismaSessionStore(prismaStoreClient as any, {
-    ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
+    // ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
     checkPeriod: 24 * 3600, // Time period in seconds
-    dbRecordIdIsSessionId: true,
-    dbRecordIdFunction: undefined,
     sessionModelName: 'UserSession',
   }),
   cookie: {
-    maxAge: 60000 * 60 * 24 * 7,
+    httpOnly: ENV === 'production' ? true : false,
+    maxAge: 60000 * 60 * 24 * 7, // 7 Days
     secure: ENV === 'production' ? true : false,
   },
   secret: process.env.SESSION_COOKIE,
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
 })
 
 async function bootstrap() {
@@ -36,12 +36,20 @@ async function bootstrap() {
     bodyParser: false,
   })
 
+  // binds ValidationPipe to the entire application
+  app.useGlobalPipes(new ValidationPipe())
+
+  // apply transform to all responses
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
+
+  // 👇 apply PrismaClientExceptionFilter to entire application, requires HttpAdapterHost because it extends BaseExceptionFilter
+  const { httpAdapter } = app.get(HttpAdapterHost)
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter))
+
   const configService = app.get(ConfigService)
 
   const PORT = configService.get('PORT')
   app.setGlobalPrefix('api')
-
-  app.useGlobalPipes(new ValidationPipe())
 
   app.enableCors({
     origin: configService.get<string>('FRONTEND_URL'),

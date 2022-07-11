@@ -21,7 +21,7 @@ import {
 @UserPermissions('SEND_MESSAGES')
 export class TicketCommand extends Command {
   async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
-    // const embed = new MessageEmbed().setColor('#FF5F9F')
+    // Const embed = new MessageEmbed().setColor('#FF5F9F')
     // const guildConfig = await GuildsModel.findOne(
     //   {
     //     guildId: guild.id,

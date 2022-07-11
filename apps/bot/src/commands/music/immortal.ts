@@ -18,7 +18,7 @@ export class ImmortalCommand extends Command {
   private logger: Logger
 
   async run({ guild }: SlashCommandRunOptions): CommandReturnType {
-    // const embed = new MessageEmbed().setTitle('Updating Immortality: ')
+    // Const embed = new MessageEmbed().setTitle('Updating Immortality: ')
     // let guildConfig = await GuildPluginsModel.findOne(
     //   {
     //     guildId: guild.id,

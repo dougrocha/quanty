@@ -4,7 +4,7 @@ import { Interaction } from 'discord.js'
 @On('interactionCreate')
 export class HandleTicketEvent extends Event<'interactionCreate'> {
   async run(interaction: Interaction) {
-    // if (!interaction.isButton()) return
+    // If (!interaction.isButton()) return
     // if (
     //   !['close-ticket', 'lock-ticket', 'unlock-ticket'].includes(
     //     interaction.customId,

@@ -39,19 +39,21 @@ export class AuthController {
   }
 
   /**
-   * GET /api/auth/status
+   * GET /api/auth/protected
    *
-   * This is a page returning the status code of user auth.
+   * This is a page returning the protected status of user auth.
    */
-  @Get('status')
+  @Get('protected')
   @UseGuards(AuthenticatedGuard)
-  status(
+  protected(
     @HttpUser()
-    { id }: User,
+    { id, username, discriminator }: User,
   ) {
     return {
       loggedIn: true,
       discordId: id,
+      username,
+      discriminator,
     }
   }
 
@@ -62,15 +64,10 @@ export class AuthController {
    */
   @Get('logout')
   @UseGuards(AuthenticatedGuard)
-  async logout(
-    @Req() req: Request,
-    @Res() res: Response,
-    @HttpUser()
-    { id, username, discriminator }: User,
-  ) {
+  async logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy(() => {
-      res.clearCookie('session')
       res.redirect('http://localhost:3000')
+      return { msg: 'User had logged out.' }
     })
   }
 }

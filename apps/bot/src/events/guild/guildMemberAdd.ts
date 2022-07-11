@@ -7,7 +7,7 @@ export class GuildMemberAddEvent extends Event<'guildMemberAdd'> {
   private logger!: Logger
 
   async run(member: GuildMember) {
-    // const { user, guild } = member
+    // Const { user, guild } = member
     // const guildConfig = await this.fetchGuildConfig(guild.id)
     // const webHookChannelId = guildConfig?.logChannel
     // if (!webHookChannelId) return
@@ -23,7 +23,7 @@ export class GuildMemberAddEvent extends Event<'guildMemberAdd'> {
   }
 
   async fetchGuildConfig(guildId: string) {
-    // const guild = await GuildsModel.findOne({ guildId })
+    // Const guild = await GuildsModel.findOne({ guildId })
     // if (!guild) {
     //   return null
     // }

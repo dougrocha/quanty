@@ -7,7 +7,7 @@ export class AutoModEvent extends Event<'messageCreate'> {
   private logger!: Logger
 
   async run(message: Message<boolean>) {
-    // if (!message.guild || message.type != 'DEFAULT') return
+    // If (!message.guild || message.type != 'DEFAULT') return
     // const guildPlugins = await GuildPluginsModel.findOne(
     //   {
     //     guildId: message.guild.id,

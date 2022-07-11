@@ -7,7 +7,7 @@ export class MessageDeleteEvent extends Event<'messageDelete'> {
   private logger!: Logger
 
   async run(message: Message) {
-    // const { guild, channel: msgChannel, author, content } = message
+    // Const { guild, channel: msgChannel, author, content } = message
     // if (!guild) return
     // if (!(msgChannel instanceof TextChannel)) return
     // if (author.bot) return
@@ -57,7 +57,7 @@ export class MessageDeleteEvent extends Event<'messageDelete'> {
   }
 
   async fetchGuildConfig(guildId: string) {
-    // const guild = await GuildsModel.findOne({ guildId })
+    // Const guild = await GuildsModel.findOne({ guildId })
     // if (!guild) {
     //   return null
     // }

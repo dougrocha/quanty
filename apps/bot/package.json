@@ -19,7 +19,7 @@
     "watch-tsc": "tsc -w --pretty --skipLibCheck --noEmit -p tsconfig.json",
     "start": "cross-env production=true node --experimental-specifier-resolution=node ./dist/src/index.js",
     "test": "echo TESTING BOT",
-    "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "cross-env TIMING=1 eslint src --fix",
     "format": "prettier --write src"
   },
   "dependencies": {

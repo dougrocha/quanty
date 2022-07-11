@@ -33,7 +33,7 @@ export class GuildMemberAddEvent extends Event<'roleCreate'> {
   }
 
   async fetchGuildConfig(guildId: string) {
-    // const guild = await GuildsModel.findOne({ guildId })
+    // Const guild = await GuildsModel.findOne({ guildId })
     // if (!guild) {
     //   return null
     // }

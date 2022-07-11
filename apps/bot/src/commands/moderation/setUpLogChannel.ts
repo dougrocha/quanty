@@ -29,7 +29,7 @@ export class BanCommand extends Command {
     user,
     options,
   }: SlashCommandRunOptions): CommandReturnType {
-    // const guildChannel = options.getChannel('channel') as TextChannel
+    // Const guildChannel = options.getChannel('channel') as TextChannel
     // // !TODO Find a way to store this in database to keep track of guild webhooks
     // await guildChannel
     //   .createWebhook('Quanty', {

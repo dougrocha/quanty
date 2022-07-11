@@ -29,7 +29,7 @@ export class PrefixCommand extends Command {
     options,
     guild,
   }: SlashCommandRunOptions): CommandReturnType {
-    // const guildPrefix = await GuildsModel.findOne(
+    // Const guildPrefix = await GuildsModel.findOne(
     //   { guildId: guild.id },
     //   'prefix',
     // )

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { CanActivate, ExecutionContext, Module } from '@nestjs/common'
 
 import { PaymentsController } from './payments.controller'
 import { CreditCardsResolver } from './resolvers/credit-cards.resolver'
@@ -14,6 +14,7 @@ import {
   PRISMA_SERVICE,
 } from '../common'
 import { PrismaService } from '../prisma.service'
+import { APP_GUARD, Reflector } from '@nestjs/core'
 
 @Module({
   providers: [

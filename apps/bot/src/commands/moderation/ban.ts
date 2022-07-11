@@ -33,7 +33,7 @@ export class BanCommand extends Command {
     guild,
     user: issuer,
   }: SlashCommandRunOptions): CommandReturnType {
-    // const user = options.getUser('user')
+    // Const user = options.getUser('user')
     // if (!user) return
     // const reason = options.getString('reason') ?? 'No reason provided'
     // const member = await guild.members.fetch(user?.id)

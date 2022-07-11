@@ -47,8 +47,6 @@ const ENV = process.env.NODE_ENV
         DISCORD_CLIENT_ID: Joi.string(),
         CLIENT_SECRET: Joi.string(),
         DISCORD_CALLBACK_URL: Joi.string(),
-        MONGO_STORE_SECRET: Joi.string(),
-        MONGO_URI: Joi.string(),
       }),
     }),
     PassportModule.register({ session: true }),
@@ -94,7 +92,7 @@ const ENV = process.env.NODE_ENV
                 resolve(true)
               })
             },
-            // onSubscribe: ctx => {
+            // OnSubscribe: ctx => {
             //   console.log(
             //     'onSubscribe',
             //     ((ctx.extra as any).request as Request).headers.cookie,

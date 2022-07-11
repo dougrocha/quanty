@@ -4,7 +4,7 @@ import { Interaction } from 'discord.js'
 @On('interactionCreate')
 export class SelectTicketEvent extends Event<'interactionCreate'> {
   async run(interaction: Interaction) {
-    // if (!interaction.isButton()) return
+    // If (!interaction.isButton()) return
     // const { guild, member, customId } = interaction
     // if (!guild) return
     // if (
