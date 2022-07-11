@@ -30,7 +30,6 @@ export class BanCommand extends Command {
     options,
   }: SlashCommandRunOptions): CommandReturnType {
     // const guildChannel = options.getChannel('channel') as TextChannel
-
     // // !TODO Find a way to store this in database to keep track of guild webhooks
     // await guildChannel
     //   .createWebhook('Quanty', {
@@ -50,7 +49,6 @@ export class BanCommand extends Command {
     //   .catch(() => {
     //     throw Error('Could not setup Log Channel.')
     //   })
-
     // return {
     //   content: `Log Channel set up in ${guildChannel.name} by ${user.username}`,
     // }

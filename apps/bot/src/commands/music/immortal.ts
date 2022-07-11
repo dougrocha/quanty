@@ -19,39 +19,29 @@ export class ImmortalCommand extends Command {
 
   async run({ guild }: SlashCommandRunOptions): CommandReturnType {
     // const embed = new MessageEmbed().setTitle('Updating Immortality: ')
-
     // let guildConfig = await GuildPluginsModel.findOne(
     //   {
     //     guildId: guild.id,
     //   },
     //   'immortal',
     // )
-
     // const guildId = guild.id
-
     // if (!guildConfig) guildConfig = new GuildPluginsModel({ guildId })
-
     // if (!guildConfig.immortal) {
     //   guildConfig.immortal = true
-
     //   await guildConfig?.save().catch(err => {
     //     this.logger.error(err)
-
     //     return {
     //       embeds: [embed.setDescription('Error occurred. Try again later.')],
     //     }
     //   })
-
     //   return {
     //     embeds: [embed.setDescription(`Set immortality to: \`True\``)],
     //   }
     // }
-
     // guildConfig.immortal = false
-
     // await guildConfig.save().catch(err => {
     //   this.logger.error(err)
-
     //   return {
     //     embeds: [embed.setDescription('Error occurred. Try again later.')],
     //   }
