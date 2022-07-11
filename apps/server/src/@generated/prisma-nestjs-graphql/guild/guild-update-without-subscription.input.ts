@@ -2,8 +2,8 @@ import { Field } from '@nestjs/graphql'
 import { InputType } from '@nestjs/graphql'
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input'
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input'
-import { GuildSettingsUpdateOneWithoutGuildNestedInput } from '../guild-settings/guild-settings-update-one-without-guild-nested.input'
-import { GuildPluginsUpdateOneWithoutGuildNestedInput } from '../guild-plugins/guild-plugins-update-one-without-guild-nested.input'
+import { GuildSettingsUpdateOneWithoutGuildInput } from '../guild-settings/guild-settings-update-one-without-guild.input'
+import { GuildPluginsUpdateOneWithoutGuildInput } from '../guild-plugins/guild-plugins-update-one-without-guild.input'
 
 @InputType()
 export class GuildUpdateWithoutSubscriptionInput {
@@ -16,11 +16,9 @@ export class GuildUpdateWithoutSubscriptionInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   prefix?: StringFieldUpdateOperationsInput
 
-  @Field(() => GuildSettingsUpdateOneWithoutGuildNestedInput, {
-    nullable: true,
-  })
-  guildSettings?: GuildSettingsUpdateOneWithoutGuildNestedInput
+  @Field(() => GuildSettingsUpdateOneWithoutGuildInput, { nullable: true })
+  guildSettings?: GuildSettingsUpdateOneWithoutGuildInput
 
-  @Field(() => GuildPluginsUpdateOneWithoutGuildNestedInput, { nullable: true })
-  guildPlugins?: GuildPluginsUpdateOneWithoutGuildNestedInput
+  @Field(() => GuildPluginsUpdateOneWithoutGuildInput, { nullable: true })
+  guildPlugins?: GuildPluginsUpdateOneWithoutGuildInput
 }

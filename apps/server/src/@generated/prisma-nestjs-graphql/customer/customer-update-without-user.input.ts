@@ -4,7 +4,7 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input'
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input'
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input'
-import { GuildSubscriptionUpdateManyWithoutCustomerNestedInput } from '../guild-subscription/guild-subscription-update-many-without-customer-nested.input'
+import { GuildSubscriptionUpdateManyWithoutCustomerInput } from '../guild-subscription/guild-subscription-update-many-without-customer.input'
 
 @InputType()
 export class CustomerUpdateWithoutUserInput {
@@ -20,8 +20,8 @@ export class CustomerUpdateWithoutUserInput {
   @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
   createdAt?: DateTimeFieldUpdateOperationsInput
 
-  @Field(() => GuildSubscriptionUpdateManyWithoutCustomerNestedInput, {
+  @Field(() => GuildSubscriptionUpdateManyWithoutCustomerInput, {
     nullable: true,
   })
-  subscription?: GuildSubscriptionUpdateManyWithoutCustomerNestedInput
+  subscription?: GuildSubscriptionUpdateManyWithoutCustomerInput
 }

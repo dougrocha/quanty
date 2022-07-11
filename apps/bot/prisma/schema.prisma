@@ -1,12 +1,22 @@
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
-}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
+}
+
+model UserSession {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.Text()
+  expiresAt DateTime
 }
 
 model Customer {
@@ -16,19 +26,22 @@ model Customer {
   subscriptionId Boolean  @default(false)
   createdAt      DateTime @default(now())
 
-  user         User           @relation(fields: [userId], references: [id])
-  userId       String         @unique @db.VarChar(18)
-  Subscription Subscription[]
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String? @unique @db.VarChar(18)
+
+  subscription GuildSubscription[]
+
+  @@index([userId])
 }
 
 model Guild {
-  id     String     @id @unique @db.VarChar(18)
-  tier   Guild_tier @default(FREE)
-  prefix String     @db.VarChar(10)
+  id      String  @id @unique @db.VarChar(18)
+  premium Boolean @default(false)
+  prefix  String  @default("q!") @db.VarChar(10)
 
-  Subscription  Subscription?
-  GuildSettings GuildSettings?
-  GuildPlugins  GuildPlugins?
+  subscription  GuildSubscription?
+  guildSettings GuildSettings?
+  guildPlugins  GuildPlugins?
 }
 
 model GuildPlugins {
@@ -36,8 +49,7 @@ model GuildPlugins {
   autoMod Boolean @default(false)
   anime   Boolean @default(false)
 
-  guild   Guild  @relation(fields: [guildId], references: [id])
-  guildId String @unique @db.VarChar(18)
+  guild Guild @relation(fields: [id], references: [id])
 }
 
 model GuildSettings {
@@ -48,33 +60,34 @@ model GuildSettings {
   djRole          String  @db.VarChar(18)
   musicTimeOut    Boolean @default(false)
 
-  guild   Guild?  @relation(fields: [guildId], references: [id])
-  guildId String? @unique @db.VarChar(18)
+  guild Guild? @relation(fields: [id], references: [id])
 }
 
 model Price {
-  id                String   @id @unique @db.VarChar(255)
-  recurringInterval DateTime
+  id                String    @id @unique @db.VarChar(255)
+  recurringInterval String?
   unit_amount       Int
-  currency          String   @db.VarChar(4)
+  currency          String    @db.VarChar(4)
+  type              PriceType
 
   product   Product @relation(fields: [productId], references: [id])
-  productId String  @unique
+  productId String
 
-  subscription Subscription[]
+  subscription GuildSubscription[]
+
+  @@index([productId])
 }
 
 model Product {
-  id          String       @id @unique @db.VarChar(255)
-  name        String       @db.VarChar(50)
-  description String       @db.VarChar(350)
-  tier        Product_tier
-  Price       Price[]
+  id          String  @id @unique @db.VarChar(255)
+  name        String  @db.VarChar(50)
+  description String? @db.VarChar(350)
+  price       Price[]
 }
 
-model Subscription {
+// Do not name this just "Subscription" will mess with GraphQL Subscription Type
+model GuildSubscription {
   id                   String              @id @unique @db.VarChar(255)
-  tier                 Subscription_tier   @default(FREE)
   status               Subscription_status @default(CANCELED)
   current_period_end   DateTime
   cancel_at_period_end Boolean             @default(false)
@@ -83,10 +96,14 @@ model Subscription {
   guildId String @unique @db.VarChar(18)
 
   customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String   @unique @db.VarChar(255)
+  customerId String   @db.VarChar(255)
 
   price   Price  @relation(fields: [priceId], references: [id])
   priceId String @db.VarChar(255)
+
+  @@index([guildId])
+  @@index([customerId])
+  @@index([priceId])
 }
 
 model User {
@@ -95,38 +112,27 @@ model User {
   discriminator String   @db.Char(4)
   /// @Validator.IsEmail()
   email         String?  @unique @db.VarChar(254)
-  avatar        String?  @db.VarChar(255)
+  avatar        String?  @db.VarChar(254)
   createdAt     DateTime @default(now())
-  locale        String?  @db.VarChar(4)
+  locale        String?  @db.VarChar(10)
 
   /// @HideField()
-  accessToken  String?
+  accessToken  String? @db.VarChar(100)
   /// @HideField()
-  refreshToken String?
+  refreshToken String? @db.VarChar(100)
 
-  Customer Customer?
-}
+  acceptedTermsAndConditions Boolean @default(false)
 
-enum Guild_tier {
-  FREE
-  SILVER
-  QUANTUM
-}
-
-enum Product_tier {
-  FREE
-  SILVER
-  QUANTUM
-}
-
-enum Subscription_tier {
-  FREE
-  SILVER
-  QUANTUM
+  customer Customer?
 }
 
 enum Subscription_status {
   ACTIVE
   CANCELED
   INCOMPLETE
+}
+
+enum PriceType {
+  RECURRING
+  ONE_TIME
 }

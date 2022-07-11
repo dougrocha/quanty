@@ -19,6 +19,10 @@
     "app-bot#start": {
       "dependsOn": ["app-bot#build"]
     },
+    "app-backend#build": {
+      "outputs": ["dist/**"],
+      "cache": true
+    },
     "lint": {
       "outputs": []
     },

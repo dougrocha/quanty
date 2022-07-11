@@ -2,7 +2,7 @@ import { Field } from '@nestjs/graphql'
 import { InputType } from '@nestjs/graphql'
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input'
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input'
-import { PriceUncheckedUpdateManyWithoutProductNestedInput } from '../price/price-unchecked-update-many-without-product-nested.input'
+import { PriceUncheckedUpdateManyWithoutProductInput } from '../price/price-unchecked-update-many-without-product.input'
 
 @InputType()
 export class ProductUncheckedUpdateInput {
@@ -15,8 +15,6 @@ export class ProductUncheckedUpdateInput {
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   description?: NullableStringFieldUpdateOperationsInput
 
-  @Field(() => PriceUncheckedUpdateManyWithoutProductNestedInput, {
-    nullable: true,
-  })
-  price?: PriceUncheckedUpdateManyWithoutProductNestedInput
+  @Field(() => PriceUncheckedUpdateManyWithoutProductInput, { nullable: true })
+  price?: PriceUncheckedUpdateManyWithoutProductInput
 }

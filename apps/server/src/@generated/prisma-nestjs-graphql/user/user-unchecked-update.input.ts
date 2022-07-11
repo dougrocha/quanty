@@ -4,7 +4,7 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input'
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input'
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input'
-import { CustomerUncheckedUpdateOneWithoutUserNestedInput } from '../customer/customer-unchecked-update-one-without-user-nested.input'
+import { CustomerUncheckedUpdateOneWithoutUserInput } from '../customer/customer-unchecked-update-one-without-user.input'
 
 @InputType()
 export class UserUncheckedUpdateInput {
@@ -38,8 +38,6 @@ export class UserUncheckedUpdateInput {
   @Field(() => BoolFieldUpdateOperationsInput, { nullable: true })
   acceptedTermsAndConditions?: BoolFieldUpdateOperationsInput
 
-  @Field(() => CustomerUncheckedUpdateOneWithoutUserNestedInput, {
-    nullable: true,
-  })
-  customer?: CustomerUncheckedUpdateOneWithoutUserNestedInput
+  @Field(() => CustomerUncheckedUpdateOneWithoutUserInput, { nullable: true })
+  customer?: CustomerUncheckedUpdateOneWithoutUserInput
 }
