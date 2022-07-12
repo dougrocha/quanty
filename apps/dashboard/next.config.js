@@ -20,5 +20,7 @@ module.exports = withBundleAnalyzer({
   pageExtensions: ['ts', 'tsx'],
   env: {
     APP_URL: process.env.APP_URL,
+    SERVER_URL: process.env.SERVER_URL,
+    WS_URL: process.env.WS_URL,
   },
 })

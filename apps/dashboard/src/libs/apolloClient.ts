@@ -37,7 +37,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
   }
 
   const httpLink = new HttpLink({
-    uri: 'http://localhost:3001/api/graphql',
+    uri: `${process.env.SERVER_URL}/graphql`,
     // Make sure that CORS and cookies work
     fetchOptions: {
       mode: 'cors',
@@ -77,7 +77,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
             },
             new GraphQLWsLink(
               createClient({
-                url: 'ws://localhost:3001/api/graphql',
+                url: process.env.WS_URL,
                 connectionParams: {},
                 retryAttempts: 5,
               }),
