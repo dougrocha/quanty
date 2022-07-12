@@ -24,11 +24,11 @@ export const useAuth = () => {
   })
 
   const logIn = () => {
-    router.push(`${process.env.SERVER_URL}/api/auth/login`)
+    router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`)
   }
 
   const logOut = () => {
-    router.push(`${process.env.SERVER_URL}/api/auth/logout`)
+    router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`)
   }
 
   return { loading, logIn, logOut, user, error }

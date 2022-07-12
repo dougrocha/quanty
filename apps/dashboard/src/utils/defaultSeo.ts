@@ -3,7 +3,7 @@ export default {
   defaultTitle: 'Quanty | Discord Bot',
   openGraph: {
     type: 'website',
-    url: process.env.APP,
+    url: process.env.NEXT_PUBLIC_APP_URL,
     title: 'Quanty | Discord Bot',
     description:
       '🤖 Add Quanty to your discord for a makeover. Quanty is a multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard.',

@@ -19,8 +19,8 @@ module.exports = withBundleAnalyzer({
   },
   pageExtensions: ['ts', 'tsx'],
   env: {
-    APP_URL: process.env.APP_URL,
-    SERVER_URL: process.env.SERVER_URL,
-    WS_URL: process.env.WS_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
+    NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
   },
 })
