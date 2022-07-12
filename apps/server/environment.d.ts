@@ -1,7 +1,5 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    MONGOURI: string
-
     BOT_SECRET: string
     DISCORD_CLIENT_ID: string
     CLIENT_SECRET: string
@@ -22,5 +20,7 @@ declare namespace NodeJS {
     STRIPE_WEBHOOK_SECRET: string
 
     FRONTEND_URL: string
+
+    DATABASE_URL: string
   }
 }

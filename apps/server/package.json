@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist && rimraf src/@generated",
     "build": "prisma generate && nest build",
-    "start": "nest start",
+    "start": "cross-env NODE_ENV=production nest start",
     "test:dev": "node -r @swc/register src/main.ts",
     "debug": "nest start --debug --watch",
     "dev": "concurrently \"yarn watch-compile\" \"yarn watch-dev\" \"yarn watch-tsc\"",

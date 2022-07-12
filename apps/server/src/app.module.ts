@@ -44,6 +44,7 @@ const ENV = process.env.NODE_ENV
         WEBSOCKET_TOKEN: Joi.string(),
         THROTTLE_TTL: Joi.number().default(60),
         THROTTLE_LIMIT: Joi.number().default(10),
+        DATABASE_URL: Joi.number().default(10),
         DISCORD_CLIENT_ID: Joi.string(),
         CLIENT_SECRET: Joi.string(),
         DISCORD_CALLBACK_URL: Joi.string(),
