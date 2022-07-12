@@ -37,7 +37,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
   }
 
   const httpLink = new HttpLink({
-    uri: `${process.env.NEXT_PUBLIC_SERVER_URL}/graphql`,
+    uri: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/graphql`,
     // Make sure that CORS and cookies work
     fetchOptions: {
       mode: 'cors',
