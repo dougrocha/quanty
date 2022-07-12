@@ -66,7 +66,7 @@ export class AuthController {
   @UseGuards(AuthenticatedGuard)
   async logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy(() => {
-      res.redirect('http://localhost:3000')
+      res.redirect(process.env.FRONTEND_URL)
       return { msg: 'User had logged out.' }
     })
   }
