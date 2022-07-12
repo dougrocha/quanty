@@ -37,6 +37,7 @@ const CARD_ELEMENT_OPTIONS = {
 }
 
 const PaymentPage = () => {
+  return <h1>NOT AVAILABLE YET</h1>
   const [clientSecret, setClientSecret] = useState<string>('')
 
   const { user } = useAuth()
