@@ -33,6 +33,8 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
         // here we pass the cookie along for each request
         Cookie: headers?.cookie ?? '',
       },
+      credentials: 'include',
+      mode: 'cors',
     }).then(response => response)
   }
 
