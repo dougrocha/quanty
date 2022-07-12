@@ -27,8 +27,8 @@ export const sessionMiddleware = session({
     secure: ENV === 'production' ? true : false,
   },
   secret: process.env.SESSION_COOKIE,
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
 })
 
 async function bootstrap() {
