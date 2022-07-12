@@ -1,29 +1,15 @@
-import { Guilds } from 'src/schemas'
+import { Guild } from '../../@generated/prisma-nestjs-graphql'
 
-export const guildStub = (): Guilds => ({
-  guildId: '123',
+export const guildStub = (): Guild => ({
+  id: '123',
   prefix: 'q!',
-  anime: {
+  premium: false,
+  guildSettings: {
+    id: '123',
+    defaultJoinRole: '123',
+    djRole: '123',
+    globalCooldown: 100,
+    musicTimeOut: true,
     nsfw: false,
-    plugin: true,
   },
-  blacklistedWords: ['bad', 'words'],
-  customCommands: [
-    {
-      description: 'description',
-      id: '123',
-      name: 'customCommand',
-    },
-  ],
-  logs: [{ action: 'deleteTest', name: 'slash', updatedAt: Date.now() }],
-  moderation: {
-    autoMod: true,
-    plugin: false,
-  },
-  music: {
-    channel: '123',
-    immortal: true,
-    plugin: true,
-  },
-  premium: true,
 })

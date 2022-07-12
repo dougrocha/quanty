@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+/**
+ * @type {import('next').NextConfig}
+ **/
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -9,24 +13,14 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: ['cdn.discordapp.com'],
   },
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+  webp: {
+    preset: 'default',
+    quality: 100,
   },
-  async redirects() {
-    return [
-      {
-        source: '/login',
-        destination: 'http://localhost:3001/api/auth/login',
-        permanent: false,
-        basePath: false,
-      },
-      {
-        source: '/invite',
-        destination:
-          'https://discord.com/api/oauth2/authorize?client_id=824106276404854844&permissions=8&redirect_uri=https%3A%2F%2Fwww.quanty.xyz%2F&response_type=code&scope=identify%20bot%20applications.commands%20guilds',
-        permanent: true,
-      },
-    ]
+  pageExtensions: ['ts', 'tsx'],
+  env: {
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
+    NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
   },
 })

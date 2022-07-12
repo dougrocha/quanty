@@ -8,19 +8,17 @@
     "strictBindCallApply": false,
 
     "declaration": true,
-    "declarationMap": true,
 
-    "removeComments": true,
+    "removeComments": false,
     "sourceMap": true,
+
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
 
-    "composite": false,
+    "newLine": "lf",
+
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "preserveWatchOutput": true
-  },
-  "ts-node": {
-    "transpileOnly": true
   }
 }

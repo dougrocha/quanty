@@ -1,3 +1,4 @@
 node_modules/
 *.spec.ts
 test
+src/@generated

@@ -1,13 +1,21 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-export const command: Command = {
-  name: 'shuffle',
+import { musicManager } from '../../libs/music'
+
+@Category('music')
+@SlashCommand('shuffle', {
   description: 'Shuffles the current queue',
-  options: [],
-  category: 'music',
-  run: ({ client, guild }) => {
-    const player = client.player.get(guild.id)
+})
+export class TCommand extends Command {
+  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
+    const player = musicManager.get(guild.id)
 
     const embed = new MessageEmbed().setColor('#FF5F9F')
 
@@ -22,9 +30,11 @@ export const command: Command = {
       }
 
     embed.setDescription('Shuffled Queue!')
-
     player.queue.shuffle()
 
     return { embeds: [embed] }
-  },
+  }
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

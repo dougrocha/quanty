@@ -1,0 +1,8 @@
+query GetMutualGuilds {
+  mutualGuilds {
+    id
+    name
+    icon
+    bot
+  }
+}

@@ -1,52 +1,81 @@
-import { HttpService } from '@nestjs/axios'
 import { Inject, Injectable } from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { AxiosResponse } from 'axios'
-import { Model } from 'mongoose'
-import { Observable, map } from 'rxjs'
-import { UserDetails } from 'src/common/types'
-import { Guild } from 'src/guilds/models/guild'
-import { User, UserDocument } from 'src/schemas'
-import { IUsersService } from 'src/users/interfaces/users'
+import { PrismaClient } from '@prisma/client'
+
+import {
+  Customer,
+  User,
+  UserCreateWithoutCustomerInput,
+} from '../../@generated/prisma-nestjs-graphql'
+import { PAYMENT_SERVICE, PRISMA_SERVICE } from '../../common'
+import { IPaymentsService } from '../../payments/interfaces/paymentsService.interface'
+import { IUsersService } from '../interfaces/users'
 
 @Injectable()
 export class UsersService implements IUsersService {
   constructor(
-    @Inject(HttpService) private readonly httpService: HttpService,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @Inject(PAYMENT_SERVICE) private readonly paymentsService: IPaymentsService,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaClient,
   ) {}
 
-  async createUser(details: UserDetails): Promise<UserDocument> {
-    const user = await this.userModel.create(details)
-    return user.save()
+  async createUser({
+    id,
+    discriminator,
+    avatar,
+    email,
+    username,
+    locale,
+    accessToken,
+    refreshToken,
+  }: UserCreateWithoutCustomerInput): Promise<User> {
+    const customer = await this.paymentsService.createCustomer(id, email)
+
+    const user = await this.prisma.user.create({
+      data: {
+        id,
+        discriminator,
+        avatar,
+        email,
+        locale,
+        username,
+        accessToken,
+        refreshToken,
+        customer: {
+          create: {
+            id: customer.id,
+            email: customer.email,
+          },
+        },
+      },
+    })
+
+    return user
   }
 
   async updateUser(
-    user: UserDocument,
-    newDetails: UserDetails,
-  ): Promise<UserDocument> {
-    return await this.userModel.findOneAndUpdate(
-      { discordId: user.discordId },
-      newDetails,
-      { new: true, upsert: true },
-    )
+    id: string,
+    newDetails: UserCreateWithoutCustomerInput,
+  ): Promise<User> {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: newDetails,
+    })
   }
 
-  async findUser(discordId: string): Promise<UserDocument | null> {
-    return await this.userModel.findOne({ discordId })
+  async findUser(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
   }
 
-  fetchOwnerGuilds(accessToken: string): Observable<AxiosResponse<Guild[]>> {
-    return this.httpService
-      .get('https://discord.com/api/v9/users/@me/guilds', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .pipe(
-        map(response =>
-          response.data.filter((guild: Guild) => guild.owner === true),
-        ),
-      )
+  async findCustomer(id: string): Promise<Customer | null> {
+    return this.prisma.customer.findUnique({
+      where: {
+        userId: id,
+      },
+    })
   }
 }

@@ -2,12 +2,10 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'prettier',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin', 'import', 'prettier'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'import'],
   root: true,
   env: {
     node: true,
@@ -20,7 +18,6 @@ module.exports = {
       'always',
       { ignoreConsecutiveComments: true },
     ],
-    'prettier/prettier': 'error',
     '@typescript-eslint/no-floating-promises': [
       'warn',
       {

@@ -1,6 +1,8 @@
-import { UserDetails } from 'src/common/types'
-import { UserDocument } from 'src/schemas'
+import {
+  User,
+  UserCreateWithoutCustomerInput,
+} from '../../@generated/prisma-nestjs-graphql'
 
 export interface IAuthenticationService {
-  validateUser(user: UserDetails): Promise<UserDocument>
+  validateUser(user: UserCreateWithoutCustomerInput): Promise<User>
 }

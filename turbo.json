@@ -1,4 +1,5 @@
 {
+  "$schema": "https://turborepo.org/schema.json",
   "baseBranch": "origin/master",
   "pipeline": {
     "dev": {
@@ -12,7 +13,10 @@
       "cache": true
     },
     "app-bot#build": {
-      "dependsOn": ["@quanty/framework#build"],
+      "cache": true
+    },
+    "app-backend#build": {
+      "outputs": ["dist/**"],
       "cache": true
     },
     "lint": {

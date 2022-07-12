@@ -1,27 +1,36 @@
 // TODO: Re-do this whole command
 
-import { checkChannel, Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 import { Player } from 'erela.js'
 
-export const command: Command = {
-  name: 'nowplaying',
-  description: 'Shows the current playing song',
-  options: [],
-  category: 'music',
-  run: ({ client, guild, member }) => {
-    const { content, player } = checkChannel({
-      client,
-      guild,
-      member,
-    })
+import { checkChannel, musicManager } from '../../libs/music'
 
+@Category('music')
+@SlashCommand('nowplaying', {
+  description: 'Shows the current playing song',
+})
+export class NowPlayingCommand extends Command {
+  async run({
+    client,
+    guild,
+    user,
+  }: SlashCommandRunOptions): CommandReturnType {
+    const { content, player } = checkChannel({
+      guild,
+      user,
+    })
     if (!player) {
       return {
         content,
       }
     }
-
     try {
       function format(millis: number) {
         try {
@@ -39,7 +48,6 @@ export const command: Command = {
           console.log(String(e.stack))
         }
       }
-
       function createBar(player: Player) {
         try {
           if (!player.queue.current)
@@ -67,13 +75,10 @@ export const command: Command = {
           console.log(String(e.stack))
         }
       }
-
-      const player = client.player.get(guild.id)
-
+      const player = musicManager.get(guild.id)
       if (!player) {
         return
       }
-
       const song: any = player?.queue?.current
       if (!song)
         return {
@@ -129,5 +134,12 @@ export const command: Command = {
         ],
       }
     }
-  },
+  }
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
+  // Name: 'nowplaying',
+  // description: 'Shows the current playing song',
+  // options: [],
+  // category: 'music',
 }

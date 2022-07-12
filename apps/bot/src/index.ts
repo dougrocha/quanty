@@ -1,33 +1,37 @@
-import { join } from 'path'
-
-import QuantyClient from '@quanty/framework'
+import { PrismaClient } from '@prisma/client'
+import { QuantyClient } from '@quanty/framework'
 import * as dotenv from 'dotenv'
 
-const ENV = process.env.NODE_ENV
-dotenv.config({ path: ENV ? `.env.${ENV}` : '.env' })
+const production = process.env.production
 
-import { extraPlugins } from './utils/clientConfig'
+dotenv.config({ path: production ? '.env.prod' : '.env' })
 
-const client = new QuantyClient(
+export const prisma = new PrismaClient()
+
+export const client = new QuantyClient(
   {
     token: process.env.TOKEN,
-    mongoUri: process.env.MONGOURI,
-    // WebSocketConfig: {
-    //   url: process.env.WS_URL,
-    //   token: process.env.WEBSOCKET_TOKEN,
-    // },
-    botOwners: ['571520537587875851'],
-    commandsDir: join(__dirname, 'commands'),
-    featuresDir: join(__dirname, 'features'),
-    testServers: ['871581301713555526'],
-    defaultValues: {
-      defaultCommands: false,
-    },
+    owner: '571520537587875851',
+    devGuilds: '711679864247156747',
+    defaults: true,
+    logLevel: production ? 'ALL' : 'DEBUG',
+    outDir: 'dist/',
   },
-  { intents: 32509 },
-  // ExtraPlugins,
+  {
+    intents: [
+      'GUILDS',
+      'GUILD_MEMBERS',
+      'GUILD_BANS',
+      'GUILD_VOICE_STATES',
+      'GUILD_MEMBERS',
+      'GUILD_WEBHOOKS',
+      'GUILD_MESSAGES',
+    ],
+  },
+)
+
+client.setDefaultCommandError(
+  'This command is broken. Please contact the server owner.',
 )
 
 void client.start()
-
-export default client

@@ -1,12 +1,16 @@
-import { AxiosResponse } from 'axios'
-import { Observable } from 'rxjs'
-import { UserDetails } from 'src/common/types'
-import { Guild } from 'src/guilds/models/guild'
-import { UserDocument } from 'src/schemas'
+import {
+  UserCreateWithoutCustomerInput,
+  User,
+  Customer,
+} from '../../@generated/prisma-nestjs-graphql'
 
 export interface IUsersService {
-  createUser(details: UserDetails): Promise<UserDocument>
-  updateUser(user: UserDocument, newDetails: UserDetails): Promise<UserDocument>
-  findUser(discordId: string): Promise<UserDocument | null>
-  fetchOwnerGuilds(accessToken: string): Observable<AxiosResponse<Guild[]>>
+  createUser(details: UserCreateWithoutCustomerInput): Promise<User>
+  updateUser(
+    discordId: string,
+    newDetails: UserCreateWithoutCustomerInput,
+  ): Promise<User>
+  findUser(discordId: string): Promise<User | null>
+
+  findCustomer(id: string): Promise<Customer | null>
 }

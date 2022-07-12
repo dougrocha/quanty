@@ -1,18 +1,18 @@
 <!-- markdownlint-disable -->
 <div align="center">
 
-# Typescript discord bot frameworks for the best bots
+# @Quanty/framework - The best bot framework.
 
 </div>
 <!-- markdownlint-restore -->
 
 ## About
 
-This framework is a discord bot tool built with discord.js for powerful bots.
+This framework is a powerful tool for initializing your Discord Bot.
 
 ## Features
 
-- Written in typescript
+- Written in typescript with the help of decorators
 - Command/Feature handlers
 - Powerful command configurations
 
@@ -45,16 +45,33 @@ yarn add @quanty/framework discord.js
 ```typescript
 import QuantyClient from '@quanty/framework'
 
-const client = new QuantyClient(
+export const client: QuantyClient = new QuantyClient(
   {
     token: 'INSERT_TOKEN_HERE',
+    commandDir: 'commands/',
+    eventDir: 'events/',
+    owner: 'INSERT_OWNER_ID_HERE',
+    baseDir: 'test/',
+    outDir: 'dist/',
+    defaults: true,
+    logLevel: 'DEBUG',
+    devGuilds: '871581301713555526',
   },
   {
-    intents: [Intents.FLAGS.GUILDS],
+    intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_PRESENCES'],
+    presence: {
+      activities: [
+        {
+          name: 'quanty.xyz',
+          type: 'PLAYING',
+          url: 'https://www.quanty.xyz/',
+        },
+      ],
+    },
   },
-).start()
+)
 
-export default client
+void client.start()
 ```
 
 More details and information about how to use this framework will come later in documentation.

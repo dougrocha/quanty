@@ -1,67 +1,94 @@
-import { Command } from '@quanty/framework'
+import {
+  Category,
+  Command,
+  CommandReturnType,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-export const command: Command = {
-  name: 'prefix',
-  description: 'desc',
+import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
+
+@SlashCommand('prefix', {
+  description: 'Prefix manager.',
   options: [
     {
       name: 'prefix',
-      description: 'sets a new prefix',
+      description: 'Sets a new prefix.',
       required: false,
       type: 'STRING',
     },
   ],
-  category: 'config',
-  userPermissions: ['ADMINISTRATOR'],
-  run: async ({ client, options, guild, args, member }) => {
-    const prefix = client.guildManager.getPrefix(guild.id)
+})
+@Category('config')
+@UserPermissions('ADMINISTRATOR')
+export class PrefixCommand extends Command {
+  async run({
+    user,
+    options,
+    guild,
+  }: SlashCommandRunOptions): CommandReturnType {
+    // Const guildPrefix = await GuildsModel.findOne(
+    //   { guildId: guild.id },
+    //   'prefix',
+    // )
+    // const embed = new MessageEmbed().setFooter({
+    //   text: `${user.discriminator} | ${user.username}`,
+    //   iconURL: user.displayAvatarURL({ format: 'png', dynamic: true }),
+    // })
+    // const input = options?.getString('prefix')
+    // if (input) {
+    //   const userObj = guild.members.cache.get(user.id)
+    //   if (!userObj) return
+    //   if (!userObj?.permissions.has('ADMINISTRATOR'))
+    //     return { content: 'You can not edit the prefix.' }
+    //   if (!guildPrefix) {
+    //     return {
+    //       embeds: [
+    //         embed.setDescription(
+    //           `The current prefix is \`${this.client.prefix || 'q!'}\``,
+    //         ),
+    //       ],
+    //     }
+    //   }
+    //   if (input.length > 4)
+    //     return {
+    //       embeds: [
+    //         embed.setDescription(
+    //           'The length of your prefix must be under 4 characters.',
+    //         ),
+    //       ],
+    //     }
+    //   await createLog({
+    //     guildId: guild.id,
+    //     action: CreateLogActionsEnum.CHANGEPREFIX,
+    //     user: {
+    //       discriminator: user.discriminator,
+    //       username: user.username,
+    //       id: user.id,
+    //     },
+    //   })
+    //   guildPrefix.prefix = input
+    //   await guildPrefix.save()
+    //   return {
+    //     embeds: [
+    //       embed.setDescription(`Your prefix has been set to \`${input}\``),
+    //     ],
+    //   }
+    // }
+    // return {
+    //   embeds: [
+    //     embed.setDescription(
+    //       `Your prefix is  \`${guildPrefix?.prefix ?? this.client.prefix}\``,
+    //     ),
+    //   ],
+    // }
+  }
 
-    const embed = new MessageEmbed().setFooter({
-      text: `${member?.user.discriminator} | ${member?.user.username}`,
-      iconURL: member?.user.displayAvatarURL({ format: 'png', dynamic: true }),
-    })
-
-    const input = options?.getString('prefix') || args[0]
-
-    if (input) {
-      const user = guild.members.cache.get(member.user.id)
-
-      if (!user?.permissions.has('ADMINISTRATOR'))
-        return { content: 'You can not edit the prefix.' }
-
-      if (!prefix) {
-        return {
-          embeds: [
-            embed.setDescription(`The current prefix is \`${prefix || 'q!'}\``),
-          ],
-        }
-      }
-
-      if (input.length > 4)
-        return {
-          embeds: [
-            embed.setDescription(
-              'The length of your prefix must be under 4 characters.',
-            ),
-          ],
-        }
-
-      const newGuildConfig = await client.guildManager.getPrefixAndUpdate(
-        guild.id,
-        input,
-      )
-
-      return {
-        embeds: [
-          embed.setDescription(
-            `Your prefix has been set to \`${newGuildConfig?.prefix}\``,
-          ),
-        ],
-      }
-    }
+  async error(): CommandReturnType {
     return {
-      embeds: [embed.setDescription(`Your prefix is  \`${prefix}\``)],
+      content: 'Hey man your prefix broke. Contact someone to fix this plugin',
     }
-  },
+  }
 }

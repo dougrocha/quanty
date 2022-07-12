@@ -5,8 +5,8 @@
     "baseUrl": "./src",
     "outDir": "dist",
 
-    "skipLibCheck": true
+    "importsNotUsedAsValues": "error"
   },
-  "include": ["src", ".eslintrc.js"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts", "src/test"]
+  "include": ["src", ".eslintrc.js", "environment.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "generate-joi.ts"]
 }

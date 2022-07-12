@@ -1,17 +1,18 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "tsconfig/quanty.json",
   "compilerOptions": {
-    "rootDir": "./",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "dist",
 
     "declaration": false,
     "declarationMap": false,
 
-    "strictPropertyInitialization": false,
-
-    "skipLibCheck": true
+    "strictPropertyInitialization": false
   },
   "include": ["src", "environment.d.ts", ".eslintrc.js"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }

@@ -1,12 +1,15 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  ClientPermissions,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 
-import { GuildModel } from '../../schemas'
-
-export const command: Command = {
-  name: `setup-ticket`,
+@SlashCommand('setup-ticket', {
   description: 'Creates a ticket for issues in your guild.',
-  category: 'moderation',
-  cmdType: 'slash',
   options: [
     {
       name: 'transcript-channel',
@@ -20,38 +23,48 @@ export const command: Command = {
       type: 'CHANNEL',
       channelTypes: ['GUILD_CATEGORY'],
     },
+    {
+      name: 'ticketChannel',
+      description: 'Set a channel for users to open tickets in.',
+      type: 'CHANNEL',
+      channelTypes: ['GUILD_TEXT'],
+    },
   ],
-  userPermissions: ['MANAGE_CHANNELS', 'MANAGE_GUILD'],
-  clientPermissions: ['MANAGE_CHANNELS', 'MANAGE_GUILD'],
-  run: async ({ options, guild }) => {
-    const transcriptChannel = options.getChannel('transcript-channel')
-    const ticketCategory = options.getChannel('category')
+})
+@Category('moderation')
+@UserPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
+@ClientPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
+export class SetupTicketCommand extends Command {
+  async run({ options, guild }: SlashCommandRunOptions): CommandReturnType {
+    // Const transcriptChannel = options.getChannel('transcript-channel')
+    // const ticketCategory = options.getChannel('category')
+    // if (transcriptChannel) {
+    //   await GuildPluginsModel.findOneAndUpdate(
+    //     { guildId: guild.id },
+    //     {
+    //       $set: {
+    //         ticketTranscriptChannel: transcriptChannel.id,
+    //       },
+    //     },
+    //   )
+    // }
+    // if (ticketCategory) {
+    //   await GuildPluginsModel.findOneAndUpdate(
+    //     { guildId: guild.id },
+    //     {
+    //       $set: {
+    //         ticketCategory,
+    //       },
+    //     },
+    //   )
+    // }
+    // return {
+    //   content: 'Ticket Setup',
+    //   ephemeral: true,
+    // }
+  }
 
-    if (transcriptChannel) {
-      await GuildModel.findOneAndUpdate(
-        { guildId: guild.id },
-        {
-          $set: {
-            ticketTranscriptChannel: transcriptChannel.id,
-          },
-        },
-      )
-    }
-
-    if (ticketCategory) {
-      await GuildModel.findOneAndUpdate(
-        { guildId: guild.id },
-        {
-          $set: {
-            ticketCategory,
-          },
-        },
-      )
-    }
-
-    return {
-      content: 'Ticket Setup',
-      ephemeral: true,
-    }
-  },
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

@@ -1,10 +1,16 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-export const command: Command = {
-  name: 'unban',
+@Category('moderation')
+@SlashCommand('unban', {
   description: 'Un-bans a members that is banned in your server',
-  category: 'moderation',
   options: [
     {
       name: 'user',
@@ -18,9 +24,10 @@ export const command: Command = {
       type: 'STRING',
     },
   ],
-  cmdType: 'slash',
-  userPermissions: ['BAN_MEMBERS'],
-  run: async ({ guild, options }) => {
+})
+@UserPermissions('BAN_MEMBERS')
+export class UnBanCommand extends Command {
+  async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
     // Must exist for command to run
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const unBanUser = options.getUser('user')
@@ -48,8 +55,12 @@ export const command: Command = {
     ])
 
     return {
-      embed: [embed],
+      embeds: [embed],
       ephemeral: true,
     }
-  },
+  }
+
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

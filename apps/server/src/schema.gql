@@ -2,25 +2,64 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddCustomCommand {
-  customCommand: CustomCommand!
-  guildId: String!
+input AddCreditCardInput {
+  customerId: String!
+  paymentMethodId: String!
 }
 
-input AddLog {
-  guildId: String!
-  log: Log!
+type Address {
+  city: String
+  country: String
+
+  """
+  Address line 1 (e.g., street, PO Box, or company name).
+  """
+  line1: String
+
+  """
+  Address line 2 (e.g., apartment, suite, unit, or building).
+  """
+  line2: String
+  postal_code: String
+  state: String
 }
 
-type Anime {
-  nsfw: Boolean
-  plugin: Boolean
+type BillingDetails {
+  address: Address!
+  email: String
+  name: String
+
+  """
+  Billing phone number (include extensions)
+  """
+  phone: String
+}
+
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
+type CancelSubscription {
+  status: String!
+  subscriptionId: String!
+}
+
+type Card {
+  brand: String!
+  country: String
+  exp_month: Float!
+  exp_year: Float!
+
+  """
+  Card funding type. Can be credit, debit, prepaid, or unknown.
+  """
+  funding: String!
+  last4: String!
 }
 
 type Channel {
   application_id: String
   bitrate: Int
-  default_auto_archive_duration: Float
   guild_id: String
   icon: String
   id: String!
@@ -36,25 +75,164 @@ type Channel {
   permission_overwrites: [OverWrite!]
   position: Float
   rate_limit_per_user: Int
-  recipients: [User!]
+  recipients: [DiscordUser!]
   rtc_region: String
   thread_metadata: ThreadMetaData
   topic: String
-  type: Float!
   user_limit: Int
-  video_quality_mode: Float
 }
 
-input CustomCommand {
-  description: String!
-  id: String!
-  name: String!
+type CreatePaymentMethod {
+  clientSecret: String!
+  status: String!
 }
 
-type CustomCommands {
-  description: String!
+type CreateSubscription {
+  clientSecret: String!
+  subscriptionId: String!
+}
+
+input CreateSubscriptionInput {
+  guildId: String!
+  priceId: String!
+  userId: String!
+}
+
+type Customer {
+  _count: CustomerCount!
+  createdAt: DateTime!
+  email: String
+  id: ID!
+  subscription: [GuildSubscription!]
+  subscriptionId: Boolean!
+  user: User
+  userId: String
+}
+
+type CustomerCount {
+  subscription: Int!
+}
+
+type CustomerCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  email: Int!
+  id: Int!
+  subscriptionId: Int!
+  userId: Int!
+}
+
+input CustomerCreateNestedOneWithoutSubscriptionInput {
+  connect: CustomerWhereUniqueInput
+  connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionInput
+  create: CustomerCreateWithoutSubscriptionInput
+}
+
+input CustomerCreateOrConnectWithoutSubscriptionInput {
+  create: CustomerCreateWithoutSubscriptionInput!
+  where: CustomerWhereUniqueInput!
+}
+
+input CustomerCreateWithoutSubscriptionInput {
+  createdAt: DateTime
+  email: String
   id: String!
+  subscriptionId: Boolean
+  user: UserCreateNestedOneWithoutCustomerInput
+}
+
+type CustomerMaxAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  subscriptionId: Boolean
+  userId: String
+}
+
+type CustomerMinAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  subscriptionId: Boolean
+  userId: String
+}
+
+input CustomerUpdateOneRequiredWithoutSubscriptionNestedInput {
+  connect: CustomerWhereUniqueInput
+  connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionInput
+  create: CustomerCreateWithoutSubscriptionInput
+  update: CustomerUpdateWithoutSubscriptionInput
+  upsert: CustomerUpsertWithoutSubscriptionInput
+}
+
+input CustomerUpdateWithoutSubscriptionInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  subscriptionId: BoolFieldUpdateOperationsInput
+  user: UserUpdateOneWithoutCustomerNestedInput
+}
+
+input CustomerUpsertWithoutSubscriptionInput {
+  create: CustomerCreateWithoutSubscriptionInput!
+  update: CustomerUpdateWithoutSubscriptionInput!
+}
+
+input CustomerWhereUniqueInput {
+  email: String
+  id: String
+  userId: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+type DiscordGuild {
+  afk_timeout: Int
+  bot: Boolean
+  channels: [Channel!]
+  description: String
+  emojis: [Emojis!]
+  features: [String!]
+  icon: String
+  id: String!
+  member_count: Float
+  members: GuildMember
   name: String!
+  nsfw_level: Float
+  owner: Boolean
+  owner_id: String!
+  permissions: String
+  preferred_locale: String
+  premium_tier: Float
+  roles: [Roles!]
+  stickers: [Sticker!]
+  threads: [Channel!]
+  unavailable: Boolean
+}
+
+type DiscordUser {
+  accent_color: Float
+  avatar: String!
+  banner: String
+  bot: Boolean
+  discriminator: String!
+  email: String
+  flags: Float
+  id: String!
+  locale: String
+  mfa_enabled: Boolean
+  premium_type: Float
+  public_flags: Float
+  system: Boolean
+  username: String!
+  verified: Boolean
 }
 
 type Emojis {
@@ -65,44 +243,35 @@ type Emojis {
   name: String!
   require_colons: Boolean
   roles: [String!]
-  user: User
+  user: DiscordUser
+}
+
+input EnumPriceTypeFieldUpdateOperationsInput {
+  set: PriceType
+}
+
+input EnumSubscription_statusFieldUpdateOperationsInput {
+  set: Subscription_status
 }
 
 type Guild {
-  afk_timeout: Int!
-  channels: [Channel!]
-  description: String
-  discovery_splash: String!
-  emojis: [Emojis!]!
-  features: [String!]!
-  icon: String
-  icon_hash: String
-  id: String!
-  member_count: Float!
-  members: GuildMember
-  name: String!
-  nsfw_level: Float!
-  owner: Boolean
-  owner_id: String!
-  permissions: String
-  preferred_locale: String!
-  premium_subscription_count: Float!
-  premium_tier: Float!
-  roles: [Roles!]!
-  splash: String!
-  stickers: [Sticker!]!
-  threads: [Channel!]
-  unavailable: Boolean
+  guildPlugins: GuildPlugins
+  guildSettings: GuildSettings
+  id: ID!
+  prefix: String!
+  premium: Boolean!
+  subscription: GuildSubscription
 }
 
-type GuildConfig {
-  anime: Anime
-  blacklistedWords: [String!]
-  customCommands: [CustomCommands!]
-  guildId: String!
-  logs: [Logs!]
-  moderation: Moderation
-  music: Music
+type GuildCountAggregate {
+  _all: Int!
+  id: Int!
+  prefix: Int!
+  premium: Int!
+}
+
+type GuildMaxAggregate {
+  id: String
   prefix: String
   premium: Boolean
 }
@@ -116,58 +285,496 @@ type GuildMember {
   pending: Boolean
   premium_since: String
   roles: [String!]!
-  user: User
+  user: DiscordUser
 }
 
-input Log {
-  action: String!
-  name: String!
+type GuildMinAggregate {
+  id: String
+  prefix: String
+  premium: Boolean
 }
 
-type Logs {
-  action: String!
-  name: String!
+type GuildPlugins {
+  anime: Boolean!
+  autoMod: Boolean!
+  guild: Guild!
+  id: ID!
 }
 
-type Moderation {
+type GuildPluginsCountAggregate {
+  _all: Int!
+  anime: Int!
+  autoMod: Int!
+  id: Int!
+}
+
+input GuildPluginsCreateOrConnectWithoutGuildInput {
+  create: GuildPluginsCreateWithoutGuildInput!
+  where: GuildPluginsWhereUniqueInput!
+}
+
+input GuildPluginsCreateWithoutGuildInput {
+  anime: Boolean
   autoMod: Boolean
-  plugin: Boolean
 }
 
-type Music {
-  channel: String
-  immortal: Boolean
-  plugin: Boolean
+type GuildPluginsMaxAggregate {
+  anime: Boolean
+  autoMod: Boolean
+  id: String
+}
+
+type GuildPluginsMinAggregate {
+  anime: Boolean
+  autoMod: Boolean
+  id: String
+}
+
+input GuildPluginsUpdateOneWithoutGuildNestedInput {
+  connect: GuildPluginsWhereUniqueInput
+  connectOrCreate: GuildPluginsCreateOrConnectWithoutGuildInput
+  create: GuildPluginsCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildPluginsUpdateWithoutGuildInput
+  upsert: GuildPluginsUpsertWithoutGuildInput
+}
+
+input GuildPluginsUpdateWithoutGuildInput {
+  anime: BoolFieldUpdateOperationsInput
+  autoMod: BoolFieldUpdateOperationsInput
+}
+
+input GuildPluginsUpsertWithoutGuildInput {
+  create: GuildPluginsCreateWithoutGuildInput!
+  update: GuildPluginsUpdateWithoutGuildInput!
+}
+
+input GuildPluginsWhereUniqueInput {
+  id: String
+}
+
+type GuildSettings {
+  defaultJoinRole: String!
+  djRole: String!
+  globalCooldown: Int!
+  guild: Guild
+  id: ID!
+  musicTimeOut: Boolean!
+  nsfw: Boolean!
+}
+
+type GuildSettingsAvgAggregate {
+  globalCooldown: Float
+}
+
+type GuildSettingsCountAggregate {
+  _all: Int!
+  defaultJoinRole: Int!
+  djRole: Int!
+  globalCooldown: Int!
+  id: Int!
+  musicTimeOut: Int!
+  nsfw: Int!
+}
+
+input GuildSettingsCreateOrConnectWithoutGuildInput {
+  create: GuildSettingsCreateWithoutGuildInput!
+  where: GuildSettingsWhereUniqueInput!
+}
+
+input GuildSettingsCreateWithoutGuildInput {
+  defaultJoinRole: String!
+  djRole: String!
+  globalCooldown: Int
+  musicTimeOut: Boolean
+  nsfw: Boolean
+}
+
+type GuildSettingsMaxAggregate {
+  defaultJoinRole: String
+  djRole: String
+  globalCooldown: Int
+  id: String
+  musicTimeOut: Boolean
+  nsfw: Boolean
+}
+
+type GuildSettingsMinAggregate {
+  defaultJoinRole: String
+  djRole: String
+  globalCooldown: Int
+  id: String
+  musicTimeOut: Boolean
+  nsfw: Boolean
+}
+
+type GuildSettingsSumAggregate {
+  globalCooldown: Int
+}
+
+input GuildSettingsUpdateOneWithoutGuildNestedInput {
+  connect: GuildSettingsWhereUniqueInput
+  connectOrCreate: GuildSettingsCreateOrConnectWithoutGuildInput
+  create: GuildSettingsCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildSettingsUpdateWithoutGuildInput
+  upsert: GuildSettingsUpsertWithoutGuildInput
+}
+
+input GuildSettingsUpdateWithoutGuildInput {
+  defaultJoinRole: StringFieldUpdateOperationsInput
+  djRole: StringFieldUpdateOperationsInput
+  globalCooldown: IntFieldUpdateOperationsInput
+  musicTimeOut: BoolFieldUpdateOperationsInput
+  nsfw: BoolFieldUpdateOperationsInput
+}
+
+input GuildSettingsUpsertWithoutGuildInput {
+  create: GuildSettingsCreateWithoutGuildInput!
+  update: GuildSettingsUpdateWithoutGuildInput!
+}
+
+input GuildSettingsWhereUniqueInput {
+  id: String
+}
+
+type GuildSubscription {
+  cancel_at_period_end: Boolean!
+  current_period_end: DateTime!
+  customer: Customer!
+  customerId: String!
+  guild: Guild!
+  guildId: String!
+  id: ID!
+  price: Price!
+  priceId: String!
+  status: Subscription_status!
+}
+
+type GuildSubscriptionCountAggregate {
+  _all: Int!
+  cancel_at_period_end: Int!
+  current_period_end: Int!
+  customerId: Int!
+  guildId: Int!
+  id: Int!
+  priceId: Int!
+  status: Int!
+}
+
+input GuildSubscriptionCreateOrConnectWithoutGuildInput {
+  create: GuildSubscriptionCreateWithoutGuildInput!
+  where: GuildSubscriptionWhereUniqueInput!
+}
+
+input GuildSubscriptionCreateWithoutGuildInput {
+  cancel_at_period_end: Boolean
+  current_period_end: DateTime!
+  customer: CustomerCreateNestedOneWithoutSubscriptionInput!
+  id: String!
+  price: PriceCreateNestedOneWithoutSubscriptionInput!
+  status: Subscription_status
+}
+
+type GuildSubscriptionMaxAggregate {
+  cancel_at_period_end: Boolean
+  current_period_end: DateTime
+  customerId: String
+  guildId: String
+  id: String
+  priceId: String
+  status: Subscription_status
+}
+
+type GuildSubscriptionMinAggregate {
+  cancel_at_period_end: Boolean
+  current_period_end: DateTime
+  customerId: String
+  guildId: String
+  id: String
+  priceId: String
+  status: Subscription_status
+}
+
+input GuildSubscriptionUpdateOneWithoutGuildNestedInput {
+  connect: GuildSubscriptionWhereUniqueInput
+  connectOrCreate: GuildSubscriptionCreateOrConnectWithoutGuildInput
+  create: GuildSubscriptionCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildSubscriptionUpdateWithoutGuildInput
+  upsert: GuildSubscriptionUpsertWithoutGuildInput
+}
+
+input GuildSubscriptionUpdateWithoutGuildInput {
+  cancel_at_period_end: BoolFieldUpdateOperationsInput
+  current_period_end: DateTimeFieldUpdateOperationsInput
+  customer: CustomerUpdateOneRequiredWithoutSubscriptionNestedInput
+  id: StringFieldUpdateOperationsInput
+  price: PriceUpdateOneRequiredWithoutSubscriptionNestedInput
+  status: EnumSubscription_statusFieldUpdateOperationsInput
+}
+
+input GuildSubscriptionUpsertWithoutGuildInput {
+  create: GuildSubscriptionCreateWithoutGuildInput!
+  update: GuildSubscriptionUpdateWithoutGuildInput!
+}
+
+input GuildSubscriptionWhereUniqueInput {
+  guildId: String
+  id: String
+}
+
+input GuildUpdateInput {
+  guildPlugins: GuildPluginsUpdateOneWithoutGuildNestedInput
+  guildSettings: GuildSettingsUpdateOneWithoutGuildNestedInput
+  id: StringFieldUpdateOperationsInput
+  prefix: StringFieldUpdateOperationsInput
+  premium: BoolFieldUpdateOperationsInput
+  subscription: GuildSubscriptionUpdateOneWithoutGuildNestedInput
+}
+
+input IntFieldUpdateOperationsInput {
+  decrement: Int
+  divide: Int
+  increment: Int
+  multiply: Int
+  set: Int
 }
 
 type Mutation {
-  addCustomCommand(addCustomCommand: AddCustomCommand!): GuildConfig!
-  addLog(addLog: AddLog!): GuildConfig!
-  updateAutoMod(updateAutoMod: UpdateAutoModInput!): GuildConfig!
-  updateBlacklistedWords(
-    updateBlacklistedWords: UpdateBlacklistedWords!
-  ): GuildConfig!
-  updateImmortality(updateImmortality: UpdateMusicImmortality!): GuildConfig!
-  updateModerationPlugin(
-    updateModerationPlugin: UpdateModerationPlugin!
-  ): GuildConfig!
-  updateMusicChannel(updateMusicChannel: UpdateMusicChannel!): GuildConfig!
-  updateMusicPlugin(updateMusicPlugin: UpdateMusicPlugin!): GuildConfig!
-  updatePrefix(updatePrefix: UpdatePrefixInput!): GuildConfig!
+  addCreditCard(createCardData: AddCreditCardInput!): CreatePaymentMethod!
+  cancelSubscription(subscriptionId: String!): CancelSubscription!
+  createSubscription(
+    newSubscriptionParams: CreateSubscriptionInput!
+  ): CreateSubscription!
+  updateGuildById(guildId: String!, guildUpdateInput: GuildUpdateInput!): Guild!
+}
+
+"""
+Mutual Guilds. Guilds that a user can edit
+"""
+type MutualGuild {
+  bot: Boolean!
+  icon: String
+  id: String!
+  name: String!
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
 }
 
 type OverWrite {
   allow: String!
   deny: String!
   id: String!
-  type: Float!
+}
+
+type PaymentMethod {
+  """
+  Billing information associated with the PaymentMethod that may be used or request by certain payment methods
+  """
+  billingDetails: BillingDetails!
+  card: Card!
+
+  """
+  Customer Id
+  """
+  customerId: String!
+  id: String!
+}
+
+type Price {
+  _count: PriceCount!
+  currency: String!
+  id: ID!
+  product: Product!
+  productId: String!
+  recurringInterval: String
+  subscription: [GuildSubscription!]
+  type: PriceType!
+  unit_amount: Int!
+}
+
+type PriceAvgAggregate {
+  unit_amount: Float
+}
+
+type PriceCount {
+  subscription: Int!
+}
+
+type PriceCountAggregate {
+  _all: Int!
+  currency: Int!
+  id: Int!
+  productId: Int!
+  recurringInterval: Int!
+  type: Int!
+  unit_amount: Int!
+}
+
+input PriceCreateNestedOneWithoutSubscriptionInput {
+  connect: PriceWhereUniqueInput
+  connectOrCreate: PriceCreateOrConnectWithoutSubscriptionInput
+  create: PriceCreateWithoutSubscriptionInput
+}
+
+input PriceCreateOrConnectWithoutSubscriptionInput {
+  create: PriceCreateWithoutSubscriptionInput!
+  where: PriceWhereUniqueInput!
+}
+
+input PriceCreateWithoutSubscriptionInput {
+  currency: String!
+  id: String!
+  product: ProductCreateNestedOneWithoutPriceInput!
+  recurringInterval: String
+  type: PriceType!
+  unit_amount: Int!
+}
+
+type PriceMaxAggregate {
+  currency: String
+  id: String
+  productId: String
+  recurringInterval: String
+  type: PriceType
+  unit_amount: Int
+}
+
+type PriceMinAggregate {
+  currency: String
+  id: String
+  productId: String
+  recurringInterval: String
+  type: PriceType
+  unit_amount: Int
+}
+
+type PriceSumAggregate {
+  unit_amount: Int
+}
+
+enum PriceType {
+  ONE_TIME
+  RECURRING
+}
+
+input PriceUpdateOneRequiredWithoutSubscriptionNestedInput {
+  connect: PriceWhereUniqueInput
+  connectOrCreate: PriceCreateOrConnectWithoutSubscriptionInput
+  create: PriceCreateWithoutSubscriptionInput
+  update: PriceUpdateWithoutSubscriptionInput
+  upsert: PriceUpsertWithoutSubscriptionInput
+}
+
+input PriceUpdateWithoutSubscriptionInput {
+  currency: StringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  product: ProductUpdateOneRequiredWithoutPriceNestedInput
+  recurringInterval: NullableStringFieldUpdateOperationsInput
+  type: EnumPriceTypeFieldUpdateOperationsInput
+  unit_amount: IntFieldUpdateOperationsInput
+}
+
+input PriceUpsertWithoutSubscriptionInput {
+  create: PriceCreateWithoutSubscriptionInput!
+  update: PriceUpdateWithoutSubscriptionInput!
+}
+
+input PriceWhereUniqueInput {
+  id: String
+}
+
+type Product {
+  _count: ProductCount!
+  description: String
+  id: ID!
+  name: String!
+  price: [Price!]
+}
+
+type ProductCount {
+  price: Int!
+}
+
+type ProductCountAggregate {
+  _all: Int!
+  description: Int!
+  id: Int!
+  name: Int!
+}
+
+input ProductCreateNestedOneWithoutPriceInput {
+  connect: ProductWhereUniqueInput
+  connectOrCreate: ProductCreateOrConnectWithoutPriceInput
+  create: ProductCreateWithoutPriceInput
+}
+
+input ProductCreateOrConnectWithoutPriceInput {
+  create: ProductCreateWithoutPriceInput!
+  where: ProductWhereUniqueInput!
+}
+
+input ProductCreateWithoutPriceInput {
+  description: String
+  id: String!
+  name: String!
+}
+
+type ProductMaxAggregate {
+  description: String
+  id: String
+  name: String
+}
+
+type ProductMinAggregate {
+  description: String
+  id: String
+  name: String
+}
+
+input ProductUpdateOneRequiredWithoutPriceNestedInput {
+  connect: ProductWhereUniqueInput
+  connectOrCreate: ProductCreateOrConnectWithoutPriceInput
+  create: ProductCreateWithoutPriceInput
+  update: ProductUpdateWithoutPriceInput
+  upsert: ProductUpsertWithoutPriceInput
+}
+
+input ProductUpdateWithoutPriceInput {
+  description: NullableStringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+}
+
+input ProductUpsertWithoutPriceInput {
+  create: ProductCreateWithoutPriceInput!
+  update: ProductUpdateWithoutPriceInput!
+}
+
+input ProductWhereUniqueInput {
+  id: String
 }
 
 type Query {
-  guildConfig(guildId: String!): GuildConfig!
-  guilds(guildId: String!): Guild!
-  ownerGuilds: [Guild!]!
-  user: UserObject!
+  getPaymentMethods: [PaymentMethod!]
+  guildConfig(guildId: String!): Guild!
+  guilds(guildId: String!): DiscordGuild!
+
+  """
+  Returns the user that is logged in the session
+  """
+  me: User
+
+  """
+  Gets the available guilds that the user can edit.
+  """
+  mutualGuilds: [MutualGuild!]!
 }
 
 type RoleTags {
@@ -201,11 +808,24 @@ type Sticker {
   sort_value: Float
   tags: String!
   type: Float!
-  user: User
+  user: DiscordUser
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+type Subscription {
+  updatedGuildConfig(id: String!): Guild!
+}
+
+enum Subscription_status {
+  ACTIVE
+  CANCELED
+  INCOMPLETE
 }
 
 type ThreadMember {
-  flags: Float!
   id: String
   join_timestamp: String!
   user_id: String
@@ -214,71 +834,131 @@ type ThreadMember {
 type ThreadMetaData {
   archive_timestamp: String!
   archived: Boolean!
-  auto_archive_duration: Float!
   invitable: Boolean
   locked: Boolean
 }
 
-input UpdateAutoModInput {
-  autoMod: Boolean!
-  guildId: String!
-}
-
-input UpdateBlacklistedWords {
-  blacklistedWords: [String!]!
-  guildId: String!
-}
-
-input UpdateModerationPlugin {
-  guildId: String!
-  plugin: Boolean!
-}
-
-input UpdateMusicChannel {
-  channel: String!
-  guildId: String!
-}
-
-input UpdateMusicImmortality {
-  guildId: String!
-  immortal: Boolean!
-}
-
-input UpdateMusicPlugin {
-  guildId: String!
-  plugin: Boolean!
-}
-
-input UpdatePrefixInput {
-  guildId: String!
-  prefix: String!
-}
-
 type User {
-  accent_color: Float
-  avatar: String!
-  banner: String
-  bot: Boolean
+  acceptedTermsAndConditions: Boolean!
+  avatar: String
+  createdAt: DateTime!
+  customer: Customer
   discriminator: String!
   email: String
-  flags: Float
+  id: ID!
+  locale: String
+  username: String!
+}
+
+type UserCountAggregate {
+  _all: Int!
+  acceptedTermsAndConditions: Int!
+  avatar: Int!
+  createdAt: Int!
+  discriminator: Int!
+  email: Int!
+  id: Int!
+  locale: Int!
+  username: Int!
+}
+
+input UserCreateNestedOneWithoutCustomerInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutCustomerInput
+  create: UserCreateWithoutCustomerInput
+}
+
+input UserCreateOrConnectWithoutCustomerInput {
+  create: UserCreateWithoutCustomerInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateWithoutCustomerInput {
+  acceptedTermsAndConditions: Boolean
+  accessToken: String
+  avatar: String
+  createdAt: DateTime
+  discriminator: String!
+  email: String
   id: String!
   locale: String
-  mfa_enabled: Boolean
-  premium_type: Float
-  public_flags: Float
-  system: Boolean
+  refreshToken: String
   username: String!
-  verified: Boolean
 }
 
-type UserObject {
+type UserMaxAggregate {
+  acceptedTermsAndConditions: Boolean
   avatar: String
-  discordId: String!
-  discriminator: String!
+  createdAt: DateTime
+  discriminator: String
   email: String
-  flags: Float
+  id: String
   locale: String
-  username: String!
-  verified: Boolean
+  username: String
+}
+
+type UserMinAggregate {
+  acceptedTermsAndConditions: Boolean
+  avatar: String
+  createdAt: DateTime
+  discriminator: String
+  email: String
+  id: String
+  locale: String
+  username: String
+}
+
+type UserSessionCountAggregate {
+  _all: Int!
+  data: Int!
+  expiresAt: Int!
+  id: Int!
+  sid: Int!
+}
+
+type UserSessionMaxAggregate {
+  data: String
+  expiresAt: DateTime
+  id: String
+  sid: String
+}
+
+type UserSessionMinAggregate {
+  data: String
+  expiresAt: DateTime
+  id: String
+  sid: String
+}
+
+input UserUpdateOneWithoutCustomerNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutCustomerInput
+  create: UserCreateWithoutCustomerInput
+  delete: Boolean
+  disconnect: Boolean
+  update: UserUpdateWithoutCustomerInput
+  upsert: UserUpsertWithoutCustomerInput
+}
+
+input UserUpdateWithoutCustomerInput {
+  acceptedTermsAndConditions: BoolFieldUpdateOperationsInput
+  accessToken: NullableStringFieldUpdateOperationsInput
+  avatar: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  discriminator: StringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  locale: NullableStringFieldUpdateOperationsInput
+  refreshToken: NullableStringFieldUpdateOperationsInput
+  username: StringFieldUpdateOperationsInput
+}
+
+input UserUpsertWithoutCustomerInput {
+  create: UserCreateWithoutCustomerInput!
+  update: UserUpdateWithoutCustomerInput!
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: String
 }

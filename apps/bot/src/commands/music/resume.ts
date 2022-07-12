@@ -1,25 +1,35 @@
-import { checkChannel, Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+  Test,
+} from '@quanty/framework'
 
-export const command: Command = {
-  name: 'resume',
+import { checkChannel } from '../../libs'
+
+@Test()
+@Category('music')
+@SlashCommand('resume', {
   description: 'Resumes the song',
-  options: [],
-  category: 'music',
-  run: ({ client, guild, member }) => {
+})
+export class TCommand extends Command {
+  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
     const { content, player } = checkChannel({
-      client,
       guild,
-      member,
+      user,
     })
-
     if (!player) {
       return {
         content,
       }
     }
-
     if (player.playing) return { content: 'Song is already playing.' }
     player.pause(false)
     return { content: 'Quanty is now playing' }
-  },
+  }
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

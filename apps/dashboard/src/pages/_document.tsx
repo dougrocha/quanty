@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-css-tags */
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
@@ -5,32 +6,22 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <html lang="en" />
+
           <meta charSet="utf-8" />
 
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
             rel="stylesheet"
           />
-
-          <meta
-            name="keywords"
-            content="Discord, Bot, Discord Bot, Moderation Discord Bot, Music Bot, Music, Moderation"
-          />
-          <meta
-            name="og:title"
-            property="og:title"
-            content="Best Discord Bot"
-          />
-          <meta name="og:type" property="og:type" content="website" />
-          <meta
-            name="og:url"
-            property="og:url"
-            content="https://www.quanty.xyz"
-          />
-
-          <link rel="icon" href="/quantyIcon.ico" />
         </Head>
-        <body>
+        <body className="font-poppins">
           <Main />
           <NextScript />
         </body>

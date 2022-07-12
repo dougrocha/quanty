@@ -16,6 +16,7 @@
 .next
 lib
 dist
+build
 
 # Logs
 logs

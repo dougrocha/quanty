@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 
-import { User } from './user'
+import { DiscordUser } from './user'
 
 @ObjectType()
 export class Sticker {
@@ -34,8 +34,8 @@ export class Sticker {
   @Field({ nullable: true })
   guild_id?: string
 
-  @Field(() => User, { nullable: true })
-  user?: User
+  @Field(() => DiscordUser, { nullable: true })
+  user?: DiscordUser
 
   @Field({ nullable: true })
   sort_value?: number

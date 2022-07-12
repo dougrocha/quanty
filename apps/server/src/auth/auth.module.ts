@@ -1,34 +1,31 @@
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
-import { User, UserSchema } from 'src/schemas'
-import { UsersService } from 'src/users/services/users.service'
 
-import { AuthController } from './controllers/auth.controller'
-import { AuthService } from './services/auth.service'
-import { DiscordStrategy } from './utils/DiscordStrategy'
-import { SessionSerializer } from './utils/Serializer'
+import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
+import { DiscordStrategy } from './strategies/discord'
+
+import {
+  PAYMENT_SERVICE,
+  PRISMA_SERVICE,
+  SessionSerializer,
+  USERS_SERVICE,
+  AUTH_SERVICE,
+} from '../common'
+import { PaymentsService } from '../payments/services/payments.service'
+import { PrismaService } from '../prisma.service'
+import { UsersService } from '../users/services/users.service'
 
 @Module({
-  controllers: [AuthController],
+  imports: [HttpModule],
   providers: [
     DiscordStrategy,
     SessionSerializer,
-    {
-      provide: 'AUTH_SERVICE',
-      useClass: AuthService,
-    },
-    { provide: 'USERS_SERVICE', useClass: UsersService },
+    { provide: AUTH_SERVICE, useClass: AuthService },
+    { provide: PRISMA_SERVICE, useClass: PrismaService },
+    { provide: USERS_SERVICE, useClass: UsersService },
+    { provide: PAYMENT_SERVICE, useClass: PaymentsService },
   ],
-  imports: [
-    HttpModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
-  exports: [
-    {
-      provide: 'AUTH_SERVICE',
-      useClass: AuthService,
-    },
-  ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

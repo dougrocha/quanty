@@ -1,5 +1,6 @@
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
+import { ThrottlerModule } from '@nestjs/throttler'
 
 import { GuildsResolver } from '../resolvers/guilds.resolver'
 import { GuildsHttpService } from '../services/guilds-http.service'
@@ -27,7 +28,13 @@ describe('GuildsResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule],
+      imports: [
+        HttpModule,
+        ThrottlerModule.forRoot({
+          ttl: 60,
+          limit: 2,
+        }),
+      ],
       providers: [
         GuildsResolver,
         {

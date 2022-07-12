@@ -1,16 +1,23 @@
-import { checkChannel, Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 import { MessageEmbed } from 'discord.js'
 
-export const command: Command = {
-  name: 'loop',
+import { checkChannel } from '../../libs'
+
+@Category('music')
+@SlashCommand('loop', {
   description: 'Loops the queue',
-  options: [],
-  category: 'music',
-  run: ({ client, member, guild }) => {
+})
+export class LoopCommand extends Command {
+  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
     const { content, player } = checkChannel({
-      client,
       guild,
-      member,
+      user,
     })
 
     if (!player) {
@@ -32,8 +39,13 @@ export const command: Command = {
       player.setQueueRepeat(false)
       return { embeds: [embed] }
     }
+
     embed.setDescription('Queue is Looped')
     player.setQueueRepeat(true)
+
     return { embeds: [embed] }
-  },
+  }
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

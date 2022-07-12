@@ -1,17 +1,30 @@
 {
+  "extends": "tsconfig/server.json",
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
 
-    "rootDir": ".",
-    "baseUrl": ".",
+    "incremental": true,
+
+    "rootDirs": ["./", "./test"],
+    "baseUrl": "./src",
     "sourceRoot": "src",
     "outDir": "dist",
+
+    "types": ["jest", "node"],
+
+    "paths": {
+      "users/*": ["users/*"]
+    },
 
     "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "test", "environment.d.ts", ".eslintrc.js"],
-  "extends": "tsconfig/server.json",
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "environment.d.ts",
+    ".eslintrc.js"
+  ],
   "exclude": ["node_modules"]
 }

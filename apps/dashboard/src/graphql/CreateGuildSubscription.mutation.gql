@@ -1,0 +1,14 @@
+input CreateGuildSubscriptionInput {
+  guildId: String!
+  userId: String!
+  priceId: String!
+}
+
+mutation createGuildSubscription(
+  $newSubscriptionParams: CreateSubscriptionInput!
+) {
+  createSubscription(newSubscriptionParams: $newSubscriptionParams) {
+    clientSecret
+    subscriptionId
+  }
+}

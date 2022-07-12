@@ -1,0 +1,10 @@
+query GetUser {
+  me {
+    id
+    discriminator
+    username
+    email
+    avatar
+    locale
+  }
+}

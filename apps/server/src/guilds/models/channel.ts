@@ -1,14 +1,14 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 
-import { User } from './user'
+import { DiscordUser } from './user'
 
 @ObjectType()
 class OverWrite {
   @Field()
   id: string
 
-  @Field()
-  type: OverwriteType
+  // @Field()
+  // type: OverwriteType
 
   @Field()
   allow: string
@@ -22,8 +22,8 @@ class ThreadMetaData {
   @Field()
   archived: boolean
 
-  @Field()
-  auto_archive_duration: ThreadAutoArchiveDuration
+  // @Field()
+  // auto_archive_duration: ThreadAutoArchiveDuration
 
   @Field()
   archive_timestamp: string
@@ -46,8 +46,8 @@ class ThreadMember {
   @Field()
   join_timestamp: string
 
-  @Field()
-  flags: ThreadMemberFlags
+  // @Field()
+  // flags: ThreadMemberFlags
 }
 
 @ObjectType()
@@ -79,8 +79,8 @@ export class Channel {
   @Field(() => Int, { nullable: true })
   rate_limit_per_user?: number
 
-  @Field(() => [User], { nullable: true })
-  recipients?: User[]
+  @Field(() => [DiscordUser], { nullable: true })
+  recipients?: DiscordUser[]
 
   @Field({ nullable: true })
   icon?: string
@@ -100,8 +100,8 @@ export class Channel {
   @Field({ nullable: true })
   rtc_region?: string
 
-  @Field({ nullable: true })
-  video_quality_mode?: VideoQualityMode
+  // @Field({ nullable: true })
+  // video_quality_mode?: VideoQualityMode
 
   @Field(() => Int, { nullable: true })
   message_count?: number
@@ -115,14 +115,14 @@ export class Channel {
   @Field(() => ThreadMember, { nullable: true })
   member?: ThreadMember
 
-  @Field({ nullable: true })
-  default_auto_archive_duration?: ThreadAutoArchiveDuration
+  // @Field({ nullable: true })
+  // default_auto_archive_duration?: ThreadAutoArchiveDuration
 
   @Field(() => String)
   id: string
 
-  @Field()
-  type: ChannelType
+  // @Field()
+  // type: ChannelType
 
   @Field({ nullable: true })
   name?: string

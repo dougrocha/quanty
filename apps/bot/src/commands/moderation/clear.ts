@@ -1,9 +1,17 @@
-import { Command } from '@quanty/framework'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  Logger,
+  logger,
+  SlashCommand,
+  SlashCommandRunOptions,
+  UserPermissions,
+} from '@quanty/framework'
 import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js'
 
-export const command: Command = {
-  name: 'clear',
-  description: 'Deletes up to 99 messages above this one',
+@SlashCommand('clear', {
+  description: 'Deletes up to 99 messages above this one.',
   options: [
     {
       type: 'INTEGER',
@@ -18,10 +26,14 @@ export const command: Command = {
       required: false,
     },
   ],
-  category: 'util',
-  userPermissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
-  cmdType: 'slash',
-  run: async ({ client, channel, options }) => {
+})
+@Category('util')
+@UserPermissions('MANAGE_CHANNELS', 'MANAGE_MESSAGES')
+export class ClearCommand extends Command {
+  @logger()
+  private logger: Logger
+
+  async run({ channel, options }: SlashCommandRunOptions): CommandReturnType {
     const amount = options.getInteger('amount', true)
     const user = options.getUser('member', false)
 
@@ -60,7 +72,7 @@ export const command: Command = {
           embed.setDescription(`Cleared ${messages.size} messages.`)
         })
         .catch((err: any) => {
-          client.logger.error(err)
+          this.logger.error(err)
           return {
             embeds: [embed.setDescription('An error happened')],
             ephemeral: true,
@@ -68,5 +80,9 @@ export const command: Command = {
         })
       return { embeds: [embed], ephemeral: true }
     }
-  },
+  }
+
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }

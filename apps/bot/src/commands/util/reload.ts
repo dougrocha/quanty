@@ -1,17 +1,23 @@
 import { promisify } from 'util'
 
-import { Command } from '@quanty/framework'
-import { BaseCommand } from '@quanty/framework/dist/src/types'
+import {
+  CommandReturnType,
+  Category,
+  Command,
+  OwnerOnly,
+  SlashCommand,
+  SlashCommandRunOptions,
+} from '@quanty/framework'
 import { glob } from 'glob'
 
 const globPromise = promisify(glob)
 
 interface CommandImport {
-  command: Partial<BaseCommand>
+  command: Partial<Command>
 }
 
-export const command: Command = {
-  name: 'load',
+@Category('util')
+@SlashCommand('load', {
   description: 'Get or edit the prefix for commands.',
   options: [
     {
@@ -34,9 +40,10 @@ export const command: Command = {
       ],
     },
   ],
-  category: 'util',
-  isOwnerOnly: true,
-  run: async ({ client, guild }) => {
+})
+@OwnerOnly()
+export class LoadCommand extends Command {
+  async run({ guild, client }: SlashCommandRunOptions): CommandReturnType {
     const slashCommandFiles: string[] = await globPromise(
       `${__dirname}/../../slashCmds/**/*{.ts,.js}`,
     )
@@ -47,7 +54,9 @@ export const command: Command = {
       const { command } = (await require(value)) as CommandImport
 
       if (!command.type) {
-        return console.log(`${command.name} does not have a type. FIX IT`)
+        return console.log(
+          `${command.commandName} does not have a type. FIX IT`,
+        )
       }
 
       if (['MESSAGE', 'USER'].includes(command.type)) delete command.description
@@ -56,5 +65,8 @@ export const command: Command = {
     })
 
     return { content: 'Slash Commands Loaded slash' }
-  },
+  }
+  async error(): CommandReturnType {
+    throw new Error('Method not implemented.')
+  }
 }
