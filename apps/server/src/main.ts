@@ -27,6 +27,7 @@ export const sessionMiddleware = session({
     secure: ENV === 'production' ? true : false,
     domain: ENV === 'production' ? '.quanty.xyz' : undefined,
     sameSite: 'lax',
+    path: '/',
   },
   secret: process.env.SESSION_COOKIE,
   resave: false,
