@@ -60,7 +60,7 @@ const ENV = process.env.NODE_ENV
         sortSchema: true,
         debug: true,
         cors: {
-          origin: [config.get('FRONTEND_URL'), 'http://localhost:3000'],
+          origin: config.get('FRONTEND_URL'),
           credentials: true,
         },
         installSubscriptionHandlers: true,

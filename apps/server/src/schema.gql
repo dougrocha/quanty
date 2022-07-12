@@ -149,7 +149,7 @@ type CustomerMinAggregate {
   userId: String
 }
 
-input CustomerUpdateOneRequiredWithoutSubscriptionInput {
+input CustomerUpdateOneRequiredWithoutSubscriptionNestedInput {
   connect: CustomerWhereUniqueInput
   connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionInput
   create: CustomerCreateWithoutSubscriptionInput
@@ -162,7 +162,7 @@ input CustomerUpdateWithoutSubscriptionInput {
   email: NullableStringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
   subscriptionId: BoolFieldUpdateOperationsInput
-  user: UserUpdateOneWithoutCustomerInput
+  user: UserUpdateOneWithoutCustomerNestedInput
 }
 
 input CustomerUpsertWithoutSubscriptionInput {
@@ -322,7 +322,7 @@ type GuildPluginsMinAggregate {
   id: String
 }
 
-input GuildPluginsUpdateOneWithoutGuildInput {
+input GuildPluginsUpdateOneWithoutGuildNestedInput {
   connect: GuildPluginsWhereUniqueInput
   connectOrCreate: GuildPluginsCreateOrConnectWithoutGuildInput
   create: GuildPluginsCreateWithoutGuildInput
@@ -405,7 +405,7 @@ type GuildSettingsSumAggregate {
   globalCooldown: Int
 }
 
-input GuildSettingsUpdateOneWithoutGuildInput {
+input GuildSettingsUpdateOneWithoutGuildNestedInput {
   connect: GuildSettingsWhereUniqueInput
   connectOrCreate: GuildSettingsCreateOrConnectWithoutGuildInput
   create: GuildSettingsCreateWithoutGuildInput
@@ -490,7 +490,7 @@ type GuildSubscriptionMinAggregate {
   status: Subscription_status
 }
 
-input GuildSubscriptionUpdateOneWithoutGuildInput {
+input GuildSubscriptionUpdateOneWithoutGuildNestedInput {
   connect: GuildSubscriptionWhereUniqueInput
   connectOrCreate: GuildSubscriptionCreateOrConnectWithoutGuildInput
   create: GuildSubscriptionCreateWithoutGuildInput
@@ -503,9 +503,9 @@ input GuildSubscriptionUpdateOneWithoutGuildInput {
 input GuildSubscriptionUpdateWithoutGuildInput {
   cancel_at_period_end: BoolFieldUpdateOperationsInput
   current_period_end: DateTimeFieldUpdateOperationsInput
-  customer: CustomerUpdateOneRequiredWithoutSubscriptionInput
+  customer: CustomerUpdateOneRequiredWithoutSubscriptionNestedInput
   id: StringFieldUpdateOperationsInput
-  price: PriceUpdateOneRequiredWithoutSubscriptionInput
+  price: PriceUpdateOneRequiredWithoutSubscriptionNestedInput
   status: EnumSubscription_statusFieldUpdateOperationsInput
 }
 
@@ -520,12 +520,12 @@ input GuildSubscriptionWhereUniqueInput {
 }
 
 input GuildUpdateInput {
-  guildPlugins: GuildPluginsUpdateOneWithoutGuildInput
-  guildSettings: GuildSettingsUpdateOneWithoutGuildInput
+  guildPlugins: GuildPluginsUpdateOneWithoutGuildNestedInput
+  guildSettings: GuildSettingsUpdateOneWithoutGuildNestedInput
   id: StringFieldUpdateOperationsInput
   prefix: StringFieldUpdateOperationsInput
   premium: BoolFieldUpdateOperationsInput
-  subscription: GuildSubscriptionUpdateOneWithoutGuildInput
+  subscription: GuildSubscriptionUpdateOneWithoutGuildNestedInput
 }
 
 input IntFieldUpdateOperationsInput {
@@ -650,7 +650,7 @@ enum PriceType {
   RECURRING
 }
 
-input PriceUpdateOneRequiredWithoutSubscriptionInput {
+input PriceUpdateOneRequiredWithoutSubscriptionNestedInput {
   connect: PriceWhereUniqueInput
   connectOrCreate: PriceCreateOrConnectWithoutSubscriptionInput
   create: PriceCreateWithoutSubscriptionInput
@@ -661,7 +661,7 @@ input PriceUpdateOneRequiredWithoutSubscriptionInput {
 input PriceUpdateWithoutSubscriptionInput {
   currency: StringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
-  product: ProductUpdateOneRequiredWithoutPriceInput
+  product: ProductUpdateOneRequiredWithoutPriceNestedInput
   recurringInterval: NullableStringFieldUpdateOperationsInput
   type: EnumPriceTypeFieldUpdateOperationsInput
   unit_amount: IntFieldUpdateOperationsInput
@@ -724,7 +724,7 @@ type ProductMinAggregate {
   name: String
 }
 
-input ProductUpdateOneRequiredWithoutPriceInput {
+input ProductUpdateOneRequiredWithoutPriceNestedInput {
   connect: ProductWhereUniqueInput
   connectOrCreate: ProductCreateOrConnectWithoutPriceInput
   create: ProductCreateWithoutPriceInput
@@ -912,7 +912,7 @@ type UserSessionMinAggregate {
   sid: String
 }
 
-input UserUpdateOneWithoutCustomerInput {
+input UserUpdateOneWithoutCustomerNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutCustomerInput
   create: UserCreateWithoutCustomerInput

@@ -26,6 +26,7 @@ export const sessionMiddleware = session({
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
     secure: ENV === 'production' ? true : false,
     domain: ENV === 'production' ? '.quanty.xyz' : undefined,
+    sameSite: 'none',
   },
   secret: process.env.SESSION_COOKIE,
   resave: false,
@@ -38,14 +39,14 @@ async function bootstrap() {
   })
 
   // binds ValidationPipe to the entire application
-  // app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(new ValidationPipe())
 
-  // // apply transform to all responses
-  // app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
+  // apply transform to all responses
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
 
-  // // 👇 apply PrismaClientExceptionFilter to entire application, requires HttpAdapterHost because it extends BaseExceptionFilter
-  // const { httpAdapter } = app.get(HttpAdapterHost)
-  // app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter))
+  // 👇 apply PrismaClientExceptionFilter to entire application, requires HttpAdapterHost because it extends BaseExceptionFilter
+  const { httpAdapter } = app.get(HttpAdapterHost)
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter))
 
   const configService = app.get(ConfigService)
 
@@ -53,11 +54,9 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
 
   app.enableCors({
-    origin:
-      configService.get('NODE_ENV') === 'production'
-        ? configService.get('FRONTEND_URL')
-        : 'http://localhost:3000',
+    origin: configService.get('FRONTEND_URL'),
     credentials: true,
+    exposedHeaders: 'Set-Cookie',
   })
 
   app.use(cookieParser())
