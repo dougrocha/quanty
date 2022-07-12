@@ -72,7 +72,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
           property="og:description"
           content="🤖 Multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard."
         />
-        <meta property="og:url" content="https://www.quanty.xyz/" />
+        <meta property="og:url" content="https://quanty.xyz/" />
         <meta property="og:type" content="website" />
 
         <meta name="theme-color" content="#1C1A25" />

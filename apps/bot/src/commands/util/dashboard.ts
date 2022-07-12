@@ -17,7 +17,7 @@ export class DashboardCommand extends Command {
       new MessageButton()
         .setLabel('Go to your dashboard')
         .setStyle('LINK')
-        .setURL(`https://www.quanty.xyz/dashboard/${guild.id}`),
+        .setURL(`https://quanty.xyz/dashboard/${guild.id}`),
     )
 
     return {

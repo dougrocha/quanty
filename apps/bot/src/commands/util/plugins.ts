@@ -83,7 +83,7 @@ export class PluginsCommand extends Command {
     // // Const guildConfig = client.guildManager.findGuild(guild.id)
     // const guildConfig: any = ''
     // if (!guildConfig) {
-    //   return `It seems that I don't have your guild saved. Log in to https://www.quanty.xyz to active plugins.`
+    //   return `It seems that I don't have your guild saved. Log in to https://quanty.xyz to active plugins.`
     // }
     // const staticPath = join(__dirname, `../${pluginName}`)
     //   If (subCmd == 'off') {
