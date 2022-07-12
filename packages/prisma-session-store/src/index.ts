@@ -1,1 +1,1 @@
-export * from './lib/prisma-session-store';
+export * from './libs/prisma-session-store';
