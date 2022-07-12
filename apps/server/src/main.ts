@@ -52,7 +52,9 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
 
   app.enableCors({
-    origin: configService.get<string>('FRONTEND_URL'),
+    origin: configService.get('NODE_ENV')
+      ? /^(https:\/\/([^\.]*\.)?quanty\.xyz)$/i
+      : configService.get<string>('FRONTEND_URL'),
     credentials: true,
   })
 
