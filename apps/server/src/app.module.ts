@@ -157,14 +157,14 @@ const ENV = process.env.NODE_ENV
     AuthModule,
     GuildsModule,
     UsersModule,
-    StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2020-08-27',
-      typescript: true,
-      appInfo: {
-        name: 'Quantum Bot Server',
-        version: '0.0.1',
-      },
-    }),
+    // StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
+    //   apiVersion: '2020-08-27',
+    //   typescript: true,
+    //   appInfo: {
+    //     name: 'Quantum Bot Server',
+    //     version: '0.0.1',
+    //   },
+    // }),
     PaymentsModule,
   ],
   providers: [{ provide: PRISMA_SERVICE, useClass: PrismaService }],
