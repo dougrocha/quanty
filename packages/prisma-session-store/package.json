@@ -33,8 +33,6 @@
   ],
   "scripts": {
     "build": "tsc --build tsconfig.lib.json",
-    "lint": "tslint -c tslint.json 'src/**/*.ts' --project tsconfig.lib.json",
-    "test": "jest --coverage",
     "prepare": "npx prisma generate && husky install",
     "prepublish": "yarn build",
     "commit": "cz"

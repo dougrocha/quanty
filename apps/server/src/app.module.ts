@@ -90,7 +90,7 @@ const ENV = process.env.NODE_ENV
               resolve(true)
             })
           },
-          // onSubscribe: (ctx: { extra: any }) => {
+          // OnSubscribe: (ctx: { extra: any }) => {
           //   console.log(
           //     'onSubscribe',
           //     ((ctx.extra as any).request as Request).headers.cookie,
