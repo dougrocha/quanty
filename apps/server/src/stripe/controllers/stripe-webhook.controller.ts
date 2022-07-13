@@ -8,12 +8,14 @@ import {
   Req,
   Request,
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import Stripe from 'stripe'
 
 import { STRIPE_CLIENT, STRIPE_SERVICE, USERS_SERVICE } from '../../common'
 import { IUsersService } from '../../users/interfaces/users'
 import { IStripeService } from '../interfaces/stripe.interface'
 
+@ApiTags('Stripe')
 @Controller('webhook')
 export class StripeWebhookController {
   constructor(

@@ -1,15 +1,8 @@
-import { ApolloError } from '@apollo/client'
 import { useAtom } from 'jotai'
-import { GetServerSidePropsContext } from 'next'
 
 import { GuildCard } from '../../components/GuildCard'
-import {
-  GetMutualGuildsDocument,
-  GetMutualGuildsQuery,
-  useGetMutualGuildsQuery,
-} from '../../graphql/generated/schema'
+import { useGetMutualGuildsQuery } from '../../graphql/generated/schema'
 import GuildsLayout from '../../layouts/Guilds'
-import { addApolloState, initializeApollo } from '../../libs/apolloClient'
 import { mutualGuildsAtom } from '../../utils/store'
 
 export const GuildPage = () => {
@@ -30,34 +23,6 @@ export const GuildPage = () => {
       </div>
     </GuildsLayout>
   )
-}
-
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const client = initializeApollo({ headers: context?.req?.headers })
-
-  try {
-    await client.query<GetMutualGuildsQuery>({
-      query: GetMutualGuildsDocument,
-    })
-
-    return addApolloState(client, {
-      props: {},
-    })
-  } catch (e: unknown) {
-    if (e instanceof ApolloError) {
-      if (e.message === 'You must be logged in first.') {
-        return {
-          redirect: { destination: '/login' },
-        }
-      } else {
-        return {
-          notFound: true,
-        }
-      }
-    }
-  }
 }
 
 export default GuildPage

@@ -1,6 +1,7 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common'
+import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core'
+import { NestFactory } from '@nestjs/core'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { PrismaClient } from '@prisma/client'
 import { PrismaSessionStore } from '@quixo3/prisma-session-store'
 import cookieParser from 'cookie-parser'
@@ -8,19 +9,17 @@ import session from 'express-session'
 import passport from 'passport'
 
 import { AppModule } from './app.module'
-import { PrismaClientExceptionFilter } from './prisma-client-exception.filter'
 
 const ENV = process.env.NODE_ENV
 
 export const prismaStoreClient = new PrismaClient()
 
-export const sessionMiddleware = session({
-  name: 'session',
+export const useSessionMiddleware: any = session({
   store: new PrismaSessionStore(prismaStoreClient as any, {
-    // ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
+    // Ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
     checkPeriod: 24 * 3600, // Time period in seconds
     sessionModelName: 'UserSession',
-  }),
+  }) as any,
   cookie: {
     httpOnly: ENV === 'production' ? true : false,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
@@ -37,15 +36,8 @@ async function bootstrap() {
     bodyParser: false,
   })
 
-  // binds ValidationPipe to the entire application
+  // Binds ValidationPipe to the entire application
   app.useGlobalPipes(new ValidationPipe())
-
-  // apply transform to all responses
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
-
-  // 👇 apply PrismaClientExceptionFilter to entire application, requires HttpAdapterHost because it extends BaseExceptionFilter
-  const { httpAdapter } = app.get(HttpAdapterHost)
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter))
 
   const configService = app.get(ConfigService)
 
@@ -59,10 +51,21 @@ async function bootstrap() {
 
   app.use(cookieParser())
 
-  app.use(sessionMiddleware)
+  app.use(useSessionMiddleware)
 
   app.use(passport.initialize())
   app.use(passport.session())
+
+  if (process.env.NODE_ENV === 'development') {
+    const config = new DocumentBuilder()
+      .setTitle('Quanty API')
+      .setDescription('API for Quanty Dashboard')
+      .setVersion('1.0')
+      .build()
+
+    const document = SwaggerModule.createDocument(app, config)
+    SwaggerModule.setup('api', app, document)
+  }
 
   await app.listen(PORT, async () => {
     console.log('NODE_ENV:', ENV)

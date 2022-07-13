@@ -25,6 +25,9 @@ generator nestgraphql {
   fields_Validator_input                = true
   fields_Scalars_from                   = "graphql-scalars"
   fields_Scalars_input                  = true
+  fields_Swagger_from                   = "@nestjs/swagger"
+  fields_Swagger_input                  = false
+  fields_Swagger_model                  = true
   useInputType_WhereInput_ALL           = "WhereInput"
   decorate_1_type                       = "Create@(One|Many)UserArgs"
   decorate_1_field                      = data
@@ -139,13 +142,20 @@ model GuildSubscription {
 }
 
 model User {
+  /// @Swagger.ApiProperty({ type: () => String })
   id            String   @id @unique @db.VarChar(18)
+  /// @Swagger.ApiProperty({ type: () => String })
   username      String   @db.VarChar(32)
+  /// @Swagger.ApiProperty({ type: () => String })
   discriminator String   @db.Char(4)
+  /// @Swagger.ApiPropertyOptional({ type: () => String })
   /// @Validator.IsEmail()
   email         String?  @unique @db.VarChar(254)
+  /// @Swagger.ApiPropertyOptional({ type: () => String })
   avatar        String?  @db.VarChar(254)
+  /// @Swagger.ApiProperty({ type: () => Date })
   createdAt     DateTime @default(now())
+  /// @Swagger.ApiPropertyOptional({ type: () => String })
   locale        String?  @db.VarChar(10)
 
   /// @HideField()
@@ -153,8 +163,10 @@ model User {
   /// @HideField()
   refreshToken String? @db.VarChar(100)
 
+  /// @Swagger.ApiProperty({ type: () => Boolean })
   acceptedTermsAndConditions Boolean @default(false)
 
+  /// @Swagger.ApiPropertyOptional({ type: () => Customer })
   customer Customer?
 }
 

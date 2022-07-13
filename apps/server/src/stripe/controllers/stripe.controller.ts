@@ -1,4 +1,5 @@
 import { Controller, Get, Inject, Res, UseGuards } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import Stripe from 'stripe'
@@ -10,6 +11,7 @@ import {
 } from '../../@generated/prisma-nestjs-graphql'
 import { AuthenticatedGuard, PRISMA_SERVICE, STRIPE_CLIENT } from '../../common'
 
+@ApiTags('Stripe')
 @Controller()
 @UseGuards(AuthenticatedGuard)
 export class StripeController {

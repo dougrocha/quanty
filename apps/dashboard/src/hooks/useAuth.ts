@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai'
 import { useRouter } from 'next/router'
+import { useDebugValue } from 'react'
 
 import { useGetUserQuery } from '../graphql/generated/schema'
 import { currentUserAtom } from '../utils/store'
@@ -22,6 +23,8 @@ export const useAuth = () => {
       setUser(null)
     },
   })
+
+  useDebugValue(user, user => (user ? 'Logged in' : 'Logged out'))
 
   const logIn = () => {
     router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`)

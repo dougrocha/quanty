@@ -9,6 +9,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { Request, Response } from 'express'
 
 import {
@@ -19,6 +20,7 @@ import {
 import { User } from '../@generated/prisma-nestjs-graphql'
 import { AuthenticatedGuard, HttpUser, PAYMENT_SERVICE } from '../common'
 
+@ApiTags('Payments')
 @Controller('payments')
 @UseGuards(AuthenticatedGuard)
 export class PaymentsController {

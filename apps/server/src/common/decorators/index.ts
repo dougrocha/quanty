@@ -1,2 +1,2 @@
-export { GqlUser } from './requests/gqlUser.decorator'
-export { HttpUser } from './requests/httpUser.decorator'
+export * from './requests/gqlUser.decorator'
+export * from './requests/httpUser.decorator'

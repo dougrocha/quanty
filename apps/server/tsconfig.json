@@ -11,7 +11,7 @@
     "sourceRoot": "src",
     "outDir": "dist",
 
-    "types": ["jest", "node"],
+    "types": ["jest", "node", "express-session"],
 
     "paths": {
       "users/*": ["users/*"]

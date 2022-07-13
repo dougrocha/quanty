@@ -48,7 +48,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
   const { loading } = useGetGuildConfigQuery({
     onCompleted: ({ guildConfig }) => setGuildConfig(guildConfig),
     variables: { guildId: router.query.guildId as string },
-    fetchPolicy: 'cache-and-network',
+    skip: !router.query.guildId,
   })
 
   const ref = useRef(null)

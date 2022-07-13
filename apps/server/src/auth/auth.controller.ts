@@ -1,4 +1,9 @@
 import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common'
+import {
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger'
 import { Response, Request } from 'express'
 
 import { IAuthenticationService } from './interfaces/auth'
@@ -11,6 +16,7 @@ import {
   HttpUser,
 } from '../common'
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -45,6 +51,8 @@ export class AuthController {
    */
   @Get('protected')
   @UseGuards(AuthenticatedGuard)
+  @ApiOkResponse({ description: 'User has been found.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   protected(
     @HttpUser()
     { id, username, discriminator }: User,

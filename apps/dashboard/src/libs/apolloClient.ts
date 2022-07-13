@@ -54,14 +54,15 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
     ssrMode: typeof window === 'undefined',
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors)
+        if (graphQLErrors) {
           graphQLErrors.forEach(({ message, locations, path }) =>
-            console.log(
+            console.debug(
               `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
                 locations,
               )}, Path: ${JSON.stringify(path)}`,
             ),
           )
+        }
         if (networkError)
           console.log(
             `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,

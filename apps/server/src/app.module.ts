@@ -7,7 +7,7 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'
 import { RouterModule } from '@nestjs/core'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
 import { PassportModule } from '@nestjs/passport'
@@ -19,7 +19,7 @@ import Joi from 'joi'
 import { AuthModule } from './auth/auth.module'
 import { RawBodyMiddleware, JsonBodyMiddleware, PRISMA_SERVICE } from './common'
 import { GuildsModule } from './guilds/guilds.module'
-import { prismaStoreClient, sessionMiddleware } from './main'
+import { prismaStoreClient, useSessionMiddleware } from './main'
 import { PaymentsModule } from './payments/payments.module'
 import { PrismaService } from './prisma.service'
 import { StripeModule } from './stripe/stripe.module'
@@ -51,102 +51,94 @@ const ENV = process.env.NODE_ENV
       }),
     }),
     PassportModule.register({ session: true }),
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      imports: [ConfigModule],
-      inject: [ConfigService],
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      useFactory: (config: ConfigService) => ({
-        useGlobalPrefix: true,
-        sortSchema: true,
-        debug: true,
-        cors: {
-          origin: config.get('FRONTEND_URL'),
-          credentials: true,
-        },
-        installSubscriptionHandlers: true,
-        introspection: true,
-        subscriptions: {
-          'graphql-ws': {
-            onConnect: ctx => {
-              const req = (ctx.extra as any).request as Request
-              const res = {} as any
-              return new Promise(async resolve => {
-                sessionMiddleware(req, res, () => {
-                  return
+      useGlobalPrefix: true,
+      sortSchema: true,
+      debug: true,
+      cors: {
+        origin: process.env.FRONTEND_URL,
+        credentials: true,
+      },
+      installSubscriptionHandlers: true,
+      introspection: true,
+      subscriptions: {
+        'graphql-ws': {
+          onConnect: ctx => {
+            const req = (ctx.extra as any).request as Request
+            const res = {} as any
+            return new Promise(async resolve => {
+              useSessionMiddleware(req, res, () => {
+                return
+              })
+
+              await prismaStoreClient.$connect()
+
+              const userSession =
+                await prismaStoreClient.userSession.findUnique({
+                  where: {
+                    sid: req.sessionID,
+                  },
+                  select: { expiresAt: true },
                 })
 
-                await prismaStoreClient.$connect()
+              if (!userSession) return resolve(false)
 
-                const userSession =
-                  await prismaStoreClient.userSession.findUnique({
-                    where: {
-                      sid: req.sessionID,
-                    },
-                    select: { expiresAt: true },
-                  })
+              if (userSession.expiresAt < new Date(Date.now()))
+                return resolve(false)
 
-                if (!userSession) return resolve(false)
-
-                if (userSession.expiresAt < new Date(Date.now()))
-                  return resolve(false)
-
-                resolve(true)
-              })
-            },
-            // OnSubscribe: ctx => {
-            //   console.log(
-            //     'onSubscribe',
-            //     ((ctx.extra as any).request as Request).headers.cookie,
-            //   )
-            // },
-            // onClose: ctx => {
-            //   console.log(
-            //     'onClose',
-            //     ((ctx.extra as any).request as Request).headers.cookie,
-            //   )
-            // },
-            // onNext: ctx => {
-            //   console.log(
-            //     'onNext',
-            //     ((ctx.extra as any).request as Request).headers.cookie,
-            //   )
-            // },
-            // onDisconnect: ctx => {
-            //   console.log(
-            //     'onDisconnect',
-            //     ((ctx.extra as any).request as Request).headers.cookie,
-            //   )
-            // },
+              resolve(true)
+            })
           },
-          'subscriptions-transport-ws': true,
+          // onSubscribe: (ctx: { extra: any }) => {
+          //   console.log(
+          //     'onSubscribe',
+          //     ((ctx.extra as any).request as Request).headers.cookie,
+          //   )
+          // },
+          // onClose: ctx => {
+          //   console.log(
+          //     'onClose',
+          //     ((ctx.extra as any).request as Request).headers.cookie,
+          //   )
+          // },
+          // onNext: ctx => {
+          //   console.log(
+          //     'onNext',
+          //     ((ctx.extra as any).request as Request).headers.cookie,
+          //   )
+          // },
+          // onDisconnect: ctx => {
+          //   console.log(
+          //     'onDisconnect',
+          //     ((ctx.extra as any).request as Request).headers.cookie,
+          //   )
+          // },
         },
-        autoTransformHttpErrors: true,
-        csrfPrevention: true,
-        formatError: (error: GraphQLError) => {
-          const graphQLFormattedError: GraphQLFormattedError = {
-            message: error.message,
-          }
-          return graphQLFormattedError
-        },
-        resolvers: { DateTime: GraphQLISODateTime },
-        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-        context: ({ req, res, payload, connection }) => {
-          return {
-            req,
-            res,
-            payload,
-            connection,
-          }
-        },
-      }),
+        'subscriptions-transport-ws': true,
+      },
+      autoTransformHttpErrors: true,
+      csrfPrevention: process.env.NODE_ENV === 'production' ? true : false,
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError: GraphQLFormattedError = {
+          message: error.message,
+        }
+        return graphQLFormattedError
+      },
+      resolvers: { DateTime: GraphQLISODateTime },
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req, res, payload, connection }) => {
+        return {
+          req,
+          res,
+          payload,
+          connection,
+        }
+      },
     }),
-    ThrottlerModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        ttl: config.get('THROTTLE_TTL'),
-        limit: config.get('THROTTLE_LIMIT'),
-      }),
+    ThrottlerModule.forRoot({
+      ttl: process.env.THROTTLE_TTL,
+      limit: process.env.THROTTLE_LIMIT,
     }),
     RouterModule.register([
       {
