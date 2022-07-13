@@ -53,6 +53,7 @@ const ENV = process.env.NODE_ENV
     PassportModule.register({ session: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      cache: 'bounded',
       useGlobalPrefix: true,
       sortSchema: true,
       debug: true,
