@@ -2,10 +2,14 @@ import { joiResolver } from '@hookform/resolvers/joi'
 import Joi from 'joi'
 import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
-import { useUpdateGuildByIdMutation } from '../../graphql/generated/schema'
+import {
+  useGuildConfigSubscription,
+  useUpdateGuildByIdMutation,
+} from '../../graphql/generated/schema'
 import { guildConfigAtom } from '../../utils/store'
 
 const schema = Joi.object({
@@ -21,6 +25,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: joiResolver(schema),
@@ -32,6 +37,19 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   const guild = useAtomValue(guildConfigAtom)
 
   const [updatePrefix] = useUpdateGuildByIdMutation()
+
+  useGuildConfigSubscription({
+    variables: {
+      guildId: guildId as string,
+    },
+    onSubscriptionData: ({ subscriptionData: { data } }) => {
+      setValue('prefix', data?.updatedGuildConfig.prefix)
+    },
+  })
+
+  useEffect(() => {
+    return
+  }, [guild?.prefix])
 
   const onSubmit = (data: { prefix?: string }) => {
     toast.promise(

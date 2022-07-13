@@ -18,9 +18,10 @@ const OverviewPage = () => {
       guildId: guildId as string,
     },
     onSubscriptionData: ({ subscriptionData }) => {
-      console.debug(subscriptionData.data)
+      console.debug(`[GUILD_CONFIG_UPDATE] - ${guildId}:`, {
+        data: subscriptionData.data,
+      })
     },
-    context: { test: 'asdasdasd' },
   })
 
   return (
