@@ -12,7 +12,6 @@ interface LayoutProps {
 
 const BaseLayout = ({ children, title = 'Discord Bot' }: LayoutProps) => {
   useAuth()
-
   return (
     <>
       <NextSeo
@@ -45,12 +44,10 @@ const BaseLayout = ({ children, title = 'Discord Bot' }: LayoutProps) => {
         ]}
       />
       {/* <div className="bg-[url('/new.svg')] bg-contain bg-center bg-repeat-y  text-primary-white antialiased"> */}
-      <div className=" text-primary-white antialiased">
-        <Navbar />
 
-        {children}
-        <Footer />
-      </div>
+      <Navbar />
+      {children}
+      <Footer />
     </>
   )
 }

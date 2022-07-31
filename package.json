@@ -36,5 +36,6 @@
     "apps/**/*.{ts,tsx}": [],
     "packages/**/*.{ts,tsx}": [],
     "*.json": "prettier --write"
-  }
+  },
+  "dependencies": {}
 }

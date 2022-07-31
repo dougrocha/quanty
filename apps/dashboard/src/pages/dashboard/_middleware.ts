@@ -3,7 +3,6 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
   const validateCookies = () => {
     const sessionId = req.cookies['connect.sid']
-    console.log(req.cookies)
     return sessionId
       ? {
           Cookie: `connect.sid=${sessionId}`,

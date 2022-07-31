@@ -3,27 +3,22 @@
   "baseBranch": "origin/master",
   "pipeline": {
     "dev": {
-      "cache": false
+      "cache": false,
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     },
     "start": {
       "dependsOn": ["^build"]
     },
     "build": {
       "outputs": ["dist/**", ".next/**", "lib/**"],
-      "cache": true
-    },
-    "app-bot#build": {
-      "cache": true
-    },
-    "app-backend#build": {
-      "outputs": ["dist/**"],
-      "cache": true
+      "dependsOn": ["^build"]
     },
     "lint": {
       "outputs": []
     },
     "test": {
-      "outputs": []
+      "outputs": [],
+      "dependsOn": ["build"]
     },
     "format": {
       "outputs": []

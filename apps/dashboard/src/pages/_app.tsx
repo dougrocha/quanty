@@ -1,6 +1,4 @@
 import { ApolloProvider } from '@apollo/client'
-import { LightningBoltIcon } from '@heroicons/react/outline'
-import { XIcon } from '@heroicons/react/solid'
 import LoadingLayout from 'layouts/loading'
 import { NextPage } from 'next'
 import { DefaultSeo } from 'next-seo'

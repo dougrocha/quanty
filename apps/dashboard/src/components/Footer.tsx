@@ -7,9 +7,8 @@ import FooterItems from '../data/footerItems'
 
 const Footer = () => {
   return (
-    // <footer className="mx-auto mt-10 h-72 max-w-6xl items-center justify-between px-4 text-sm text-primary-white sm:px-6 md:flex md:flex-row-reverse xl:px-0">
     <footer
-      className={`mx-auto my-12 w-full max-w-7xl items-center justify-between px-4 text-sm md:flex`}
+      className={`mx-auto my-12 h-full w-full max-w-7xl items-center justify-between px-4 text-sm md:flex`}
     >
       <FooterTags />
       <div className="mr-auto mt-10 md:mt-auto md:mr-0">
@@ -21,7 +20,7 @@ const Footer = () => {
 
 const FooterTags = () => {
   return (
-    <div className="mt-auto flex flex-col md:flex-row md:space-x-10">
+    <div className="mt-auto inline-flex flex-col md:flex-row md:space-x-10">
       {FooterItems.map(({ items, title }) => {
         return (
           <div className="w-full list-none" key={title}>

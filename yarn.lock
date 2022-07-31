@@ -14423,7 +14423,7 @@ turbo-windows-32@1.3.1:
 
 turbo-windows-64@1.3.1:
   version "1.3.1"
-  resolved "https://registry.npmjs.org/turbo-windows-64/-/turbo-windows-64-1.3.1.tgz"
+  resolved "https://registry.yarnpkg.com/turbo-windows-64/-/turbo-windows-64-1.3.1.tgz#f891097331125c935cdaa160cc80c4cfc3e61b0e"
   integrity sha512-gLeohHG07yIhON1Pp0YNE00i/yzip2GFhkA6HdJaK95uE5bKULpqxuO414hOS/WzGwrGVXBKCImfe24XXh5T+Q==
 
 turbo-windows-arm64@1.3.1:
@@ -14433,7 +14433,7 @@ turbo-windows-arm64@1.3.1:
 
 turbo@^1.3.1:
   version "1.3.1"
-  resolved "https://registry.npmjs.org/turbo/-/turbo-1.3.1.tgz"
+  resolved "https://registry.yarnpkg.com/turbo/-/turbo-1.3.1.tgz#8091f3c8b654addaac84f9452476204a879b32ea"
   integrity sha512-DXckoGKlZgvTn/PrHpBI/57aeXR7tfyPf2dK+4LmBczt24ELA3o6eYHeA7KzfpSYhB2LE9qveYFQ6mJ1OzGjjg==
   optionalDependencies:
     turbo-android-arm64 "1.3.1"
