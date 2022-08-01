@@ -1,11 +1,10 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import { resolveReadonlyArrayThunk } from 'graphql'
 import { useAtom, useAtomValue } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import {
   MutualGuild,
