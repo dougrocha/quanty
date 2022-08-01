@@ -1,4 +1,4 @@
-import { Guild } from '../../@generated/prisma-nestjs-graphql'
+import { Guild } from '../../@generated'
 
 export const guildStub = (): Guild => ({
   id: '123',

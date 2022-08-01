@@ -9,7 +9,7 @@ import { AxiosResponse } from 'axios'
 import { Cache } from 'cache-manager'
 import { Observable } from 'rxjs'
 
-import { User } from '../../@generated/prisma-nestjs-graphql'
+import { User } from '../../@generated'
 import { GraphQLAuthGuard, GqlThrottlerGuard, GqlUser } from '../../common'
 import { IGuildsHttpService, IGuildsService } from '../interfaces/guilds'
 import { Channel } from '../models/channel'

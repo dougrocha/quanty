@@ -17,7 +17,7 @@ import {
   PaymentRequestBody,
 } from './interfaces/paymentsService.interface'
 
-import { User } from '../@generated/prisma-nestjs-graphql'
+import { User } from '../@generated'
 import { AuthenticatedGuard, HttpUser, PAYMENT_SERVICE } from '../common'
 
 @ApiTags('Payments')

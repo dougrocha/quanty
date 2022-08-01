@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportSerializer } from '@nestjs/passport'
 
-import { User } from '../../@generated/prisma-nestjs-graphql'
+import { User } from '../../@generated'
 import { IUsersService } from '../../users/interfaces/users'
 import { Done } from '../types'
 

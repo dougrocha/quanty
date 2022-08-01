@@ -8,7 +8,7 @@ import { Response, Request } from 'express'
 
 import { IAuthenticationService } from './interfaces/auth'
 
-import { User } from '../@generated/prisma-nestjs-graphql'
+import { User } from '../@generated'
 import {
   AuthenticatedGuard,
   AUTH_SERVICE,

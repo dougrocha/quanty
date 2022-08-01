@@ -8,7 +8,7 @@ import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
 import { Cache } from 'cache-manager'
 import { PubSub } from 'graphql-subscriptions'
 
-import { Guild, GuildUpdateInput } from '../../@generated/prisma-nestjs-graphql'
+import { Guild, GuildUpdateInput } from '../../@generated'
 import { GraphQLAuthGuard, PUB_SUB } from '../../common'
 import { LoggingInterceptor } from '../../common/interceptors/logging.interceptor'
 import { IGuildsService } from '../interfaces/guilds'

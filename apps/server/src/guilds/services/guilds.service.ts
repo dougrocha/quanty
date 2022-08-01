@@ -10,7 +10,7 @@ import {
   GuildSettingsWhereUniqueInput,
   GuildWhereUniqueInput,
   UpdateOneGuildArgs,
-} from '../../@generated/prisma-nestjs-graphql'
+} from '../../@generated'
 import { PRISMA_SERVICE } from '../../common'
 import { DiscordGuild } from '../models/guild'
 import { MutualGuild } from '../models/mutualGuilds'

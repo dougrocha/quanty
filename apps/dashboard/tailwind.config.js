@@ -1,11 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
-  daisyui: {
-    themes: [],
-    styled: false,
-    base: false,
-  },
   theme: {
     extend: {
       transitionProperty: {
@@ -41,9 +36,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/line-clamp'),
-    require('daisyui'),
-  ],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
 }

@@ -26,10 +26,11 @@ import { StripeModule } from './stripe/stripe.module'
 import { UsersModule } from './users/users.module'
 
 const ENV = process.env.NODE_ENV
+
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ENV ? `.env.${ENV}` : `.env`,
+      envFilePath: ENV ? `.env.${ENV}` : `.env.development`,
       isGlobal: true,
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()

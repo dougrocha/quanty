@@ -1,6 +1,6 @@
 import Stripe from 'stripe'
 
-import { User } from '../../@generated/prisma-nestjs-graphql'
+import { User } from '../../@generated'
 
 export interface PaymentRequestBody {
   amount: number

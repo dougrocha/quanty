@@ -5,7 +5,7 @@ import {
   Customer,
   User,
   UserCreateWithoutCustomerInput,
-} from '../../@generated/prisma-nestjs-graphql'
+} from '../../@generated'
 import { PAYMENT_SERVICE, PRISMA_SERVICE } from '../../common'
 import { IPaymentsService } from '../../payments/interfaces/paymentsService.interface'
 import { IUsersService } from '../interfaces/users'

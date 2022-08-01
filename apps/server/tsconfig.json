@@ -6,7 +6,7 @@
 
     "incremental": true,
 
-    "rootDirs": ["./", "./test"],
+    "rootDirs": ["./src", "./test"],
     "baseUrl": "./src",
     "sourceRoot": "src",
     "outDir": "dist",

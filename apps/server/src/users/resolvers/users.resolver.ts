@@ -1,7 +1,7 @@
 import { Inject, UseGuards } from '@nestjs/common'
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 
-import { Customer, User } from '../../@generated/prisma-nestjs-graphql'
+import { Customer, User } from '../../@generated'
 import { GraphQLAuthGuard, GqlUser, USERS_SERVICE } from '../../common'
 import { IUsersService } from '../interfaces/users'
 

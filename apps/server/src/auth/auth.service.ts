@@ -2,10 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 
 import { IAuthenticationService } from './interfaces/auth'
 
-import {
-  User,
-  UserCreateWithoutCustomerInput,
-} from '../@generated/prisma-nestjs-graphql'
+import { User, UserCreateWithoutCustomerInput } from '../@generated'
 import { IUsersService } from '../users/interfaces/users'
 
 @Injectable()

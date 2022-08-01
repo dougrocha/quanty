@@ -1,25 +1,18 @@
 {
-  "sourceMaps": true,
-  "module": {
-    "type": "commonjs",
-    "strict": true
-  },
   "jsc": {
-    "target": "es2020",
     "parser": {
       "syntax": "typescript",
-      "decorators": true
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": false
     },
-    "baseUrl": "./src",
     "transform": {
       "legacyDecorator": true,
       "decoratorMetadata": true
     },
-    "paths": {
-      "guilds/*": ["guilds/*"],
-      "users/*": ["users/*"]
-    },
-
-    "keepClassNames": true
+    "target": "es2020"
+  },
+  "module": {
+    "type": "commonjs"
   }
 }

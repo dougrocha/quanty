@@ -1,7 +1,7 @@
 import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-import { User } from '../../@generated/prisma-nestjs-graphql'
+import { User } from '../../@generated'
 import {
   GraphQLAuthGuard,
   GqlThrottlerGuard,

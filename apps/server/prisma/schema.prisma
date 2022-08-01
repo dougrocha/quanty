@@ -14,11 +14,9 @@ generator client {
 
 generator nestgraphql {
   provider = "prisma-nestjs-graphql"
-  output   = "../src/@generated/prisma-nestjs-graphql"
+  output   = "../src/@generated"
 
-  reExport    = Single
-  noTypeId    = True
-  purgeOutput = false
+  reExport = Single
 
   requireSingleFieldsInWhereUniqueInput = false
   fields_Validator_from                 = "class-validator"

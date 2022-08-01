@@ -8,7 +8,7 @@ import {
   PriceCreateManyInput,
   PriceType,
   ProductCreateManyInput,
-} from '../../@generated/prisma-nestjs-graphql'
+} from '../../@generated'
 import { AuthenticatedGuard, PRISMA_SERVICE, STRIPE_CLIENT } from '../../common'
 
 @ApiTags('Stripe')

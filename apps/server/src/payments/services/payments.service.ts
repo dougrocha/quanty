@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import Stripe from 'stripe'
 
-import { User } from '../../@generated/prisma-nestjs-graphql'
+import { User } from '../../@generated'
 import { STRIPE_CLIENT } from '../../common'
 import {
   IPaymentsService,

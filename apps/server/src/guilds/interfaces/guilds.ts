@@ -9,7 +9,7 @@ import {
   GuildSettingsWhereUniqueInput,
   GuildWhereUniqueInput,
   UpdateOneGuildArgs,
-} from '../../@generated/prisma-nestjs-graphql'
+} from '../../@generated'
 import { Channel } from '../models/channel'
 import { DiscordGuild } from '../models/guild'
 import { MutualGuild } from '../models/mutualGuilds'

@@ -2,7 +2,7 @@ import {
   UserCreateWithoutCustomerInput,
   User,
   Customer,
-} from '../../@generated/prisma-nestjs-graphql'
+} from '../../@generated'
 
 export interface IUsersService {
   createUser(details: UserCreateWithoutCustomerInput): Promise<User>

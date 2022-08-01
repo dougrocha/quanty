@@ -1,3 +1,3 @@
-import { User } from '../@generated/prisma-nestjs-graphql'
+import { User } from '../@generated'
 
 export type Done = (err: Error | null, user: User | null) => void
