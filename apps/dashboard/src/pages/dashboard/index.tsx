@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 
-import { GuildCard } from '../../components/GuildCard'
+import { GuildCard, GuildCardSkeleton } from '../../components/GuildCard'
 import { useGetMutualGuildsQuery } from '../../graphql/generated/schema'
 import GuildsLayout from '../../layouts/Guilds'
 import { mutualGuildsAtom } from '../../utils/store'
@@ -8,7 +8,7 @@ import { mutualGuildsAtom } from '../../utils/store'
 export const GuildPage = () => {
   const [mutualGuilds, setMutualGuilds] = useAtom(mutualGuildsAtom)
 
-  useGetMutualGuildsQuery({
+  const { loading } = useGetMutualGuildsQuery({
     onCompleted: ({ mutualGuilds }) => setMutualGuilds(mutualGuilds),
   })
 
@@ -20,6 +20,7 @@ export const GuildPage = () => {
         {mutualGuilds?.map(guild => (
           <GuildCard key={`guild-${guild.id}`} guild={guild} />
         ))}
+        {loading && [1, 2, 3].map(i => <GuildCardSkeleton key={i} />)}
       </div>
     </GuildsLayout>
   )

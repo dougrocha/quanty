@@ -1,21 +1,19 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 import DashboardContent from '../../../components/Dashboard/DashboardContent'
 import { PrefixForm } from '../../../components/forms'
 import { useGuildConfigSubscription } from '../../../graphql/generated/schema'
+import { useCurrentGuildId } from '../../../hooks/useCurrentGuildId'
 import DashboardLayout from '../../../layouts/Dashboard'
 import { StaticLinks } from '../../../utils/constants/API'
 
 const OverviewPage = () => {
-  const {
-    query: { guildId },
-  } = useRouter()
+  const guildId = useCurrentGuildId()
 
   useGuildConfigSubscription({
     variables: {
-      guildId: guildId as string,
+      guildId: guildId,
     },
     onSubscriptionData: ({ subscriptionData }) => {
       console.debug(`[GUILD_CONFIG_UPDATE] - ${guildId}:`, {

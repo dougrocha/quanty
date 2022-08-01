@@ -27,13 +27,8 @@ const DashboardSidebar = () => {
 
   const {
     query: { guildId },
-    isReady,
     push,
   } = useRouter()
-
-  useEffect(() => {
-    if (!isReady) return
-  }, [isReady])
 
   useEffect(() => {
     if (!isLarge) {

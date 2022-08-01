@@ -10,7 +10,6 @@ interface LayoutProps {
 
 const GuildsLayout = ({ children }: LayoutProps) => {
   useAuth()
-
   return (
     <>
       <NextSeo

@@ -68,3 +68,9 @@ export const GuildCard = ({ guild }: GuildCardProps) => {
     </div>
   )
 }
+
+export const GuildCardSkeleton = () => {
+  return (
+    <div className="h-52 w-full animate-pulse overflow-hidden rounded-xl bg-gray-300/50 opacity-50 sm:w-80 md:m-2" />
+  )
+}

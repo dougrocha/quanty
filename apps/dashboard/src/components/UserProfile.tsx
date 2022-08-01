@@ -1,14 +1,12 @@
 import { ChevronDownIcon } from '@heroicons/react/outline'
-import { useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
 import LoginButton from './Buttons/LoginButton'
 
-import { useOnClickOutside } from '../hooks'
+import { useAuth, useOnClickOutside } from '../hooks'
 import { FetchUserIcon } from '../libs/FetchIcons'
-import { currentUserAtom } from '../utils/store'
 
 const UserProfileDropdownMenu = dynamic(import('./UserProfileDropdownMenu'))
 
@@ -22,13 +20,15 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
 
   const [open, setOpen] = useState(false)
 
-  const user = useAtomValue(currentUserAtom)
+  const { user, error } = useAuth()
 
   const closeDropdown = () => setOpen(false)
 
   useOnClickOutside(ref, closeDropdown)
 
-  if (!user) return <LoginButton />
+  console.debug('UserError', error)
+
+  if (error) return <LoginButton />
 
   return (
     <>
@@ -37,21 +37,30 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
           className="flex items-center justify-center"
           onClick={() => setOpen(!open)}
         >
-          <div className="avatar">
-            <div className="rounded-full">
+          {user ? (
+            <>
               <Image
+                className="rounded-full"
                 src={FetchUserIcon(user?.id ?? '', user?.avatar ?? '')}
                 alt="Quanty Icon Picture"
                 width={40}
                 height={40}
-                placeholder="blur"
+                placeholder="empty"
                 blurDataURL="/basic_discord_logo.png"
               />
-            </div>
-          </div>
-          <strong className="ml-3 hidden sm:block">{user.username}</strong>
 
-          <p className="hidden opacity-75 sm:block">#{user.discriminator}</p>
+              <strong className="ml-3 hidden sm:block">{user?.username}</strong>
+
+              <p className="hidden opacity-75 sm:block">
+                #{user?.discriminator}
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="h-10 w-10 animate-pulse rounded-full bg-gray-300/50" />
+              <div className="ml-3 hidden h-2 w-16 animate-pulse rounded-md bg-gray-300/50 sm:block" />
+            </>
+          )}
 
           <ChevronDownIcon
             className={`ml-2 w-4 text-secondary-white transition ${

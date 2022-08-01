@@ -1,5 +1,6 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import { resolveReadonlyArrayThunk } from 'graphql'
 import { useAtom, useAtomValue } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,7 +20,6 @@ import { dashboardDrawerShinkToggleAtom } from '../../utils/store/dashboardSideb
 const GuildSelectionMenu = () => {
   const {
     query: { guildId },
-    isReady,
   } = useRouter()
 
   const [mutualGuilds, setMutualGuilds] = useAtom(mutualGuildsAtom)
@@ -29,10 +29,6 @@ const GuildSelectionMenu = () => {
     onCompleted: ({ mutualGuilds }) => setMutualGuilds(mutualGuilds),
     fetchPolicy: 'cache-first',
   })
-
-  useEffect(() => {
-    if (!isReady) return
-  }, [isReady])
 
   const ref = useRef(null)
 

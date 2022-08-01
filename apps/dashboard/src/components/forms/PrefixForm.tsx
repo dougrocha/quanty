@@ -1,7 +1,6 @@
 import { joiResolver } from '@hookform/resolvers/joi'
 import Joi from 'joi'
 import { useAtomValue } from 'jotai'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -10,6 +9,7 @@ import {
   useGuildConfigSubscription,
   useUpdateGuildByIdMutation,
 } from '../../graphql/generated/schema'
+import { useCurrentGuildId } from '../../hooks/useCurrentGuildId'
 import { guildConfigAtom } from '../../utils/store'
 
 const schema = Joi.object({
@@ -30,9 +30,8 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   } = useForm({
     resolver: joiResolver(schema),
   })
-  const {
-    query: { guildId },
-  } = useRouter()
+
+  const guildId = useCurrentGuildId()
 
   const guild = useAtomValue(guildConfigAtom)
 
@@ -40,7 +39,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
 
   useGuildConfigSubscription({
     variables: {
-      guildId: guildId as string,
+      guildId,
     },
     onSubscriptionData: ({ subscriptionData: { data } }) => {
       setValue('prefix', data?.updatedGuildConfig.prefix)
@@ -48,8 +47,8 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   })
 
   useEffect(() => {
-    return
-  }, [guild?.prefix])
+    setValue('prefix', guild ? guild.prefix : 'q!')
+  }, [guildId])
 
   const onSubmit = (data: { prefix?: string }) => {
     toast.promise(
