@@ -15,11 +15,11 @@ const Navbar = () => {
   return (
     <>
       <nav className="relative mx-auto max-w-7xl px-6 text-sm">
-        <div className="navbar flex h-20">
-          <ul className="navbar-start hidden space-x-5 md:flex">
+        <div className="flex h-20 items-center justify-between">
+          <ul className=" hidden space-x-5 md:flex">
             <NavLinks />
           </ul>
-          <div className="navbar-end ml-auto mr-5 lg:ml-0">
+          <div className=" ml-auto mr-5 lg:ml-0">
             <UserProfile />
           </div>
 
