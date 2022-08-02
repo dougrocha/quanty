@@ -18,14 +18,14 @@ import Joi from 'joi'
 
 import { AuthModule } from './auth/auth.module'
 import { RawBodyMiddleware, JsonBodyMiddleware, PRISMA_SERVICE } from './common'
+import { DiscordController } from './discord/discord.controller'
+import { DiscordModule } from './discord/discord.module'
 import { GuildsModule } from './guilds/guilds.module'
 import { prismaStoreClient, useSessionMiddleware } from './main'
 import { PaymentsModule } from './payments/payments.module'
 import { PrismaService } from './prisma.service'
 import { StripeModule } from './stripe/stripe.module'
 import { UsersModule } from './users/users.module'
-import { DiscordController } from './discord/discord.controller';
-import { DiscordModule } from './discord/discord.module';
 
 const ENV = process.env.NODE_ENV
 
