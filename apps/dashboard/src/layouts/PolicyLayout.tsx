@@ -13,7 +13,7 @@ const PolicyLayout = ({ children, title, description }: PolicyLayoutProps) => {
         title={title}
         titleTemplate="Quanty | %s"
         description={description}
-        canonical={`${process.env.NEXT_PUBLIC_APP_URL}`}
+        canonical={`${process.env.NEXT_PUBLIC_QUANTY_APP_URL}`}
       />
       <div className="flex h-screen">
         <article className="prose mx-auto dark:prose-invert">
