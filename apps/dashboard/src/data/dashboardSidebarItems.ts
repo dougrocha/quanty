@@ -1,4 +1,4 @@
-import { IconName } from '../components/DynamicHeroIcon'
+import { IconName } from '../components/Icons/DynamicHeroIcon'
 
 export interface ISidebaritems {
   name: string

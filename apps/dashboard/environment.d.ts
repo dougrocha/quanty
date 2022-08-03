@@ -1,7 +1,15 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    NEXT_PUBLIC_APP_URL: string
-    NEXT_PUBLIC_SERVER_URL: string
+    NEXT_PUBLIC_QUANTY_APP_URL: string
+    NEXT_PUBLIC_QUANTY_API_URL: string
     NEXT_PUBLIC_WS_URL: string
+    NEXT_PUBLIC_QUANTY_GIT: string
+    NEXT_PUBLIC_GIT_URL: string
+    NEXT_PUBLIC_DISCORD_CDN: string
+    NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE: string
+    NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE: string
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string
+    STRIPE_SECRET_KEY: string
+    NEXT_PUBLIC_CURRENCY: string
   }
 }

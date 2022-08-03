@@ -2,9 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { MutualGuild } from '../graphql/generated/schema'
-import { FetchGuildIcon } from '../libs/FetchIcons'
-import { StaticLinks } from '../utils/constants/API'
+import { MutualGuild } from '../../graphql/generated/schema'
+import { FetchGuildIcon } from '../../libs/FetchIcons'
 
 interface GuildCardProps {
   guild: MutualGuild
@@ -59,7 +58,7 @@ export const GuildCard = ({ guild }: GuildCardProps) => {
               </a>
             </Link>
           ) : (
-            <Link href={`${StaticLinks.QUANTY_BOT_INVITE}`}>
+            <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}>
               <a className="rounded-lg bg-primary-purple-6 py-2 px-5">Set up</a>
             </Link>
           )}

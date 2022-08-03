@@ -13,7 +13,7 @@ import { sidebarContents } from '../../data/dashboardSidebarItems'
 import {
   dashboardDrawerShinkToggleAtom,
   dashboardDrawerToggleAtom,
-} from '../../utils/store/dashboardSidebarStatus'
+} from '../../utils/atoms/dashboardSidebarStatus'
 
 const GuildSelectionMenu = dynamic(() => import('./GuildSelectionMenu'), {
   ssr: false,

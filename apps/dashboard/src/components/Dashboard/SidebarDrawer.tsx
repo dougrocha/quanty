@@ -9,8 +9,8 @@ import {
   ISidebarContents,
   ISidebaritems,
 } from '../../data/dashboardSidebarItems'
-import { dashboardDrawerShinkToggleAtom } from '../../utils/store/dashboardSidebarStatus'
-import HeroIcon from '../DynamicHeroIcon'
+import { dashboardDrawerShinkToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
+import HeroIcon from '../Icons/DynamicHeroIcon'
 
 type ISidebarDrawer = ISidebarContents
 

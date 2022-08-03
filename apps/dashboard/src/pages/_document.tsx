@@ -21,7 +21,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body className="font-poppins">
+        <body className="font-poppins text-primary-white antialiased">
           <Main />
           <NextScript />
         </body>

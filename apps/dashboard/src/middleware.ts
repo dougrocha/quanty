@@ -12,7 +12,9 @@ export async function middleware(req: NextRequest) {
       return NextResponse.next()
     })
     .catch(() => {
-      return NextResponse.redirect('/')
+      const url = req.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.rewrite(url)
     })
 }
 

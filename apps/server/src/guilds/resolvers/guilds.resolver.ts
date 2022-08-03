@@ -50,7 +50,13 @@ export class GuildsResolver {
 
     // Access Token will exist at this point
     if (!accessToken)
-      throw new ForbiddenException('User might not be logged in.')
+      throw new ForbiddenException(
+        {
+          message: 'User is not authenticated',
+          code: 403,
+        },
+        'Unauthenticated',
+      )
 
     const cachedGuilds = await this.cacheManager.get(`mutualGuilds-${user.id}`)
 

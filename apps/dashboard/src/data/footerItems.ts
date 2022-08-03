@@ -1,14 +1,15 @@
-import { StaticLinks } from '../utils/constants/API'
-
 const FooterItems = [
   {
     title: 'Quanty',
     items: [
-      { name: 'Discord', route: StaticLinks.QUANTY_SERVER_INVITE },
+      {
+        name: 'Discord',
+        route: process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE,
+      },
       { name: 'Docs', route: '/docs' },
       {
         name: 'Support',
-        route: StaticLinks.QUANTY_SERVER_INVITE,
+        route: process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE,
       },
       {
         name: 'GitHub',
@@ -19,15 +20,15 @@ const FooterItems = [
   {
     title: 'Company',
     items: [
-      { name: 'Terms of Use', route: '/policy' },
-      { name: 'Privacy Policy', route: '/policy' },
+      { name: 'Terms of Use', route: '/terms-of-use' },
+      { name: 'Privacy Policy', route: '/privacy-policy' },
       {
         name: 'Cookie Policy',
-        route: '/policy',
+        route: '/cookie-policy',
       },
       {
         name: 'End User License Agreement',
-        route: '/policy',
+        route: '/end-user-agreement',
       },
     ],
   },

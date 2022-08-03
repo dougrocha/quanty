@@ -1,2 +1,2 @@
-import * as React from 'react'
+export { Modal } from './Modal'
 export { Button } from './Button'

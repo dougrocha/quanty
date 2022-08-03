@@ -1,11 +1,7 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
-    "baseUrl": "src",
-    "skipLibCheck": true,
-    "paths": {
-      "@icons": ["components/icons"]
-    }
+    "baseUrl": "src"
   },
   "include": [
     "next-env.d.ts",
@@ -14,6 +10,7 @@
     ".eslintrc.js",
     "environment.d.ts",
     "tailwind.config.js",
+    "webpack.config.js",
     "next.config.js"
   ],
   "exclude": ["node_modules"]

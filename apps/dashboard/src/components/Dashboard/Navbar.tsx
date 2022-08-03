@@ -3,9 +3,9 @@ import { useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-import { dashboardDrawerToggleAtom } from '../../utils/store/dashboardSidebarStatus'
+import { dashboardDrawerToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
+import { QuantumIcon } from '../Icons/QuantumIcon'
 import UserProfile from '../UserProfile'
-import { QuantumIcon } from '../icons/QuantumIcon'
 
 const DashboardNavbar = () => {
   const router = useRouter()

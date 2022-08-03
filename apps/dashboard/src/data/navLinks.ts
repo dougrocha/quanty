@@ -1,5 +1,3 @@
-import { StaticLinks } from '../utils/constants/API'
-
 interface INavLinks {
   name: string
   path: string
@@ -16,7 +14,7 @@ export const NavLinksData: INavLinks[] = [
   },
   {
     name: 'Support',
-    path: StaticLinks.QUANTY_SERVER_INVITE,
+    path: process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE ?? '/404',
   },
   {
     name: 'Docs',

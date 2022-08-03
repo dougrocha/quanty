@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useDebugValue } from 'react'
 
 import { useGetUserQuery } from '../graphql/generated/schema'
-import { currentUserAtom } from '../utils/store'
+import { currentUserAtom } from '../utils/atoms'
 
 export const useAuth = () => {
   const router = useRouter()
@@ -14,13 +14,15 @@ export const useAuth = () => {
 
   const { client, loading, error } = useGetUserQuery({
     fetchPolicy: 'cache-first',
+    // Error Policy All removes unhandled errors from this query
+    errorPolicy: 'all',
     onCompleted: ({ me }) => {
       setUser(me)
     },
     onError: () => {
-      if (router.route !== '/') redirectToHome()
       client.resetStore()
       setUser(null)
+      if (router.route !== '/') redirectToHome()
     },
   })
 

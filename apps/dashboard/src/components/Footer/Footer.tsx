@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 
-import Copyright from './Copyright'
-
-import FooterItems from '../data/footerItems'
+import FooterItems from '../../data/footerItems'
+import Copyright from '../Copyright'
 
 const Footer = () => {
   return (

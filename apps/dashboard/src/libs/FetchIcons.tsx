@@ -1,19 +1,18 @@
-import { StaticLinks } from '../utils/constants/API'
-
 export const FetchUserIcon = (
   discordId: string,
   avatar: string | null | undefined,
 ) => {
-  if (!avatar) return `${StaticLinks.DISCORD_CDN}/embed/avatars/0.png`
+  if (!avatar)
+    return `${process.env.NEXT_PUBLIC_DISCORD_CDN}/embed/avatars/0.png`
 
-  return `${StaticLinks.DISCORD_CDN}/avatars/${discordId}/${avatar}.png?size=128`
+  return `${process.env.NEXT_PUBLIC_DISCORD_CDN}/avatars/${discordId}/${avatar}.png?size=128`
 }
 
 export const FetchGuildIcon = (
   guildId: string,
   icon: string | null | undefined,
 ) => {
-  if (!icon) return `${StaticLinks.DISCORD_CDN}/embed/avatars/0.png`
+  if (!icon) return `${process.env.NEXT_PUBLIC_DISCORD_CDN}/embed/avatars/0.png`
 
-  return `https://cdn.discordapp.com/icons/${guildId}/${icon}.jpg`
+  return `${process.env.NEXT_PUBLIC_DISCORD_CDN}/icons/${guildId}/${icon}.jpg`
 }

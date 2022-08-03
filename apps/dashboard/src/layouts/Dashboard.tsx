@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Toaster } from 'react-hot-toast'
 import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
 import { useMedia } from 'react-use'
@@ -11,9 +11,8 @@ import { useMedia } from 'react-use'
 import { DashboardNavbar } from '../components/Dashboard'
 import { useGetGuildConfigQuery } from '../graphql/generated/schema'
 import { useAuth, useClickOn } from '../hooks'
-import { useCurrentGuildId } from '../hooks/useCurrentGuildId'
-import { guildConfigAtom } from '../utils/store'
-import { dashboardDrawerToggleAtom } from '../utils/store/dashboardSidebarStatus'
+import { guildConfigAtom } from '../utils/atoms'
+import { dashboardDrawerToggleAtom } from '../utils/atoms/dashboardSidebarStatus'
 
 const ClapSpinner: typeof ClapSpinnerType = dynamic(() =>
   import('react-spinners-kit').then(mod => mod['ClapSpinner']),
@@ -28,13 +27,14 @@ interface LayoutProps {
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
+  useAuth()
+
   const router = useRouter()
 
   useEffect(() => {
     if (!router.isReady) return
   }, [router.isReady])
 
-  useAuth()
   const [sidebarDrawerOpen, toggleSidebarDrawer] = useAtom(
     dashboardDrawerToggleAtom,
   )
@@ -80,62 +80,33 @@ const DashboardLayout = ({ children }: LayoutProps) => {
       >
         <Toaster />
         <DashboardSidebar />
-        <div className={`h-full w-full bg-primary-purple-20 `}>
+        <div
+          ref={dashboardContainerRef}
+          className={`h-full w-full bg-primary-purple-20 `}
+        >
           <DashboardNavbar />
-          <DashboardContainer
-            loading={loading}
-            ref={dashboardContainerRef}
-            sidebarDrawerOpen={sidebarDrawerOpen}
-          >
-            {children}
-          </DashboardContainer>
+          {loading ? (
+            <div className="flex h-[calc(100%_-_64px)] items-center justify-center">
+              <ClapSpinner frontColor={'#ffffff'} backColor={'#ffffff'} />
+            </div>
+          ) : (
+            <div className="h-[calc(100%_-_64px)] overflow-auto">
+              <motion.div
+                animate={{
+                  filter: sidebarDrawerOpen ? 'blur(3px)' : 'blur(0px)',
+                }}
+                className={`min-h-full w-full p-10 lg:!blur-0 ${
+                  sidebarDrawerOpen
+                    ? 'pointer-events-none select-none blur-sm lg:pointer-events-auto lg:select-auto'
+                    : ''
+                }`}
+              >
+                {children}
+              </motion.div>
+            </div>
+          )}
         </div>
       </div>
-    </>
-  )
-}
-
-interface IDashboardContainerProps {
-  loading: boolean
-  ref: MutableRefObject<null>
-  sidebarDrawerOpen: boolean
-  children: React.ReactNode
-}
-
-const DashboardContainer = ({
-  loading,
-  ref,
-  sidebarDrawerOpen,
-  children,
-}: IDashboardContainerProps) => {
-  const guildId = useCurrentGuildId()
-
-  useEffect(() => {
-    return
-  }, [guildId])
-
-  return (
-    <>
-      {loading ? (
-        <div className="flex h-[calc(100%_-_64px)] items-center justify-center">
-          <ClapSpinner frontColor={'#ffffff'} backColor={'#ffffff'} />
-        </div>
-      ) : (
-        <div ref={ref} className="h-[calc(100%_-_64px)] overflow-auto">
-          <motion.div
-            animate={{
-              filter: sidebarDrawerOpen ? 'blur(3px)' : 'blur(0px)',
-            }}
-            className={`min-h-full w-full p-10 lg:!blur-0 ${
-              sidebarDrawerOpen
-                ? 'pointer-events-none select-none blur-sm lg:pointer-events-auto lg:select-auto'
-                : ''
-            }`}
-          >
-            {children}
-          </motion.div>
-        </div>
-      )}
     </>
   )
 }

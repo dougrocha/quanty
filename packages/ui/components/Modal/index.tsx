@@ -1,9 +1,8 @@
+import { XIcon } from '@heroicons/react/outline'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 
 import Backdrop from './backdrop'
-
-import { ClosedHamburgerIcon } from '../icons'
 
 interface IModal {
   handleModal: () => void
@@ -11,7 +10,7 @@ interface IModal {
   children: React.ReactNode
 }
 
-const Modal = ({ handleModal, children }: IModal) => {
+export const Modal = ({ handleModal, children }: IModal) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
 
@@ -55,14 +54,9 @@ const Modal = ({ handleModal, children }: IModal) => {
         animate="visible"
         exit="exit"
       >
-        <ClosedHamburgerIcon
-          onClick={handleModal}
-          className="absolute top-4 right-4 "
-        />
+        <XIcon onClick={handleModal} className="absolute top-4 right-4 " />
         {children}
       </motion.div>
     </Backdrop>
   )
 }
-
-export default Modal

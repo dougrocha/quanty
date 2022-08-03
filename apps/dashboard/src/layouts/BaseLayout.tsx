@@ -1,17 +1,23 @@
 import { NextSeo } from 'next-seo'
 import React from 'react'
 
-import Footer from '../components/Footer'
-import Navbar from '../components/Navbar'
+import Footer from '../components/Footer/Footer'
+import Navbar from '../components/Home/Navbar/Navbar'
 import { useAuth } from '../hooks'
 
 interface LayoutProps {
   children: React.ReactNode
   title?: string
+  footer?: boolean
 }
 
-const BaseLayout = ({ children, title = 'Discord Bot' }: LayoutProps) => {
+const BaseLayout = ({
+  children,
+  title = 'Discord Bot',
+  footer,
+}: LayoutProps) => {
   useAuth()
+
   return (
     <>
       <NextSeo
@@ -43,11 +49,9 @@ const BaseLayout = ({ children, title = 'Discord Bot' }: LayoutProps) => {
           },
         ]}
       />
-      {/* <div className="bg-[url('/new.svg')] bg-contain bg-center bg-repeat-y  text-primary-white antialiased"> */}
-
       <Navbar />
       {children}
-      <Footer />
+      {footer && <Footer />}
     </>
   )
 }

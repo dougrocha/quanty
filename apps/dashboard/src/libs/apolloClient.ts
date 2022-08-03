@@ -39,7 +39,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
   }
 
   const httpLink = new HttpLink({
-    uri: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/graphql`,
+    uri: `${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/graphql`,
     // Make sure that CORS and cookies work
     fetchOptions: {
       mode: 'cors',
@@ -55,12 +55,8 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
-          graphQLErrors.forEach(({ message, locations, path }) =>
-            console.debug(
-              `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
-                locations,
-              )}, Path: ${JSON.stringify(path)}`,
-            ),
+          return graphQLErrors.forEach(({ message }) =>
+            console.debug(`[GraphQL error]: Message: ${message}`),
           )
         }
         if (networkError)

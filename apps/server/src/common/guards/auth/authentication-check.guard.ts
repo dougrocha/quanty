@@ -21,7 +21,13 @@ export class GraphQLAuthGuard implements CanActivate {
     const { user } = ctx.getContext().req
 
     if (!user) {
-      throw new ForbiddenException()
+      throw new ForbiddenException(
+        {
+          message: 'User is not authenticated',
+          code: 403,
+        },
+        'Unauthenticated',
+      )
     }
 
     return user

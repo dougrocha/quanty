@@ -13,10 +13,7 @@ import { useAuth } from '../hooks'
 import { BaseLayout } from '../layouts'
 import { CurrentCustomer } from '../utils/types'
 
-const stripePromise = loadStripe(
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-)
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const CARD_ELEMENT_OPTIONS = {
   style: {

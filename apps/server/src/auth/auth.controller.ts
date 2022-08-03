@@ -34,17 +34,6 @@ export class AuthController {
   }
 
   /**
-   * GET /api/auth/redirect
-   *
-   * This is the redirect after user login is complete and successful.
-   */
-  @Get('redirect')
-  @UseGuards(DiscordAuthGuard)
-  redirect(@Res() res: Response) {
-    return res.redirect(process.env.FRONTEND_URL)
-  }
-
-  /**
    * GET /api/auth/protected
    *
    * This is a page returning the protected status of user auth.

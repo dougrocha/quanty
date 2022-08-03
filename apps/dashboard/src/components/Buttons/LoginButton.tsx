@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { StaticLinks } from '../../utils/constants/API'
-
 const LoginButton = () => {
   const router = useRouter()
 
   const handleLogin = () => {
-    router.replace(StaticLinks.QUANTY_API + '/api/auth/login')
+    router.replace(`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/login`)
   }
 
   return (

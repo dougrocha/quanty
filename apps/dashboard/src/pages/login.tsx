@@ -1,13 +1,16 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const Login = () => {
+  const router = useRouter()
+
   if (typeof window !== 'undefined') {
-    window.location.assign(`http://localhost:3001/api/auth/login`)
+    router.push(`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/login`)
   }
 
   return (
     <div className="text-white">
-      <Link href="http://localhost:3001/api/auth/login">
+      <Link href={`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/login`}>
         <a>Login to your dashboard</a>
       </Link>
     </div>

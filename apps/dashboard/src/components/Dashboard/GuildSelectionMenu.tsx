@@ -12,9 +12,8 @@ import {
 } from '../../graphql/generated/schema'
 import { useOnClickOutside } from '../../hooks'
 import { FetchGuildIcon } from '../../libs/FetchIcons'
-import { StaticLinks } from '../../utils/constants/API'
-import { mutualGuildsAtom } from '../../utils/store'
-import { dashboardDrawerShinkToggleAtom } from '../../utils/store/dashboardSidebarStatus'
+import { mutualGuildsAtom } from '../../utils/atoms'
+import { dashboardDrawerShinkToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
 
 const GuildSelectionMenu = () => {
   const {
@@ -113,6 +112,7 @@ const GuildSelectionDropdown = ({
                 className={`flex w-full cursor-pointer items-center ${
                   sidebarShrinked ? 'justify-center px-1 py-3' : 'p-5 py-4'
                 }`}
+                onClick={() => handleGuildChange(guild.id)}
               >
                 <Image
                   className="rounded-full"
@@ -122,10 +122,7 @@ const GuildSelectionDropdown = ({
                   width={24}
                   height={24}
                 />
-                <p
-                  className={`${!sidebarShrinked ? 'ml-3 block' : 'hidden'}`}
-                  onClick={() => handleGuildChange(guild.id)}
-                >
+                <p className={`${!sidebarShrinked ? 'ml-3 block' : 'hidden'}`}>
                   {guild?.name}
                 </p>
               </div>
@@ -141,7 +138,7 @@ const GuildSelectionDropdown = ({
           <PlusCircleIcon className="h-6 w-6" />
 
           {!sidebarShrinked && (
-            <Link href={StaticLinks.QUANTY_BOT_INVITE}>
+            <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}>
               <a className="ml-3">Add a new server</a>
             </Link>
           )}

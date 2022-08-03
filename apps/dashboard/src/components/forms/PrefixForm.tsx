@@ -10,9 +10,9 @@ import {
   useUpdateGuildByIdMutation,
 } from '../../graphql/generated/schema'
 import { useCurrentGuildId } from '../../hooks/useCurrentGuildId'
-import { guildConfigAtom } from '../../utils/store'
+import { guildConfigAtom } from '../../utils/atoms'
 
-const schema = Joi.object({
+const prefixSchema = Joi.object({
   prefix: Joi.string().required().min(1).max(5).messages({
     'string.min': 'Prefix cannot be empty.',
     'string.max': 'Prefix cannot exceed 5 characters.',
@@ -28,7 +28,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: joiResolver(schema),
+    resolver: joiResolver(prefixSchema),
   })
 
   const guildId = useCurrentGuildId()
@@ -47,7 +47,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   })
 
   useEffect(() => {
-    setValue('prefix', guild ? guild.prefix : 'q!')
+    setValue('prefix', guild ? guild.prefix : 'default: q!')
   }, [guildId])
 
   const onSubmit = (data: { prefix?: string }) => {
@@ -74,20 +74,25 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   const isDifferent = guild?.prefix != watch('prefix', guild?.prefix)
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-2">
-      <label
-        htmlFor="prefix"
-        className="block text-sm font-medium text-secondary-white"
-      >
-        Prefix:
-      </label>
-      <div className="flex">
+    <form
+      className="w-full max-w-lg space-y-2"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div>
+        <label
+          htmlFor="prefix"
+          className="block text-sm font-medium text-secondary-white"
+        >
+          Prefix:
+        </label>
         <input
           key={`prefix-form-${guild?.id}`}
           type="text"
-          className={` border-none bg-primary-purple-6 focus:outline-none ${
+          className={`border-none bg-primary-purple-6 focus:outline-none ${
             isDifferent ? 'rounded-l-md' : 'rounded-md'
           }`}
+          autoComplete="off"
+          autoFocus
           placeholder={placeholder}
           defaultValue={guild?.prefix}
           {...register('prefix')}

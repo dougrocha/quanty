@@ -2,11 +2,10 @@ import Link from 'next/link'
 import { ReactElement } from 'react'
 
 import DashboardContent from '../../../components/Dashboard/DashboardContent'
-import { PrefixForm } from '../../../components/forms'
+import { PrefixForm } from '../../../components/Forms'
 import { useGuildConfigSubscription } from '../../../graphql/generated/schema'
 import { useCurrentGuildId } from '../../../hooks/useCurrentGuildId'
 import DashboardLayout from '../../../layouts/Dashboard'
-import { StaticLinks } from '../../../utils/constants/API'
 
 const OverviewPage = () => {
   const guildId = useCurrentGuildId()
@@ -27,7 +26,7 @@ const OverviewPage = () => {
       title="Overview"
       description="What would you like to change today?"
       actionButton={
-        <Link href={StaticLinks.QUANTY_SERVER_INVITE}>
+        <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}>
           <a className="rounded-3xl bg-primary-bright-purple px-6 py-2 text-center">
             Support Server
           </a>

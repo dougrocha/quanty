@@ -8,7 +8,7 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "yarn swc src -d ./dist/src && tsc --emitDeclarationOnly",
+    "build": "yarn swc src -d ./dist/src --env-name='production' && tsc --emitDeclarationOnly",
     "dev": "concurrently \"yarn watch-build\" \"yarn watch-tsc\" ",
     "watch-build": "swc src -w -d ./dist/src --env-name='development'",
     "watch-tsc": "tsc -w --emitDeclarationOnly"
@@ -16,24 +16,24 @@
   "devDependencies": {
     "@iconify/react": "^3.2.2",
     "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.2.220",
+    "@swc/core": "^1.2.222",
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.4",
     "@types/lodash": "^4.14.182",
-    "@types/react": "^18.0.14",
-    "autoprefixer": "^10.4.7",
+    "@types/react": "^18.0.15",
+    "autoprefixer": "^10.4.8",
     "chokidar": "^3.5.3",
     "config": "*",
-    "eslint": "^8.18.0",
+    "eslint": "^8.21.0",
     "lodash": "^4.17.21",
-    "next": "^12.1.6",
+    "next": "^12.2.3",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
-    "prettier-plugin-tailwindcss": "^0.1.11",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "swc-loader": "^0.2.3",
-    "tailwindcss": "^3.1.4",
+    "tailwindcss": "^3.1.7",
     "tsconfig": "*",
     "typescript": "^4.7.4"
   }

@@ -26,8 +26,6 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
 
   useOnClickOutside(ref, closeDropdown)
 
-  console.debug('UserError', error)
-
   if (error) return <LoginButton />
 
   return (
@@ -68,7 +66,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
             }`}
           />
         </div>
-        {open && <UserProfileDropdownMenu />}
+        {open && <UserProfileDropdownMenu setOpen={setOpen} />}
       </div>
     </>
   )

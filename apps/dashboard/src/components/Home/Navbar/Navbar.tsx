@@ -2,12 +2,12 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React from 'react'
 
-import { NavLinksData } from '../data/navLinks'
-import { useToggle } from '../hooks/useToggle'
+import { NavLinksData } from '../../../data/navLinks'
+import { useToggle } from '../../../hooks/useToggle'
 
-const HamburgerMenuIcon = dynamic(import('./HamburgerMenuIcon'))
+const HamburgerMenuIcon = dynamic(import('../../Icons/HamburgerMenuIcon'))
 
-const UserProfile = dynamic(import('./UserProfile'), { ssr: false })
+const UserProfile = dynamic(import('../../UserProfile'), { ssr: false })
 
 const Navbar = () => {
   const [open, toggleOpen] = useToggle(false)
@@ -27,9 +27,9 @@ const Navbar = () => {
         </div>
       </nav>
       {open && (
-        <div className="absolute z-40 w-full bg-primary-purple-10 py-5 text-primary-white shadow-xl">
-          <ul className=" flex flex-col items-center space-y-10">
-            <NavLinks />
+        <div className="absolute z-40 w-full bg-primary-purple-10 text-primary-white shadow-xl">
+          <ul className="flex h-full flex-col items-center">
+            <NavLinks toggleOpen={toggleOpen} open={open} />
           </ul>
         </div>
       )}
@@ -37,12 +37,26 @@ const Navbar = () => {
   )
 }
 
-const NavLinks = () => {
+const NavLinks = ({
+  toggleOpen,
+  open,
+}: {
+  toggleOpen?: () => void
+  open?: boolean
+}) => {
   return (
     <>
       {NavLinksData.map((link, index) => {
         return (
-          <li key={index}>
+          <li
+            key={index}
+            className={`w-full cursor-pointer py-4 text-center ${
+              open ? 'hover:bg-primary-pale-purple' : ''
+            }`}
+            onClick={() => {
+              if (toggleOpen) toggleOpen()
+            }}
+          >
             <Link href={link.path}>
               <a>{link.name}</a>
             </Link>
