@@ -1,5 +1,4 @@
 import { NextSeo } from 'next-seo'
-import React from 'react'
 
 import Footer from '../components/footer/footer'
 import Navbar from '../components/home/navbar/navbar'

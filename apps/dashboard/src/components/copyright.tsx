@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Copyright = () => {
   return (
     <p className="text-secondary-white">

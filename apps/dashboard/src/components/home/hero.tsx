@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
 
 const Hero = () => {
   // TODO: Find way to implement background

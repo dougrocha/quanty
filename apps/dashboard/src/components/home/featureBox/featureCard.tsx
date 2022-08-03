@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface IFeatureCard {
   title: string
   text: string

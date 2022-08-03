@@ -1,5 +1,4 @@
 import { NextSeo } from 'next-seo'
-import React from 'react'
 
 interface PolicyLayoutProps {
   children: React.ReactNode

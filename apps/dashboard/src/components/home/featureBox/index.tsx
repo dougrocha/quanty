@@ -1,5 +1,3 @@
-import React from 'react'
-
 import FeatureCard from './featureCard'
 
 const FeatureBox = () => {

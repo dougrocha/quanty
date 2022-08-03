@@ -1,5 +1,3 @@
-import React from 'react'
-
 import HelpCard from './helpCard'
 
 const HelpBox = () => {

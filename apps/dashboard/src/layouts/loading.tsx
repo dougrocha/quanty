@@ -1,4 +1,3 @@
-import React from 'react'
 import { RotateSpinner } from 'react-spinners-kit'
 
 const LoadingLayout = () => {

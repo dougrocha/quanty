@@ -1,5 +1,4 @@
 import { ArrowRightIcon } from '@heroicons/react/solid'
-import React from 'react'
 
 interface IHelpCard {
   title: string

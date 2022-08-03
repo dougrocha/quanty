@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface HamburgerMenuIconProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
