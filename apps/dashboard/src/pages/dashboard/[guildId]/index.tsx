@@ -10,6 +10,8 @@ import DashboardLayout from '../../../layouts/Dashboard'
 const OverviewPage = () => {
   const guildId = useCurrentGuildId()
 
+  if (!guildId) return null
+
   useGuildConfigSubscription({
     variables: {
       guildId: guildId,
