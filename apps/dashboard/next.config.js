@@ -7,10 +7,9 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
-const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')(['ui'])
 
-module.exports = withPlugins([withBundleAnalyzer, withTM], {
+const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['cdn.discordapp.com'],
@@ -21,4 +20,12 @@ module.exports = withPlugins([withBundleAnalyzer, withTM], {
     NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
     NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
   },
-})
+}
+
+module.exports = () => {
+  const plugins = [withTM, withBundleAnalyzer]
+
+  const config = plugins.reduce((acc, next) => next(acc), { ...nextConfig })
+
+  return config
+}
