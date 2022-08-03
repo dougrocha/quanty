@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import DashboardContent from '../../../components/Dashboard/DashboardContent'
+import DashboardContent from '../../../components/dashboard/dashboardContent'
 import DashboardLayout from '../../../layouts/Dashboard'
 
 const Dashboard404 = () => {

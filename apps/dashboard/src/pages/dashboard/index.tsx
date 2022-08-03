@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 import {
   GuildCard,
   GuildCardSkeleton,
-} from '../../components/Dashboard/GuildCard'
+} from '../../components/dashboard/guildCard'
 import { useGetMutualGuildsQuery } from '../../graphql/generated/schema'
 import { BaseLayout } from '../../layouts'
 import { mutualGuildsAtom } from '../../utils/atoms'

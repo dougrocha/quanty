@@ -5,9 +5,9 @@ import React from 'react'
 import { NavLinksData } from '../../../data/navLinks'
 import { useToggle } from '../../../hooks/useToggle'
 
-const HamburgerMenuIcon = dynamic(import('../../Icons/HamburgerMenuIcon'))
+const HamburgerMenuIcon = dynamic(import('../../icons/hamburgerMenuIcon'))
 
-const UserProfile = dynamic(import('../../UserProfile'), { ssr: false })
+const UserProfile = dynamic(import('../../userProfile'), { ssr: false })
 
 const Navbar = () => {
   const [open, toggleOpen] = useToggle(false)

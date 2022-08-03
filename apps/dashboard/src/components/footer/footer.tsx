@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import FooterItems from '../../data/footerItems'
-import Copyright from '../Copyright'
+import Copyright from '../copyright'
 
 const Footer = () => {
   return (

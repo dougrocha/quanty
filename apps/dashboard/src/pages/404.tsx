@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import Navbar from '../components/Home/Navbar/Navbar'
+import Navbar from '../components/home/navbar/navbar'
 
 const Custom404 = () => {
   return (

@@ -15,7 +15,7 @@ import {
   dashboardDrawerToggleAtom,
 } from '../../utils/atoms/dashboardSidebarStatus'
 
-const GuildSelectionMenu = dynamic(() => import('./GuildSelectionMenu'), {
+const GuildSelectionMenu = dynamic(() => import('./guildSelectionMenu'), {
   ssr: false,
 })
 

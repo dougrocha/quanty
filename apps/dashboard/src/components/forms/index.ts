@@ -1,1 +1,1 @@
-export { PrefixForm } from './PrefixForm'
+export { PrefixForm } from './prefixForm'

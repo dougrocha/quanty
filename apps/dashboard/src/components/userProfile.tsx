@@ -3,12 +3,12 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
-import LoginButton from './Buttons/LoginButton'
+import LoginButton from './buttons/loginButton'
 
 import { useAuth, useOnClickOutside } from '../hooks'
 import { FetchUserIcon } from '../libs/FetchIcons'
 
-const UserProfileDropdownMenu = dynamic(import('./UserProfileDropdownMenu'))
+const UserProfileDropdownMenu = dynamic(import('./userProfileDropdownMenu'))
 
 interface IUserProfileTypes {
   small?: boolean

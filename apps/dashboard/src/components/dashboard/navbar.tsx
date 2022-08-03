@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 import { dashboardDrawerToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
-import UserProfile from '../UserProfile'
+import { QuantumIcon } from '../icons/quantumIcon'
+import UserProfile from '../userProfile'
 
 const DashboardNavbar = () => {
   const router = useRouter()
@@ -35,7 +36,7 @@ const DashboardNavbar = () => {
       >
         <p>Join Premium</p>
 
-        {/* <QuantumIcon /> */}
+        <QuantumIcon />
       </button>
       <div className="flex items-center justify-end">
         <UserProfile small />

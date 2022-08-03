@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import Hero from '../components/Home/Hero'
+import Hero from '../components/home/hero'
 import BaseLayout from '../layouts/BaseLayout'
 
 const Home = () => {

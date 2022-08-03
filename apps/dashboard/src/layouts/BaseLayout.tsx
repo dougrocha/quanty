@@ -1,8 +1,8 @@
 import { NextSeo } from 'next-seo'
 import React from 'react'
 
-import Footer from '../components/Footer/Footer'
-import Navbar from '../components/Home/Navbar/Navbar'
+import Footer from '../components/footer/footer'
+import Navbar from '../components/home/navbar/navbar'
 import { useAuth } from '../hooks'
 
 interface LayoutProps {

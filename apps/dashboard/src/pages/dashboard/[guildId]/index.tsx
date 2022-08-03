@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
-import DashboardContent from '../../../components/Dashboard/DashboardContent'
-import { PrefixForm } from '../../../components/Forms'
+import DashboardContent from '../../../components/dashboard/dashboardContent'
+import { PrefixForm } from '../../../components/forms'
 import { useGuildConfigSubscription } from '../../../graphql/generated/schema'
 import { useCurrentGuildId } from '../../../hooks/useCurrentGuildId'
 import DashboardLayout from '../../../layouts/Dashboard'

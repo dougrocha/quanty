@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast'
 import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
 import { useMedia } from 'react-use'
 
-import { DashboardNavbar } from '../components/Dashboard'
+import { DashboardNavbar } from '../components/dashboard'
 import { useGetGuildConfigQuery } from '../graphql/generated/schema'
 import { useAuth, useClickOn } from '../hooks'
 import { guildConfigAtom } from '../utils/atoms'
@@ -19,7 +19,7 @@ const ClapSpinner: typeof ClapSpinnerType = dynamic(() =>
 )
 
 const DashboardSidebar = dynamic(
-  () => import('../components/Dashboard/Sidebar'),
+  () => import('../components/dashboard/sidebar'),
 )
 
 interface LayoutProps {
