@@ -46,7 +46,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   const dashboardContainerRef = useRef(null)
 
-  const isLarge = useMedia('(min-width: 1024px)')
+  const isLarge = useMedia('(min-width: 1024px)', false)
 
   useClickOn(dashboardContainerRef, () => {
     if (isLarge) return

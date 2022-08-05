@@ -28,7 +28,7 @@ const DashboardSidebar = () => {
   const [open, setToggle] = useAtom(dashboardDrawerToggleAtom)
   const [shrink, setShrink] = useAtom(dashboardDrawerShinkToggleAtom)
 
-  const isLarge = useMedia('(min-width: 1024px)')
+  const isLarge = useMedia('(min-width: 1024px)', true)
 
   useEffect(() => {
     if (!isLarge) {
