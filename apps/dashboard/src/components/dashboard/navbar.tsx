@@ -1,5 +1,6 @@
 import { MenuAlt2Icon } from '@heroicons/react/outline'
 import { useSetAtom } from 'jotai'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
@@ -30,14 +31,13 @@ const DashboardNavbar = () => {
         Quanty
       </div>
 
-      <button
-        className="hidden w-40 items-center justify-evenly rounded-md bg-primary-pale-purple px-3 py-1 text-sm text-primary-yellow lg:flex"
-        onClick={() => router.push('/premium')}
-      >
-        <p>Join Premium</p>
+      <Link href={'/premium'} passHref>
+        <button className="hidden w-40 items-center justify-evenly rounded-md bg-primary-pale-purple px-3 py-1 text-sm text-primary-yellow lg:flex">
+          <p>Join Premium</p>
 
-        <QuantumIcon />
-      </button>
+          <QuantumIcon />
+        </button>
+      </Link>
       <div className="flex items-center justify-end">
         <UserProfile small />
       </div>

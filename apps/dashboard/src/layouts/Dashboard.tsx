@@ -14,6 +14,7 @@ import {
   useGuildConfigSubscription,
 } from '../graphql/generated/schema'
 import { useAuth, useClickOn } from '../hooks'
+import { useCurrentGuildId } from '../hooks/useCurrentGuildId'
 import { guildConfigAtom } from '../utils/atoms'
 import { dashboardDrawerToggleAtom } from '../utils/atoms/dashboardSidebarStatus'
 
@@ -34,11 +35,15 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   const router = useRouter()
 
-  const guildId = router.query.guildId as string
+  const guildId = useCurrentGuildId()
 
   useEffect(() => {
     if (!router.isReady) return
   }, [router.isReady])
+
+  useEffect(() => {
+    if (!guildId) return
+  }, [guildId])
 
   const [sidebarDrawerOpen, toggleSidebarDrawer] = useAtom(
     dashboardDrawerToggleAtom,
@@ -57,7 +62,8 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   const { loading } = useGetGuildConfigQuery({
     onCompleted: ({ guildConfig }) => setGuildConfig(guildConfig),
-    variables: { guildId: router.query.guildId as string },
+    variables: { guildId },
+    fetchPolicy: 'network-only',
   })
 
   useGuildConfigSubscription({
@@ -69,13 +75,14 @@ const DashboardLayout = ({ children }: LayoutProps) => {
         data: subscriptionData.data,
       })
     },
+    fetchPolicy: 'network-only',
   })
 
   return (
     <>
       <Head>
         <title>{'Quanty | Discord Bot'}</title>
-        <link rel="icon" href="/quanty-64.png" />
+        <link rel="icon" href="/quanty-128.jpg" />
         <meta
           name="description"
           content="🤖 Multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard."

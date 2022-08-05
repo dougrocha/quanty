@@ -1,14 +1,10 @@
 import Link from 'next/link'
 
-import { useAuth } from '../hooks'
-
 const UserProfileDropdownMenu = ({
   setOpen,
 }: {
   setOpen: (boolean: boolean) => void
 }) => {
-  const { logOut } = useAuth()
-
   return (
     <ul className="absolute top-16 right-8 z-50 mt-2 w-40 overflow-hidden rounded-md border-none bg-primary-purple-10 text-sm text-secondary-white shadow-xl xl:right-auto">
       {DropdownMenuItems.map((item, index) => {
@@ -29,7 +25,6 @@ const UserProfileDropdownMenu = ({
       <li className="cursor-pointer px-5 py-2 text-red-500 no-underline hover:bg-primary-pale-purple">
         <Link
           href={`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/logout`}
-          onClick={() => logOut}
         >
           <a>Log Out</a>
         </Link>

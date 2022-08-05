@@ -80,7 +80,7 @@ const DashboardSidebar = () => {
               <Image
                 className="rounded-full"
                 alt={`Quanty bot icon`}
-                src="/quanty_128.jpg"
+                src="/quanty-128.jpg"
                 width={56}
                 height={56}
                 priority

@@ -21,6 +21,14 @@ const prefixSchema = Joi.object({
 })
 
 export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
+  const guildId = useCurrentGuildId()
+
+  const guild = useAtomValue(guildConfigAtom)
+
+  useEffect(() => {
+    setValue('prefix', guild ? guild.prefix : 'q!')
+  }, [guildId, guild])
+
   const {
     register,
     handleSubmit,
@@ -30,10 +38,6 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   } = useForm({
     resolver: joiResolver(prefixSchema),
   })
-
-  const guildId = useCurrentGuildId()
-
-  const guild = useAtomValue(guildConfigAtom)
 
   const [updatePrefix] = useUpdateGuildByIdMutation()
 
@@ -45,10 +49,6 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
       setValue('prefix', data?.updatedGuildConfig.prefix)
     },
   })
-
-  useEffect(() => {
-    setValue('prefix', guild ? guild.prefix : 'default: q!')
-  }, [guildId])
 
   const onSubmit = (data: { prefix?: string }) => {
     toast.promise(

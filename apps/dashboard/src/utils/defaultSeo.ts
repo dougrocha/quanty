@@ -9,7 +9,7 @@ export default {
       '🤖 Add Quanty to your discord for a makeover. Quanty is a multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard.',
     images: [
       {
-        url: `/quanty_128.jpg`,
+        url: `/quanty-128.jpg`,
         width: 800,
         height: 420,
         alt: 'Quanty Bot Logo',
