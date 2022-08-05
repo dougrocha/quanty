@@ -23,12 +23,7 @@ const DashboardSidebar = () => {
   const {
     query: { guildId },
     push,
-    isReady,
   } = useRouter()
-
-  useEffect(() => {
-    if (!isReady) return
-  }, [isReady])
 
   const [open, setToggle] = useAtom(dashboardDrawerToggleAtom)
   const [shrink, setShrink] = useAtom(dashboardDrawerShinkToggleAtom)

@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { useAtom, useSetAtom } from 'jotai'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import { Toaster } from 'react-hot-toast'
 import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
@@ -33,13 +32,7 @@ interface LayoutProps {
 const DashboardLayout = ({ children }: LayoutProps) => {
   useAuth()
 
-  const router = useRouter()
-
   const guildId = useCurrentGuildId()
-
-  useEffect(() => {
-    if (!router.isReady) return
-  }, [router.isReady])
 
   useEffect(() => {
     if (!guildId) return

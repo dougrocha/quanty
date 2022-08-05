@@ -11,7 +11,7 @@ export const useCurrentGuildId = (): string => {
     if (!isReady) return
     if (!guildId) return
     console.debug(`[GUILD_ID] - ${guildId}`)
-  }, [isReady])
+  }, [isReady, guildId])
 
   return guildId as string
 }

@@ -1,20 +1,12 @@
 import { MenuAlt2Icon } from '@heroicons/react/outline'
 import { useSetAtom } from 'jotai'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 import { dashboardDrawerToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
 import { QuantumIcon } from '../icons/quantumIcon'
 import UserProfile from '../userProfile'
 
 const DashboardNavbar = () => {
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!router.isReady) return
-  }, [router.isReady])
-
   const toggleDrawer = useSetAtom(dashboardDrawerToggleAtom)
 
   // Make Join Premium button dynamic
