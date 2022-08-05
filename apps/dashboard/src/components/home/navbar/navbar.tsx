@@ -47,19 +47,18 @@ const NavLinks = ({
     <>
       {NavLinksData.map((link, index) => {
         return (
-          <li
-            key={index}
-            className={`w-full cursor-pointer py-4 text-center ${
-              open ? 'hover:bg-primary-pale-purple' : ''
-            }`}
-            onClick={() => {
-              if (toggleOpen) toggleOpen()
-            }}
-          >
-            <Link href={link.path}>
+          <Link key={index} href={link.path} prefetch>
+            <li
+              className={`w-full cursor-pointer py-4 text-center ${
+                open ? 'hover:bg-primary-pale-purple' : ''
+              }`}
+              onClick={() => {
+                if (toggleOpen) toggleOpen()
+              }}
+            >
               <a>{link.name}</a>
-            </Link>
-          </li>
+            </li>
+          </Link>
         )
       })}
     </>
