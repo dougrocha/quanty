@@ -20,15 +20,20 @@ const GuildSelectionMenu = dynamic(() => import('./guildSelectionMenu'), {
 })
 
 const DashboardSidebar = () => {
+  const {
+    query: { guildId },
+    push,
+    isReady,
+  } = useRouter()
+
+  useEffect(() => {
+    if (!isReady) return
+  }, [isReady])
+
   const [open, setToggle] = useAtom(dashboardDrawerToggleAtom)
   const [shrink, setShrink] = useAtom(dashboardDrawerShinkToggleAtom)
 
   const isLarge = useMedia('(min-width: 1024px)')
-
-  const {
-    query: { guildId },
-    push,
-  } = useRouter()
 
   useEffect(() => {
     if (!isLarge) {

@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
 
-const dashboardDrawerAtom = atom<boolean>(true)
+const dashboardDrawerAtom = atom<boolean>(false)
 
 export const dashboardDrawerToggleAtom = atom<boolean, boolean | undefined>(
   get => get(dashboardDrawerAtom),

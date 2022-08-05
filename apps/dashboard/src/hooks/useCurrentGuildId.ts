@@ -9,7 +9,8 @@ export const useCurrentGuildId = (): string => {
 
   useEffect(() => {
     if (!isReady) return
-    console.debug(`CURRENT_GUILD: ${guildId}`)
+    if (!guildId) return
+    console.debug(`[GUILD_ID] - ${guildId}`)
   }, [isReady])
 
   return guildId as string

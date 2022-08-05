@@ -9,7 +9,10 @@ import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
 import { useMedia } from 'react-use'
 
 import { DashboardNavbar } from '../components/dashboard'
-import { useGetGuildConfigQuery } from '../graphql/generated/schema'
+import {
+  useGetGuildConfigQuery,
+  useGuildConfigSubscription,
+} from '../graphql/generated/schema'
 import { useAuth, useClickOn } from '../hooks'
 import { guildConfigAtom } from '../utils/atoms'
 import { dashboardDrawerToggleAtom } from '../utils/atoms/dashboardSidebarStatus'
@@ -31,6 +34,8 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   const router = useRouter()
 
+  const guildId = router.query.guildId as string
+
   useEffect(() => {
     if (!router.isReady) return
   }, [router.isReady])
@@ -41,12 +46,6 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   const setGuildConfig = useSetAtom(guildConfigAtom)
 
-  const { loading } = useGetGuildConfigQuery({
-    onCompleted: ({ guildConfig }) => setGuildConfig(guildConfig),
-    variables: { guildId: router.query.guildId as string },
-    skip: !router.query.guildId,
-  })
-
   const dashboardContainerRef = useRef(null)
 
   const isLarge = useMedia('(min-width: 1024px)')
@@ -54,6 +53,22 @@ const DashboardLayout = ({ children }: LayoutProps) => {
   useClickOn(dashboardContainerRef, () => {
     if (isLarge) return
     toggleSidebarDrawer(false)
+  })
+
+  const { loading } = useGetGuildConfigQuery({
+    onCompleted: ({ guildConfig }) => setGuildConfig(guildConfig),
+    variables: { guildId: router.query.guildId as string },
+  })
+
+  useGuildConfigSubscription({
+    variables: {
+      guildId: guildId,
+    },
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.debug(`[GUILD_CONFIG_UPDATE] - ${guildId}:`, {
+        data: subscriptionData.data,
+      })
+    },
   })
 
   return (

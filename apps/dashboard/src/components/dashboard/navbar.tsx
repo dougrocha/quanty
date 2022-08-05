@@ -10,11 +10,11 @@ import UserProfile from '../userProfile'
 const DashboardNavbar = () => {
   const router = useRouter()
 
-  const toggleDrawer = useSetAtom(dashboardDrawerToggleAtom)
-
   useEffect(() => {
     if (!router.isReady) return
   }, [router.isReady])
+
+  const toggleDrawer = useSetAtom(dashboardDrawerToggleAtom)
 
   // Make Join Premium button dynamic
   return (
