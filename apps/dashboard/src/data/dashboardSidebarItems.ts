@@ -23,12 +23,12 @@ export const DefaultCategory: ISidebaritems[] = [
     link: 'settings',
     icon: 'CogIcon',
   },
-  {
-    name: 'Premium',
-    link: 'premium',
-    icon: 'HeartIcon',
-    premium: true,
-  },
+  // {
+  //   name: 'Premium',
+  //   link: 'premium',
+  //   icon: 'HeartIcon',
+  //   premium: true,
+  // },
 ]
 
 export const ServerManagementCategory: ISidebaritems[] = [
@@ -37,16 +37,16 @@ export const ServerManagementCategory: ISidebaritems[] = [
     link: 'moderation',
     icon: 'AnnotationIcon',
   },
-  {
-    name: 'Custom Commands',
-    link: 'custom-cmd',
-    icon: 'PencilAltIcon',
-  },
+  // {
+  //   name: 'Custom Commands',
+  //   link: 'custom-cmd',
+  //   icon: 'PencilAltIcon',
+  // },
 ]
 
 export const sidebarContents: ISidebarContents[] = [
-  {
-    title: 'Server Management',
-    items: ServerManagementCategory,
-  },
+  // {
+  //   title: 'Server Management',
+  //   items: ServerManagementCategory,
+  // },
 ]

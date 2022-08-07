@@ -5,10 +5,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
-import {
-  useGuildConfigSubscription,
-  useUpdateGuildByIdMutation,
-} from '../../graphql/generated/schema'
+import { useUpdateGuildByIdMutation } from '../../graphql/generated/schema'
 import { useCurrentGuildId } from '../../hooks/useCurrentGuildId'
 import { guildConfigAtom } from '../../utils/atoms'
 
@@ -73,19 +70,27 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
         >
           Prefix:
         </label>
-        <div>
+        <div className="flex items-center">
           <input
-            className="w-56 rounded-md px-2 py-1"
+            id="prefix"
+            type={'text'}
+            autoComplete={'off'}
+            className={`w-56 rounded-md border-none border-transparent bg-primary-purple-6 py-2 px-3 focus:border-transparent focus:ring-0`}
             placeholder={placeholder}
             defaultValue={guild?.prefix}
             {...register('prefix')}
           />
 
-          {isDifferent && <input type="submit" />}
+          {isDifferent && (
+            <input
+              type={'submit'}
+              value="Save"
+              className="ml-4 h-full rounded-md bg-primary-bright-purple py-2 px-3 text-sm"
+            />
+          )}
         </div>
 
-        <span className="text-red-600">
-          ERROR SPAN
+        <span className="text-sm text-red-600">
           {errors.prefix?.message as unknown as string}
         </span>
       </div>

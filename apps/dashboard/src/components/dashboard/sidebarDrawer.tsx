@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 import {
-  DefaultCategory,
   ISidebarContents,
   ISidebaritems,
 } from '../../data/dashboardSidebarItems'
@@ -24,22 +23,9 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
 
   return (
     <div className="cursor-pointer">
-      <ul className="space-y-2">
-        {DefaultCategory.map(({ name, link, icon, premium }) => (
-          <DrawerItem
-            key={`Drawer-Item-${name}`}
-            name={name}
-            link={link}
-            icon={icon}
-            premium={premium}
-            guildId={guildId as string}
-            minimized={sidebarShrinked}
-          />
-        ))}
-      </ul>
       {title && !sidebarShrinked && (
         <div
-          className={`flex items-center justify-center transition-all delay-75 duration-75 ${
+          className={`mt-3 flex select-none items-center justify-center transition-all delay-75 duration-75 ${
             sidebarShrinked ? 'opacity-0' : 'opacity-100'
           }`}
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -79,7 +65,7 @@ interface IDrawerItem extends ISidebaritems {
   minimized?: boolean
 }
 
-const DrawerItem = ({
+export const DrawerItem = ({
   name,
   link,
   icon,

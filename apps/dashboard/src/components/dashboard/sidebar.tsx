@@ -9,7 +9,12 @@ import { useMedia } from 'react-use'
 
 import { SidebarDrawers } from '.'
 
-import { sidebarContents } from '../../data/dashboardSidebarItems'
+import { DrawerItem } from './sidebarDrawer'
+
+import {
+  DefaultCategory,
+  sidebarContents,
+} from '../../data/dashboardSidebarItems'
 import {
   dashboardDrawerShinkToggleAtom,
   dashboardDrawerToggleAtom,
@@ -86,6 +91,20 @@ const DashboardSidebar = () => {
       </div>
       <hr className="my-5 rounded border-primary-pale-purple" />
       <GuildSelectionMenu />
+
+      <ul className="space-y-2">
+        {DefaultCategory.map(({ name, link, icon, premium }) => (
+          <DrawerItem
+            key={`Drawer-Item-${name}`}
+            name={name}
+            link={link}
+            icon={icon}
+            premium={premium}
+            guildId={guildId as string}
+            minimized={shrink}
+          />
+        ))}
+      </ul>
 
       {sidebarContents.map(({ title, items }) => (
         <SidebarDrawers

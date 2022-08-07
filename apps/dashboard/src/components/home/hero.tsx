@@ -21,7 +21,7 @@ const Hero = () => {
         </Link>
         <Link href={'/dashboard'}>
           <a className="rounded-3xl bg-primary-purple-10 px-12 py-2 text-center">
-            Dashboard (WIP)
+            Dashboard (Alpha)
           </a>
         </Link>
       </div>
