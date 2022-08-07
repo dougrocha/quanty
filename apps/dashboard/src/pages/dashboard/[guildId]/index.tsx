@@ -28,7 +28,8 @@ const OverviewPage = () => {
 
           <div className="mt-5">
             <p className="mb-2">
-              Join the server to recommendations, get updates, and more.
+              Join the Quantum Realm to give recommendations, get updates, and
+              more.
             </p>
 
             <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}>
