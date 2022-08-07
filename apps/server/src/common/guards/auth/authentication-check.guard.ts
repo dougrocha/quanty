@@ -2,7 +2,7 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
@@ -10,7 +10,19 @@ import { GqlExecutionContext } from '@nestjs/graphql'
 export class AuthenticatedGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest()
-    return req.isAuthenticated()
+
+    const isAuth = req.isAuthenticated()
+
+    if (!isAuth) {
+      throw new UnauthorizedException(
+        {
+          message: 'User is not authenticated',
+        },
+        'Unauthenticated',
+      )
+    }
+
+    return isAuth
   }
 }
 
@@ -21,10 +33,9 @@ export class GraphQLAuthGuard implements CanActivate {
     const { user } = ctx.getContext().req
 
     if (!user) {
-      throw new ForbiddenException(
+      throw new UnauthorizedException(
         {
           message: 'User is not authenticated',
-          code: 403,
         },
         'Unauthenticated',
       )

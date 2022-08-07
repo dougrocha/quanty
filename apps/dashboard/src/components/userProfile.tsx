@@ -20,7 +20,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
 
   const [open, setOpen] = useState(false)
 
-  const { user, error } = useAuth()
+  const { user, error, logOut } = useAuth()
 
   const closeDropdown = () => setOpen(false)
 
@@ -66,7 +66,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
             }`}
           />
         </div>
-        {open && <UserProfileDropdownMenu setOpen={setOpen} />}
+        {open && <UserProfileDropdownMenu setOpen={setOpen} logOut={logOut} />}
       </div>
     </>
   )

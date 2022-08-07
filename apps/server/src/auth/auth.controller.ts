@@ -1,4 +1,12 @@
-import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
 import {
   ApiOkResponse,
   ApiTags,
@@ -45,13 +53,14 @@ export class AuthController {
   protected(
     @HttpUser()
     { id, username, discriminator }: User,
+    @Res() res: Response,
   ) {
-    return {
+    return res.status(HttpStatus.OK).send({
       loggedIn: true,
       discordId: id,
       username,
       discriminator,
-    }
+    })
   }
 
   /**

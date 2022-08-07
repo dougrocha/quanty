@@ -47,7 +47,7 @@ const NavLinks = ({
     <>
       {NavLinksData.map((link, index) => {
         return (
-          <Link key={index} href={link.path} prefetch>
+          <Link key={index} href={link.path}>
             <li
               className={`w-full cursor-pointer py-4 text-center ${
                 open ? 'hover:bg-primary-pale-purple' : ''

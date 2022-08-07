@@ -21,13 +21,11 @@ const prefixSchema = Joi.object({
 })
 
 export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
-  const guildId = useCurrentGuildId()
-
   const guild = useAtomValue(guildConfigAtom)
 
   useEffect(() => {
     setValue('prefix', guild ? guild.prefix : 'q!')
-  }, [guildId, guild])
+  }, [guild])
 
   const {
     register,
@@ -41,14 +39,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
 
   const [updatePrefix] = useUpdateGuildByIdMutation()
 
-  useGuildConfigSubscription({
-    variables: {
-      guildId,
-    },
-    onSubscriptionData: ({ subscriptionData: { data } }) => {
-      setValue('prefix', data?.updatedGuildConfig.prefix)
-    },
-  })
+  const guildId = useCurrentGuildId()
 
   const onSubmit = (data: { prefix?: string }) => {
     toast.promise(
@@ -74,41 +65,30 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   const isDifferent = guild?.prefix != watch('prefix', guild?.prefix)
 
   return (
-    <form
-      className="w-full max-w-lg space-y-2"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col space-y-2">
         <label
           htmlFor="prefix"
-          className="block text-sm font-medium text-secondary-white"
+          className="block text-sm font-medium text-primary-white"
         >
           Prefix:
         </label>
-        <input
-          key={`prefix-form-${guild?.id}`}
-          type="text"
-          className={`border-none bg-primary-purple-6 focus:outline-none ${
-            isDifferent ? 'rounded-l-md' : 'rounded-md'
-          }`}
-          autoComplete="off"
-          autoFocus
-          placeholder={placeholder}
-          defaultValue={guild?.prefix}
-          {...register('prefix')}
-        />
-
-        {isDifferent && (
+        <div>
           <input
-            type="submit"
-            className="rounded-r-md bg-primary-lime-green py-2 px-3 text-black"
+            className="w-56 rounded-md px-2 py-1"
+            placeholder={placeholder}
+            defaultValue={guild?.prefix}
+            {...register('prefix')}
           />
-        )}
-      </div>
 
-      <span className="text-sm text-red-500">
-        {errors.prefix?.message as unknown as string}
-      </span>
+          {isDifferent && <input type="submit" />}
+        </div>
+
+        <span className="text-red-600">
+          ERROR SPAN
+          {errors.prefix?.message as unknown as string}
+        </span>
+      </div>
     </form>
   )
 }

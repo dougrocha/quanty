@@ -10,19 +10,23 @@ export const useAuth = () => {
 
   const [user, setUser] = useAtom(currentUserAtom)
 
-  const redirectToHome = () => router.push('/')
+  const redirectToLogin = () => router.push('/login')
 
   const { client, loading, error } = useGetUserQuery({
     fetchPolicy: 'cache-first',
     // Error Policy All removes unhandled errors from this query
     errorPolicy: 'all',
     onCompleted: ({ me }) => {
+      if (!me) {
+        if (router.pathname !== '/') {
+          redirectToLogin()
+        }
+      }
       setUser(me)
     },
     onError: () => {
       client.resetStore()
       setUser(null)
-      if (router.route !== '/') redirectToHome()
     },
   })
 
@@ -32,8 +36,13 @@ export const useAuth = () => {
     router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`)
   }
 
-  const logOut = () => {
-    router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`)
+  const logOut = (redirect = false) => {
+    client.resetStore()
+    setUser(null)
+
+    if (redirect) {
+      router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`)
+    }
   }
 
   return { loading, logIn, logOut, user, error }

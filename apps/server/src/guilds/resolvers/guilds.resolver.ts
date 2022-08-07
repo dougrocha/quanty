@@ -53,7 +53,7 @@ export class GuildsResolver {
       throw new ForbiddenException(
         {
           message: 'User is not authenticated',
-          code: 403,
+          code: 401,
         },
         'Unauthenticated',
       )

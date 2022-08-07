@@ -55,6 +55,7 @@
     "@iconify/react": "^3.2.1",
     "@next/bundle-analyzer": "^12.1.6",
     "@swc/core": "^1.2.222",
+    "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tailwindcss/typography": "^0.5.4",
     "@types/lodash": "^4.14.182",
