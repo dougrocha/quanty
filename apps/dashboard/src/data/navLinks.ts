@@ -18,6 +18,6 @@ export const NavLinksData: INavLinks[] = [
   },
   {
     name: 'Docs',
-    path: '/docs',
+    path: process.env.NEXT_PUBLIC_QUANTY_DOCS_URL,
   },
 ]

@@ -50,7 +50,7 @@ export const DropdownMenuItems: IDropdownMenuItems[] = [
   },
   {
     name: 'Changelogs',
-    path: '/docs',
+    path: process.env.NEXT_PUBLIC_QUANTY_CHANGELOGS_URL,
   },
 ]
 

@@ -6,7 +6,7 @@ const FooterItems = [
         name: 'Discord',
         route: process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE,
       },
-      { name: 'Docs', route: '/docs' },
+      { name: 'Docs', route: process.env.NEXT_PUBLIC_QUANTY_DOCS_URL },
       {
         name: 'Support',
         route: process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE,
