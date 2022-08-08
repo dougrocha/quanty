@@ -1,19 +1,37 @@
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
+
+import ThemeToggleButtton from '../components/themeToggle'
 
 const Home: NextPage = () => {
-  const router = useRouter()
   return (
-    <div className="m-auto flex h-full w-full">
-      <div className="bg-red-500 text-lg italic">HOME PAGE</div>
-      <button
-        className="rounded-md bg-blue-500 px-4 py-2 text-lg text-white transition-all hover:bg-red-500"
-        onClick={() => {
-          router.push('/docs')
-        }}
-      >
-        CLICK HERE
-      </button>
+    <div className="prose prose-lg flex h-screen w-full max-w-none flex-col items-center justify-center transition-all dark:prose-invert">
+      <div className="absolute top-5 right-5">
+        <ThemeToggleButtton />
+      </div>
+      <h1>Quanty Docs</h1>
+      <p className="text-center">
+        <b>Currently under development.</b>
+        <br />
+        Join the Quantum Realm for future updates.
+      </p>
+      <div className="mt-11 flex flex-col space-y-5">
+        <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}>
+          <a className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-bright-purple">
+            Invite Quanty
+          </a>
+        </Link>
+        <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}>
+          <a className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-purple-10">
+            Support Server
+          </a>
+        </Link>
+        <Link href={`${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/dashboard`}>
+          <a className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-purple-10">
+            Dashboard (Alpha)
+          </a>
+        </Link>
+      </div>
     </div>
   )
 }
