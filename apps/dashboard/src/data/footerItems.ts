@@ -13,7 +13,7 @@ const FooterItems = [
       },
       {
         name: 'GitHub',
-        route: '/github',
+        route: process.env.NEXT_PUBLIC_QUANTY_GIT,
       },
     ],
   },
