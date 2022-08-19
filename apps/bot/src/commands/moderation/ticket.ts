@@ -3,24 +3,22 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
-import dayjs from 'dayjs'
 import {
-  InteractionButtonOptions,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed,
+  ButtonStyle,
+  ComponentType,
+  InteractionButtonComponentData,
 } from 'discord.js'
 
 @SlashCommand('ticket', {
   description: 'Opens a ticket for any issues you may have.',
 })
 @Category('moderation')
-@UserPermissions('SEND_MESSAGES')
+@UserPermissions('SendMessages')
 export class TicketCommand extends Command {
-  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, user }: CommandOptions): CommandReturnType {
     // Const embed = new MessageEmbed().setColor('#FF5F9F')
     // const guildConfig = await GuildsModel.findOne(
     //   {
@@ -75,20 +73,23 @@ export class TicketCommand extends Command {
   }
 }
 
-export const ticketTypes: InteractionButtonOptions[] = [
+export const ticketTypes: InteractionButtonComponentData[] = [
   {
     customId: 'report-ticket',
     label: '🔴 Report',
-    style: 'DANGER',
+    style: ButtonStyle.Danger,
+    type: ComponentType.Button,
   },
   {
     customId: 'suggestion-ticket',
     label: '📃 Suggestion',
-    style: 'PRIMARY',
+    style: ButtonStyle.Primary,
+    type: ComponentType.Button,
   },
   {
     customId: 'other-ticket',
     label: '💡 Other',
-    style: 'SECONDARY',
+    style: ButtonStyle.Secondary,
+    type: ComponentType.Button,
   },
 ]

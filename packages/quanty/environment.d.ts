@@ -1,10 +1,7 @@
-import { LogLevels } from './src/structures/client/types/client'
-
 declare namespace NodeJS {
   export interface ProcessEnv {
-    TOKEN: string
-    LOGLEVEL: LogLevels
-    MONGOURI?: string | undefined
+    BOT_TOKEN: string
+    LOG_LEVEL: 'DEBUG' | 'ALL' | 'WARN' | 'ERROR'
 
     LAVA_LINK_HOST?: string | undefined
     LAVA_LINK_PORT?: string | undefined

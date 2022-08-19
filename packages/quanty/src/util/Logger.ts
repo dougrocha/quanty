@@ -2,7 +2,6 @@ import readline from 'readline'
 
 import chalk, { Chalk } from 'chalk'
 import type { DiscordAPIError } from 'discord.js'
-import moment from 'moment'
 
 /**
  * Logger class
@@ -28,7 +27,7 @@ export class Logger {
    *
    */
   private static format(name: string) {
-    return chalk.gray(`[${moment().format('HH:mm:ss')}] [${name}] `)
+    return chalk.gray(`[${new Date().toLocaleTimeString()}] [${name}] `)
   }
 
   /**
@@ -40,7 +39,8 @@ export class Logger {
    * @constructor
    * @param {String} name - Logger name.
    */
-  constructor(name: string) {
+  constructor(name?: string) {
+    if (!name) name = 'application'
     this.name = name.toUpperCase()
   }
 
@@ -60,15 +60,14 @@ export class Logger {
         `${chalk.red(name)}\n${chalk.gray(stack.join('\n'))}`
       Logger.write(msg)
     } else {
-      const { name, message, stack, code, method, path } =
-        err as DiscordAPIError
+      const { name, message, stack, code, method, url } = err as DiscordAPIError
       const msg =
         Logger.format(this.name) +
         `${chalk.red(name)}: ${chalk.redBright(
           message + ' [Code ' + code + ']',
         )}
         ${chalk.gray(stack?.split('\n').slice(1).join('\n'))} ${chalk.white(
-          'Path: ' + path,
+          'Path: ' + url,
         )} 
         ${chalk.white('Method: ' + method)}`
 
@@ -94,7 +93,7 @@ export class Logger {
   }
 
   public debug(text: string) {
-    if (process.env.LOGLEVEL === 'DEBUG') {
+    if (process.env.LOGLEVEL === 'DEBUG' || process.env.LOGLEVEL === 'ALL') {
       const msg = Logger.format(this.name) + chalk.magenta(text)
       Logger.write(msg)
     }

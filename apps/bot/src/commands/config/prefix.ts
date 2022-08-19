@@ -3,12 +3,10 @@ import {
   Command,
   CommandReturnType,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
-
-import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
+import { ApplicationCommandOptionType } from 'discord.js'
 
 @SlashCommand('prefix', {
   description: 'Prefix manager.',
@@ -17,18 +15,14 @@ import { createLog, CreateLogActionsEnum } from '../../libs/createLog'
       name: 'prefix',
       description: 'Sets a new prefix.',
       required: false,
-      type: 'STRING',
+      type: ApplicationCommandOptionType.String,
     },
   ],
 })
 @Category('config')
-@UserPermissions('ADMINISTRATOR')
+@UserPermissions('Administrator')
 export class PrefixCommand extends Command {
-  async run({
-    user,
-    options,
-    guild,
-  }: SlashCommandRunOptions): CommandReturnType {
+  async run({ user, options, guild }: CommandOptions): CommandReturnType {
     // Const guildPrefix = await GuildsModel.findOne(
     //   { guildId: guild.id },
     //   'prefix',

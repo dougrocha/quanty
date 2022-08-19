@@ -2,24 +2,24 @@ import { MenuAlt2Icon } from '@heroicons/react/outline'
 import { useSetAtom } from 'jotai'
 import Link from 'next/link'
 
-import { dashboardDrawerToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
+import { sidebarOpenAtom } from '../../utils/atoms/dashboardSidebarStatus'
 import { QuantumIcon } from '../icons/quantumIcon'
 import UserProfile from '../userProfile'
 
 const DashboardNavbar = () => {
-  const toggleDrawer = useSetAtom(dashboardDrawerToggleAtom)
+  const setSidebarOpen = useSetAtom(sidebarOpenAtom)
 
   // Make Join Premium button dynamic
   return (
     <div className="grid h-16 w-full grid-flow-row-dense grid-cols-3 bg-primary-darkPurpleBg px-8 lg:flex lg:items-center lg:justify-between">
-      <button className="mr-auto h-min w-min place-self-center lg:hidden">
+      <button className="mr-auto h-min w-min origin-left place-self-center lg:hidden">
         <MenuAlt2Icon
           className="h-6 w-6 text-secondary-white"
-          onClick={() => toggleDrawer()}
+          onClick={() => setSidebarOpen(true)}
         />
       </button>
 
-      <div className="place-self-center font-poppins font-medium uppercase lg:hidden">
+      <div className="origin-top place-self-center font-poppins font-medium uppercase lg:hidden">
         Quanty
       </div>
 

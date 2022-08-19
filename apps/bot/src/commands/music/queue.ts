@@ -3,10 +3,10 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   Test,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 import { Track, UnresolvedTrack } from 'erela.js'
 
 import { musicManager } from '../../libs/music'
@@ -16,13 +16,13 @@ import { musicManager } from '../../libs/music'
   description: 'Shows the queue',
   options: [
     {
-      type: 'INTEGER',
+      type: ApplicationCommandOptionType.Integer,
       name: 'pages',
       description: 'Sets page for queue',
       required: false,
     },
     {
-      type: 'BOOLEAN',
+      type: ApplicationCommandOptionType.Boolean,
       name: 'clear',
       description: 'Clears the queue.',
       required: false,
@@ -31,7 +31,7 @@ import { musicManager } from '../../libs/music'
 })
 @Test()
 export class QueueCommand extends Command {
-  async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, options }: CommandOptions): CommandReturnType {
     const player = musicManager.get(guild.id)
 
     if (options.getBoolean('clear')) {
@@ -46,14 +46,16 @@ export class QueueCommand extends Command {
     const end = page * multiple
     const start = end - multiple
     const tracks: (Track | UnresolvedTrack)[] = queue.slice(start, end)
-    const embed = new MessageEmbed().setAuthor({
+    const embed = new EmbedBuilder().setAuthor({
       name: `Queue for ${guild.name}`,
     })
     if (queue.current)
-      embed.addField(
-        'Current',
-        `[${queue.current.title}](${queue.current.uri})`,
-      )
+      embed.addFields([
+        {
+          name: 'Current',
+          value: `[${queue.current.title}](${queue.current.uri})`,
+        },
+      ])
     if (!tracks.length)
       embed.setDescription(
         `No tracks in ${page > 1 ? `page ${page}` : 'the queue'}.`,
@@ -65,10 +67,12 @@ export class QueueCommand extends Command {
           .join('\n'),
       )
     if (queue.previous) {
-      embed.addField(
-        'Previous',
-        `[${queue.previous.title}](${queue.previous.uri})`,
-      )
+      embed.addFields([
+        {
+          name: 'Previous',
+          value: `[${queue.previous.title}](${queue.previous.uri})`,
+        },
+      ])
     }
     const maxPages = Math.ceil(queue.length / multiple)
     if (maxPages !== 0)

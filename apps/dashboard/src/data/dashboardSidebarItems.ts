@@ -1,6 +1,6 @@
 import { IconName } from '../components/icons/dynamicHeroIcon'
 
-export interface ISidebaritems {
+export interface ISidebarItems {
   name: string
   link: string
   icon?: IconName
@@ -9,10 +9,10 @@ export interface ISidebaritems {
 
 export interface ISidebarContents {
   title: string | null
-  items: ISidebaritems[]
+  items: ISidebarItems[]
 }
 
-export const DefaultCategory: ISidebaritems[] = [
+export const DefaultCategory: ISidebarItems[] = [
   {
     name: 'Overview',
     link: '',
@@ -31,7 +31,7 @@ export const DefaultCategory: ISidebaritems[] = [
   // },
 ]
 
-export const ServerManagementCategory: ISidebaritems[] = [
+export const ServerManagementCategory: ISidebarItems[] = [
   {
     name: 'Moderation',
     link: 'moderation',

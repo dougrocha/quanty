@@ -1,3 +1,3 @@
-export * from './auth/authentication-check.guard'
-export * from './auth/discordAuth.guard'
+export * from './auth'
 export * from './throttler/gqlThrottlerGuard.guard'
+export * from './guilds'

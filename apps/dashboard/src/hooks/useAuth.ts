@@ -13,7 +13,7 @@ export const useAuth = () => {
   const redirectToLogin = () => router.push('/login')
 
   const { client, loading, error } = useGetUserQuery({
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'network-only',
     // Error Policy All removes unhandled errors from this query
     errorPolicy: 'all',
     onCompleted: ({ me }) => {
@@ -37,7 +37,7 @@ export const useAuth = () => {
   }
 
   const logOut = (redirect = false) => {
-    client.resetStore()
+    client.clearStore()
     setUser(null)
 
     if (redirect) {

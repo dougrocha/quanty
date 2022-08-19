@@ -18,12 +18,6 @@ const prefixSchema = Joi.object({
 })
 
 export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
-  const guild = useAtomValue(guildConfigAtom)
-
-  useEffect(() => {
-    setValue('prefix', guild ? guild.prefix : 'q!')
-  }, [guild])
-
   const {
     register,
     handleSubmit,
@@ -32,13 +26,22 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
     formState: { errors },
   } = useForm({
     resolver: joiResolver(prefixSchema),
+    mode: 'onChange',
   })
+
+  const guild = useAtomValue(guildConfigAtom)
+
+  useEffect(() => {
+    setValue('prefix', guild ? guild.prefix : 'q!')
+  }, [guild])
 
   const [updatePrefix] = useUpdateGuildByIdMutation()
 
   const guildId = useCurrentGuildId()
 
-  const onSubmit = (data: { prefix?: string }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (data: { prefix?: string }, e: any) => {
+    console.log(e)
     toast.promise(
       updatePrefix({
         variables: {
@@ -58,8 +61,6 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
       },
     )
   }
-
-  const isDifferent = guild?.prefix != watch('prefix', guild?.prefix)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -81,7 +82,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
             {...register('prefix')}
           />
 
-          {isDifferent && (
+          {guild?.prefix != watch('prefix', guild?.prefix) && (
             <input
               type={'submit'}
               value="Save"

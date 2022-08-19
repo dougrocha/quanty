@@ -84,8 +84,6 @@ export class QuantyClient extends Client {
   @logger()
   private _logger!: Logger
 
-  public _RegExpPrefix = RegExp(`^<@!?${this.user?.id}>`)
-
   constructor(options: IQuantyConfig, config: ClientOptions) {
     super(config)
 
@@ -152,8 +150,10 @@ export class QuantyClient extends Client {
    *
    * @returns Your Discord Client
    */
-  public async start(): Promise<this> {
-    await this.login(this._token)
+  public start(): this {
+    this.login(this._token).catch(err => {
+      this._logger.error(err)
+    })
 
     return this
   }

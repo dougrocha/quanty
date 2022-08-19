@@ -11,10 +11,14 @@ type Address {
   city: String
   country: String
 
-  """Address line 1 (e.g., street, PO Box, or company name)."""
+  """
+  Address line 1 (e.g., street, PO Box, or company name).
+  """
   line1: String
 
-  """Address line 2 (e.g., apartment, suite, unit, or building)."""
+  """
+  Address line 2 (e.g., apartment, suite, unit, or building).
+  """
   line2: String
   postal_code: String
   state: String
@@ -25,7 +29,9 @@ type BillingDetails {
   email: String
   name: String
 
-  """Billing phone number (include extensions)"""
+  """
+  Billing phone number (include extensions)
+  """
   phone: String
 }
 
@@ -44,7 +50,9 @@ type Card {
   exp_month: Float!
   exp_year: Float!
 
-  """Card funding type. Can be credit, debit, prepaid, or unknown."""
+  """
+  Card funding type. Can be credit, debit, prepaid, or unknown.
+  """
   funding: String!
   last4: String!
 }
@@ -203,10 +211,24 @@ type DiscordGuild {
   permissions: String
   preferred_locale: String
   premium_tier: Float
-  roles: [Roles!]
+  roles: [DiscordRoles!]
   stickers: [Sticker!]
   threads: [Channel!]
   unavailable: Boolean
+}
+
+type DiscordRoles {
+  color: Float!
+  hoist: Boolean!
+  icon: String
+  id: String!
+  managed: Boolean!
+  mentionable: Boolean!
+  name: String!
+  permissions: String!
+  position: Float!
+  tags: RoleTags
+  unicode_emoji: String
 }
 
 type DiscordUser {
@@ -350,7 +372,7 @@ type GuildSettings {
   defaultJoinRole: String!
   djRole: String!
   globalCooldown: Int!
-  guild: Guild
+  guild: Guild!
   id: ID!
   musicTimeOut: Boolean!
   nsfw: Boolean!
@@ -376,8 +398,8 @@ input GuildSettingsCreateOrConnectWithoutGuildInput {
 }
 
 input GuildSettingsCreateWithoutGuildInput {
-  defaultJoinRole: String!
-  djRole: String!
+  defaultJoinRole: String
+  djRole: String
   globalCooldown: Int
   musicTimeOut: Boolean
   nsfw: Boolean
@@ -539,16 +561,22 @@ input IntFieldUpdateOperationsInput {
 type Mutation {
   addCreditCard(createCardData: AddCreditCardInput!): CreatePaymentMethod!
   cancelSubscription(subscriptionId: String!): CancelSubscription!
-  createSubscription(newSubscriptionParams: CreateSubscriptionInput!): CreateSubscription!
+  createSubscription(
+    newSubscriptionParams: CreateSubscriptionInput!
+  ): CreateSubscription!
   updateGuildById(guildId: String!, guildUpdateInput: GuildUpdateInput!): Guild!
 }
 
-"""Mutual Guilds. Guilds that a user can edit"""
+"""
+Mutual Guilds. Guilds that a user can edit
+"""
 type MutualGuild {
   bot: Boolean!
+  botMaster: Boolean!
   icon: String
   id: String!
   name: String!
+  owner: Boolean!
 }
 
 input NullableStringFieldUpdateOperationsInput {
@@ -568,7 +596,9 @@ type PaymentMethod {
   billingDetails: BillingDetails!
   card: Card!
 
-  """Customer Id"""
+  """
+  Customer Id
+  """
   customerId: String!
   id: String!
 }
@@ -752,30 +782,20 @@ type Query {
   guildConfig(guildId: String!): Guild!
   guilds(guildId: String!): DiscordGuild!
 
-  """Returns the user that is logged in the session"""
+  """
+  Returns the user that is logged in the session
+  """
   me: User
 
-  """Gets the available guilds that the user can edit."""
+  """
+  Gets the available guilds that the user can edit.
+  """
   mutualGuilds: [MutualGuild!]!
 }
 
 type RoleTags {
   bot_id: String
   integration_id: String
-}
-
-type Roles {
-  color: Float!
-  hoist: Boolean!
-  icon: String
-  id: String!
-  managed: Boolean!
-  mentionable: Boolean!
-  name: String!
-  permissions: String!
-  position: Float!
-  tags: RoleTags
-  unicode_emoji: String
 }
 
 type Sticker {

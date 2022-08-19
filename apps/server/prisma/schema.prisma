@@ -60,7 +60,7 @@ model Customer {
   createdAt      DateTime @default(now())
 
   user   User?   @relation(fields: [userId], references: [id])
-  userId String? @unique @db.VarChar(18)
+  userId String? @unique @db.VarChar(64)
 
   subscription GuildSubscription[]
 
@@ -68,7 +68,7 @@ model Customer {
 }
 
 model Guild {
-  id      String  @id @unique @db.VarChar(18)
+  id      String  @id @unique @db.VarChar(64)
   premium Boolean @default(false)
   prefix  String  @default("q!") @db.VarChar(10)
 
@@ -78,7 +78,7 @@ model Guild {
 }
 
 model GuildPlugins {
-  id      String  @id @unique @db.VarChar(18)
+  id      String  @id @unique @db.VarChar(64)
   autoMod Boolean @default(false)
   anime   Boolean @default(false)
 
@@ -86,14 +86,14 @@ model GuildPlugins {
 }
 
 model GuildSettings {
-  id              String  @id @unique @db.VarChar(18)
-  defaultJoinRole String  @db.VarChar(18)
+  id              String  @id @unique @db.VarChar(64)
+  defaultJoinRole String  @default("@everyone") @db.VarChar(64)
   nsfw            Boolean @default(false)
   globalCooldown  Int     @default(0)
-  djRole          String  @db.VarChar(18)
+  djRole          String  @default("@everyone") @db.VarChar(64)
   musicTimeOut    Boolean @default(false)
 
-  guild Guild? @relation(fields: [id], references: [id])
+  guild Guild @relation(fields: [id], references: [id])
 }
 
 model Price {
@@ -126,7 +126,7 @@ model GuildSubscription {
   cancel_at_period_end Boolean             @default(false)
 
   guild   Guild  @relation(fields: [guildId], references: [id])
-  guildId String @unique @db.VarChar(18)
+  guildId String @unique @db.VarChar(64)
 
   customer   Customer @relation(fields: [customerId], references: [id])
   customerId String   @db.VarChar(255)
@@ -141,9 +141,9 @@ model GuildSubscription {
 
 model User {
   /// @Swagger.ApiProperty({ type: () => String })
-  id            String   @id @unique @db.VarChar(18)
+  id            String   @id @unique @db.VarChar(64)
   /// @Swagger.ApiProperty({ type: () => String })
-  username      String   @db.VarChar(32)
+  username      String   @db.VarChar(64)
   /// @Swagger.ApiProperty({ type: () => String })
   discriminator String   @db.Char(4)
   /// @Swagger.ApiPropertyOptional({ type: () => String })

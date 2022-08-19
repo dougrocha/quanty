@@ -2,6 +2,7 @@ import { ApolloProvider } from '@apollo/client'
 import LoadingLayout from 'layouts/loading'
 import { NextPage } from 'next'
 import { DefaultSeo } from 'next-seo'
+import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
@@ -23,10 +24,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   const router = useRouter()
 
-  useEffect(() => {
-    if (!router.isReady) return
-  }, [router.isReady])
-
   const apolloClient = useApollo(pageProps)
 
   useEffect(() => {
@@ -45,14 +42,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <ThemeProvider attribute="class">
       <DefaultSeo {...defaultSeo} />
-      {Component.getLayout ? (
-        getLayout(<Component {...pageProps} />)
-      ) : (
-        <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
-      )}
-    </ApolloProvider>
+      <ApolloProvider client={apolloClient}>
+        {Component.getLayout ? (
+          getLayout(<Component {...pageProps} />)
+        ) : (
+          <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
+        )}
+      </ApolloProvider>
+    </ThemeProvider>
   )
 }
 

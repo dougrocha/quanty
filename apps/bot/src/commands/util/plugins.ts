@@ -5,12 +5,13 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
+import { ApplicationCommandOptionType } from 'discord.js'
 // Import { MessageEmbed } from 'discord.js'
 
-// import { uppercaseFirst } from '../../libs/extra'
+// import { uppercaseFirst } from '../../libs'
 
 // const PossiblePlugins = {
 //   MODERATION: 'moderation',
@@ -24,37 +25,37 @@ import {
   description: 'Shows the commands available in this server.',
   options: [
     {
-      type: 'SUB_COMMAND',
+      type: ApplicationCommandOptionType.Subcommand,
       name: 'on',
       description: 'Turn on plugins',
       options: [
         {
           name: 'plugin-name',
           description: 'Plugin to turn on',
-          type: 'STRING',
+          type: ApplicationCommandOptionType.String,
         },
       ],
     },
     {
-      type: 'SUB_COMMAND',
+      type: ApplicationCommandOptionType.Subcommand,
       name: 'off',
       description: 'Turn off plugins',
       options: [
         {
           name: 'plugin-name',
           description: 'Plugin to turn off',
-          type: 'STRING',
+          type: ApplicationCommandOptionType.String,
         },
       ],
     },
   ],
 })
-@UserPermissions('ADMINISTRATOR')
+@UserPermissions('Administrator')
 export class PluginsCommand extends Command {
   async run({}: // Client,
   // options,
   // guild,
-  SlashCommandRunOptions): CommandReturnType {
+  CommandOptions): CommandReturnType {
     // Const embed = new MessageEmbed().setColor('RANDOM')
     // const subCmd = options?.getSubcommand().toLowerCase()
     // const pluginName = options?.getString('plugin-name')?.toLowerCase()

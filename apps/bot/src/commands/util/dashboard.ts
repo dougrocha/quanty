@@ -3,27 +3,37 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageActionRow, MessageButton } from 'discord.js'
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType,
+} from 'discord.js'
 
 @SlashCommand('dashboard', {
   description: 'Sends a link to your dashboard.',
 })
 @Category('util')
 export class DashboardCommand extends Command {
-  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
-    const button = new MessageActionRow().addComponents(
-      new MessageButton()
+  async run({ guild }: CommandOptions): CommandReturnType {
+    const button = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
         .setLabel('Go to your dashboard')
-        .setStyle('LINK')
+        .setStyle(ButtonStyle.Link)
         .setURL(`https://quanty.xyz/dashboard/${guild.id}`),
     )
 
-    return {
-      content: 'Here you go',
-      components: [button],
-    }
+    // return {
+    //   content: 'Here you go',
+    //   components: [
+    //     {
+    //       type: ComponentType.ActionRow,
+    //       components: [button],
+    //     },
+    //   ],
+    // }
   }
 
   async error(): CommandReturnType {

@@ -1,3 +1,3 @@
-export * from './createLog'
-export * from './extra'
+export * from './logs'
+export * from './strings'
 export * from './music'

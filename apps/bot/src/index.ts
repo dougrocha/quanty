@@ -1,32 +1,27 @@
 import { PrismaClient } from '@prisma/client'
 import { QuantyClient } from '@quanty/framework'
+import { IntentsBitField } from 'discord.js'
 import * as dotenv from 'dotenv'
 
-const production = process.env.production
+const production = process.env.NODE_ENV === 'production'
 
-dotenv.config({ path: production ? '.env.prod' : '.env' })
+dotenv.config({ path: production ? '.env.production' : '.env.development' })
 
 export const prisma = new PrismaClient()
 
 export const client = new QuantyClient(
   {
-    token: process.env.TOKEN,
-    owner: '571520537587875850',
-    devGuilds: '711679864247156746',
-    defaults: true,
+    token: process.env.BOT_TOKEN,
+    owner: ['571520537587875851'],
+    devGuilds: ['711679864247156747'],
+    defaults: {
+      events: true,
+    },
     logLevel: production ? 'ALL' : 'DEBUG',
     outDir: 'dist/',
   },
   {
-    intents: [
-      'GUILDS',
-      'GUILD_MEMBERS',
-      'GUILD_BANS',
-      'GUILD_VOICE_STATES',
-      'GUILD_MEMBERS',
-      'GUILD_WEBHOOKS',
-      'GUILD_MESSAGES',
-    ],
+    intents: [new IntentsBitField(32509)],
   },
 )
 

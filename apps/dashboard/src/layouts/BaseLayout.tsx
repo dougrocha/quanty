@@ -48,9 +48,11 @@ const BaseLayout = ({
           },
         ]}
       />
-      <Navbar />
-      {children}
-      {footer && <Footer />}
+      <div className="bg-typography h-full min-h-screen bg-repeat">
+        <Navbar />
+        {children}
+        {footer && <Footer />}
+      </div>
     </>
   )
 }

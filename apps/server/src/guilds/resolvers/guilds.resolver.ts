@@ -10,14 +10,19 @@ import { Cache } from 'cache-manager'
 import { Observable } from 'rxjs'
 
 import { User } from '../../@generated'
-import { GraphQLAuthGuard, GqlThrottlerGuard, GqlUser } from '../../common'
+import {
+  GraphQLAuthGuard,
+  GqlThrottlerGuard,
+  GqlUser,
+  DiscordRoles,
+  Channel,
+  DiscordGuild,
+  GuildMember,
+  MutualGuild,
+} from '../../common'
 import { IGuildsHttpService, IGuildsService } from '../interfaces/guilds'
-import { Channel } from '../models/channel'
-import { DiscordGuild } from '../models/guild'
-import { MutualGuild } from '../models/mutualGuilds'
 
 @Resolver(() => DiscordGuild)
-@UseGuards(GraphQLAuthGuard, GqlThrottlerGuard)
 export class GuildsResolver {
   constructor(
     @Inject('GUILDS_SERVICE')
@@ -27,6 +32,7 @@ export class GuildsResolver {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
+  @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard)
   @Query(() => DiscordGuild, { name: 'guilds', nullable: false })
   async guilds(
     @Args('guildId', { type: () => String }) guildId: string,
@@ -36,12 +42,26 @@ export class GuildsResolver {
 
   @ResolveField(() => [Channel])
   async channels(
-    @Parent() guild: DiscordGuild,
+    @Parent() { id }: DiscordGuild,
   ): Promise<Observable<AxiosResponse<Channel[]>>> {
-    const { id } = guild
     return this.Guilds_Http_Service.fetchGuildChannels(id)
   }
 
+  @ResolveField(() => [GuildMember])
+  async members(
+    @Parent() { id }: DiscordGuild,
+  ): Promise<Observable<AxiosResponse<GuildMember[]>>> {
+    return this.Guilds_Http_Service.fetchGuildMembers(id)
+  }
+
+  @ResolveField(() => [DiscordRoles])
+  async roles(
+    @Parent() { id }: DiscordGuild,
+  ): Promise<Observable<AxiosResponse<DiscordRoles[]>>> {
+    return this.Guilds_Http_Service.fetchGuildRoles(id)
+  }
+
+  @UseGuards(GraphQLAuthGuard)
   @Query(() => [MutualGuild], {
     description: 'Gets the available guilds that the user can edit.',
   })
@@ -63,7 +83,9 @@ export class GuildsResolver {
     if (cachedGuilds) return <MutualGuild[]>cachedGuilds
 
     const mutualGuilds = await this.GuildsService.getMutualGuilds(accessToken)
-    await this.cacheManager.set(`mutualGuilds-${user.id}`, mutualGuilds)
+    await this.cacheManager.set(`mutualGuilds-${user.id}`, mutualGuilds, {
+      ttl: 30, // 30 seconds
+    })
 
     return mutualGuilds
   }

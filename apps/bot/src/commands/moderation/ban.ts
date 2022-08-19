@@ -4,9 +4,10 @@ import {
   ClientPermissions,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
+import { ApplicationCommandOptionType } from 'discord.js'
 
 @SlashCommand('ban', {
   description: 'Bans members',
@@ -14,25 +15,25 @@ import {
     {
       name: 'user',
       description: 'User to ban from this server.',
-      type: 'USER',
+      type: ApplicationCommandOptionType.User,
       required: true,
     },
     {
       name: 'reason',
       description: 'Reason for banning user,',
-      type: 'STRING',
+      type: ApplicationCommandOptionType.String,
     },
   ],
 })
 @Category('moderation')
-@UserPermissions('BAN_MEMBERS')
-@ClientPermissions('BAN_MEMBERS')
+@UserPermissions('BanMembers')
+@ClientPermissions('BanMembers')
 export class BanCommand extends Command {
   async run({
     options,
     guild,
     user: issuer,
-  }: SlashCommandRunOptions): CommandReturnType {
+  }: CommandOptions): CommandReturnType {
     // Const user = options.getUser('user')
     // if (!user) return
     // const reason = options.getString('reason') ?? 'No reason provided'

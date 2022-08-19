@@ -6,9 +6,9 @@ import React, { useState } from 'react'
 
 import {
   ISidebarContents,
-  ISidebaritems,
+  ISidebarItems,
 } from '../../data/dashboardSidebarItems'
-import { dashboardDrawerShinkToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
+import { sidebarCollapsedAtom } from '../../utils/atoms/dashboardSidebarStatus'
 import HeroIcon from '../icons/dynamicHeroIcon'
 
 type ISidebarDrawer = ISidebarContents
@@ -17,7 +17,7 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
   const {
     query: { guildId },
   } = useRouter()
-  const sidebarShrinked = useAtomValue(dashboardDrawerShinkToggleAtom)
+  const sidebarShrinked = useAtomValue(sidebarCollapsedAtom)
 
   const [dropdownOpen, setDropdownOpen] = useState(true)
 
@@ -60,7 +60,7 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
   )
 }
 
-interface IDrawerItem extends ISidebaritems {
+interface IDrawerItem extends ISidebarItems {
   guildId: string | null
   minimized?: boolean
 }
@@ -86,27 +86,23 @@ export const DrawerItem = ({
       }}
     >
       <a
-        className={`flex min-w-max px-2 py-2 ${
-          premium ? 'text-primary-yellow' : ''
+        className={`flex min-w-max items-center px-2 py-2 hover:text-primary-white ${
+          premium && 'text-primary-yellow'
         } ${
           isActive
-            ? 'rounded-lg bg-primary-purple-20 text-primary-white'
+            ? 'rounded-md bg-primary-purple-20 text-primary-white'
             : 'text-secondary-white'
-        } ${
-          minimized ? 'flex cursor-pointer items-center justify-center' : ''
-        } `}
+        } ${minimized && 'flex cursor-pointer justify-center'} `}
       >
-        <>
-          {icon && <HeroIcon name={icon} className="h-6 w-6" outline />}
+        {icon && <HeroIcon name={icon} className="h-6 w-6" outline />}
 
-          <p
-            className={`ml-3 whitespace-nowrap transition-opacity delay-75 duration-1000 ${
-              minimized ? 'hidden opacity-0' : 'opacity-100'
-            }`}
-          >
-            {name}
-          </p>
-        </>
+        <p
+          className={`ml-3 origin-left whitespace-nowrap duration-200 ${
+            minimized && 'hidden'
+          }`}
+        >
+          {name}
+        </p>
       </a>
     </Link>
   )

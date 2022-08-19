@@ -3,11 +3,11 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 
-import { uppercaseFirst } from '../../libs/extra'
+import { uppercaseFirst } from '../../libs'
 
 const PossiblePlugins = {
   MODERATION: 'moderation',
@@ -25,13 +25,13 @@ type PossiblePluginsType = typeof PossiblePlugins[keyof typeof PossiblePlugins]
     {
       name: 'plugin-name',
       description: `Shows command's information`,
-      type: 'STRING',
+      type: ApplicationCommandOptionType.String,
       required: false,
     },
   ],
 })
 export class HelpCommand extends Command {
-  async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, options }: CommandOptions): CommandReturnType {
     const pluginName = options?.getString('plugin-name')?.toLowerCase()
 
     // Const guildConfig = client.guildManager.findGuild(guild.id)
@@ -41,7 +41,7 @@ export class HelpCommand extends Command {
       return `It seems that I don't have your guild saved. Log in to https://quanty.xyz to active plugins.`
     }
 
-    const embed = new MessageEmbed().setColor('RANDOM')
+    const embed = new EmbedBuilder().setColor('Random')
 
     if (!pluginName) {
       const pluginStrings: readonly {
@@ -83,7 +83,9 @@ export class HelpCommand extends Command {
     Object.keys(guildConfig[pluginName as unknown as PossiblePluginsType]).map(
       name => {
         const value = (guildConfig as any)[pluginName as any][name as any]
-        embed.addField(uppercaseFirst(name), value ? 'On' : 'Off')
+        embed.addFields([
+          { name: uppercaseFirst(name), value: value ? 'On' : 'Off' },
+        ])
       },
     )
 

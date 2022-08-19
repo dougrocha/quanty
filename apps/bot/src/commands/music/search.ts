@@ -3,13 +3,14 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
 import {
-  MessageActionRow,
-  MessageEmbed,
-  MessageSelectMenu,
+  ApplicationCommandOptionType,
+  EmbedBuilder,
   SelectMenuInteraction,
+  ComponentType,
+  SelectMenuBuilder,
 } from 'discord.js'
 import { SearchResult, Track } from 'erela.js'
 
@@ -19,7 +20,12 @@ import { checkChannel } from '../../libs'
 @SlashCommand('search', {
   description: 'Shows a list of songs closest your search',
   options: [
-    { type: 'STRING', name: 'search', description: 'Search', required: true },
+    {
+      type: ApplicationCommandOptionType.String,
+      name: 'search',
+      description: 'Search',
+      required: true,
+    },
   ],
 })
 export class SearchCommand extends Command {
@@ -30,7 +36,7 @@ export class SearchCommand extends Command {
     interaction,
     options,
     channel,
-  }: SlashCommandRunOptions): CommandReturnType {
+  }: CommandOptions): CommandReturnType {
     const { content, player } = checkChannel({
       guild,
       user,
@@ -45,7 +51,7 @@ export class SearchCommand extends Command {
       return { content: 'Search anything you want.' }
     }
     if (player.state !== 'CONNECTED') player.connect()
-    const embed = new MessageEmbed().setColor('#FF5F9F')
+    const embed = new EmbedBuilder().setColor('#FF5F9F')
     let res: SearchResult
     try {
       res = await player.search(search, user)
@@ -97,25 +103,27 @@ export class SearchCommand extends Command {
         // Add a seperate command for searching, This will play first result in search results
         const query = res.tracks
         const tracks = query.slice(0, 5)
-        const component = new MessageActionRow().addComponents(
-          new MessageSelectMenu()
-            .setCustomId('search-songs')
-            .setPlaceholder('Please select a song to play')
-            .addOptions(
-              tracks.map((song, index) => ({
-                label: song.title,
-                value: song.identifier,
-                description: `Search results from searching ${song.title}`,
-                emoji: emojis[index],
-              })),
-            ),
-        )
+
+        const component = new SelectMenuBuilder()
+          .setCustomId('search-songs')
+          .setPlaceholder('Please select a song to play')
+          .addOptions(
+            tracks.map((song, index) => ({
+              label: song.title,
+              value: song.identifier,
+              description: `Search results from searching ${song.title}`,
+              emoji: emojis[index],
+            })),
+          )
+
         await interaction.editReply({
           embeds: [embed.setDescription('Please select a song to play')],
-          components: [component],
+          components: [
+            { type: ComponentType.ActionRow, components: [component] },
+          ],
         })
         const collector = channel.createMessageComponentCollector({
-          componentType: 'SELECT_MENU',
+          componentType: ComponentType.SelectMenu,
           time: 15000,
         })
         const collectedSongs = 0
@@ -142,7 +150,9 @@ export class SearchCommand extends Command {
             await player.play()
           await collector.update({
             embeds: [embed],
-            components: [component],
+            components: [
+              { type: ComponentType.ActionRow, components: [component] },
+            ],
           })
         })
         collector.on('end', async () => {

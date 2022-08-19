@@ -1,3 +1,4 @@
+import { ActivityType } from 'discord.js'
 import * as dotenv from 'dotenv'
 
 dotenv.config({ path: '.env' })
@@ -6,23 +7,21 @@ import { QuantyClient } from '../src/structures/client/Client'
 
 const client: QuantyClient = new QuantyClient(
   {
-    token: process.env.TOKEN,
-    commandDir: 'commands/',
-    eventDir: 'events/',
-    owner: '979178442140549230',
+    token: process.env.BOT_TOKEN,
+    owner: '571520537587875851',
     baseDir: 'test/',
     outDir: 'dist/',
     defaults: true,
-    logLevel: 'DEBUG',
-    devGuilds: '871581301713555526',
+    logLevel: 'ALL',
+    devGuilds: ['871581301713555526', '711679864247156747'],
   },
   {
-    intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_PRESENCES'],
+    intents: ['Guilds', 'GuildMessages', 'GuildPresences'],
     presence: {
       activities: [
         {
           name: 'quanty.xyz',
-          type: 'PLAYING',
+          type: ActivityType.Playing,
           url: 'https://www.quanty.xyz/',
         },
       ],
@@ -30,4 +29,4 @@ const client: QuantyClient = new QuantyClient(
   },
 )
 
-// Void client.start()
+void client.start()

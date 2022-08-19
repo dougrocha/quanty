@@ -8,6 +8,8 @@ export class ReadyEvent extends Event<'ready'> {
   private logger!: Logger
 
   async run(client: Client) {
-    this.logger.log(client.user?.id || 'Unavailable')
+    this.logger.log(
+      `Client is logged in as: ${client.user?.id || `Unavailable`}`,
+    )
   }
 }

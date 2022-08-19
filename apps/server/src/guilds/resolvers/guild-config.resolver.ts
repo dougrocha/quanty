@@ -4,21 +4,36 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
 import { Cache } from 'cache-manager'
 import { PubSub } from 'graphql-subscriptions'
 
-import { Guild, GuildUpdateInput } from '../../@generated'
-import { GraphQLAuthGuard, PUB_SUB } from '../../common'
+import {
+  Guild,
+  GuildPlugins,
+  GuildSettings,
+  GuildUpdateInput,
+} from '../../@generated'
+import {
+  GqlThrottlerGuard,
+  GraphQLAuthGuard,
+  GuildAdminGuard,
+  GUILD_EVENT,
+  PUB_SUB,
+} from '../../common'
 import { LoggingInterceptor } from '../../common/interceptors/logging.interceptor'
 import { IGuildsService } from '../interfaces/guilds'
 import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
-enum GUILD_EVENT {
-  UPDATE_GUILD = 'UPDATE_GUILD',
-}
-
 @Resolver(() => Guild)
+@UseInterceptors(LoggingInterceptor)
 export class GuildConfigResolver {
   constructor(
     @Inject(GuildServiceGateway)
@@ -29,9 +44,27 @@ export class GuildConfigResolver {
     @Inject(PUB_SUB) private readonly pubSub: PubSub,
   ) {}
 
+  @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard, GuildAdminGuard)
+  @Mutation(() => Guild)
+  async updateGuildById(
+    @Args('guildId') id: string,
+    @Args('guildUpdateInput')
+    updateArgs: GuildUpdateInput,
+  ): Promise<Guild> {
+    const guildConfig = await this.GuildsService.updateGuild({
+      where: { id },
+      data: updateArgs,
+    })
+
+    void this.pubSub.publish(GUILD_EVENT.UPDATE_GUILD, {
+      updatedGuildConfig: guildConfig,
+    })
+
+    return guildConfig
+  }
+
+  @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard, GuildAdminGuard)
   @Query(() => Guild, { name: 'guildConfig', nullable: false })
-  @UseGuards(GraphQLAuthGuard)
-  @UseInterceptors(LoggingInterceptor)
   async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
     const cachedGuild = await this.cacheManager.get(`guildConfig-${guildId}`)
 
@@ -43,30 +76,37 @@ export class GuildConfigResolver {
     return guild
   }
 
-  @Mutation(() => Guild)
-  @UseGuards(GraphQLAuthGuard)
-  @UseInterceptors(LoggingInterceptor)
-  async updateGuildById(
-    @Args('guildId') id: string,
-    @Args('guildUpdateInput') { prefix, premium }: GuildUpdateInput,
-  ): Promise<Guild> {
-    const guildConfig = await this.GuildsService.updateGuild({
-      where: { id },
-      data: { prefix, premium },
+  @ResolveField(() => GuildPlugins, { name: 'guildPlugins', nullable: true })
+  async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugins | null> {
+    const cachedGuildPlugins = await this.cacheManager.get(`guildPlugins-${id}`)
+
+    if (cachedGuildPlugins) return <GuildPlugins>cachedGuildPlugins
+
+    const guildPlugins = await this.GuildsService.getGuildPlugins({
+      id: id,
     })
-    void this.pubSub.publish(GUILD_EVENT.UPDATE_GUILD, {
-      updatedGuildConfig: guildConfig,
-    })
-    return guildConfig
+    await this.cacheManager.set(`guildPlugins-${id}`, guildPlugins)
+
+    return guildPlugins
   }
 
-  @Subscription(() => Guild, {
-    filter: (payload, variables) =>
-      payload.updatedGuildConfig.id === variables.id,
-  })
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updatedGuildConfig(@Args('id') _id: string) {
-    return this.pubSub.asyncIterator<Guild>(GUILD_EVENT.UPDATE_GUILD)
+  @ResolveField(() => GuildSettings, { name: 'guildSettings', nullable: true })
+  async guildSettings(@Parent() { id }: Guild): Promise<GuildSettings | null> {
+    const cachedGuildSettings = await this.cacheManager.get(
+      `guildSettings-${id}`,
+    )
+
+    if (cachedGuildSettings) return <GuildSettings>cachedGuildSettings
+
+    const guildSettings = await this.GuildsService.getGuildSettings({
+      id: id,
+    })
+
+    await this.cacheManager.set(`guildSettings-${id}`, guildSettings, {
+      ttl: 30, // 30 minutes
+    })
+
+    return guildSettings
   }
 
   // @ResolveField('plugins', () => GuildPlugins, { nullable: true })

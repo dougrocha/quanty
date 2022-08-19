@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="relative mx-auto max-w-7xl px-6 text-sm">
+      <nav className="relative mx-auto w-full max-w-7xl px-4 text-sm">
         <div className="flex h-20 items-center justify-between">
           <ul className=" hidden space-x-5 md:flex">
             <NavLinks />

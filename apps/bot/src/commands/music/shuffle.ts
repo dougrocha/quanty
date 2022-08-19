@@ -3,9 +3,9 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 
 import { musicManager } from '../../libs/music'
 
@@ -14,10 +14,10 @@ import { musicManager } from '../../libs/music'
   description: 'Shuffles the current queue',
 })
 export class TCommand extends Command {
-  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild }: CommandOptions): CommandReturnType {
     const player = musicManager.get(guild.id)
 
-    const embed = new MessageEmbed().setColor('#FF5F9F')
+    const embed = new EmbedBuilder().setColor('#FF5F9F')
 
     if (!player)
       return {

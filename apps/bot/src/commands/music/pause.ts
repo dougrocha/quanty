@@ -3,7 +3,7 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   Test,
 } from '@quanty/framework'
 
@@ -15,7 +15,7 @@ import { checkChannel } from '../../libs'
   description: 'Pauses the song.',
 })
 export class PauseCommand extends Command {
-  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, user }: CommandOptions): CommandReturnType {
     const { content, player } = checkChannel({
       guild,
       user,

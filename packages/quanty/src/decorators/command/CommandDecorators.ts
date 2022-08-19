@@ -1,4 +1,4 @@
-import type { PermissionString } from 'discord.js'
+import type { PermissionsString } from 'discord.js'
 
 import type { CooldownObject } from '../../structures/command/types/Cooldown'
 import { setMetaData } from '../utils/decoratorFactories'
@@ -47,12 +47,12 @@ export function UserCooldown(data: CooldownObject): ClassDecorator {
   return setMetaData('cooldown', data)
 }
 
-export function UserPermissions(...perms: PermissionString[]): ClassDecorator {
+export function UserPermissions(...perms: PermissionsString[]): ClassDecorator {
   return setMetaData('userPermissions', perms)
 }
 
 export function ClientPermissions(
-  ...perms: PermissionString[]
+  ...perms: PermissionsString[]
 ): ClassDecorator {
   return setMetaData('clientPermissions', perms)
 }

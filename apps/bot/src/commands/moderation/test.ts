@@ -3,7 +3,7 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   OwnerOnly,
 } from '@quanty/framework'
 import { GuildMember } from 'discord.js'
@@ -14,10 +14,7 @@ import { GuildMember } from 'discord.js'
 @Category('moderation')
 @OwnerOnly()
 export class BanCommand extends Command {
-  async run({
-    client,
-    interaction,
-  }: SlashCommandRunOptions): CommandReturnType {
+  async run({ client, interaction }: CommandOptions): CommandReturnType {
     if (!(interaction.member instanceof GuildMember)) return
 
     client.emit('guildMemberAdd', interaction.member)

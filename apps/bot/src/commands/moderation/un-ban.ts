@@ -3,10 +3,10 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 
 @Category('moderation')
 @SlashCommand('unban', {
@@ -15,19 +15,19 @@ import { MessageEmbed } from 'discord.js'
     {
       name: 'user',
       description: 'User to remove from ban list.',
-      type: 'USER',
+      type: ApplicationCommandOptionType.User,
       required: true,
     },
     {
       name: 'reason',
       description: 'Reason for unbanning this user.',
-      type: 'STRING',
+      type: ApplicationCommandOptionType.String,
     },
   ],
 })
-@UserPermissions('BAN_MEMBERS')
+@UserPermissions('BanMembers')
 export class UnBanCommand extends Command {
-  async run({ guild, options }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, options }: CommandOptions): CommandReturnType {
     // Must exist for command to run
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const unBanUser = options.getUser('user')
@@ -42,7 +42,7 @@ export class UnBanCommand extends Command {
 
     await guild.bans.remove(unBanUser.id).catch(console.error)
 
-    const embed = new MessageEmbed().setTitle('Unbanned user').addFields([
+    const embed = new EmbedBuilder().setTitle('Unbanned user').addFields([
       {
         name: 'User',
         value: unBanUser.username,
