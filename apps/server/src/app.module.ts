@@ -77,7 +77,7 @@ const ENV = process.env.NODE_ENV
       isGlobal: true,
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        ttl: 20,
+        ttl: configService.get('CACHE_TTL'),
         store: redisStore.create({
           host: configService.get('REDIS_HOST'),
           port: configService.get('REDIS_PORT'),
