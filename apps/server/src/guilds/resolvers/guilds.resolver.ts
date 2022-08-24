@@ -1,12 +1,6 @@
-import {
-  CACHE_MANAGER,
-  ForbiddenException,
-  Inject,
-  UseGuards,
-} from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { AxiosResponse } from 'axios'
-import { Cache } from 'cache-manager'
 import { Observable } from 'rxjs'
 
 import { User } from '../../@generated'
@@ -19,17 +13,18 @@ import {
   DiscordGuild,
   GuildMember,
   MutualGuild,
+  GUILDS_SERVICE,
+  GUILDS_HTTP_SERVICE,
 } from '../../common'
 import { IGuildsHttpService, IGuildsService } from '../interfaces/guilds'
 
 @Resolver(() => DiscordGuild)
 export class GuildsResolver {
   constructor(
-    @Inject('GUILDS_SERVICE')
+    @Inject(GUILDS_SERVICE)
     private readonly GuildsService: IGuildsService,
-    @Inject('GUILDS_HTTP_SERVICE')
+    @Inject(GUILDS_HTTP_SERVICE)
     private readonly Guilds_Http_Service: IGuildsHttpService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard)
@@ -66,27 +61,6 @@ export class GuildsResolver {
     description: 'Gets the available guilds that the user can edit.',
   })
   async mutualGuilds(@GqlUser() user: User): Promise<MutualGuild[]> {
-    const { accessToken } = user
-
-    // Access Token will exist at this point
-    if (!accessToken)
-      throw new ForbiddenException(
-        {
-          message: 'User is not authenticated',
-          code: 401,
-        },
-        'Unauthenticated',
-      )
-
-    const cachedGuilds = await this.cacheManager.get(`mutualGuilds-${user.id}`)
-
-    if (cachedGuilds) return <MutualGuild[]>cachedGuilds
-
-    const mutualGuilds = await this.GuildsService.getMutualGuilds(accessToken)
-    await this.cacheManager.set(`mutualGuilds-${user.id}`, mutualGuilds, {
-      ttl: 30, // 30 seconds
-    })
-
-    return mutualGuilds
+    return await this.GuildsService.getMutualGuilds(user)
   }
 }

@@ -10,6 +10,8 @@ import {
   GuildWhereUniqueInput,
   UpdateOneGuildArgs,
   UpdateOneGuildPluginsArgs,
+  UpdateOneGuildSettingsArgs,
+  User,
 } from '../../@generated'
 import {
   MutualGuild,
@@ -21,16 +23,17 @@ import {
 
 export interface IGuildsService {
   getGuild(query: GuildWhereUniqueInput): Promise<Guild | null>
-  updateGuild(query: UpdateOneGuildArgs): Promise<Guild>
-  updateGuildPlugins(args: UpdateOneGuildPluginsArgs): Promise<GuildPlugins>
-
   getGuildPlugins(
     query: GuildPluginsWhereUniqueInput,
   ): Promise<GuildPlugins | null>
   getGuildSettings(
     query: GuildSettingsWhereUniqueInput,
   ): Promise<GuildSettings | null>
-  getMutualGuilds(accessToken: string): Promise<MutualGuild[]>
+  getMutualGuilds(user: User): Promise<MutualGuild[]>
+
+  updateGuild(query: UpdateOneGuildArgs): Promise<Guild>
+  updateGuildPlugins(args: UpdateOneGuildPluginsArgs): Promise<GuildPlugins>
+  updateGuildSettings(args: UpdateOneGuildSettingsArgs): Promise<GuildSettings>
 }
 
 export interface IGuildsHttpService {

@@ -103,7 +103,7 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
   }
 
   public getUserCooldown(userId: Snowflake): CooldownObject | null {
-    if (this.client.owner.includes(userId) || !this.cooldown) return null
+    if (this.client.owner?.includes(userId) || !this.cooldown) return null
 
     let cooldown = this.userCooldowns.get(userId)
     if (!cooldown) {

@@ -47,7 +47,7 @@ export class CommandLoader {
     const commandsPath: string = resolve(
       defaultCommands
         ? `${__dirname}/base`
-        : `${this.client.baseDir || ''}${commandsDir}`,
+        : `${this.client.baseDirectory || ''}${commandsDir}`,
     )
 
     const commandFiles: string[] = await this.client.globPromise(
@@ -56,7 +56,6 @@ export class CommandLoader {
 
     commandFiles.map(async file => {
       const command = await import(file)
-
       const classInstance: new () => Command = command[Object.keys(command)[0]]
 
       if (!isConstructor(classInstance))

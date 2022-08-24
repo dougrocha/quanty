@@ -3,10 +3,13 @@ import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { PrismaClient } from '@prisma/client'
-import { PrismaSessionStore } from '@quixo3/prisma-session-store'
+import compression from 'compression'
+import connectRedis from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import helmet from 'helmet'
 import passport from 'passport'
+import { createClient } from 'redis'
 
 import { AppModule } from './app.module'
 
@@ -14,12 +17,26 @@ const ENV = process.env.NODE_ENV
 
 export const prismaStoreClient = new PrismaClient()
 
-export const useSessionMiddleware: any = session({
-  store: new PrismaSessionStore(prismaStoreClient as any, {
-    // Ttl: 60 * 60 * 24 * 7, // 7 days cookie expiration
-    checkPeriod: 24 * 3600, // Time period in seconds
-    sessionModelName: 'UserSession',
-  }) as any,
+const RedisStore = connectRedis(session)
+
+export const redisClient = createClient({
+  username: process.env.REDIS_USER,
+  password: process.env.REDIS_PASSWORD,
+  url: process.env.REDIS_URL,
+  legacyMode: true,
+})
+
+redisClient
+  .connect()
+  .then(() => {
+    console.log('Redis client connected')
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+export const useSessionMiddleware = session({
+  store: new RedisStore({ client: redisClient }),
   cookie: {
     httpOnly: ENV === 'production' ? true : false,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
@@ -49,9 +66,11 @@ async function bootstrap() {
     credentials: true,
   })
 
+  app.use(useSessionMiddleware)
+
   app.use(cookieParser())
 
-  app.use(useSessionMiddleware)
+  app.use(compression())
 
   app.use(passport.initialize())
   app.use(passport.session())
@@ -65,6 +84,10 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, config)
     SwaggerModule.setup('api', app, document)
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    app.use(helmet())
   }
 
   await app.listen(PORT, async () => {

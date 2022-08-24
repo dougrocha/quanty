@@ -1,5 +1,38 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
+}
+
+generator nestgraphql {
+  provider                              = "prisma-nestjs-graphql"
+  output                                = "../src/@generated"
+  decorate_2_arguments                  = "['() => {propertyType.0}']"
+  decorate_3_arguments                  = "[]"
+  fields_Validator_from                 = "class-validator"
+  fields_Scalars_input                  = "true"
+  decorate_1_from                       = "class-validator"
+  decorate_2_type                       = "Create@(One|Many)UserArgs"
+  decorate_2_from                       = "class-transformer"
+  decorate_3_type                       = "ProfileUncheckedCreateNestedOneWithoutUserInput"
+  decorate_3_name                       = "HideField"
+  decorate_2_namedImport                = "true"
+  fields_Validator_input                = "true"
+  fields_Swagger_model                  = "true"
+  decorate_1_field                      = "data"
+  decorate_3_from                       = "@nestjs/graphql"
+  fields_Scalars_from                   = "graphql-scalars"
+  reExport                              = "Single"
+  decorate_3_field                      = "!(create)"
+  fields_Swagger_from                   = "@nestjs/swagger"
+  requireSingleFieldsInWhereUniqueInput = "false"
+  fields_Swagger_input                  = "false"
+  decorate_1_name                       = "ValidateNested"
+  decorate_2_name                       = "Type"
+  useInputType_WhereInput_ALL           = "WhereInput"
+  decorate_1_type                       = "Create@(One|Many)UserArgs"
+  decorate_2_field                      = "data"
+  decorate_1_arguments                  = "[]"
+}
 
 datasource db {
   provider             = "mysql"
@@ -7,71 +40,30 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
-}
-
-generator nestgraphql {
-  provider = "prisma-nestjs-graphql"
-  output   = "../src/@generated"
-
-  reExport = Single
-
-  requireSingleFieldsInWhereUniqueInput = false
-  fields_Validator_from                 = "class-validator"
-  fields_Validator_input                = true
-  fields_Scalars_from                   = "graphql-scalars"
-  fields_Scalars_input                  = true
-  fields_Swagger_from                   = "@nestjs/swagger"
-  fields_Swagger_input                  = false
-  fields_Swagger_model                  = true
-  useInputType_WhereInput_ALL           = "WhereInput"
-  decorate_1_type                       = "Create@(One|Many)UserArgs"
-  decorate_1_field                      = data
-  decorate_1_name                       = ValidateNested
-  decorate_1_from                       = "class-validator"
-  decorate_1_arguments                  = "[]"
-  decorate_2_type                       = "Create@(One|Many)UserArgs"
-  decorate_2_field                      = data
-  decorate_2_from                       = "class-transformer"
-  decorate_2_arguments                  = "['() => {propertyType.0}']"
-  decorate_2_name                       = Type
-  decorate_2_namedImport                = true
-  decorate_3_type                       = "ProfileUncheckedCreateNestedOneWithoutUserInput"
-  decorate_3_field                      = "!(create)"
-  decorate_3_name                       = "HideField"
-  decorate_3_from                       = "@nestjs/graphql"
-  decorate_3_arguments                  = "[]"
-}
-
 model UserSession {
   id        String   @id
   sid       String   @unique
-  data      String   @db.Text()
+  data      String   @db.Text
   expiresAt DateTime
 }
 
 model Customer {
-  id             String   @id @unique @db.VarChar(255)
+  id             String              @id @unique @db.VarChar(255)
   /// @Validator.IsEmail()
-  email          String?  @unique @db.VarChar(255)
-  subscriptionId Boolean  @default(false)
-  createdAt      DateTime @default(now())
-
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String? @unique @db.VarChar(64)
-
-  subscription GuildSubscription[]
+  email          String?             @unique @db.VarChar(255)
+  subscriptionId Boolean             @default(false)
+  createdAt      DateTime            @default(now())
+  user           User?               @relation(fields: [userId], references: [id])
+  userId         String?             @unique @db.VarChar(64)
+  subscription   GuildSubscription[]
 
   @@index([userId])
 }
 
 model Guild {
-  id      String  @id @unique @db.VarChar(64)
-  premium Boolean @default(false)
-  prefix  String  @default("q!") @db.VarChar(10)
-
+  id            String             @id @unique @db.VarChar(64)
+  premium       Boolean            @default(false)
+  prefix        String             @default("q!") @db.VarChar(10)
   subscription  GuildSubscription?
   guildSettings GuildSettings?
   guildPlugins  GuildPlugins?
@@ -81,8 +73,7 @@ model GuildPlugins {
   id      String  @id @unique @db.VarChar(64)
   autoMod Boolean @default(false)
   anime   Boolean @default(false)
-
-  guild Guild @relation(fields: [id], references: [id])
+  guild   Guild   @relation(fields: [id], references: [id])
 }
 
 model GuildSettings {
@@ -92,21 +83,18 @@ model GuildSettings {
   globalCooldown  Int     @default(0)
   djRole          String  @default("@everyone") @db.VarChar(64)
   musicTimeOut    Boolean @default(false)
-
-  guild Guild @relation(fields: [id], references: [id])
+  guild           Guild   @relation(fields: [id], references: [id])
 }
 
 model Price {
-  id                String    @id @unique @db.VarChar(255)
+  id                String              @id @unique @db.VarChar(255)
   recurringInterval String?
   unit_amount       Int
-  currency          String    @db.VarChar(4)
+  currency          String              @db.VarChar(4)
   type              PriceType
-
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
-
-  subscription GuildSubscription[]
+  product           Product             @relation(fields: [productId], references: [id])
+  productId         String
+  subscription      GuildSubscription[]
 
   @@index([productId])
 }
@@ -118,21 +106,17 @@ model Product {
   price       Price[]
 }
 
-// Do not name this just "Subscription" will mess with GraphQL Subscription Type
 model GuildSubscription {
   id                   String              @id @unique @db.VarChar(255)
   status               Subscription_status @default(CANCELED)
   current_period_end   DateTime
   cancel_at_period_end Boolean             @default(false)
-
-  guild   Guild  @relation(fields: [guildId], references: [id])
-  guildId String @unique @db.VarChar(64)
-
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String   @db.VarChar(255)
-
-  price   Price  @relation(fields: [priceId], references: [id])
-  priceId String @db.VarChar(255)
+  guild                Guild               @relation(fields: [guildId], references: [id])
+  guildId              String              @unique @db.VarChar(64)
+  customer             Customer            @relation(fields: [customerId], references: [id])
+  customerId           String              @db.VarChar(255)
+  price                Price               @relation(fields: [priceId], references: [id])
+  priceId              String              @db.VarChar(255)
 
   @@index([guildId])
   @@index([customerId])
@@ -141,31 +125,28 @@ model GuildSubscription {
 
 model User {
   /// @Swagger.ApiProperty({ type: () => String })
-  id            String   @id @unique @db.VarChar(64)
+  id                         String    @id @unique @db.VarChar(64)
   /// @Swagger.ApiProperty({ type: () => String })
-  username      String   @db.VarChar(64)
+  username                   String    @db.VarChar(64)
   /// @Swagger.ApiProperty({ type: () => String })
-  discriminator String   @db.Char(4)
+  discriminator              String    @db.Char(4)
   /// @Swagger.ApiPropertyOptional({ type: () => String })
   /// @Validator.IsEmail()
-  email         String?  @unique @db.VarChar(254)
+  email                      String?   @unique @db.VarChar(254)
   /// @Swagger.ApiPropertyOptional({ type: () => String })
-  avatar        String?  @db.VarChar(254)
+  avatar                     String?   @db.VarChar(254)
   /// @Swagger.ApiProperty({ type: () => Date })
-  createdAt     DateTime @default(now())
+  createdAt                  DateTime  @default(now())
   /// @Swagger.ApiPropertyOptional({ type: () => String })
-  locale        String?  @db.VarChar(10)
-
+  locale                     String?   @db.VarChar(10)
   /// @HideField()
-  accessToken  String? @db.VarChar(100)
+  accessToken                String?   @db.VarChar(100)
   /// @HideField()
-  refreshToken String? @db.VarChar(100)
-
+  refreshToken               String?   @db.VarChar(100)
   /// @Swagger.ApiProperty({ type: () => Boolean })
-  acceptedTermsAndConditions Boolean @default(false)
-
+  acceptedTermsAndConditions Boolean   @default(false)
   /// @Swagger.ApiPropertyOptional({ type: () => Customer })
-  customer Customer?
+  customer                   Customer?
 }
 
 enum Subscription_status {
@@ -178,119 +159,3 @@ enum PriceType {
   RECURRING
   ONE_TIME
 }
-
-// type GuildsAnime {
-//   nsfw   Boolean
-//   plugin Boolean
-// }
-
-// type GuildsModeration {
-//   autoMod Boolean
-//   plugin  Boolean
-// }
-
-// type GuildsMusic {
-//   immortal Boolean
-//   plugin   Boolean
-// }
-
-// model guildbanlogs {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model guildcommands {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model guildlogs {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model guildplugins {
-//   id                      String   @id @default(auto()) @map("_id") @db.ObjectId
-//   v                       Int      @map("__v")
-//   autoMod                 Boolean
-//   blacklistedWords        String[]
-//   /// Could not determine type: the field only had null or empty values in the sample set.
-//   channel                 Json?
-//   createdAt               DateTime @db.Date
-//   defaultGlobalCooldown   Int
-//   /// Could not determine type: the field only had null or empty values in the sample set.
-//   djRole                  Json?
-//   guildId                 String   @unique(map: "guildId_1")
-//   immortal                Boolean
-//   nsfw                    Boolean
-//   /// Could not determine type: the field only had null or empty values in the sample set.
-//   nsfwChannel             Json?
-//   plugins                 String[]
-//   ticketCategory          String
-//   ticketTranscriptChannel String
-//   updatedAt               DateTime @db.Date
-// }
-
-// model guilds {
-//   id               String            @id @default(auto()) @map("_id") @db.ObjectId
-//   v                Int               @map("__v")
-//   anime            GuildsAnime?
-//   /// Could not determine type: the field only had null or empty values in the sample set.
-//   banLogs          Json?
-//   blacklistedWords String[]
-//   createdAt        DateTime          @db.Date
-//   guildId          String            @unique(map: "guildId_1")
-//   /// Could not determine type: the field only had null or empty values in the sample set.
-//   logs             Json?
-//   maxTickets       Int?
-//   moderation       GuildsModeration?
-//   music            GuildsMusic?
-//   plugins          String?           @db.ObjectId
-//   prefix           String
-//   premium          String?
-//   tickets          String[]          @db.ObjectId
-//   updatedAt        DateTime          @db.Date
-// }
-
-// model guildsTest {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model guildstests {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model guildtickets {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   v         Int      @map("__v")
-//   channelId String
-//   closed    Boolean
-//   guildId   String
-//   issuedOn  DateTime @db.Date
-//   locked    Boolean
-//   memberId  String
-//   ticketId  String
-//   type      String
-// }
-
-// model userguilds {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model userlogs {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-// }
-
-// model users {
-//   id            String  @id @default(auto()) @map("_id") @db.ObjectId
-//   v             Int     @map("__v")
-//   accessToken   String
-//   avatar        String
-//   discordId     String
-//   discriminator String
-//   email         String  @unique(map: "email_1")
-//   locale        String
-//   refreshToken  String
-//   stripeId      String  @unique(map: "stripeId_1")
-//   username      String
-//   verified      Boolean
-
-//   @@index([discordId], map: "discordId_1")
-// }

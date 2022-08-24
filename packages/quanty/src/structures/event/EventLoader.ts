@@ -8,20 +8,15 @@ import { isConstructor } from '../../util'
 import { Logger, logger } from '../../util/Logger'
 import type { QuantyClient } from '../client/Client'
 import type { IQuantyDefaults } from '../client/types/client'
+import { container } from '../container'
 
 export class EventLoader {
-  private readonly client: QuantyClient
+  private readonly client?: QuantyClient = container.client
 
   @logger()
   private _logger!: Logger
 
-  private events: EventRegistry
-
-  constructor(client: QuantyClient) {
-    this.client = client
-
-    this.events = client.events
-  }
+  private events?: EventRegistry = container.events
 
   public async loadEvents(
     eventsDir: string | null,
@@ -36,14 +31,14 @@ export class EventLoader {
     const eventsPath: string = path.resolve(
       defaultEvents
         ? `${__dirname}/base`
-        : `${this.client.baseDir || ''}${eventsDir}`,
+        : `${this.client?.baseDirectory || ''}${eventsDir}`,
     )
 
-    const eventFiles: string[] = await this.client.globPromise(
+    const eventFiles: string[] | undefined = await this.client?.globPromise(
       `${eventsPath}/**/!(*.d){.ts,.js}`,
     )
 
-    eventFiles.map(async file => {
+    eventFiles?.map(async file => {
       const event = await require(file)
 
       const classInstance: new () => Event = event[Object.keys(event)[0]]
@@ -53,7 +48,7 @@ export class EventLoader {
 
       const eventInstance: Event = new classInstance()
 
-      this.events.registerEvent(eventInstance)
+      this.events?.registerEvent(eventInstance)
     })
   }
 }

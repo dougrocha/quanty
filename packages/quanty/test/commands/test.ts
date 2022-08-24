@@ -10,7 +10,7 @@ import {
 } from '../../src'
 
 @SlashCommand('echo', {
-  description: 'This command is built for testing',
+  description: 'This command is built for echoing',
   options: [
     {
       name: 'text',
@@ -21,7 +21,7 @@ import {
 })
 @GuildOnly()
 @Test()
-export class TestCommand extends Command {
+export class EchoCommand extends Command {
   async run({ options }: CommandOptions): CommandReturnType {
     return {
       content: `${options.getString('text')}`,

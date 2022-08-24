@@ -7,12 +7,16 @@ import { promisify } from 'util'
 import { Client, ClientOptions, Snowflake } from 'discord.js'
 import glob from 'glob'
 
-import type { IQuantyConfig, IQuantyDefaults, LogLevels } from './types/client'
+import type {
+  QuantyClientOptions,
+  IQuantyDefaults,
+  LogLevels,
+} from './types/client'
 
-import { ValidationError } from '../../errors'
-import { QuantyOptionsSchema } from '../../schemas/QuantyOptionsSchema'
 import { logger, Logger } from '../../util/Logger'
+import { getRootData } from '../../util/getRootData'
 import { CommandRegistry, CommandLoader } from '../command'
+import { container } from '../container'
 import { EventRegistry, EventLoader } from '../event'
 
 /**
@@ -20,13 +24,13 @@ import { EventRegistry, EventLoader } from '../event'
  *
  * Quanty does have default presets for many of its options. You can choose to configure any option that is available.
  *
- * @see {@link IQuantyConfig} for all options available.
+ * @see {@link QuantyClientOptions} for all options available.
  */
 export class QuantyClient extends Client {
   /**
    * Owners of this discord bot
    */
-  public owner: Snowflake | Snowflake[]
+  public owner?: Snowflake | Snowflake[]
 
   /**
    * Default prefix for the bot
@@ -35,36 +39,23 @@ export class QuantyClient extends Client {
 
   public mentionPrefix?: boolean
 
-  /**
-   * Directory of all commands.
-   */
-  public commandDir = 'commands/'
+  public commandsDir = 'commands/'
 
-  /**
-   * Directory of all events.
-   */
-  public eventDir = 'events/'
+  public eventsDir = 'events/'
 
   /**
    * Base directory for bot.
    */
-  public baseDir?: string = 'src/'
+  public baseDirectory?: string = getRootData()?.root
 
   /**
-   * ``Typescript only``
-   *
    * Directory for build files.
-   *
    */
   public outDir?: string = 'dist/'
 
   public defaults?: IQuantyDefaults | boolean = false
 
   public readonly devGuilds: string[] = []
-
-  public commands!: CommandRegistry
-
-  public events!: EventRegistry
 
   /** Default error message that is sent when a command fails. */
   public commandNotFoundError?: string | undefined
@@ -76,27 +67,22 @@ export class QuantyClient extends Client {
 
   private _defaultCommandError?: string
 
-  /**
-   * This is named _token because token is used by discord.js
-   */
-  private readonly _token!: string
+  public commands: CommandRegistry
+  public events: EventRegistry
 
   @logger()
   private _logger!: Logger
 
-  constructor(options: IQuantyConfig, config: ClientOptions) {
-    super(config)
+  constructor(options: ClientOptions) {
+    super(options)
 
-    this.validateOptions(options)
+    container.client = this
 
     const {
-      commandDir,
-      eventDir,
       owner,
-      token,
       prefix,
       mentionPrefix,
-      baseDir,
+      baseDirectory,
       defaults,
       devGuilds,
       logLevel,
@@ -111,8 +97,8 @@ export class QuantyClient extends Client {
     if (mentionPrefix) this.mentionPrefix = mentionPrefix
     if (outDir) this.outDir = outDir
 
-    if (baseDir) {
-      this.baseDir = baseDir
+    if (baseDirectory) {
+      this.baseDirectory = baseDirectory
     }
 
     if (defaults) this.defaults = defaults
@@ -124,23 +110,21 @@ export class QuantyClient extends Client {
       }
     }
 
-    if (token) this._token = token
-
     this.owner = owner
-
-    if (commandDir) this.commandDir = commandDir
-    if (eventDir) this.eventDir = eventDir
 
     /**
      * Sets base dir to dist profile
      * Example: dist/src/
      */
     if (outDir) {
-      this.baseDir = `${this.outDir}${this.baseDir}`
+      this.baseDirectory = `${this.outDir}${this.baseDirectory}`
     }
 
     this.commands = new CommandRegistry(this)
     this.events = new EventRegistry(this)
+
+    container.commands = this.commands
+    container.events = this.events
 
     this.handleLoaders()
   }
@@ -150,35 +134,13 @@ export class QuantyClient extends Client {
    *
    * @returns Your Discord Client
    */
-  public start(): this {
-    this.login(this._token).catch(err => {
-      this._logger.error(err)
-    })
+  public async login(token?: string) {
+    // Run pre login plugins
 
-    return this
-  }
+    const login = await super.login(token)
 
-  /**
-   * Will check config to make sure everything is available before running.
-   */
-  private validateOptions(options: IQuantyConfig) {
-    const validatationResult = QuantyOptionsSchema.validate(options)
-
-    if (validatationResult.error) {
-      const validationError = new ValidationError(
-        validatationResult.error.message,
-      )
-      Error.captureStackTrace(validationError, this.validateOptions)
-      Error.captureStackTrace(validationError, this.constructor)
-
-      validationError.data = validatationResult.error.details
-
-      throw validationError
-    }
-
-    this._logger.debug('✅ Config checked.')
-
-    return validatationResult.value
+    // Run post login plugins
+    return login
   }
 
   /**
@@ -209,7 +171,7 @@ export class QuantyClient extends Client {
   }
 
   public checkOwner(userId: Snowflake): boolean {
-    return this.owner.includes(userId)
+    return this.owner?.includes(userId) ?? false
   }
 
   public wait(time: number) {
@@ -224,12 +186,12 @@ export class QuantyClient extends Client {
     if (this.defaults) {
       void commandLoader.loadCommands(null, this.defaults)
     }
-    void commandLoader.loadCommands(this.commandDir, false)
+    void commandLoader.loadCommands(this.commandsDir, false)
 
     // Events
-    const eventLoader = new EventLoader(this)
+    const eventLoader = new EventLoader()
     if (this.defaults) void eventLoader.loadEvents(null, this.defaults)
-    void eventLoader.loadEvents(this.eventDir, false)
+    void eventLoader.loadEvents(this.eventsDir, false)
 
     // Load test commands if guilds exist
     if (this.devGuilds) void commandLoader.loadTestCommands(this.devGuilds)
@@ -254,4 +216,13 @@ export class QuantyClient extends Client {
   public get logLevel(): LogLevels | undefined {
     return this._logLevel
   }
+}
+
+declare module 'discord.js' {
+  interface Client {
+    id: Snowflake
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface ClientOptions extends QuantyClientOptions {}
 }

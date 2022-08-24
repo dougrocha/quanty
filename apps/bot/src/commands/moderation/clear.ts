@@ -7,6 +7,7 @@ import {
   SlashCommand,
   CommandOptions,
   UserPermissions,
+  Test,
 } from '@quanty/framework'
 import {
   ApplicationCommandOptionType,
@@ -34,6 +35,7 @@ import {
 })
 @Category('util')
 @UserPermissions('ManageChannels', 'ManageMessages')
+@Test()
 export class ClearCommand extends Command {
   @logger()
   private logger: Logger
@@ -54,13 +56,13 @@ export class ClearCommand extends Command {
 
     if (user) {
       let i = 0
-      const filtered: Message[] = []
-      messages.filter((msg): any => {
-        if (msg.author.id === user.id && amount > i) {
-          filtered.push(msg)
+
+      const filtered = messages.reduce<Message[]>((prev, curr): any => {
+        if (curr.author.id === user.id && amount > i) {
+          prev.push(curr)
           i++
         }
-      })
+      }, [])
 
       await (channel as TextBasedChannelFields)
         .bulkDelete(filtered, true)

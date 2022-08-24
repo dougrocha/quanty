@@ -23,20 +23,20 @@
     "format": "prettier --write src"
   },
   "dependencies": {
-    "@prisma/client": "^4.1.1",
+    "@prisma/client": "^4.2.1",
     "@quanty/framework": "*",
     "axios": "^0.27.2",
     "better-erela.js-apple": "^1.0.4",
-    "cache-manager": "^4.1.0",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
     "dayjs": "^1.11.4",
     "discord-html-transcripts": "~2.6.0",
-    "discord.js": "^14.1.2",
+    "discord.js": "^14.3.0",
     "erela.js": "^2.3.3",
     "erela.js-spotify": "^1.2.0",
     "glob": "^7.2.0",
     "nekos.life": "^3.0.0",
+    "node-cache": "^5.1.2",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "config": "*",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.19",
-    "prisma": "^4.1.1",
+    "prisma": "^4.2.1",
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.1",
     "tsconfig": "*",

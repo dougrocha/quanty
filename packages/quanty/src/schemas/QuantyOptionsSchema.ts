@@ -25,7 +25,6 @@ const defaultSchema = Joi.alternatives().try(
 )
 
 export const QuantyOptionsSchema = Joi.object({
-  token: Joi.string().required(),
   owner: Joi.alternatives()
     .try(Joi.array().items(Joi.string()), Joi.string())
     .required(),
@@ -49,6 +48,4 @@ export const QuantyOptionsSchema = Joi.object({
   rateLimitExceededError: Joi.string(),
 
   logLevel: Joi.string().valid('DEBUG', 'ALL', 'WARN', 'ERROR').default('ALL'),
-})
-  .required()
-  .meta({ className: 'QuantyOptions' })
+}).meta({ className: 'QuantyOptions' })

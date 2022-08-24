@@ -34,9 +34,7 @@ export class GuildAdminGuard implements CanActivate {
     if (cachedMutualGuilds)
       return this.checkGuildPermissions(guildId, cachedMutualGuilds)
     else {
-      cachedMutualGuilds = await this.guildsService.getMutualGuilds(
-        user.accessToken,
-      )
+      cachedMutualGuilds = await this.guildsService.getMutualGuilds(user)
       await this.cacheManager.set(`mutualGuilds-${user.id}`, cachedMutualGuilds)
       return this.checkGuildPermissions(guildId, cachedMutualGuilds)
     }

@@ -1,9 +1,4 @@
-import {
-  CACHE_MANAGER,
-  Inject,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common'
+import { Inject, UseGuards, UseInterceptors } from '@nestjs/common'
 import {
   Args,
   Mutation,
@@ -12,7 +7,6 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { Cache } from 'cache-manager'
 import { PubSub } from 'graphql-subscriptions'
 
 import {
@@ -24,7 +18,6 @@ import {
 import {
   GqlThrottlerGuard,
   GraphQLAuthGuard,
-  GuildAdminGuard,
   GUILD_EVENT,
   PUB_SUB,
 } from '../../common'
@@ -34,79 +27,53 @@ import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
 @Resolver(() => Guild)
 @UseInterceptors(LoggingInterceptor)
+@UseGuards(GraphQLAuthGuard)
 export class GuildConfigResolver {
   constructor(
     @Inject(GuildServiceGateway)
     private readonly GuildWs: GuildServiceGateway,
     @Inject('GUILDS_SERVICE')
     private readonly GuildsService: IGuildsService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @Inject(PUB_SUB) private readonly pubSub: PubSub,
   ) {}
 
-  @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard, GuildAdminGuard)
+  @UseGuards(GqlThrottlerGuard)
   @Mutation(() => Guild)
   async updateGuildById(
     @Args('guildId') id: string,
     @Args('guildUpdateInput')
     updateArgs: GuildUpdateInput,
   ): Promise<Guild> {
-    const guildConfig = await this.GuildsService.updateGuild({
+    const updatedGuildConfig = await this.GuildsService.updateGuild({
       where: { id },
       data: updateArgs,
     })
 
     void this.pubSub.publish(GUILD_EVENT.UPDATE_GUILD, {
-      updatedGuildConfig: guildConfig,
+      updatedGuildConfig,
     })
 
-    return guildConfig
+    return updatedGuildConfig
   }
 
-  @UseGuards(GraphQLAuthGuard, GqlThrottlerGuard, GuildAdminGuard)
+  @UseGuards(GqlThrottlerGuard)
   @Query(() => Guild, { name: 'guildConfig', nullable: false })
   async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
-    const cachedGuild = await this.cacheManager.get(`guildConfig-${guildId}`)
-
-    if (cachedGuild) return <Guild>cachedGuild
-
-    const guild = await this.GuildsService.getGuild({ id: guildId })
-    await this.cacheManager.set(`guildConfig-${guildId}`, guild)
-
-    return guild
+    return await this.GuildsService.getGuild({ id: guildId })
   }
 
   @ResolveField(() => GuildPlugins, { name: 'guildPlugins', nullable: true })
   async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugins | null> {
-    const cachedGuildPlugins = await this.cacheManager.get(`guildPlugins-${id}`)
-
-    if (cachedGuildPlugins) return <GuildPlugins>cachedGuildPlugins
-
-    const guildPlugins = await this.GuildsService.getGuildPlugins({
+    return await this.GuildsService.getGuildPlugins({
       id: id,
     })
-    await this.cacheManager.set(`guildPlugins-${id}`, guildPlugins)
-
-    return guildPlugins
   }
 
   @ResolveField(() => GuildSettings, { name: 'guildSettings', nullable: true })
   async guildSettings(@Parent() { id }: Guild): Promise<GuildSettings | null> {
-    const cachedGuildSettings = await this.cacheManager.get(
-      `guildSettings-${id}`,
-    )
-
-    if (cachedGuildSettings) return <GuildSettings>cachedGuildSettings
-
-    const guildSettings = await this.GuildsService.getGuildSettings({
+    return await this.GuildsService.getGuildSettings({
       id: id,
     })
-
-    await this.cacheManager.set(`guildSettings-${id}`, guildSettings, {
-      ttl: 30, // 30 minutes
-    })
-
-    return guildSettings
   }
 
   // @ResolveField('plugins', () => GuildPlugins, { nullable: true })
