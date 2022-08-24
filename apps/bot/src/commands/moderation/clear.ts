@@ -5,22 +5,28 @@ import {
   Logger,
   logger,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
+  Test,
 } from '@quanty/framework'
-import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js'
+import {
+  ApplicationCommandOptionType,
+  Message,
+  EmbedBuilder,
+  TextBasedChannelFields,
+} from 'discord.js'
 
 @SlashCommand('clear', {
   description: 'Deletes up to 99 messages above this one.',
   options: [
     {
-      type: 'INTEGER',
+      type: ApplicationCommandOptionType.Integer,
       name: 'amount',
       description: 'Number of messages to delete',
       required: true,
     },
     {
-      type: 'USER',
+      type: ApplicationCommandOptionType.User,
       name: 'member',
       description: 'Specific member messages',
       required: false,
@@ -28,12 +34,13 @@ import { Message, MessageEmbed, TextBasedChannelFields } from 'discord.js'
   ],
 })
 @Category('util')
-@UserPermissions('MANAGE_CHANNELS', 'MANAGE_MESSAGES')
+@UserPermissions('ManageChannels', 'ManageMessages')
+@Test()
 export class ClearCommand extends Command {
   @logger()
   private logger: Logger
 
-  async run({ channel, options }: SlashCommandRunOptions): CommandReturnType {
+  async run({ channel, options }: CommandOptions): CommandReturnType {
     const amount = options.getInteger('amount', true)
     const user = options.getUser('member', false)
 
@@ -45,17 +52,17 @@ export class ClearCommand extends Command {
 
     const messages = await channel.messages.fetch()
 
-    const embed = new MessageEmbed().setColor('RANDOM')
+    const embed = new EmbedBuilder().setColor('Random')
 
     if (user) {
       let i = 0
-      const filtered: Message[] = []
-      messages.filter((msg): any => {
-        if (msg.author.id === user.id && amount > i) {
-          filtered.push(msg)
+
+      const filtered = messages.reduce<Message[]>((prev, curr): any => {
+        if (curr.author.id === user.id && amount > i) {
+          prev.push(curr)
           i++
         }
-      })
+      }, [])
 
       await (channel as TextBasedChannelFields)
         .bulkDelete(filtered, true)

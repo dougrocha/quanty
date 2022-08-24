@@ -2,19 +2,19 @@ const DashboardContent = ({
   title,
   children,
   description,
-  seperateTitle = false,
+  separateTitle: separateTitle = false,
   actionButton,
 }: {
   title?: string
   description?: string
   children?: React.ReactNode
-  seperateTitle?: boolean
+  separateTitle?: boolean
   actionButton?: React.ReactNode
 }) => {
-  if (seperateTitle)
+  if (separateTitle)
     return (
       <>
-        <div className="mb-10 flex items-start justify-between">
+        <div className=" mb-10 flex items-start justify-between">
           <div>
             <h1 className="mb-2 text-xl font-semibold capitalize text-primary-white">
               {title}
@@ -30,7 +30,7 @@ const DashboardContent = ({
     )
 
   return (
-    <div className="min-h-full w-full rounded-md bg-primary-purple-10 p-10">
+    <div className=" min-h-full w-full rounded-md bg-primary-purple-10 p-10">
       {title && (
         <div className="mb-10 flex items-start justify-between">
           <div>

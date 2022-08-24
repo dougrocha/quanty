@@ -1,7 +1,7 @@
 import type { Interaction, CacheType } from 'discord.js'
 
 import { On, logger, Logger } from '../../../index'
-import type { CommandReturnObj } from '../../command'
+import type { CommandReturnObj, CommandOptions } from '../../command'
 import { Event } from '../Event'
 
 @On('interactionCreate')
@@ -37,9 +37,14 @@ export class Base_Interaction_CommandHandler extends Event<'interactionCreate'> 
       return
     }
 
-    const { guild, channel, options, user } = interaction
+    const { guild, channel, user } = interaction
 
-    if (!channel || !guild) return
+    const options = interaction.options as CommandOptions['options']
+
+    if (!channel || !guild)
+      return this.logger.error(
+        `Missing channel or guild. GUILDID: ${guild?.id} - CHANNEL: ${channel?.id}`,
+      )
 
     const client = this.client
 

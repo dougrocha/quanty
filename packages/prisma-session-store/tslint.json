@@ -1,7 +1,0 @@
-{
-  "extends": "tslint-config-suiyobi",
-  "rules": {
-    "no-big-function": false,
-    "max-file-line-count": false
-  }
-}

@@ -47,7 +47,7 @@ export class CommandLoader {
     const commandsPath: string = resolve(
       defaultCommands
         ? `${__dirname}/base`
-        : `${this.client.baseDir || ''}${commandsDir}`,
+        : `${this.client.baseDirectory || ''}${commandsDir}`,
     )
 
     const commandFiles: string[] = await this.client.globPromise(
@@ -56,7 +56,6 @@ export class CommandLoader {
 
     commandFiles.map(async file => {
       const command = await import(file)
-
       const classInstance: new () => Command = command[Object.keys(command)[0]]
 
       if (!isConstructor(classInstance))
@@ -115,12 +114,13 @@ export class CommandLoader {
         })
 
         this.testCommands.map(async cmd => {
-          // If test commands doesnt exist in guild commands, create new command
+          // If Guild Command does not exist in test commands list. It will create in guild.
           if (
-            guildCommands.find(
-              gcmd =>
-                gcmd.name === cmd.name || gcmd.description === cmd.description,
-            )
+            guildCommands.find(gcmd => {
+              return (
+                gcmd.name === cmd.name || gcmd.description === cmd.description
+              )
+            })
           )
             return
 
@@ -133,8 +133,6 @@ export class CommandLoader {
           )
         })
       }
-
-      this._logger.log('✅ Loaded test commands.')
     })
   }
 }

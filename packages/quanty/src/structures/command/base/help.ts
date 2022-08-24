@@ -1,12 +1,12 @@
 import { SlashCommand } from '../../../decorators'
 import { Command } from '../Command'
-import type { SlashCommandRunOptions, CommandReturnType } from '../types'
+import type { CommandOptions, CommandReturnType } from '../types'
 
 @SlashCommand('help', {
   description: 'Default help command for quanty bot.',
 })
 export class HelpCommand extends Command {
-  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild }: CommandOptions): CommandReturnType {
     console.log(guild)
   }
 

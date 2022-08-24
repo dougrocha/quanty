@@ -11,5 +11,9 @@ mutation updateGuildById(
     id
     prefix
     premium
+    guildPlugins {
+      anime
+      autoMod
+    }
   }
 }

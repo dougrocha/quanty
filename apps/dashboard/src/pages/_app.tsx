@@ -1,14 +1,21 @@
+import '../styles/globals.css'
+
 import { ApolloProvider } from '@apollo/client'
-import LoadingLayout from 'layouts/loading'
 import { NextPage } from 'next'
 import { DefaultSeo } from 'next-seo'
+import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ReactElement, ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
-import { useApollo } from '../libs/apolloClient'
-import '../styles/globals.css'
+import { useApollo } from '../hooks/useApollo'
 import defaultSeo from '../utils/defaultSeo'
+
+const LoadingLayout = dynamic(() => import('layouts/loading'), {
+  ssr: false,
+})
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -22,10 +29,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [pageLoading, setPageLoading] = useState<boolean>(false)
 
   const router = useRouter()
-
-  useEffect(() => {
-    if (!router.isReady) return
-  }, [router.isReady])
 
   const apolloClient = useApollo(pageProps)
 
@@ -45,14 +48,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <ThemeProvider attribute="class">
       <DefaultSeo {...defaultSeo} />
-      {Component.getLayout ? (
-        getLayout(<Component {...pageProps} />)
-      ) : (
-        <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
-      )}
-    </ApolloProvider>
+      <ApolloProvider client={apolloClient}>
+        {Component.getLayout ? (
+          getLayout(<Component {...pageProps} />)
+        ) : (
+          <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
+        )}
+      </ApolloProvider>
+    </ThemeProvider>
   )
 }
 

@@ -3,5 +3,18 @@ query GetGuildConfig($guildId: String!) {
     id
     prefix
     premium
+    guildSettings {
+      defaultJoinRole
+      djRole
+      globalCooldown
+      nsfw
+      musicTimeOut
+      id
+    }
+    guildPlugins {
+      anime
+      autoMod
+      id
+    }
   }
 }

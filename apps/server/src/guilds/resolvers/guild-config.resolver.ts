@@ -1,72 +1,79 @@
+import { Inject, UseGuards, UseInterceptors } from '@nestjs/common'
 import {
-  CACHE_MANAGER,
-  Inject,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common'
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
-import { Cache } from 'cache-manager'
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
 
-import { Guild, GuildUpdateInput } from '../../@generated'
-import { GraphQLAuthGuard, PUB_SUB } from '../../common'
+import {
+  Guild,
+  GuildPlugins,
+  GuildSettings,
+  GuildUpdateInput,
+} from '../../@generated'
+import {
+  GqlThrottlerGuard,
+  GraphQLAuthGuard,
+  GUILD_EVENT,
+  PUB_SUB,
+} from '../../common'
 import { LoggingInterceptor } from '../../common/interceptors/logging.interceptor'
 import { IGuildsService } from '../interfaces/guilds'
 import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
-enum GUILD_EVENT {
-  UPDATE_GUILD = 'UPDATE_GUILD',
-}
-
 @Resolver(() => Guild)
+@UseInterceptors(LoggingInterceptor)
+@UseGuards(GraphQLAuthGuard)
 export class GuildConfigResolver {
   constructor(
     @Inject(GuildServiceGateway)
     private readonly GuildWs: GuildServiceGateway,
     @Inject('GUILDS_SERVICE')
     private readonly GuildsService: IGuildsService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @Inject(PUB_SUB) private readonly pubSub: PubSub,
   ) {}
 
-  @Query(() => Guild, { name: 'guildConfig', nullable: false })
-  @UseGuards(GraphQLAuthGuard)
-  @UseInterceptors(LoggingInterceptor)
-  async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
-    const cachedGuild = await this.cacheManager.get(`guildConfig-${guildId}`)
-
-    if (cachedGuild) return <Guild>cachedGuild
-
-    const guild = await this.GuildsService.getGuild({ id: guildId })
-    await this.cacheManager.set(`guildConfig-${guildId}`, guild)
-
-    return guild
-  }
-
+  @UseGuards(GqlThrottlerGuard)
   @Mutation(() => Guild)
-  @UseGuards(GraphQLAuthGuard)
-  @UseInterceptors(LoggingInterceptor)
   async updateGuildById(
     @Args('guildId') id: string,
-    @Args('guildUpdateInput') { prefix, premium }: GuildUpdateInput,
+    @Args('guildUpdateInput')
+    updateArgs: GuildUpdateInput,
   ): Promise<Guild> {
-    const guildConfig = await this.GuildsService.updateGuild({
+    const updatedGuildConfig = await this.GuildsService.updateGuild({
       where: { id },
-      data: { prefix, premium },
+      data: updateArgs,
     })
+
     void this.pubSub.publish(GUILD_EVENT.UPDATE_GUILD, {
-      updatedGuildConfig: guildConfig,
+      updatedGuildConfig,
     })
-    return guildConfig
+
+    return updatedGuildConfig
   }
 
-  @Subscription(() => Guild, {
-    filter: (payload, variables) =>
-      payload.updatedGuildConfig.id === variables.id,
-  })
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updatedGuildConfig(@Args('id') _id: string) {
-    return this.pubSub.asyncIterator<Guild>(GUILD_EVENT.UPDATE_GUILD)
+  @UseGuards(GqlThrottlerGuard)
+  @Query(() => Guild, { name: 'guildConfig', nullable: false })
+  async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
+    return await this.GuildsService.getGuild({ id: guildId })
+  }
+
+  @ResolveField(() => GuildPlugins, { name: 'guildPlugins', nullable: true })
+  async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugins | null> {
+    return await this.GuildsService.getGuildPlugins({
+      id: id,
+    })
+  }
+
+  @ResolveField(() => GuildSettings, { name: 'guildSettings', nullable: true })
+  async guildSettings(@Parent() { id }: Guild): Promise<GuildSettings | null> {
+    return await this.GuildsService.getGuildSettings({
+      id: id,
+    })
   }
 
   // @ResolveField('plugins', () => GuildPlugins, { nullable: true })

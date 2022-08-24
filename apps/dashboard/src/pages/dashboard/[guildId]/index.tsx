@@ -1,13 +1,13 @@
-import { useAtomValue } from 'jotai'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
 import DashboardContent from '../../../components/dashboard/dashboardContent'
-import DashboardLayout from '../../../layouts/Dashboard'
-import { guildConfigAtom } from '../../../utils/atoms'
+import OverviewPluginsPage from '../../../components/dashboard/pages/overview'
+import { useCurrentGuildConfig } from '../../../hooks'
+import { DashboardLayout } from '../../../layouts'
 
 const OverviewPage = () => {
-  const guild = useAtomValue(guildConfigAtom)
+  const { guild } = useCurrentGuildConfig()
 
   return (
     <DashboardContent
@@ -20,10 +20,10 @@ const OverviewPage = () => {
           </a>
         </Link>
       }
-      seperateTitle
+      separateTitle
     >
-      <div className="grid w-full grid-cols-1 gap-y-20 gap-x-10 sm:grid-cols-2 md:grid-cols-3 md:gap-y-40 md:gap-x-20">
-        <div className="text-lg">
+      <div className="flex w-full flex-col space-y-10">
+        <div>
           <p className="italic">ID: {guild?.id}</p>
 
           <div className="mt-5">
@@ -39,6 +39,8 @@ const OverviewPage = () => {
             </Link>
           </div>
         </div>
+
+        <OverviewPluginsPage />
       </div>
     </DashboardContent>
   )

@@ -5,9 +5,9 @@ import {
   Logger,
   logger,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 
 @Category('music')
 @SlashCommand('immortal', {
@@ -17,8 +17,8 @@ export class ImmortalCommand extends Command {
   @logger()
   private logger: Logger
 
-  async run({ guild }: SlashCommandRunOptions): CommandReturnType {
-    // Const embed = new MessageEmbed().setTitle('Updating Immortality: ')
+  async run({ guild }: CommandOptions): CommandReturnType {
+    // Const embed = new EmbedBuilder().setTitle('Updating Immortality: ')
     // let guildConfig = await GuildPluginsModel.findOne(
     //   {
     //     guildId: guild.id,
@@ -52,7 +52,7 @@ export class ImmortalCommand extends Command {
   }
 
   async error(): CommandReturnType {
-    const embed = new MessageEmbed().setTitle('Command Error ')
+    const embed = new EmbedBuilder().setTitle('Command Error ')
 
     return {
       embeds: [embed.setDescription('Error occurred. Try again later.')],

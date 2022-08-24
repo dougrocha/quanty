@@ -1,9 +1,8 @@
 import {
   ApplicationCommandOptionData,
-  PermissionString,
+  PermissionsString,
   Collection,
   Snowflake,
-  Interaction,
   CommandInteraction,
   TextChannel,
   DMChannel,
@@ -14,7 +13,7 @@ import type {
   CommandTypes,
   ICommandOptions,
   IVerifyReturnObj,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from './types/Command'
 import type { CooldownObject, ICooldownOptions } from './types/Cooldown'
 
@@ -50,17 +49,17 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
 
   public type!: CommandTypes
 
-  public userPermissions!: PermissionString[]
+  public userPermissions!: PermissionsString[]
 
-  public clientPermissions!: PermissionString[]
+  public clientPermissions!: PermissionsString[]
 
   public extendedVerify!: (
-    interaction: Interaction,
+    interaction: CommandInteraction,
     client: C,
   ) => IVerifyReturnObj
 
   public customVerify!: (
-    interaction: Interaction,
+    interaction: CommandInteraction,
     client: C,
   ) => IVerifyReturnObj
 
@@ -104,7 +103,7 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
   }
 
   public getUserCooldown(userId: Snowflake): CooldownObject | null {
-    if (this.client.owner.includes(userId) || !this.cooldown) return null
+    if (this.client.owner?.includes(userId) || !this.cooldown) return null
 
     let cooldown = this.userCooldowns.get(userId)
     if (!cooldown) {
@@ -122,14 +121,14 @@ export abstract class Command<C extends QuantyClient = QuantyClient>
     return cooldown
   }
 
-  abstract run(options?: SlashCommandRunOptions): CommandReturnType
+  abstract run(options?: CommandOptions): CommandReturnType
 
   /**
    * This will run if you throw any errors in the run method.
    * @param e Error Obj
    * @param options Command Options
    */
-  abstract error?(e: any, options?: SlashCommandRunOptions): CommandReturnType
+  abstract error?(e: any, options?: CommandOptions): CommandReturnType
 
   private async verifyOptions(
     interaction: CommandInteraction,

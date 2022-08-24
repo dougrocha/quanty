@@ -10,7 +10,7 @@
   "devDependencies": {
     "@iconify/react": "^3.2.2",
     "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.2.222",
+    "@swc/core": "^1.2.242",
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tailwindcss/typography": "^0.5.4",

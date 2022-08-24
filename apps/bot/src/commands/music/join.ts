@@ -3,7 +3,7 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
 
 import { createPlayer } from '../../libs'
@@ -22,7 +22,7 @@ export class JoinCommand extends Command {
     user,
     client,
     channel,
-  }: SlashCommandRunOptions): CommandReturnType {
+  }: CommandOptions): CommandReturnType {
     const currGuild = client.guilds.cache.get(guild.id)
     const currMember = currGuild?.members.cache.get(user.id)
     const voiceChannelId = currMember?.voice.channel?.id

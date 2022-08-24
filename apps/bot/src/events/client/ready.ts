@@ -1,5 +1,5 @@
 import { Event, logger, Logger, Once } from '@quanty/framework'
-import { Client } from 'discord.js'
+import { ActivityType, Client } from 'discord.js'
 
 import { musicManager } from '../../libs'
 
@@ -12,7 +12,7 @@ export class ReadyEvent extends Event<'ready'> {
     this.logger.log(`🤖 ${client.user?.tag} is online!`)
 
     client.user?.setPresence({
-      activities: [{ name: 'Things', type: 'PLAYING' }],
+      activities: [{ name: 'Things', type: ActivityType.Playing }],
       status: 'online',
     })
 

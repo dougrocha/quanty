@@ -1,5 +1,5 @@
 import { Event, logger, Logger, On } from '@quanty/framework'
-import { Message, MessageEmbed, TextChannel } from 'discord.js'
+import { Message } from 'discord.js'
 
 @On('messageDelete')
 export class MessageDeleteEvent extends Event<'messageDelete'> {

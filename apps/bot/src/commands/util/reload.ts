@@ -6,8 +6,9 @@ import {
   Command,
   OwnerOnly,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
+import { ApplicationCommandOptionType } from 'discord.js'
 import { glob } from 'glob'
 
 const globPromise = promisify(glob)
@@ -21,18 +22,18 @@ interface CommandImport {
   description: 'Get or edit the prefix for commands.',
   options: [
     {
-      type: 'SUB_COMMAND',
+      type: ApplicationCommandOptionType.Subcommand,
       name: 'get',
       description: 'Get prefix for guild.',
       options: [],
     },
     {
-      type: 'SUB_COMMAND',
+      type: ApplicationCommandOptionType.Subcommand,
       name: 'edit',
       description: 'Changes prefix',
       options: [
         {
-          type: 'STRING',
+          type: ApplicationCommandOptionType.String,
           name: 'prefix',
           description: 'Sets a new prefix.',
           required: true,
@@ -43,7 +44,7 @@ interface CommandImport {
 })
 @OwnerOnly()
 export class LoadCommand extends Command {
-  async run({ guild, client }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, client }: CommandOptions): CommandReturnType {
     const slashCommandFiles: string[] = await globPromise(
       `${__dirname}/../../slashCmds/**/*{.ts,.js}`,
     )

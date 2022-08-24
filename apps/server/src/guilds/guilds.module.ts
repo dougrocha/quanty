@@ -1,7 +1,8 @@
 import { HttpModule } from '@nestjs/axios'
-import { CacheModule, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { PubSub } from 'graphql-subscriptions'
 
+import { GuildConfigSubscriptionsResolver } from './resolvers/guild-config-subscriptions.resolver'
 import { GuildConfigResolver } from './resolvers/guild-config.resolver'
 import { GuildsResolver } from './resolvers/guilds.resolver'
 import { GuildsHttpService } from './services/guilds-http.service'
@@ -17,7 +18,7 @@ import {
 import { PrismaService } from '../prisma.service'
 
 @Module({
-  imports: [HttpModule, CacheModule.register({ isGlobal: true, ttl: 30 })],
+  imports: [HttpModule],
   providers: [
     { provide: GUILDS_HTTP_SERVICE, useClass: GuildsHttpService },
     { provide: GUILDS_SERVICE, useClass: GuildsService },
@@ -26,6 +27,8 @@ import { PrismaService } from '../prisma.service'
     GuildsResolver,
     GuildConfigResolver,
     GuildServiceGateway,
+    GuildConfigSubscriptionsResolver,
   ],
+  exports: [{ provide: GUILDS_SERVICE, useClass: GuildsService }],
 })
 export class GuildsModule {}

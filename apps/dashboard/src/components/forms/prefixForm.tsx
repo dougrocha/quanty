@@ -1,13 +1,12 @@
 import { joiResolver } from '@hookform/resolvers/joi'
 import Joi from 'joi'
-import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
 import { useUpdateGuildByIdMutation } from '../../graphql/generated/schema'
+import { useCurrentGuildConfig } from '../../hooks'
 import { useCurrentGuildId } from '../../hooks/useCurrentGuildId'
-import { guildConfigAtom } from '../../utils/atoms'
 
 const prefixSchema = Joi.object({
   prefix: Joi.string().required().min(1).max(5).messages({
@@ -18,12 +17,6 @@ const prefixSchema = Joi.object({
 })
 
 export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
-  const guild = useAtomValue(guildConfigAtom)
-
-  useEffect(() => {
-    setValue('prefix', guild ? guild.prefix : 'q!')
-  }, [guild])
-
   const {
     register,
     handleSubmit,
@@ -32,12 +25,20 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
     formState: { errors },
   } = useForm({
     resolver: joiResolver(prefixSchema),
+    mode: 'onChange',
   })
+
+  const { guild } = useCurrentGuildConfig()
+
+  useEffect(() => {
+    setValue('prefix', guild ? guild.prefix : 'q!')
+  }, [guild])
 
   const [updatePrefix] = useUpdateGuildByIdMutation()
 
   const guildId = useCurrentGuildId()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: { prefix?: string }) => {
     toast.promise(
       updatePrefix({
@@ -59,8 +60,6 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
     )
   }
 
-  const isDifferent = guild?.prefix != watch('prefix', guild?.prefix)
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col space-y-2">
@@ -81,12 +80,13 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
             {...register('prefix')}
           />
 
-          {isDifferent && (
-            <input
-              type={'submit'}
-              value="Save"
+          {guild?.prefix != watch('prefix', guild?.prefix) && (
+            <button
+              type="submit"
               className="ml-4 h-full rounded-md bg-primary-bright-purple py-2 px-3 text-sm"
-            />
+            >
+              Save
+            </button>
           )}
         </div>
 

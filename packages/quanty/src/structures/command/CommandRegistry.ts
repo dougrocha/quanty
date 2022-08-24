@@ -25,7 +25,7 @@ export class CommandRegistry extends Collection<string, Command> {
    */
   public registerCommand(command: Command) {
     this._logger.debug(
-      `Registrating command: ${command.commandName.toUpperCase()}`,
+      `Registered command: ${command.commandName.toUpperCase()}`,
     )
 
     command._init(this.client)

@@ -6,7 +6,7 @@
 //   name: 'Get Banner',
 //   category: 'context',
 //   description: "Get's banner with right click.",
-//   type: 'USER',
+//    type: ApplicationCommandOptionType.User,
 //   run: async ({ client, interaction, guild }) => {
 //     const targetId = interaction?.targetId
 

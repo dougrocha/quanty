@@ -20,7 +20,7 @@ export class EventRegistry extends Collection<string, Event> {
   public registerEvent(event: Event) {
     if (this.get(event._className)) this.delete(event._className)
 
-    this._logger.debug(`Registrating event: ${event._className}`)
+    this._logger.debug(`Registering event: ${event._className}`)
 
     this.set(event._className, event)
 

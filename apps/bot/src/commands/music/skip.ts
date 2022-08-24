@@ -3,9 +3,9 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 
 import { musicManager } from '../../libs/music'
 
@@ -14,7 +14,7 @@ import { musicManager } from '../../libs/music'
   description: 'Skips to next song',
   options: [
     {
-      type: 'INTEGER',
+      type: ApplicationCommandOptionType.Integer,
       name: 'song',
       description: 'Skips to a specific song in the queue',
       required: false,
@@ -28,7 +28,7 @@ export class TCommand extends Command {
     guild,
     user,
     options,
-  }: SlashCommandRunOptions): CommandReturnType {
+  }: CommandOptions): CommandReturnType {
     const player = musicManager.get(guild.id)
 
     if (!player) return { content: 'Play a few songs first' }
@@ -63,7 +63,7 @@ export class TCommand extends Command {
         return {
           content: 'There is not song to skip.',
         }
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
       player.stop(Number(amount))
       await client.wait(500)
       if (amount > 1) embed.setTitle(`\`${amount - 1} songs were skipped.\``)

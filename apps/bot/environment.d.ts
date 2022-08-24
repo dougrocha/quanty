@@ -1,8 +1,11 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    TOKEN: string
-    MONGOURI?: string | undefined
+    BOT_TOKEN: string
+    DISCORD_CLIENT_ID: string
+
     WS_URL?: string | undefined
+
+    NODE_ENV: string
 
     LAVA_LINK_HOST?: string | undefined
     LAVA_LINK_PORT?: string | undefined
@@ -12,16 +15,13 @@ declare namespace NodeJS {
     SPOTIFY_CLIENT_SECRET?: string | undefined
 
     WEBSOCKET_TOKEN?: string | undefined
+
+    DATABASE_URL: string
   }
 }
 
 declare module 'discord-html-transcripts' {
-  import type {
-    Message,
-    TextChannel,
-    MessageAttachment,
-    Collection,
-  } from 'discord.js'
+  import type { Message, TextChannel, Attachment, Collection } from 'discord.js'
 
   /**
    * Create a transcript, but with your own messages provided
@@ -44,7 +44,7 @@ declare module 'discord-html-transcripts' {
     messages: Collection<string, Message> | Message[],
     channel: TextChannel,
     options?: GenerateFromMessagesOptions<B>,
-  ): B extends true ? Buffer : MessageAttachment
+  ): B extends true ? Buffer : Attachment
   /**
    * Create a transcript from the given channel.
    * This function return a promise, so use `await` or `then()`
@@ -63,7 +63,7 @@ declare module 'discord-html-transcripts' {
   function createTranscript<B extends boolean = false>(
     channel: TextChannel,
     options?: CreateTranscriptOptions<B>,
-  ): Promise<B extends true ? Buffer : MessageAttachment>
+  ): Promise<B extends true ? Buffer : Attachment>
 
   interface GenerateFromMessagesOptions<B extends boolean> {
     /**

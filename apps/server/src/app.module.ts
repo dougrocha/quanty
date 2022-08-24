@@ -2,26 +2,36 @@ import { join } from 'path'
 
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import {
+  CacheModule,
   MiddlewareConsumer,
   Module,
   NestModule,
   RequestMethod,
 } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RouterModule } from '@nestjs/core'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
 import { PassportModule } from '@nestjs/passport'
 import { ThrottlerModule } from '@nestjs/throttler'
+import redisStore from 'cache-manager-redis-store'
 import { Request } from 'express'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import Joi from 'joi'
 
 import { AuthModule } from './auth/auth.module'
-import { RawBodyMiddleware, JsonBodyMiddleware, PRISMA_SERVICE } from './common'
+import { AuthService } from './auth/auth.service'
+import {
+  RawBodyMiddleware,
+  JsonBodyMiddleware,
+  PRISMA_SERVICE,
+  GUILDS_SERVICE,
+  AUTH_SERVICE,
+} from './common'
 import { DiscordController } from './discord/discord.controller'
 import { DiscordModule } from './discord/discord.module'
 import { GuildsModule } from './guilds/guilds.module'
-import { prismaStoreClient, useSessionMiddleware } from './main'
+import { IGuildsService } from './guilds/interfaces/guilds'
+import { useSessionMiddleware } from './main'
 import { PaymentsModule } from './payments/payments.module'
 import { PrismaService } from './prisma.service'
 import { StripeModule } from './stripe/stripe.module'
@@ -34,7 +44,7 @@ const ENV = process.env.NODE_ENV
     ConfigModule.forRoot({
       envFilePath: ENV ? `.env.${ENV}` : `.env.development`,
       isGlobal: true,
-      validationSchema: Joi.object({
+      validationSchema: Joi.object<NodeJS.ProcessEnv>({
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test')
           .default('development'),
@@ -45,104 +55,122 @@ const ENV = process.env.NODE_ENV
         SESSION_COOKIE: Joi.string(),
         BOT_SECRET: Joi.string(),
         WEBSOCKET_TOKEN: Joi.string(),
+
         THROTTLE_TTL: Joi.number().default(60),
         THROTTLE_LIMIT: Joi.number().default(10),
+
         DATABASE_URL: Joi.string().required(),
+
         DISCORD_CLIENT_ID: Joi.string(),
         CLIENT_SECRET: Joi.string(),
         DISCORD_CALLBACK_URL: Joi.string(),
+
+        REDIS_HOST: Joi.string(),
+        REDIS_PORT: Joi.number(),
+        REDIS_USER: Joi.string(),
+        REDIS_PASSWORD: Joi.string(),
+        REDIS_URL: Joi.string(),
+        CACHE_TTL: Joi.number().default(20),
       }),
     }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ttl: 20,
+        store: redisStore.create({
+          host: configService.get('REDIS_HOST'),
+          port: configService.get('REDIS_PORT'),
+          password: configService.get('REDIS_PASSWORD'),
+          url: `//${configService.get('REDIS_USER')}:${configService.get(
+            'REDIS_PASSWORD',
+          )}@${configService.get('REDIS_HOST')}:${configService.get(
+            'REDIS_PORT',
+          )}`,
+        }),
+      }),
+      inject: [ConfigService],
+    }),
     PassportModule.register({ session: true }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    AuthModule,
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      cache: 'bounded',
-      useGlobalPrefix: true,
-      sortSchema: true,
-      debug: true,
-      cors: {
-        origin: process.env.FRONTEND_URL,
-        credentials: true,
-      },
-      installSubscriptionHandlers: true,
-      introspection: true,
-      subscriptions: {
-        'graphql-ws': {
-          onConnect: ctx => {
-            const req = (ctx.extra as any).request as Request
-            const res = {} as any
-            return new Promise(async resolve => {
-              useSessionMiddleware(req, res, () => {
-                return
-              })
-
-              await prismaStoreClient.$connect()
-
-              const userSession =
-                await prismaStoreClient.userSession.findUnique({
-                  where: {
-                    sid: req.sessionID,
-                  },
-                  select: { expiresAt: true },
-                })
-
-              if (!userSession) return resolve(false)
-
-              if (userSession.expiresAt < new Date(Date.now()))
-                return resolve(false)
-
-              resolve(true)
-            })
-          },
-          // OnSubscribe: (ctx: { extra: any }) => {
-          //   console.log(
-          //     'onSubscribe',
-          //     ((ctx.extra as any).request as Request).headers.cookie,
-          //   )
-          // },
-          // onClose: ctx => {
-          //   console.log(
-          //     'onClose',
-          //     ((ctx.extra as any).request as Request).headers.cookie,
-          //   )
-          // },
-          // onNext: ctx => {
-          //   console.log(
-          //     'onNext',
-          //     ((ctx.extra as any).request as Request).headers.cookie,
-          //   )
-          // },
-          // onDisconnect: ctx => {
-          //   console.log(
-          //     'onDisconnect',
-          //     ((ctx.extra as any).request as Request).headers.cookie,
-          //   )
-          // },
+      imports: [AuthModule, GuildsModule, ConfigModule],
+      inject: [AUTH_SERVICE, GUILDS_SERVICE, ConfigService],
+      useFactory: async (
+        authService: AuthService,
+        guildsService: IGuildsService,
+        configService: ConfigService,
+      ) => ({
+        cache: 'bounded',
+        useGlobalPrefix: true,
+        sortSchema: true,
+        debug: true,
+        cors: {
+          origin: configService.get('FRONTEND_URL'),
+          credentials: true,
         },
-        'subscriptions-transport-ws': true,
-      },
-      autoTransformHttpErrors: true,
-      csrfPrevention: process.env.NODE_ENV === 'production' ? true : false,
-      formatError: (error: GraphQLError) => {
-        const graphQLFormattedError: GraphQLFormattedError = {
-          message: error.message,
-        }
-        return graphQLFormattedError
-      },
-      resolvers: { DateTime: GraphQLISODateTime },
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req, res, payload, connection }) => {
-        return {
+        installSubscriptionHandlers: true,
+        introspection: true,
+        context: async ({ req, res, payload, connection }) => ({
           req,
           res,
           payload,
           connection,
-        }
-      },
+        }),
+        subscriptions: {
+          'graphql-ws': {
+            onConnect: async ctx => {
+              const req = (ctx.extra as any).request as Request
+              const res = {} as any
+              useSessionMiddleware(req, res, () => {
+                return
+              })
+              const user = await authService.findUser(req.sessionID)
+              return { userId: user.id }
+            },
+            onSubscribe: async (payload, ctx) => {
+              const user = (payload.extra as any).request.session.passport.user
+
+              if (!user)
+                return [new GraphQLError('Unauthenticated subscription')]
+
+              const mutualGuilds = await guildsService.getMutualGuilds(user)
+
+              const guildId = (ctx.payload.variables as Record<string, string>)
+                .guildId
+
+              const guild = mutualGuilds.find(guild => guild.id === guildId)
+
+              if (!guild)
+                return [
+                  new GraphQLError('You do not have access to this guild'),
+                ]
+            },
+          },
+          'subscriptions-transport-ws':
+            configService.get('NODE_ENV') === 'production' ? false : true,
+        },
+        autoTransformHttpErrors: true,
+        csrfPrevention:
+          configService.get('NODE_ENV') === 'production' ? true : false,
+        formatError: (error: GraphQLError) => {
+          const graphQLFormattedError: GraphQLFormattedError = {
+            message: error.message,
+          }
+          return graphQLFormattedError
+        },
+        resolvers: { DateTime: GraphQLISODateTime },
+        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      }),
     }),
-    ThrottlerModule.forRoot({
-      ttl: process.env.THROTTLE_TTL,
-      limit: process.env.THROTTLE_LIMIT,
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ttl: configService.get('THROTTLE_TTL'),
+        limit: configService.get('THROTTLE_LIMIT'),
+      }),
+      inject: [ConfigService],
     }),
     RouterModule.register([
       {
@@ -150,11 +178,10 @@ const ENV = process.env.NODE_ENV
         module: StripeModule,
       },
     ]),
-    AuthModule,
     GuildsModule,
     UsersModule,
     StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2020-08-27',
+      apiVersion: '2022-08-01',
       typescript: true,
       appInfo: {
         name: 'Quantum Bot Server',

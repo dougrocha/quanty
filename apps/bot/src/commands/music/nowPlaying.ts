@@ -5,9 +5,9 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 import { Player } from 'erela.js'
 
 import { checkChannel, musicManager } from '../../libs/music'
@@ -17,11 +17,7 @@ import { checkChannel, musicManager } from '../../libs/music'
   description: 'Shows the current playing song',
 })
 export class NowPlayingCommand extends Command {
-  async run({
-    client,
-    guild,
-    user,
-  }: SlashCommandRunOptions): CommandReturnType {
+  async run({ client, guild, user }: CommandOptions): CommandReturnType {
     const { content, player } = checkChannel({
       guild,
       user,
@@ -83,35 +79,47 @@ export class NowPlayingCommand extends Command {
       if (!song)
         return {
           embeds: [
-            new MessageEmbed()
-              .setColor('RED')
+            new EmbedBuilder()
+              .setColor('Red')
               .setTitle(`Error | There is nothing playing`),
           ],
         }
       // Send Now playing Message
       return {
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setAuthor({
               name: `Current song playing:`,
-              iconURL: client.user?.displayAvatarURL({
-                dynamic: true,
-              }),
+              iconURL: client.user?.displayAvatarURL(),
             })
             .setThumbnail(
               `https://img.youtube.com/vi/${song.identifier}/mqdefault.jpg`,
             )
             .setURL(song.uri)
-            .setColor('GREEN')
+            .setColor('Green')
             .setTitle(`🎶 **${song.title}** 🎶`)
-            .addField(`🕰️ Duration: `, `\`${format(song.duration)}\``, true)
-            .addField(`🎼 Song By: `, `\`${song.author}\``, true)
-            .addField(
-              `🔢 Queue length: `,
-              `\`${player.queue.length} Songs\``,
-              true,
-            )
-            .addField(`🎛️ Progress: `, createBar(player) ?? 'none')
+            .addFields([
+              {
+                name: `🕰️ Duration: `,
+                value: `\`${format(song.duration)}\``,
+                inline: true,
+              },
+              {
+                name: `🎼 Song By: `,
+                value: `\`${song.author}\``,
+                inline: true,
+              },
+              {
+                name: `🔢 Queue length: `,
+                value: `\`${player.queue.length} Songs\``,
+                inline: true,
+              },
+              {
+                name: `🎛️ Progress: `,
+                value: createBar(player) ?? 'none',
+              },
+            ])
+
             .setFooter({
               text: `Requested by: ${song.requester.username}`,
               iconURL:
@@ -127,8 +135,8 @@ export class NowPlayingCommand extends Command {
       console.log(String(e.stack))
       return {
         embeds: [
-          new MessageEmbed()
-            .setColor('RED')
+          new EmbedBuilder()
+            .setColor('Red')
             .setTitle(`ERROR | An error occurred`)
             .setDescription(`\`\`\`${e.message}\`\`\``),
         ],

@@ -11,64 +11,65 @@ import {
   useGetMutualGuildsQuery,
 } from '../../graphql/generated/schema'
 import { useOnClickOutside } from '../../hooks'
-import { FetchGuildIcon } from '../../libs/FetchIcons'
+import { FetchGuildIcon } from '../../libs/fetchGuildIcon'
 import { mutualGuildsAtom } from '../../utils/atoms'
-import { dashboardDrawerShinkToggleAtom } from '../../utils/atoms/dashboardSidebarStatus'
+import { sidebarCollapsedAtom } from '../../utils/atoms/dashboardSidebarStatus'
 
 const GuildSelectionMenu = () => {
+  const ref = useRef(null)
+
   const {
     query: { guildId },
   } = useRouter()
 
   const [mutualGuilds, setMutualGuilds] = useAtom(mutualGuildsAtom)
-  const sidebarShrinked = useAtomValue(dashboardDrawerShinkToggleAtom)
+  const sidebarShrinked = useAtomValue(sidebarCollapsedAtom)
+  const [open, setOpen] = useState(false)
 
   useGetMutualGuildsQuery({
     onCompleted: ({ mutualGuilds }) => setMutualGuilds(mutualGuilds),
     fetchPolicy: 'cache-first',
   })
 
-  const ref = useRef(null)
+  useOnClickOutside(ref, () => setOpen(false))
 
   const guild = mutualGuilds?.find(({ id }) => id == guildId)
 
-  const closeDropdown = () => setOpen(false)
-
-  useOnClickOutside(ref, closeDropdown)
-
-  const [open, setOpen] = useState(false)
-
   return (
     <div
-      className={`text-md relative my-5 flex h-12 cursor-pointer select-none items-center justify-center rounded-lg border border-primary-purple-10 bg-primary-purple-10 py-2 px-3 ${
+      className={`text-md relative my-5 flex h-12 w-full cursor-pointer select-none items-center rounded-lg border border-primary-purple-10 bg-primary-purple-10 py-2 px-3 ${
         open
           ? 'border border-primary-bright-purple'
           : 'hover:border hover:border-primary-bright-purple'
-      }`}
+      } ${sidebarShrinked && 'justify-center'}`}
       onClick={() => setOpen(!open)}
       ref={ref}
     >
-      <Image
-        className="rounded-full"
-        alt={`Current chosen guild icon`}
-        src={FetchGuildIcon(guild?.id ?? 'Undefined', guild?.icon)}
-        priority
-        width={24}
-        height={24}
+      <ChevronDownIcon
+        className={`absolute right-2 h-6 w-6 transition-transform duration-300 ${
+          open ? 'rotate-180' : 'rotate-0'
+        } ${sidebarShrinked && 'hidden'}`}
       />
 
-      {!sidebarShrinked && (
-        <>
-          <p className={`ml-3 flex-shrink truncate whitespace-nowrap`}>
-            {guild?.name}
-          </p>
-          <ChevronDownIcon
-            className={`ml-auto w-6 transition-transform duration-300 ${
-              open ? 'rotate-180' : 'rotate-0'
-            }`}
-          />
-        </>
-      )}
+      <div className="h-6 w-6 flex-shrink-0">
+        <Image
+          className="rounded-full"
+          alt={`Current chosen guild icon`}
+          src={FetchGuildIcon(guild?.id ?? 'Undefined', guild?.icon)}
+          priority
+          width={28}
+          height={28}
+        />
+      </div>
+
+      <p
+        className={`${
+          sidebarShrinked && 'hidden'
+        } mr-7 ml-2 origin-left truncate duration-200`}
+      >
+        {guild?.name}
+      </p>
+
       {open && (
         <GuildSelectionDropdown
           sidebarShrinked={sidebarShrinked}
@@ -103,13 +104,13 @@ const GuildSelectionDropdown = ({
   }
 
   return (
-    <div className="absolute top-14 min-w-full overflow-x-hidden text-sm">
+    <div className="absolute top-14 left-0 min-w-full overflow-x-hidden text-sm">
       <ul className="w-full rounded-lg bg-primary-purple-10">
         {mutualGuilds?.map(guild => (
           <li key={guild.id}>
             {guild.id != guildId && guild.bot && (
               <div
-                className={`flex w-full cursor-pointer items-center ${
+                className={`flex w-full cursor-pointer items-center justify-center ${
                   sidebarShrinked ? 'justify-center px-1 py-3' : 'p-5 py-4'
                 }`}
                 onClick={() => handleGuildChange(guild.id)}
@@ -129,9 +130,9 @@ const GuildSelectionDropdown = ({
             )}
           </li>
         ))}
-        <hr className="mx-7 rounded border-primary-bright-purple" />
+        <hr className="mx-5 rounded border-primary-bright-purple" />
         <li
-          className={`flex w-full cursor-pointer items-center justify-start py-3 ${
+          className={`flex w-full cursor-pointer items-center justify-center py-3 ${
             sidebarShrinked ? 'justify-center' : ' px-5'
           }`}
         >

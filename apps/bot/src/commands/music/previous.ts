@@ -3,9 +3,9 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 
 import { checkChannel } from '../../libs'
 
@@ -14,7 +14,7 @@ import { checkChannel } from '../../libs'
   description: 'Plays the previous song.',
 })
 export class PreviousCommand extends Command {
-  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, user }: CommandOptions): CommandReturnType {
     const { content, player } = checkChannel({
       guild,
       user,
@@ -25,7 +25,7 @@ export class PreviousCommand extends Command {
       }
     }
     if (!player.queue.current) return { content: 'Play a song first to skip' }
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
     const { previous } = player.queue
     const { current } = player.queue
     if (!previous)
@@ -36,7 +36,7 @@ export class PreviousCommand extends Command {
     await player.play(previous)
     embed
       .setTitle(`\`Playing previous song.\``)
-      .addField('Now playing: ', `${previous.title}`)
+      .addFields([{ name: 'Now playing: ', value: `${previous.title}` }])
     player.queue.previous = null
     return { embeds: [embed] }
   }

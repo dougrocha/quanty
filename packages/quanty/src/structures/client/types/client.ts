@@ -1,11 +1,10 @@
 import type { Snowflake } from 'discord.js'
 
-export interface IQuantyConfig {
-  token: string | undefined
+export interface QuantyClientOptions {
   /**
    * Owners of this discord bot
    */
-  owner: Snowflake | Snowflake[]
+  owner?: Snowflake | Snowflake[]
   /**
    * Default prefix for the bot
    */
@@ -14,7 +13,7 @@ export interface IQuantyConfig {
   /**
    * Base directory for bot.
    */
-  baseDir?: string
+  baseDirectory?: string
   /**
    * ``Typescript only``
    *

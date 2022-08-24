@@ -4,10 +4,10 @@ import {
   ClientPermissions,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
-import { TextChannel } from 'discord.js'
+import { ApplicationCommandOptionType, ChannelType } from 'discord.js'
 
 @SlashCommand('setup-logger', {
   description: 'Sets up logs channel.',
@@ -15,20 +15,16 @@ import { TextChannel } from 'discord.js'
     {
       name: 'channel',
       description: 'All logs will be sent to this channel.',
-      type: 'CHANNEL',
-      channelTypes: ['GUILD_TEXT'],
+      type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildText],
     },
   ],
 })
 @Category('moderation')
-@UserPermissions('MANAGE_WEBHOOKS')
-@ClientPermissions('MANAGE_WEBHOOKS')
+@UserPermissions('ManageWebhooks')
+@ClientPermissions('ManageWebhooks')
 export class BanCommand extends Command {
-  async run({
-    client,
-    user,
-    options,
-  }: SlashCommandRunOptions): CommandReturnType {
+  async run({ client, user, options }: CommandOptions): CommandReturnType {
     // Const guildChannel = options.getChannel('channel') as TextChannel
     // // !TODO Find a way to store this in database to keep track of guild webhooks
     // await guildChannel

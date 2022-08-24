@@ -21,11 +21,13 @@ import { UsersService } from '../users/services/users.service'
   providers: [
     DiscordStrategy,
     SessionSerializer,
+    AuthService,
     { provide: AUTH_SERVICE, useClass: AuthService },
     { provide: PRISMA_SERVICE, useClass: PrismaService },
     { provide: USERS_SERVICE, useClass: UsersService },
     { provide: PAYMENT_SERVICE, useClass: PaymentsService },
   ],
   controllers: [AuthController],
+  exports: [{ provide: AUTH_SERVICE, useClass: AuthService }],
 })
 export class AuthModule {}

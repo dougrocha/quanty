@@ -1,28 +1,27 @@
-import { motion } from 'framer-motion'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Toaster } from 'react-hot-toast'
 import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
 import { useMedia } from 'react-use'
 
 import { DashboardNavbar } from '../components/dashboard'
 import {
-  useGetGuildConfigQuery,
-  useGuildConfigSubscription,
-} from '../graphql/generated/schema'
-import { useAuth, useClickOn } from '../hooks'
-import { useCurrentGuildId } from '../hooks/useCurrentGuildId'
-import { guildConfigAtom } from '../utils/atoms'
-import { dashboardDrawerToggleAtom } from '../utils/atoms/dashboardSidebarStatus'
+  useAuth,
+  useClickOn,
+  useCurrentGuildConfig,
+  useCurrentGuildId,
+  useSubscribeGuildConfig,
+} from '../hooks'
+import { sidebarOpenAtom } from '../utils/atoms/dashboardSidebarStatus'
 
 const ClapSpinner: typeof ClapSpinnerType = dynamic(() =>
-  import('react-spinners-kit').then(mod => mod['ClapSpinner']),
+  import('react-spinners-kit').then(mod => mod.ClapSpinner),
 )
 
 const DashboardSidebar = dynamic(
-  () => import('../components/dashboard/sidebar'),
+  () => import('../components/dashboard/sidebar/sidebar'),
 )
 
 interface LayoutProps {
@@ -30,19 +29,14 @@ interface LayoutProps {
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
-  useAuth()
-
   const guildId = useCurrentGuildId()
 
-  useEffect(() => {
-    if (!guildId) return
-  }, [guildId])
+  useAuth()
+  useSubscribeGuildConfig(guildId)
 
-  const [sidebarDrawerOpen, toggleSidebarDrawer] = useAtom(
-    dashboardDrawerToggleAtom,
-  )
+  const { loading } = useCurrentGuildConfig()
 
-  const setGuildConfig = useSetAtom(guildConfigAtom)
+  const [sidebarOpened, setSidebarOpen] = useAtom(sidebarOpenAtom)
 
   const dashboardContainerRef = useRef(null)
 
@@ -50,25 +44,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   useClickOn(dashboardContainerRef, () => {
     if (isLarge) return
-    toggleSidebarDrawer(false)
-  })
-
-  const { loading } = useGetGuildConfigQuery({
-    onCompleted: ({ guildConfig }) => setGuildConfig(guildConfig),
-    variables: { guildId },
-    fetchPolicy: 'network-only',
-  })
-
-  useGuildConfigSubscription({
-    variables: {
-      guildId: guildId,
-    },
-    onSubscriptionData: ({ subscriptionData }) => {
-      console.debug(`[GUILD_CONFIG_UPDATE] - ${guildId}:`, {
-        data: subscriptionData.data,
-      })
-    },
-    fetchPolicy: 'network-only',
+    setSidebarOpen(false)
   })
 
   return (
@@ -91,35 +67,34 @@ const DashboardLayout = ({ children }: LayoutProps) => {
         <meta name="theme-color" content="#1C1A25" />
       </Head>
       <div
-        className={`relative flex h-screen w-screen overflow-x-hidden bg-primary-darkPurpleBg text-primary-white antialiased`}
+        className={`relative flex h-screen w-screen items-center justify-center overflow-hidden antialiased`}
       >
-        <Toaster />
-        <DashboardSidebar />
-        <div
-          ref={dashboardContainerRef}
-          className={`h-full w-full bg-primary-purple-20 `}
-        >
-          <DashboardNavbar />
-          {loading ? (
-            <div className="flex h-[calc(100%_-_64px)] items-center justify-center">
-              <ClapSpinner frontColor={'#ffffff'} backColor={'#ffffff'} />
-            </div>
-          ) : (
-            <div className="h-[calc(100%_-_64px)] overflow-auto">
-              <motion.div
-                animate={{
-                  filter: sidebarDrawerOpen ? 'blur(3px)' : 'blur(0px)',
-                }}
-                className={`min-h-full w-full p-10 lg:!blur-0 ${
-                  sidebarDrawerOpen
-                    ? 'pointer-events-none select-none blur-sm lg:pointer-events-auto lg:select-auto'
-                    : ''
-                }`}
-              >
-                {children}
-              </motion.div>
-            </div>
-          )}
+        <div className="flex h-full w-full max-w-[2560px] transition-all">
+          <DashboardSidebar />
+          <div
+            ref={dashboardContainerRef}
+            className={`h-full w-full bg-primary-purple-20`}
+          >
+            <Toaster />
+            <DashboardNavbar />
+            {loading ? (
+              <div className="flex h-[calc(100%_-_64px)] items-center justify-center">
+                <ClapSpinner frontColor={'#ffffff'} backColor={'#ffffff'} />
+              </div>
+            ) : (
+              <div className="h-[calc(100%_-_64px)] overflow-auto">
+                <div
+                  className={`min-h-full w-full p-10 transition-all lg:!blur-0 ${
+                    sidebarOpened
+                      ? 'pointer-events-none select-none !blur-sm lg:pointer-events-auto lg:select-auto'
+                      : ''
+                  }`}
+                >
+                  {children}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

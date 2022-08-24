@@ -6,7 +6,7 @@ import Copyright from '../copyright'
 const Footer = () => {
   return (
     <footer
-      className={`mx-auto my-12 h-full w-full max-w-7xl items-center justify-between px-4 text-sm md:flex`}
+      className={`mx-auto h-full w-full max-w-7xl items-center justify-between px-4 pb-8 pt-12 text-sm md:flex`}
     >
       <FooterTags />
       <div className="mr-auto mt-10 md:mt-auto md:mr-0">
@@ -18,7 +18,7 @@ const Footer = () => {
 
 const FooterTags = () => {
   return (
-    <div className="mt-auto inline-flex flex-col md:flex-row md:space-x-10">
+    <div className="mt-auto flex flex-col md:flex-row md:space-x-10">
       {FooterItems.map(({ items, title }) => {
         return (
           <div className="w-full list-none" key={title}>

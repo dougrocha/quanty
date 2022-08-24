@@ -3,9 +3,9 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 
 import { checkChannel } from '../../libs'
 
@@ -14,7 +14,7 @@ import { checkChannel } from '../../libs'
   description: 'Loops the queue',
 })
 export class LoopCommand extends Command {
-  async run({ guild, user }: SlashCommandRunOptions): CommandReturnType {
+  async run({ guild, user }: CommandOptions): CommandReturnType {
     const { content, player } = checkChannel({
       guild,
       user,
@@ -26,7 +26,7 @@ export class LoopCommand extends Command {
       }
     }
 
-    const embed = new MessageEmbed().setAuthor({
+    const embed = new EmbedBuilder().setAuthor({
       name: `Queue for ${guild.name}`,
     })
 

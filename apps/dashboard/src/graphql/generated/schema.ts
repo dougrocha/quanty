@@ -19,7 +19,6 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any
 }
 
@@ -387,7 +386,7 @@ export type GuildSettings = {
   defaultJoinRole: Scalars['String']
   djRole: Scalars['String']
   globalCooldown: Scalars['Int']
-  guild?: Maybe<Guild>
+  guild: Guild
   id: Scalars['ID']
   musicTimeOut: Scalars['Boolean']
   nsfw: Scalars['Boolean']
@@ -415,8 +414,8 @@ export type GuildSettingsCreateOrConnectWithoutGuildInput = {
 }
 
 export type GuildSettingsCreateWithoutGuildInput = {
-  defaultJoinRole: Scalars['String']
-  djRole: Scalars['String']
+  defaultJoinRole?: InputMaybe<Scalars['String']>
+  djRole?: InputMaybe<Scalars['String']>
   globalCooldown?: InputMaybe<Scalars['Int']>
   musicTimeOut?: InputMaybe<Scalars['Boolean']>
   nsfw?: InputMaybe<Scalars['Boolean']>
@@ -892,40 +891,6 @@ export type SubscriptionUpdatedGuildConfigArgs = {
   id: Scalars['String']
 }
 
-export type SubscriptionCountAggregate = {
-  __typename?: 'SubscriptionCountAggregate'
-  _all: Scalars['Int']
-  cancel_at_period_end: Scalars['Int']
-  current_period_end: Scalars['Int']
-  customerId: Scalars['Int']
-  guildId: Scalars['Int']
-  id: Scalars['Int']
-  priceId: Scalars['Int']
-  status: Scalars['Int']
-}
-
-export type SubscriptionMaxAggregate = {
-  __typename?: 'SubscriptionMaxAggregate'
-  cancel_at_period_end?: Maybe<Scalars['Boolean']>
-  current_period_end?: Maybe<Scalars['DateTime']>
-  customerId?: Maybe<Scalars['String']>
-  guildId?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  priceId?: Maybe<Scalars['String']>
-  status?: Maybe<Subscription_Status>
-}
-
-export type SubscriptionMinAggregate = {
-  __typename?: 'SubscriptionMinAggregate'
-  cancel_at_period_end?: Maybe<Scalars['Boolean']>
-  current_period_end?: Maybe<Scalars['DateTime']>
-  customerId?: Maybe<Scalars['String']>
-  guildId?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  priceId?: Maybe<Scalars['String']>
-  status?: Maybe<Subscription_Status>
-}
-
 export enum Subscription_Status {
   Active = 'ACTIVE',
   Canceled = 'CANCELED',
@@ -1021,6 +986,31 @@ export type UserMinAggregate = {
   username?: Maybe<Scalars['String']>
 }
 
+export type UserSessionCountAggregate = {
+  __typename?: 'UserSessionCountAggregate'
+  _all: Scalars['Int']
+  data: Scalars['Int']
+  expiresAt: Scalars['Int']
+  id: Scalars['Int']
+  sid: Scalars['Int']
+}
+
+export type UserSessionMaxAggregate = {
+  __typename?: 'UserSessionMaxAggregate'
+  data?: Maybe<Scalars['String']>
+  expiresAt?: Maybe<Scalars['DateTime']>
+  id?: Maybe<Scalars['String']>
+  sid?: Maybe<Scalars['String']>
+}
+
+export type UserSessionMinAggregate = {
+  __typename?: 'UserSessionMinAggregate'
+  data?: Maybe<Scalars['String']>
+  expiresAt?: Maybe<Scalars['DateTime']>
+  id?: Maybe<Scalars['String']>
+  sid?: Maybe<Scalars['String']>
+}
+
 export type UserUpdateOneWithoutCustomerNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutCustomerInput>
@@ -1088,6 +1078,21 @@ export type GetGuildConfigQuery = {
     id: string
     prefix: string
     premium: boolean
+    guildSettings?: {
+      __typename?: 'GuildSettings'
+      defaultJoinRole: string
+      djRole: string
+      globalCooldown: number
+      nsfw: boolean
+      musicTimeOut: boolean
+      id: string
+    } | null
+    guildPlugins?: {
+      __typename?: 'GuildPlugins'
+      anime: boolean
+      autoMod: boolean
+      id: string
+    } | null
   }
 }
 
@@ -1130,6 +1135,21 @@ export type GuildConfigSubscription = {
     id: string
     prefix: string
     premium: boolean
+    guildSettings?: {
+      __typename?: 'GuildSettings'
+      defaultJoinRole: string
+      djRole: string
+      globalCooldown: number
+      nsfw: boolean
+      musicTimeOut: boolean
+      id: string
+    } | null
+    guildPlugins?: {
+      __typename?: 'GuildPlugins'
+      anime: boolean
+      autoMod: boolean
+      id: string
+    } | null
   }
 }
 
@@ -1145,6 +1165,11 @@ export type UpdateGuildByIdMutation = {
     id: string
     prefix: string
     premium: boolean
+    guildPlugins?: {
+      __typename?: 'GuildPlugins'
+      anime: boolean
+      autoMod: boolean
+    } | null
   }
 }
 
@@ -1264,6 +1289,19 @@ export const GetGuildConfigDocument = gql`
       id
       prefix
       premium
+      guildSettings {
+        defaultJoinRole
+        djRole
+        globalCooldown
+        nsfw
+        musicTimeOut
+        id
+      }
+      guildPlugins {
+        anime
+        autoMod
+        id
+      }
     }
   }
 `
@@ -1439,6 +1477,19 @@ export const GuildConfigDocument = gql`
       id
       prefix
       premium
+      guildSettings {
+        defaultJoinRole
+        djRole
+        globalCooldown
+        nsfw
+        musicTimeOut
+        id
+      }
+      guildPlugins {
+        anime
+        autoMod
+        id
+      }
     }
   }
 `
@@ -1485,6 +1536,10 @@ export const UpdateGuildByIdDocument = gql`
       id
       prefix
       premium
+      guildPlugins {
+        anime
+        autoMod
+      }
     }
   }
 `

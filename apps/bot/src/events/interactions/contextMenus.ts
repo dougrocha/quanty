@@ -4,7 +4,7 @@ import { Interaction, CacheType } from 'discord.js'
 @On('interactionCreate')
 export class ContextMenuEvent extends Event<'interactionCreate'> {
   async run(interaction: Interaction<CacheType>) {
-    if (!interaction.isContextMenu()) return
+    if (!interaction.isContextMenuCommand()) return
 
     await interaction.deferReply({ ephemeral: false })
 

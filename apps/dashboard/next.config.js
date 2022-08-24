@@ -7,15 +7,23 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+    providerImportSource: '@mdx-js/react',
+  },
+})
 const withTM = require('next-transpile-modules')(['ui'])
 
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   images: {
     domains: ['cdn.discordapp.com'],
   },
-  pageExtensions: ['ts', 'tsx'],
   env: {
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -24,7 +32,7 @@ const nextConfig = {
 }
 
 module.exports = () => {
-  const plugins = [withTM, withBundleAnalyzer]
+  const plugins = [withTM, withBundleAnalyzer, withMDX]
 
   const config = plugins.reduce((acc, next) => next(acc), { ...nextConfig })
 

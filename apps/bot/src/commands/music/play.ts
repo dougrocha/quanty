@@ -3,10 +3,10 @@ import {
   Category,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   Test,
 } from '@quanty/framework'
-import { MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 import { SearchResult } from 'erela.js'
 
 import { createPlayer } from '../../libs'
@@ -16,7 +16,12 @@ import { createPlayer } from '../../libs'
 @SlashCommand('play', {
   description: 'Plays song.',
   options: [
-    { type: 'STRING', name: 'song', description: 'Plays song', required: true },
+    {
+      type: ApplicationCommandOptionType.String,
+      name: 'song',
+      description: 'Plays song',
+      required: true,
+    },
   ],
 })
 export class PlayCommand extends Command {
@@ -26,7 +31,7 @@ export class PlayCommand extends Command {
     options,
     guild,
     channel,
-  }: SlashCommandRunOptions): CommandReturnType {
+  }: CommandOptions): CommandReturnType {
     const currGuild = client.guilds.cache.get(guild.id)
     const currMember = currGuild?.members.cache.get(user.id)
     const voiceChannelId = currMember?.voice.channel?.id
@@ -41,7 +46,7 @@ export class PlayCommand extends Command {
     const guildId = guild.id
     // Will make player and join channel
     const player = createPlayer({ guildId, channelId, voiceChannelId })
-    const embed = new MessageEmbed().setColor('#FF5F9F')
+    const embed = new EmbedBuilder().setColor('#FF5F9F')
     let res: SearchResult
     try {
       res = await player.search(search, user)

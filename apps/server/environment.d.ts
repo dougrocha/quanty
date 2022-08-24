@@ -7,7 +7,6 @@ declare namespace NodeJS {
 
     SESSION_COOKIE: string
     PORT: number
-    MONGO_STORE_SECRET: string
 
     WEBSOCKET_TOKEN: string
 
@@ -22,5 +21,11 @@ declare namespace NodeJS {
     FRONTEND_URL: string
 
     DATABASE_URL: string
+
+    REDIS_HOST: string
+    REDIS_PORT: number
+    REDIS_PASSWORD: string
+    REDIS_USER: string
+    REDIS_URL: string
   }
 }

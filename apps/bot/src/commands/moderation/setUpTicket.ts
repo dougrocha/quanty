@@ -4,9 +4,10 @@ import {
   ClientPermissions,
   Command,
   SlashCommand,
-  SlashCommandRunOptions,
+  CommandOptions,
   UserPermissions,
 } from '@quanty/framework'
+import { ApplicationCommandOptionType, ChannelType } from 'discord.js'
 
 @SlashCommand('setup-ticket', {
   description: 'Creates a ticket for issues in your guild.',
@@ -14,28 +15,28 @@ import {
     {
       name: 'transcript-channel',
       description: 'Quanty will send all transcript to this channel.',
-      type: 'CHANNEL',
-      channelTypes: ['GUILD_TEXT'],
+      type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildText],
     },
     {
       name: 'category',
       description: 'Set a category for all tickets to be put under.',
-      type: 'CHANNEL',
-      channelTypes: ['GUILD_CATEGORY'],
+      type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildCategory],
     },
     {
       name: 'ticketChannel',
       description: 'Set a channel for users to open tickets in.',
-      type: 'CHANNEL',
-      channelTypes: ['GUILD_TEXT'],
+      type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildText],
     },
   ],
 })
 @Category('moderation')
-@UserPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
-@ClientPermissions('MANAGE_CHANNELS', 'MANAGE_GUILD')
+@UserPermissions('ManageChannels', 'ManageGuild')
+@ClientPermissions('ManageChannels', 'ManageGuild')
 export class SetupTicketCommand extends Command {
-  async run({ options, guild }: SlashCommandRunOptions): CommandReturnType {
+  async run({ options, guild }: CommandOptions): CommandReturnType {
     // Const transcriptChannel = options.getChannel('transcript-channel')
     // const ticketCategory = options.getChannel('category')
     // if (transcriptChannel) {

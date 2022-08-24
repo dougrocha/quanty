@@ -203,10 +203,24 @@ type DiscordGuild {
   permissions: String
   preferred_locale: String
   premium_tier: Float
-  roles: [Roles!]
+  roles: [DiscordRoles!]
   stickers: [Sticker!]
   threads: [Channel!]
   unavailable: Boolean
+}
+
+type DiscordRoles {
+  color: Float!
+  hoist: Boolean!
+  icon: String
+  id: String!
+  managed: Boolean!
+  mentionable: Boolean!
+  name: String!
+  permissions: String!
+  position: Float!
+  tags: RoleTags
+  unicode_emoji: String
 }
 
 type DiscordUser {
@@ -350,7 +364,7 @@ type GuildSettings {
   defaultJoinRole: String!
   djRole: String!
   globalCooldown: Int!
-  guild: Guild
+  guild: Guild!
   id: ID!
   musicTimeOut: Boolean!
   nsfw: Boolean!
@@ -376,8 +390,8 @@ input GuildSettingsCreateOrConnectWithoutGuildInput {
 }
 
 input GuildSettingsCreateWithoutGuildInput {
-  defaultJoinRole: String!
-  djRole: String!
+  defaultJoinRole: String
+  djRole: String
   globalCooldown: Int
   musicTimeOut: Boolean
   nsfw: Boolean
@@ -546,9 +560,11 @@ type Mutation {
 """Mutual Guilds. Guilds that a user can edit"""
 type MutualGuild {
   bot: Boolean!
+  botMaster: Boolean!
   icon: String
   id: String!
   name: String!
+  owner: Boolean!
 }
 
 input NullableStringFieldUpdateOperationsInput {
@@ -762,20 +778,6 @@ type Query {
 type RoleTags {
   bot_id: String
   integration_id: String
-}
-
-type Roles {
-  color: Float!
-  hoist: Boolean!
-  icon: String
-  id: String!
-  managed: Boolean!
-  mentionable: Boolean!
-  name: String!
-  permissions: String!
-  position: Float!
-  tags: RoleTags
-  unicode_emoji: String
 }
 
 type Sticker {

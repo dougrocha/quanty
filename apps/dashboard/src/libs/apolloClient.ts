@@ -15,10 +15,6 @@ import merge from 'deepmerge'
 import { createClient } from 'graphql-ws'
 import fetch from 'isomorphic-unfetch'
 import isEqual from 'lodash/isEqual'
-import type { AppProps } from 'next/app'
-import { useMemo } from 'react'
-
-const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined
 
@@ -136,24 +132,4 @@ export const initializeApollo = (
   if (!apolloClient) apolloClient = _apolloClient
 
   return _apolloClient
-}
-
-export const addApolloState = (
-  client: ApolloClient<NormalizedCacheObject>,
-  pageProps: AppProps['pageProps'],
-) => {
-  if (pageProps?.props) {
-    pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract()
-  }
-
-  return pageProps
-}
-
-export function useApollo(pageProps: AppProps['pageProps']) {
-  const state = pageProps[APOLLO_STATE_PROP_NAME]
-  const store = useMemo(
-    () => initializeApollo({ initialState: state }),
-    [state],
-  )
-  return store
 }
