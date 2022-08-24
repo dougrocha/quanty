@@ -6,12 +6,12 @@ declare namespace NodeJS {
     DISCORD_CALLBACK_URL: string
 
     SESSION_COOKIE: string
-    PORT: number
+    PORT: string
 
     WEBSOCKET_TOKEN: string
 
-    THROTTLE_TTL: number
-    THROTTLE_LIMIT: number
+    THROTTLE_TTL: string
+    THROTTLE_LIMIT: string
 
     STRIPE_SECRET_KEY: string
     STRIPE_PUBLISHABLE_KEY: string
@@ -23,7 +23,7 @@ declare namespace NodeJS {
     DATABASE_URL: string
 
     REDIS_HOST: string
-    REDIS_PORT: number
+    REDIS_PORT: string
     REDIS_PASSWORD: string
     REDIS_USER: string
     REDIS_URL: string

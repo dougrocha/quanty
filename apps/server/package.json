@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf dist && rimraf src/@generated",
+    "prebuild": "rimraf dist",
     "build": "prisma generate && swc src -s -d ./dist && tsc -p tsconfig.build.json",
     "start": "nest start",
     "test:dev": "node -r @swc/register src/main.ts",

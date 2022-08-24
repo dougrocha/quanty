@@ -173,14 +173,22 @@ export class GuildsService implements IGuildsService {
       user.accessToken,
     )
 
-    const { data: botGuilds } = await this.guildsHttpService.fetchBotGuilds()
+    let botGuilds = await this.cacheManager.get<DiscordGuild[]>('botGuilds')
+
+    if (!botGuilds) {
+      botGuilds = (await this.guildsHttpService.fetchBotGuilds()).data
+
+      await this.cacheManager.set('sdf', '', {
+        ttl: 60 * 1, // 2 minutes
+      })
+    }
 
     const adminUserGuilds: DiscordGuild[] = userGuilds.filter(
       ({ permissions }) => (parseInt(permissions ?? '0') & 0x8) === 0x8,
     )
 
     adminUserGuilds.filter(guild =>
-      botGuilds.some(botGuild =>
+      botGuilds?.some(botGuild =>
         botGuild.id === guild.id ? (guild.bot = true) : (guild.bot = false),
       ),
     )

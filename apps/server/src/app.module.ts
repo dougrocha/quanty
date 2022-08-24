@@ -79,14 +79,7 @@ const ENV = process.env.NODE_ENV
       useFactory: (configService: ConfigService) => ({
         ttl: configService.get('CACHE_TTL'),
         store: redisStore.create({
-          host: configService.get('REDIS_HOST'),
-          port: configService.get('REDIS_PORT'),
-          password: configService.get('REDIS_PASSWORD'),
-          url: `//${configService.get('REDIS_USER')}:${configService.get(
-            'REDIS_PASSWORD',
-          )}@${configService.get('REDIS_HOST')}:${configService.get(
-            'REDIS_PORT',
-          )}`,
+          url: configService.get('REDIS_URL'),
         }),
       }),
       inject: [ConfigService],

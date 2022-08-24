@@ -17,7 +17,6 @@
       "users/*": ["users/*"]
     },
 
-    "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
   "include": [

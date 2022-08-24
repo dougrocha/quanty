@@ -2,11 +2,13 @@
   "extends": "./base.json",
   "compilerOptions": {
     "target": "es2021",
-    "lib": ["ESNext", "dom"],
+    "lib": ["ESNext"],
 
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+
+    "skipLibCheck": true,
 
     "useDefineForClassFields": false,
 

@@ -20,8 +20,6 @@ export const prismaStoreClient = new PrismaClient()
 const RedisStore = connectRedis(session)
 
 export const redisClient = createClient({
-  username: process.env.REDIS_USER,
-  password: process.env.REDIS_PASSWORD,
   url: process.env.REDIS_URL,
   legacyMode: true,
 })
