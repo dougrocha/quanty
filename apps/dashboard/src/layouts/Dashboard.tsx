@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { useAtom } from 'jotai'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -8,19 +7,21 @@ import type { ClapSpinner as ClapSpinnerType } from 'react-spinners-kit'
 import { useMedia } from 'react-use'
 
 import { DashboardNavbar } from '../components/dashboard'
-import { useGuildConfigSubscription } from '../graphql/generated/schema'
-import { useAuth, useClickOn } from '../hooks'
-import { useCurrentGuildConfig } from '../hooks/useCurrentGuildConfig'
-import { useCurrentGuildId } from '../hooks/useCurrentGuildId'
-import { useSubscribeGuildConfig } from '../hooks/useSubscribeGuildConfig'
+import {
+  useAuth,
+  useClickOn,
+  useCurrentGuildConfig,
+  useCurrentGuildId,
+  useSubscribeGuildConfig,
+} from '../hooks'
 import { sidebarOpenAtom } from '../utils/atoms/dashboardSidebarStatus'
 
 const ClapSpinner: typeof ClapSpinnerType = dynamic(() =>
-  import('react-spinners-kit').then(mod => mod['ClapSpinner']),
+  import('react-spinners-kit').then(mod => mod.ClapSpinner),
 )
 
 const DashboardSidebar = dynamic(
-  () => import('../components/dashboard/sidebar'),
+  () => import('../components/dashboard/sidebar/sidebar'),
 )
 
 interface LayoutProps {
@@ -28,9 +29,11 @@ interface LayoutProps {
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
-  useAuth()
-
   const guildId = useCurrentGuildId()
+
+  useAuth()
+  useSubscribeGuildConfig(guildId)
+
   const { loading } = useCurrentGuildConfig()
 
   const [sidebarOpened, setSidebarOpen] = useAtom(sidebarOpenAtom)
@@ -43,8 +46,6 @@ const DashboardLayout = ({ children }: LayoutProps) => {
     if (isLarge) return
     setSidebarOpen(false)
   })
-
-  useSubscribeGuildConfig(guildId)
 
   return (
     <>
@@ -82,18 +83,15 @@ const DashboardLayout = ({ children }: LayoutProps) => {
               </div>
             ) : (
               <div className="h-[calc(100%_-_64px)] overflow-auto">
-                <motion.div
-                  animate={{
-                    filter: sidebarOpened ? 'blur(3px)' : 'blur(0px)',
-                  }}
-                  className={`min-h-full w-full p-10 lg:!blur-0 ${
+                <div
+                  className={`min-h-full w-full p-10 transition-all lg:!blur-0 ${
                     sidebarOpened
-                      ? 'pointer-events-none select-none blur-sm lg:pointer-events-auto lg:select-auto'
+                      ? 'pointer-events-none select-none !blur-sm lg:pointer-events-auto lg:select-auto'
                       : ''
                   }`}
                 >
                   {children}
-                </motion.div>
+                </div>
               </div>
             )}
           </div>

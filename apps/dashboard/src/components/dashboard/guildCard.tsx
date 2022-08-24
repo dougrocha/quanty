@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { MutualGuild } from '../../graphql/generated/schema'
-import { FetchGuildIcon } from '../../libs/FetchIcons'
+import { FetchGuildIcon } from '../../libs/fetchGuildIcon'
 
 interface GuildCardProps {
   guild: MutualGuild

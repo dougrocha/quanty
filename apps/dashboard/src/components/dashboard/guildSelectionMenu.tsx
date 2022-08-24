@@ -11,7 +11,7 @@ import {
   useGetMutualGuildsQuery,
 } from '../../graphql/generated/schema'
 import { useOnClickOutside } from '../../hooks'
-import { FetchGuildIcon } from '../../libs/FetchIcons'
+import { FetchGuildIcon } from '../../libs/fetchGuildIcon'
 import { mutualGuildsAtom } from '../../utils/atoms'
 import { sidebarCollapsedAtom } from '../../utils/atoms/dashboardSidebarStatus'
 

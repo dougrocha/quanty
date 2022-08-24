@@ -6,9 +6,11 @@ import { useRef, useState } from 'react'
 import LoginButton from './buttons/loginButton'
 
 import { useAuth, useOnClickOutside } from '../hooks'
-import { FetchUserIcon } from '../libs/FetchIcons'
+import { FetchUserIcon } from '../libs/fetchUserIcon'
 
-const UserProfileDropdownMenu = dynamic(import('./userProfileDropdownMenu'))
+const UserProfileDropdownMenu = dynamic(import('./userProfileDropdownMenu'), {
+  ssr: false,
+})
 
 interface IUserProfileTypes {
   small?: boolean

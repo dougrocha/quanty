@@ -1,13 +1,12 @@
 import { joiResolver } from '@hookform/resolvers/joi'
 import Joi from 'joi'
-import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
 import { useUpdateGuildByIdMutation } from '../../graphql/generated/schema'
+import { useCurrentGuildConfig } from '../../hooks'
 import { useCurrentGuildId } from '../../hooks/useCurrentGuildId'
-import { guildConfigAtom } from '../../utils/atoms'
 
 const prefixSchema = Joi.object({
   prefix: Joi.string().required().min(1).max(5).messages({
@@ -29,7 +28,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
     mode: 'onChange',
   })
 
-  const guild = useAtomValue(guildConfigAtom)
+  const { guild } = useCurrentGuildConfig()
 
   useEffect(() => {
     setValue('prefix', guild ? guild.prefix : 'q!')
@@ -40,8 +39,7 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   const guildId = useCurrentGuildId()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: { prefix?: string }, e: any) => {
-    console.log(e)
+  const onSubmit = (data: { prefix?: string }) => {
     toast.promise(
       updatePrefix({
         variables: {
@@ -83,11 +81,12 @@ export const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
           />
 
           {guild?.prefix != watch('prefix', guild?.prefix) && (
-            <input
-              type={'submit'}
-              value="Save"
+            <button
+              type="submit"
               className="ml-4 h-full rounded-md bg-primary-bright-purple py-2 px-3 text-sm"
-            />
+            >
+              Save
+            </button>
           )}
         </div>
 

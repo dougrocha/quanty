@@ -7,20 +7,19 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useMedia } from 'react-use'
 
-import { SidebarDrawers } from '.'
+import DrawerItem from './drawerItem'
 
-import { DrawerItem } from './sidebarDrawer'
-
+import { SidebarDrawers } from '..'
 import {
   DefaultCategory,
   sidebarContents,
-} from '../../data/dashboardSidebarItems'
+} from '../../../data/dashboardSidebarItems'
 import {
   sidebarOpenAtom,
   sidebarCollapsedAtom,
-} from '../../utils/atoms/dashboardSidebarStatus'
+} from '../../../utils/atoms/dashboardSidebarStatus'
 
-const GuildSelectionMenu = dynamic(() => import('./guildSelectionMenu'), {
+const GuildSelectionMenu = dynamic(() => import('../guildSelectionMenu'), {
   ssr: false,
 })
 

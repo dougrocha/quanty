@@ -1,15 +1,12 @@
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { useAtomValue } from 'jotai'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
-import {
-  ISidebarContents,
-  ISidebarItems,
-} from '../../data/dashboardSidebarItems'
-import { sidebarCollapsedAtom } from '../../utils/atoms/dashboardSidebarStatus'
-import HeroIcon from '../icons/dynamicHeroIcon'
+import DrawerItem from './drawerItem'
+
+import { ISidebarContents } from '../../../data/dashboardSidebarItems'
+import { sidebarCollapsedAtom } from '../../../utils/atoms/dashboardSidebarStatus'
 
 type ISidebarDrawer = ISidebarContents
 
@@ -57,54 +54,6 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
         ))}
       </ul>
     </div>
-  )
-}
-
-interface IDrawerItem extends ISidebarItems {
-  guildId: string | null
-  minimized?: boolean
-}
-
-export const DrawerItem = ({
-  name,
-  link,
-  icon,
-  premium,
-  guildId,
-  minimized,
-}: IDrawerItem) => {
-  const router = useRouter()
-
-  const isActive =
-    `/dashboard/[guildId]${link ? `/${link}` : ''}` == router.pathname
-
-  return (
-    <Link
-      key={`item-${name}`}
-      href={{
-        pathname: `/dashboard/${guildId}/${link}`,
-      }}
-    >
-      <a
-        className={`flex min-w-max items-center px-2 py-2 hover:text-primary-white ${
-          premium && 'text-primary-yellow'
-        } ${
-          isActive
-            ? 'rounded-md bg-primary-purple-20 text-primary-white'
-            : 'text-secondary-white'
-        } ${minimized && 'flex cursor-pointer justify-center'} `}
-      >
-        {icon && <HeroIcon name={icon} className="h-6 w-6" outline />}
-
-        <p
-          className={`ml-3 origin-left whitespace-nowrap duration-200 ${
-            minimized && 'hidden'
-          }`}
-        >
-          {name}
-        </p>
-      </a>
-    </Link>
   )
 }
 

@@ -25,7 +25,7 @@ export const useAuth = () => {
       setUser(me)
     },
     onError: () => {
-      client.resetStore()
+      client.clearStore()
       setUser(null)
     },
   })

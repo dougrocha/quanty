@@ -1,6 +1,6 @@
 import GuildSelectionMenu from './guildSelectionMenu'
 import DashboardNavbar from './navbar'
-import DashboardSidebar from './sidebar'
-import SidebarDrawers from './sidebarDrawer'
+import DashboardSidebar from './sidebar/sidebar'
+import SidebarDrawers from './sidebar/sidebarDrawer'
 
 export { GuildSelectionMenu, DashboardSidebar, DashboardNavbar, SidebarDrawers }

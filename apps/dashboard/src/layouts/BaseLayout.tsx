@@ -1,7 +1,6 @@
 import { NextSeo } from 'next-seo'
+import dynamic from 'next/dynamic'
 
-import Footer from '../components/footer/footer'
-import Navbar from '../components/home/navbar/navbar'
 import { useAuth } from '../hooks'
 
 interface LayoutProps {
@@ -9,6 +8,9 @@ interface LayoutProps {
   title?: string
   footer?: boolean
 }
+
+const Navbar = dynamic(() => import('../components/home/navbar'))
+const Footer = dynamic(() => import('../components/footer/footer'))
 
 const BaseLayout = ({
   children,
@@ -33,7 +35,7 @@ const BaseLayout = ({
             '🤖 Add Quanty to your discord for a makeover. Quanty is a multi-purpose bot to replace them all. Moderation | Economy | Memes | Games | Dashboard.',
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/quanty_128.jpg`,
+              url: `${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/quanty-128.jpg`,
               width: 800,
               height: 420,
               alt: 'Quanty Bot Mascot',
@@ -44,7 +46,7 @@ const BaseLayout = ({
         additionalLinkTags={[
           {
             rel: 'icon',
-            href: `${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/quanty_128.jpg`,
+            href: `${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/quanty-128.jpg`,
           },
         ]}
       />

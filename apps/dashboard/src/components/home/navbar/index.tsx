@@ -6,7 +6,9 @@ import { useToggle } from '../../../hooks/useToggle'
 
 const HamburgerMenuIcon = dynamic(import('../../icons/hamburgerMenuIcon'))
 
-const UserProfile = dynamic(import('../../userProfile'), { ssr: false })
+const UserProfile = dynamic(import('../../userProfile'), {
+  ssr: false,
+})
 
 const Navbar = () => {
   const [open, toggleOpen] = useToggle(false)
@@ -47,7 +49,7 @@ const NavLinks = ({
     <>
       {NavLinksData.map((link, index) => {
         return (
-          <Link key={index} href={link.path}>
+          <Link key={index} href={link.path} passHref>
             <li
               className={`w-full cursor-pointer py-4 text-center ${
                 open ? 'hover:bg-primary-pale-purple' : ''
