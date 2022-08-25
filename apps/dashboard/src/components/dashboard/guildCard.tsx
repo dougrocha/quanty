@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from 'next/future/image'
+import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
 
 import { MutualGuild } from '../../graphql/generated/schema'
@@ -24,8 +24,7 @@ export const GuildCard = ({ guild }: GuildCardProps) => {
         className="blur-sm"
         alt={`guild icon for ${name}`}
         src={FetchGuildIcon(id, icon)}
-        layout="fill"
-        objectFit="cover"
+        fill
         priority
       />
       <div className="flex w-full items-center justify-center">
@@ -34,37 +33,56 @@ export const GuildCard = ({ guild }: GuildCardProps) => {
             className="rounded-full"
             alt={`guild icon for ${name}`}
             src={FetchGuildIcon(id, icon)}
-            width={100}
-            height={100}
+            width={96}
+            height={96}
             priority
           />
         </div>
         <div className="z-10 flex w-full items-center justify-between rounded-b-xl bg-primary-purple-10 p-3">
           <div>
             <p>{name}</p>
-            <p className=" text-sm text-secondary-white">
+            <p className="text-xs font-semibold uppercase text-secondary-white">
               {bot ? 'Owner' : 'Admin'}
             </p>
           </div>
-          {bot ? (
-            <Link
-              href={{
-                pathname: '/dashboard/[guildId]',
-                query: { guildId: id },
-              }}
-            >
-              <a className="rounded-lg bg-primary-bright-purple py-2 px-5">
-                Edit
-              </a>
-            </Link>
-          ) : (
-            <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}>
-              <a className="rounded-lg bg-primary-purple-6 py-2 px-5">Set up</a>
-            </Link>
-          )}
+
+          <GuildCardButton
+            text={bot ? 'Edit' : 'Set up'}
+            href={
+              bot
+                ? {
+                    pathname: '/dashboard/[guildId]',
+                    query: { guildId: id },
+                  }
+                : process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE
+            }
+            bot={bot}
+          />
         </div>
       </div>
     </div>
+  )
+}
+
+const GuildCardButton = ({
+  text,
+  href,
+  bot,
+}: {
+  text: string
+  href: LinkProps['href']
+  bot: boolean
+}) => {
+  return (
+    <Link href={href}>
+      <a
+        className={`rounded-lg py-2 px-5 ${
+          bot ? 'bg-primary-bright-purple' : 'bg-primary-purple-6'
+        }`}
+      >
+        {text}
+      </a>
+    </Link>
   )
 }
 

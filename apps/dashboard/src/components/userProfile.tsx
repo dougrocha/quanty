@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
+import Image from 'next/future/image'
 import { useRef, useState } from 'react'
 
 import LoginButton from './buttons/loginButton'
@@ -16,7 +16,6 @@ interface IUserProfileTypes {
   small?: boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UserProfile = ({ small }: IUserProfileTypes) => {
   const ref = useRef(null)
 
@@ -45,8 +44,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
                 alt="Quanty Icon Picture"
                 width={40}
                 height={40}
-                placeholder="empty"
-                blurDataURL="/basic_discord_logo.png"
+                priority
               />
 
               <strong className="ml-3 hidden sm:block">{user?.username}</strong>

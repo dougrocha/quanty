@@ -2,7 +2,7 @@ import { MenuAlt2Icon } from '@heroicons/react/outline'
 import { ChevronDoubleLeftIcon } from '@heroicons/react/solid'
 import { useAtom } from 'jotai'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
+import Image from 'next/future/image'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useMedia } from 'react-use'
@@ -72,22 +72,20 @@ const DashboardSidebar = () => {
               }`}
               onClick={() => handleSidebar()}
             />
-            <div
-              className="img-glow flex cursor-pointer select-none"
-              onClick={() => push(`/dashboard/${guildId}/`)}
-            >
-              <Image
-                className="rounded-full"
-                alt={`Quanty bot icon`}
-                src="/quanty-128.jpg"
-                width={56}
-                height={56}
-                priority
-              />
-            </div>
+
+            <Image
+              className="img-glow flex cursor-pointer select-none rounded-full"
+              src="/quanty-128.jpg"
+              alt={`Quanty bot icon`}
+              width={56}
+              height={56}
+              priority
+              onClick={() => push(`/dashboard/${guildId}`)}
+            />
           </div>
         </div>
         <hr className="my-5 rounded border-primary-pale-purple" />
+
         <GuildSelectionMenu />
 
         <ul className="space-y-2 text-sm">

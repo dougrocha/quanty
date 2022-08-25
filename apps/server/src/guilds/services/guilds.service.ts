@@ -173,13 +173,12 @@ export class GuildsService implements IGuildsService {
       user.accessToken,
     )
 
-    let botGuilds = await this.cacheManager.get<DiscordGuild[]>('botGuilds')
+    let botGuilds = await this.cacheManager.get<DiscordGuild[]>(`bg:${user.id}`)
 
     if (!botGuilds) {
       botGuilds = (await this.guildsHttpService.fetchBotGuilds()).data
-
-      await this.cacheManager.set('sdf', '', {
-        ttl: 60 * 1, // 2 minutes
+      await this.cacheManager.set(`bg:${user.id}`, botGuilds, {
+        ttl: 60 * 2, // 2 minutes
       })
     }
 
