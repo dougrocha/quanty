@@ -56,7 +56,7 @@ export class GuildsService implements IGuildsService {
         },
       })
 
-    // await this.cacheManager.set(`guildConfig-${query.id}`, guild, {
+    // Await this.cacheManager.set(`guildConfig-${query.id}`, guild, {
     //   ttl: 60 * 5, // 5 minutes
     // })
 
@@ -65,7 +65,7 @@ export class GuildsService implements IGuildsService {
 
   async updateGuild(args: UpdateOneGuildArgs): Promise<Guild> {
     const guild = await this.prisma.guild.update(args)
-    // await this.cacheManager.set(`guildConfig-${args.where.id}`, guild, {
+    // Await this.cacheManager.set(`guildConfig-${args.where.id}`, guild, {
     //   ttl: 60 * 5, // 5 minutes
     // })
     return guild
@@ -75,7 +75,7 @@ export class GuildsService implements IGuildsService {
     args: UpdateOneGuildPluginsArgs,
   ): Promise<GuildPlugins> {
     const guild = await this.prisma.guildPlugins.update(args)
-    // await this.cacheManager.set(`guildPlugins-${args.where.id}`, guild, {
+    // Await this.cacheManager.set(`guildPlugins-${args.where.id}`, guild, {
     //   ttl: 60 * 5, // 5 minutes
     // })
     return guild
@@ -85,7 +85,7 @@ export class GuildsService implements IGuildsService {
     args: UpdateOneGuildSettingsArgs,
   ): Promise<GuildSettings> {
     const guild = await this.prisma.guildSettings.update(args)
-    // await this.cacheManager.set(`guildSettings-${args.where.id}`, guild, {
+    // Await this.cacheManager.set(`guildSettings-${args.where.id}`, guild, {
     //   ttl: 60 * 5, // 5 minutes
     // })
     return guild
@@ -115,7 +115,7 @@ export class GuildsService implements IGuildsService {
         },
       })
 
-    // await this.cacheManager.set(`guildPlugins-${query.id}`, guildPlugins, {
+    // Await this.cacheManager.set(`guildPlugins-${query.id}`, guildPlugins, {
     //   ttl: 60 * 5, // 5 minutes
     // })
 
@@ -146,7 +146,7 @@ export class GuildsService implements IGuildsService {
         },
       })
 
-    // await this.cacheManager.set(`guildSettings-${query.id}`, guildSettings, {
+    // Await this.cacheManager.set(`guildSettings-${query.id}`, guildSettings, {
     //   ttl: 60 * 5, // 5 minutes
     // })
 

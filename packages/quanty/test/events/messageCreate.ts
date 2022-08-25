@@ -8,6 +8,6 @@ export class MessageEvent extends Event<'messageCreate'> {
   private logger!: Logger
 
   async run(message: Message) {
-    // console.log('New message create event fired:', message.content)
+    // Console.log('New message create event fired:', message.content)
   }
 }

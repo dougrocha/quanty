@@ -25,7 +25,7 @@ export class DashboardCommand extends Command {
         .setURL(`https://quanty.xyz/dashboard/${guild.id}`),
     )
 
-    // return {
+    // Return {
     //   content: 'Here you go',
     //   components: [
     //     {

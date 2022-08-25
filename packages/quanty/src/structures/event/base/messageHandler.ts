@@ -44,7 +44,7 @@ export class Base_Message_CommandHandler extends Event<'messageCreate'> {
   } {
     const defaultPrefix = this.client.getPrefix()
 
-    // const prefix = message.content.match(this._RegExpPrefix)
+    // Const prefix = message.content.match(this._RegExpPrefix)
     //   ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     //     message.content.match(this._RegExpPrefix)![0]
     //   : defaultPrefix
