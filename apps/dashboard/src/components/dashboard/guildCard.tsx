@@ -10,7 +10,7 @@ interface GuildCardProps {
 }
 
 export const GuildCard = ({ guild }: GuildCardProps) => {
-  const { id, icon, name, bot } = guild
+  const { id, icon, name, bot, owner } = guild
 
   const { push } = useRouter()
 
@@ -42,7 +42,7 @@ export const GuildCard = ({ guild }: GuildCardProps) => {
           <div>
             <p>{name}</p>
             <p className="text-xs font-semibold uppercase text-secondary-white">
-              {bot ? 'Owner' : 'Admin'}
+              {owner ? 'Owner' : 'Admin'}
             </p>
           </div>
 
