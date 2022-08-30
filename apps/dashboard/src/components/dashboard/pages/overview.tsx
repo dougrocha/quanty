@@ -5,13 +5,9 @@ import toast from 'react-hot-toast'
 
 import { useUpdateGuildByIdMutation } from '../../../graphql/generated/schema'
 import { useCurrentGuildConfig } from '../../../hooks'
-import { PluginToggle } from '../../forms'
 
-// global save popup dynamic import
-
-const GlobalSavePopup = dynamic(() => import('../global-save-popup'), {
-  ssr: false,
-})
+const PluginToggle = dynamic(() => import('../../forms/pluginToggle'))
+const GlobalSavePopup = dynamic(() => import('../global-save-popup'))
 
 const OverviewPluginsPage = () => {
   const { guild } = useCurrentGuildConfig()

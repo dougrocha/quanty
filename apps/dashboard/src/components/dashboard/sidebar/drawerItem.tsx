@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { ISidebarItems } from '../../../data/dashboardSidebarItems'
+import type { ISidebarItems } from '../../../data/dashboardSidebarItems'
 import HeroIcon from '../../icons/dynamicHeroIcon'
 
 interface IDrawerItem extends ISidebarItems {

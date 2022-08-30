@@ -1,8 +1,10 @@
+import dynamic from 'next/dist/shared/lib/dynamic'
 import { ReactElement } from 'react'
 
 import DashboardContent from '../../../components/dashboard/dashboardContent'
-import { PrefixForm } from '../../../components/forms'
 import DashboardLayout from '../../../layouts/Dashboard'
+
+const PrefixForm = dynamic(() => import('../../../components/forms/prefixForm'))
 
 const SettingsPage = () => {
   return (

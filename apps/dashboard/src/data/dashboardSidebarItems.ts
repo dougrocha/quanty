@@ -1,4 +1,4 @@
-import { IconName } from '../components/icons/dynamicHeroIcon'
+import type { IconName } from '../components/icons/dynamicHeroIcon'
 
 export interface ISidebarItems {
   name: string
