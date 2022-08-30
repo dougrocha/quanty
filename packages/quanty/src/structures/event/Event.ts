@@ -1,5 +1,5 @@
 import type { Client, ClientEvents } from 'discord.js'
-import EventEmitter from 'node:events'
+import type EventEmitter from 'node:events'
 import { Logger } from '../../util'
 import { Part } from '../part/Part'
 

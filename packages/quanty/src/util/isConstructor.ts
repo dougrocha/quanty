@@ -1,17 +1,4 @@
-import { AbstractCtor } from './types'
-
-export function isConstructor(value: new () => any) {
-  try {
-    new new Proxy(value, {
-      construct() {
-        return {}
-      },
-    })()
-    return true
-  } catch (err) {
-    return false
-  }
-}
+import type { AbstractCtor } from './types'
 
 /**
  * Determines whether or not a value is a class.

@@ -6,10 +6,10 @@ import { StoreRegistry, StoreRegistryEntries } from './StoreRegistry'
 
 import { AbstractConstructor, Ctor, Logger } from '../../util'
 import { container, Container } from '../container'
-import { Part } from '../part/Part'
+import type { Part } from '../part/Part'
 import { globPromise } from '../../util/resolvePath'
 import { Loader } from '../../loaders/Loader'
-import { HydratedModuleData, ModuleData } from '../../loaders/types'
+import type { HydratedModuleData, ModuleData } from '../../loaders/types'
 
 export interface StoreOptions<T extends Part> {
   /**

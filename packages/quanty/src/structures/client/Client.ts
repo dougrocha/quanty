@@ -4,7 +4,11 @@ import 'dotenv'
 
 import { Client, ClientOptions, Snowflake } from 'discord.js'
 
-import { QuantyClientOptions, IQuantyDefaults, LogLevels } from './types/client'
+import type {
+  QuantyClientOptions,
+  IQuantyDefaults,
+  LogLevels,
+} from './types/client'
 
 import { logger, Logger } from '../../util/Logger'
 import { getRootData } from '../../util/getRootData'
