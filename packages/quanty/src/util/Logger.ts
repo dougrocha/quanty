@@ -17,17 +17,21 @@ export class Logger {
   }
 
   /**
-   * @param {String} name -  Name of class.
+   * @param {String} name - Name of class.
    * @returns Formatted prompt with data and name.
    *
    * @example
-   * const formattedText = Loggerr.format('EventLoader')
+   * const formattedText = Logger.format()
+   * formattedText = `[23:13:29 AM/PM] [APPLICATION]`
    *
-   * formattedText = `[23:13:29] [EventLoader]`
-   *
+   * @example
+   * const formattedText = Logger.format('MyClass')
+   * formattedText = `[23:13:29 AM/PM] [MYCLASS]`
    */
-  private static format(name: string) {
-    return chalk.gray(`[${new Date().toLocaleTimeString()}] [${name}] `)
+  private static format(name: string, color: keyof chalk.Chalk = 'gray') {
+    return (chalk[color] as Chalk)(
+      `[${new Date().toLocaleTimeString()}] [${name}] `,
+    )
   }
 
   /**
@@ -36,12 +40,20 @@ export class Logger {
   private readonly name: string
 
   /**
-   * @constructor
-   * @param {String} name - Logger name.
+   *
    */
-  constructor(name?: string) {
+  private readonly options?: Logger.Options
+
+  /**
+   * @constructor
+   * @param {String} name - Logger name. Will default to 'application' if empty.
+   * @param {Object} options - Logger options.
+   */
+  constructor(name?: string, options?: Logger.Options) {
     if (!name) name = 'application'
     this.name = name.toUpperCase()
+
+    this.options = options
   }
 
   public rawLog(msg: string) {
@@ -76,14 +88,14 @@ export class Logger {
   }
 
   public warn(text: string) {
-    if (process.env.LOGLEVEL !== 'ERROR') {
+    if (process.env.LOG_LEVEL !== 'ERROR') {
       const msg = Logger.format(this.name) + chalk.yellow(text)
       Logger.write(msg)
     }
   }
 
   public log(text: string, color?: keyof Chalk): void {
-    if (process.env.LOGLEVEL === 'DEBUG' || process.env.LOGLEVEL === 'ALL') {
+    if (process.env.LOG_LEVEL === 'DEBUG' || process.env.LOG_LEVEL === 'ALL') {
       if (!color) color = 'white'
 
       const msg = Logger.format(this.name) + (chalk[color] as Chalk)(text)
@@ -93,7 +105,7 @@ export class Logger {
   }
 
   public debug(text: string) {
-    if (process.env.LOGLEVEL === 'DEBUG' || process.env.LOGLEVEL === 'ALL') {
+    if (process.env.LOG_LEVEL === 'DEBUG' || process.env.LOG_LEVEL === 'ALL') {
       const msg = Logger.format(this.name) + chalk.magenta(text)
       Logger.write(msg)
     }
@@ -108,14 +120,28 @@ export class Logger {
   }
 }
 
-export function logger(name?: string): PropertyDecorator {
+export namespace Logger {
+  export interface Options {
+    placeholder?: string
+  }
+}
+
+/**
+ * @param name - Name of class. Will default to class name if not provided.
+ * @param options - Options for logger.
+ * @returns Logger instance.
+ */
+export function logger(
+  name?: string,
+  options?: Logger.Options,
+): PropertyDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (target: Object, propertyKey: string | symbol) {
     if (!name) name = target.constructor.name
 
     name = name?.toUpperCase()
 
-    const logger = new Logger(name)
+    const logger = new Logger(name, options)
 
     Object.defineProperty(target, propertyKey, {
       value: logger,

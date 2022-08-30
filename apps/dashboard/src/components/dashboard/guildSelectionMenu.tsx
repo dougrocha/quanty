@@ -1,7 +1,6 @@
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import Image from 'next/future/image'
-import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
 
 import GuildSelectionDropdown from './guildSelectionDropdown'
@@ -9,7 +8,6 @@ import GuildSelectionDropdown from './guildSelectionDropdown'
 import { useGetMutualGuildsQuery } from '../../graphql/generated/schema'
 import { useCurrentGuildId, useOnClickOutside } from '../../hooks'
 import { FetchGuildIcon } from '../../libs/fetchGuildIcon'
-import { mutualGuildsAtom } from '../../utils/atoms'
 import { sidebarCollapsedAtom } from '../../utils/atoms/dashboardSidebarStatus'
 
 const GuildSelectionMenu = () => {

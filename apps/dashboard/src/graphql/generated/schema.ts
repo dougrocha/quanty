@@ -227,10 +227,25 @@ export type DiscordGuild = {
   permissions?: Maybe<Scalars['String']>
   preferred_locale?: Maybe<Scalars['String']>
   premium_tier?: Maybe<Scalars['Float']>
-  roles?: Maybe<Array<Roles>>
+  roles?: Maybe<Array<DiscordRoles>>
   stickers?: Maybe<Array<Sticker>>
   threads?: Maybe<Array<Channel>>
   unavailable?: Maybe<Scalars['Boolean']>
+}
+
+export type DiscordRoles = {
+  __typename?: 'DiscordRoles'
+  color: Scalars['Float']
+  hoist: Scalars['Boolean']
+  icon?: Maybe<Scalars['String']>
+  id: Scalars['String']
+  managed: Scalars['Boolean']
+  mentionable: Scalars['Boolean']
+  name: Scalars['String']
+  permissions: Scalars['String']
+  position: Scalars['Float']
+  tags?: Maybe<RoleTags>
+  unicode_emoji?: Maybe<Scalars['String']>
 }
 
 export type DiscordUser = {
@@ -610,9 +625,11 @@ export type MutationUpdateGuildByIdArgs = {
 export type MutualGuild = {
   __typename?: 'MutualGuild'
   bot: Scalars['Boolean']
+  botMaster: Scalars['Boolean']
   icon?: Maybe<Scalars['String']>
   id: Scalars['String']
   name: Scalars['String']
+  owner: Scalars['Boolean']
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -845,21 +862,6 @@ export type RoleTags = {
   __typename?: 'RoleTags'
   bot_id?: Maybe<Scalars['String']>
   integration_id?: Maybe<Scalars['String']>
-}
-
-export type Roles = {
-  __typename?: 'Roles'
-  color: Scalars['Float']
-  hoist: Scalars['Boolean']
-  icon?: Maybe<Scalars['String']>
-  id: Scalars['String']
-  managed: Scalars['Boolean']
-  mentionable: Scalars['Boolean']
-  name: Scalars['String']
-  permissions: Scalars['String']
-  position: Scalars['Float']
-  tags?: Maybe<RoleTags>
-  unicode_emoji?: Maybe<Scalars['String']>
 }
 
 export type Sticker = {
@@ -1106,6 +1108,8 @@ export type GetMutualGuildsQuery = {
     name: string
     icon?: string | null
     bot: boolean
+    owner: boolean
+    botMaster: boolean
   }>
 }
 
@@ -1363,6 +1367,8 @@ export const GetMutualGuildsDocument = gql`
       name
       icon
       bot
+      owner
+      botMaster
     }
   }
 `

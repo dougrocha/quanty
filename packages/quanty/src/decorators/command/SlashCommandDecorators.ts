@@ -18,7 +18,7 @@ export function SlashCommand(
     }
 
     Object.defineProperties(target.prototype, {
-      commandName: {
+      name: {
         // Must be set to lowercase to work with discord api
         value: name.toLowerCase(),
         enumerable: true,
@@ -43,7 +43,7 @@ export function SlashCommand(
         configurable: false,
         writable: false,
       },
-      options: {
+      appOptions: {
         value: options.options ?? [],
         enumerable: true,
         writable: false,

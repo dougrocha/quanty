@@ -3,7 +3,7 @@ import Image from 'next/future/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import type { MutualGuild } from '../../graphql/generated/schema'
+import { MutualGuild } from '../../graphql/generated/schema'
 import { FetchGuildIcon } from '../../libs/fetchGuildIcon'
 
 interface IGuildSelectDropdown {

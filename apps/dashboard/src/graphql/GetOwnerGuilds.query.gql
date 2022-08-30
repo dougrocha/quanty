@@ -4,5 +4,7 @@ query GetMutualGuilds {
     name
     icon
     bot
+    owner
+    botMaster
   }
 }

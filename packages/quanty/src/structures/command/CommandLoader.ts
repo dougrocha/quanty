@@ -1,138 +1,133 @@
-import { resolve } from 'path'
+// import { resolve } from 'path'
 
-import { ApplicationCommandOptionData, Collection } from 'discord.js'
+// import { ApplicationCommandOptionData, Collection } from 'discord.js'
 
-import type { Command } from './Command'
-import type { CommandRegistry } from './CommandRegistry'
+// import type { Command } from './Command'
+// import type { CommandRegistry } from './CommandRegistry'
 
-import { Messages } from '../../errors'
-import { isConstructor } from '../../util'
-import { Logger, logger } from '../../util/Logger'
-import type { QuantyClient } from '../client/Client'
-import type { IQuantyDefaults } from '../client/types/client'
+// import { Messages } from '../../errors'
+// import { isConstructor } from '../../util'
+// import { Logger, logger } from '../../util/Logger'
+// import type { QuantyClient } from '../client/Client'
+// import type { IQuantyDefaults } from '../client/types/client'
+// import { container } from '../container'
 
-interface ApplicationCommandData {
-  name: string
-  description: string
-  options: ApplicationCommandOptionData[]
-}
+// interface ApplicationCommandData {
+//   name: string
+//   description: string
+//   options: ApplicationCommandOptionData[]
+// }
 
-export class CommandLoader {
-  private client: QuantyClient
+// export class CommandLoader {
+//   private readonly client?: QuantyClient = container.client
 
-  @logger()
-  private _logger!: Logger
+//   @logger()
+//   private _logger?: Logger
 
-  private commands: CommandRegistry
+//   private commands?: CommandRegistry = container.commands
 
-  private testCommands: Collection<string, ApplicationCommandData> =
-    new Collection()
+//   private testCommands: Collection<string, ApplicationCommandData> =
+//     new Collection()
 
-  constructor(client: QuantyClient) {
-    this.client = client
+//   public async loadCommands(
+//     commandsDir: string | null,
+//     defaultCommands: boolean | IQuantyDefaults | undefined = true,
+//   ) {
+//     this._logger?.debug(
+//       `Starting to load ${
+//         commandsDir ? `commands. Path: ${commandsDir}` : `default commands.`
+//       }`,
+//     )
+//     return
+//     const commandsPath: string = resolve(
+//       defaultCommands
+//         ? `${__dirname}/base`
+//         : `${this.client?.baseDirectory || ''}${commandsDir}`,
+//     )
 
-    this.commands = client.commands
-  }
+//     const commandFiles: string[] | undefined = await this.client?.globPromise(
+//       `${commandsPath}/**/!(*.d){.ts,.js}`,
+//     )
 
-  public async loadCommands(
-    commandsDir: string | null,
-    defaultCommands: boolean | IQuantyDefaults | undefined = true,
-  ) {
-    this._logger.debug(
-      `Starting to load ${
-        commandsDir ? `commands. Path: ${commandsDir}` : `default commands.`
-      }`,
-    )
+//     commandFiles?.map(async file => {
+//       const command = await import(file)
+//       const classInstance: new () => Command = command[Object.keys(command)[0]]
 
-    const commandsPath: string = resolve(
-      defaultCommands
-        ? `${__dirname}/base`
-        : `${this.client.baseDirectory || ''}${commandsDir}`,
-    )
+//       if (!isConstructor(classInstance))
+//         return this._logger?.warn(Messages.EXPORT_INVALID(file, 'command'))
 
-    const commandFiles: string[] = await this.client.globPromise(
-      `${commandsPath}/**/!(*.d){.ts,.js}`,
-    )
+//       const commandInstance: Command = new classInstance()
 
-    commandFiles.map(async file => {
-      const command = await import(file)
-      const classInstance: new () => Command = command[Object.keys(command)[0]]
+//       const { commandName: name, description, options } = commandInstance
 
-      if (!isConstructor(classInstance))
-        return this._logger.warn(Messages.EXPORT_INVALID(file, 'command'))
+//       // Will push test command to array
+//       if (commandInstance.test)
+//         this.testCommands.set(name, { name, description, options })
 
-      const commandInstance: Command = new classInstance()
+//       this.commands?.registerCommand(commandInstance)
+//     })
+//   }
 
-      const { commandName: name, description, options } = commandInstance
+//   /**
+//    * Will only run if test commands are available
+//    * @param devGuilds Test Guilds
+//    */
+//   public async loadTestCommands(devGuilds: string[] | string) {
+//     this.client?.once('ready', async () => {
+//       // Will go through every dev guild and complete task
+//       for (const guildId of devGuilds) {
+//         const guild = await this.client?.guilds.fetch(guildId)
 
-      // Will push test command to array
-      if (commandInstance.test)
-        this.testCommands.set(name, { name, description, options })
+//         const guildCommands = await guild?.commands.fetch()
 
-      this.commands.registerCommand(commandInstance)
-    })
-  }
+//         guildCommands?.map(async cmd => {
+//           const testCmd = this.testCommands.find(
+//             testCmd =>
+//               testCmd.name === cmd.name ||
+//               testCmd.description === cmd.description,
+//           )
 
-  /**
-   * Will only run if test commands are available
-   * @param devGuilds Test Guilds
-   */
-  public async loadTestCommands(devGuilds: string[] | string) {
-    this.client.once('ready', async () => {
-      // Will go through every dev guild and complete task
-      for (const guildId of devGuilds) {
-        const guild = await this.client.guilds.fetch(guildId)
+//           // If Guild Command does not exist in test commands list. It will delete from guild.
+//           if (!testCmd) {
+//             this._logger?.debug(
+//               `Deleting test command ${cmd.name} in ${guild?.name}.`,
+//             )
 
-        const guildCommands = await guild.commands.fetch()
+//             return await cmd.delete()
+//           }
 
-        guildCommands.map(async cmd => {
-          const testCmd = this.testCommands.find(
-            testCmd =>
-              testCmd.name === cmd.name ||
-              testCmd.description === cmd.description,
-          )
+//           // If the commands arent matching, It will update
+//           const isEqual = cmd.equals(testCmd)
 
-          // If Guild Command does not exist in test commands list. It will delete from guild.
-          if (!testCmd) {
-            this._logger.debug(
-              `Deleting test command ${cmd.name} in ${guild.name}.`,
-            )
+//           if (!isEqual) {
+//             this._logger?.debug(
+//               `Editing test command ${testCmd.name} in ${guild?.name}.`,
+//             )
 
-            return await cmd.delete()
-          }
+//             return guild?.commands.edit(cmd, testCmd)
+//           }
+//         })
 
-          // If the commands arent matching, It will update
-          const isEqual = cmd.equals(testCmd)
+//         this.testCommands.map(async cmd => {
+//           // If Guild Command does not exist in test commands list. It will create in guild.
+//           if (
+//             guildCommands?.find(gcmd => {
+//               return (
+//                 gcmd.name === cmd.name || gcmd.description === cmd.description
+//               )
+//             })
+//           )
+//             return
 
-          if (!isEqual) {
-            this._logger.debug(
-              `Editing test command ${testCmd.name} in ${guild.name}.`,
-            )
+//           await guild?.commands.create(cmd)
 
-            return guild.commands.edit(cmd, testCmd)
-          }
-        })
-
-        this.testCommands.map(async cmd => {
-          // If Guild Command does not exist in test commands list. It will create in guild.
-          if (
-            guildCommands.find(gcmd => {
-              return (
-                gcmd.name === cmd.name || gcmd.description === cmd.description
-              )
-            })
-          )
-            return
-
-          await guild.commands.create(cmd)
-
-          this._logger.debug(
-            `Creating new test command: ${cmd.name.toUpperCase()} in ${
-              guild.name
-            }.`,
-          )
-        })
-      }
-    })
-  }
-}
+//           this._logger?.debug(
+//             `Creating new test command: ${cmd.name.toUpperCase()} in ${
+//               guild?.name
+//             }.`,
+//           )
+//         })
+//       }
+//     })
+//   }
+// }

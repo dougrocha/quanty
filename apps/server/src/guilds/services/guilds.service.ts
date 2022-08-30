@@ -169,15 +169,24 @@ export class GuildsService implements IGuildsService {
 
     if (cachedGuilds) return cachedGuilds
 
-    const { data: userGuilds } = await this.guildsHttpService.fetchUserGuilds(
-      user.accessToken,
+    let userGuilds = await this.cacheManager.get<DiscordGuild[]>(
+      `userGuilds:${user.id}`,
     )
 
-    let botGuilds = await this.cacheManager.get<DiscordGuild[]>(`bg:${user.id}`)
+    if (!userGuilds) {
+      userGuilds = (
+        await this.guildsHttpService.fetchUserGuilds(user.accessToken)
+      ).data
+      await this.cacheManager.set(`userGuilds:${user.id}`, userGuilds, {
+        ttl: 60 * 3, // 3 minutes
+      })
+    }
+
+    let botGuilds = await this.cacheManager.get<DiscordGuild[]>('botGuilds')
 
     if (!botGuilds) {
       botGuilds = (await this.guildsHttpService.fetchBotGuilds()).data
-      await this.cacheManager.set(`bg:${user.id}`, botGuilds, {
+      await this.cacheManager.set('botGuilds', botGuilds, {
         ttl: 60 * 2, // 2 minutes
       })
     }
