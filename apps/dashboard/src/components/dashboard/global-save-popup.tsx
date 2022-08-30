@@ -1,4 +1,4 @@
-import { ApolloError, MutationFunction } from '@apollo/client'
+import { ApolloError } from '@apollo/client'
 import React from 'react'
 import toast, { Toast } from 'react-hot-toast'
 

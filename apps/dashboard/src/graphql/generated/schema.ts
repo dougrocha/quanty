@@ -1069,7 +1069,7 @@ export type GetGuildConfigQuery = { __typename?: 'Query', guildConfig: { __typen
 export type GetMutualGuildsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMutualGuildsQuery = { __typename?: 'Query', mutualGuilds: Array<{ __typename?: 'MutualGuild', id: string, name: string, icon?: string | null, bot: boolean, owner: boolean }> };
+export type GetMutualGuildsQuery = { __typename?: 'Query', mutualGuilds: Array<{ __typename?: 'MutualGuild', id: string, name: string, icon?: string | null, bot: boolean, owner: boolean, botMaster: boolean }> };
 
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1220,6 +1220,7 @@ export const GetMutualGuildsDocument = gql`
     icon
     bot
     owner
+    botMaster
   }
 }
     `;

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -36,20 +36,7 @@ const OverviewPluginsPage = () => {
     })
   }, [guild])
 
-  const [fakeLoading, setFakeLoading] = useState(false)
-
-  const fakeUpdate = () => {
-    return new Promise((resolve, reject) => {
-      setFakeLoading(true)
-      setTimeout(() => {
-        setFakeLoading(false)
-        resolve({ success: true })
-      }),
-        2000
-    })
-  }
-
-  const [updateGuild, { data, loading, error }] = useUpdateGuildByIdMutation()
+  const [updateGuild, { loading, error }] = useUpdateGuildByIdMutation()
 
   const saveConfig = () => {
     handleSubmit(data => {
@@ -77,28 +64,24 @@ const OverviewPluginsPage = () => {
     toast.dismiss('dashboard-global-save')
 
     if (isDirty)
-      setTimeout(() => {
-        toast.custom(
-          t => (
-            <GlobalSavePopup
-              t={t}
-              loading={isSubmitting || loading}
-              error={error}
-              successful={isSubmitSuccessful}
-              handleSubmit={saveConfig}
-              reset={reset}
-              isDirty={isDirty}
-            />
-          ),
-          {
-            duration: Infinity,
-            position: 'bottom-center',
-            id: 'dashboard-global-save',
-          },
-        )
-      }, 1000)
-
-    return
+      toast.custom(
+        t => (
+          <GlobalSavePopup
+            t={t}
+            loading={isSubmitting || loading}
+            error={error}
+            successful={isSubmitSuccessful}
+            handleSubmit={saveConfig}
+            reset={reset}
+            isDirty={isDirty}
+          />
+        ),
+        {
+          duration: Infinity,
+          position: 'bottom-center',
+          id: 'dashboard-global-save',
+        },
+      )
   }, [isDirty])
 
   return (

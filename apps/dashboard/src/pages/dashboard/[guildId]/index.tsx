@@ -1,10 +1,17 @@
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
 import DashboardContent from '../../../components/dashboard/dashboardContent'
-import OverviewPluginsPage from '../../../components/dashboard/pages/overview'
 import { useCurrentGuildConfig } from '../../../hooks'
 import { DashboardLayout } from '../../../layouts'
+
+const OverviewPluginsPage = dynamic(
+  () => import('../../../components/dashboard/pages/overview'),
+  {
+    ssr: false,
+  },
+)
 
 const OverviewPage = () => {
   const { guild } = useCurrentGuildConfig()
