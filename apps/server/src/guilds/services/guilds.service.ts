@@ -163,12 +163,6 @@ export class GuildsService implements IGuildsService {
         'Unauthenticated',
       )
 
-    const cachedGuilds = await this.cacheManager.get<MutualGuild[]>(
-      `mutualGuilds-${user.id}`,
-    )
-
-    if (cachedGuilds) return cachedGuilds
-
     let userGuilds = await this.cacheManager.get<DiscordGuild[]>(
       `userGuilds:${user.id}`,
     )
@@ -178,7 +172,7 @@ export class GuildsService implements IGuildsService {
         await this.guildsHttpService.fetchUserGuilds(user.accessToken)
       ).data
       await this.cacheManager.set(`userGuilds:${user.id}`, userGuilds, {
-        ttl: 60 * 3, // 3 minutes
+        ttl: 60 * 5, // 5 minutes
       })
     }
 
@@ -187,7 +181,7 @@ export class GuildsService implements IGuildsService {
     if (!botGuilds) {
       botGuilds = (await this.guildsHttpService.fetchBotGuilds()).data
       await this.cacheManager.set('botGuilds', botGuilds, {
-        ttl: 60 * 2, // 2 minutes
+        ttl: 60 * 3, // 3 minutes
       })
     }
 
@@ -200,10 +194,6 @@ export class GuildsService implements IGuildsService {
         botGuild.id === guild.id ? (guild.bot = true) : (guild.bot = false),
       ),
     )
-
-    await this.cacheManager.set(`mutualGuilds-${user.id}`, adminUserGuilds, {
-      ttl: 60 * 2, // 2 minutes
-    })
 
     return adminUserGuilds as MutualGuild[]
   }
