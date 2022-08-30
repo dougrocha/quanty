@@ -14,6 +14,8 @@ export const getRootData = () => {
   } catch (error) {
     rootData = { root: cwd }
   }
+
+  return rootData
 }
 
 export interface RootData {

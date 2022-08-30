@@ -1,14 +1,22 @@
 import type { QuantyClient } from './client'
-import type { CommandRegistry } from './command'
-import type { EventRegistry } from './event'
 
-import type { Logger } from '../util'
+import type { StoreRegistry } from './store/StoreRegistry'
 
 export interface Container {
-  commands?: CommandRegistry
-  events?: EventRegistry
+  stores?: StoreRegistry
   client?: QuantyClient
-  logger?: Logger
 }
 
+/**
+ * The global container for Quanty Framework.
+ * @see {@link Container}
+ *
+ * @example
+ * import { container } from 'quanty'
+ *
+ * const stores = new StoreRegistry()
+ * container.stores = stores
+ *
+ * container.stores.register(new Store())
+ */
 export const container: Container = {}

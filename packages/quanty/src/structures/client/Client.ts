@@ -2,22 +2,16 @@ import 'source-map-support/register'
 
 import 'dotenv'
 
-import { promisify } from 'util'
-
 import { Client, ClientOptions, Snowflake } from 'discord.js'
-import glob from 'glob'
 
-import type {
-  QuantyClientOptions,
-  IQuantyDefaults,
-  LogLevels,
-} from './types/client'
+import { QuantyClientOptions, IQuantyDefaults, LogLevels } from './types/client'
 
 import { logger, Logger } from '../../util/Logger'
 import { getRootData } from '../../util/getRootData'
-import { CommandRegistry, CommandLoader } from '../command'
-import { container } from '../container'
-import { EventRegistry, EventLoader } from '../event'
+import { Container, container } from '../container'
+import { StoreRegistry } from '../store/StoreRegistry'
+import { CommandStore } from '../command/CommandStore'
+import { EventStore } from '../event/EventStore'
 
 /**
  * The base {@link Client} for Quanty Framework. When building a Discord bot with this framework, you must either choose to use this class or extend from it.
@@ -67,8 +61,7 @@ export class QuantyClient extends Client {
 
   private _defaultCommandError?: string
 
-  public commands: CommandRegistry
-  public events: EventRegistry
+  public stores: StoreRegistry
 
   @logger()
   private _logger!: Logger
@@ -89,7 +82,7 @@ export class QuantyClient extends Client {
       outDir,
     } = options
 
-    ;(process.env.LOGLEVEL as LogLevels) = logLevel || 'WARN'
+    ;(process.env.LOG_LEVEL as LogLevels) = logLevel || 'WARN'
     this._logLevel = logLevel || 'WARN'
 
     if (prefix) this.prefix = prefix
@@ -120,13 +113,18 @@ export class QuantyClient extends Client {
       this.baseDirectory = `${this.outDir}${this.baseDirectory}`
     }
 
-    this.commands = new CommandRegistry(this)
-    this.events = new EventRegistry(this)
+    this.stores = new StoreRegistry()
+    container.stores = this.stores
 
-    container.commands = this.commands
-    container.events = this.events
+    this.stores.register(new CommandStore()).register(new EventStore())
+  }
 
-    this.handleLoaders()
+  /**
+   * A reference to the {@link Container} object for ease of use.
+   * @see container
+   */
+  public get container(): Container {
+    return container
   }
 
   /**
@@ -135,8 +133,12 @@ export class QuantyClient extends Client {
    * @returns Your Discord Client
    */
   public async login(token?: string) {
+    if (this.baseDirectory) this.stores?.registerPath(this.baseDirectory)
+
     // Run pre login plugins
 
+    // Loads all stores, then call login:
+    await Promise.all([...this.stores.values()].map(store => store?.loadAll()))
     const login = await super.login(token)
 
     // Run post login plugins
@@ -153,23 +155,6 @@ export class QuantyClient extends Client {
     return setTimeout(callback, timeout)
   }
 
-  /**
-   * Match files using patterns supported by the shell.
-   *
-   * This is promise wrapped glob.
-   */
-  public globPromise = promisify(glob)
-
-  /**
-   * Gets default prefix set globally.
-   * @returns Default Prefix
-   */
-  public getPrefix() {
-    if (this.prefix) return this.prefix
-
-    return 'q!'
-  }
-
   public checkOwner(userId: Snowflake): boolean {
     return this.owner?.includes(userId) ?? false
   }
@@ -178,23 +163,6 @@ export class QuantyClient extends Client {
     return new Promise(res => {
       this.setTimeout(res, time)
     })
-  }
-
-  private handleLoaders() {
-    // Commands
-    const commandLoader = new CommandLoader(this)
-    if (this.defaults) {
-      void commandLoader.loadCommands(null, this.defaults)
-    }
-    void commandLoader.loadCommands(this.commandsDir, false)
-
-    // Events
-    const eventLoader = new EventLoader()
-    if (this.defaults) void eventLoader.loadEvents(null, this.defaults)
-    void eventLoader.loadEvents(this.eventsDir, false)
-
-    // Load test commands if guilds exist
-    if (this.devGuilds) void commandLoader.loadTestCommands(this.devGuilds)
   }
 
   // Setters

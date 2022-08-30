@@ -3,7 +3,7 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js'
 import { SlashCommand, GuildOnly, Test } from '../../src'
 import { Command } from '../../src/structures/command/CommandStore'
 
-@SlashCommand('echo', {
+@SlashCommand('COPYecho', {
   description: 'This command is built for echoing',
   options: [
     {
@@ -15,7 +15,7 @@ import { Command } from '../../src/structures/command/CommandStore'
 })
 @GuildOnly()
 @Test()
-export class EchoCommand extends Command {
+export class EchoCOPYCommand extends Command {
   async run(interaction: CommandInteraction) {
     interaction.reply({
       content: `${interaction.options.get('text')}`,

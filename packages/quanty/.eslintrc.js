@@ -5,4 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
+  rules: {
+    '@typescript-eslint/no-namespace': 'off',
+  },
 }
