@@ -13,9 +13,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { useApollo } from '../hooks/useApollo'
 import defaultSeo from '../utils/defaultSeo'
 
-const LoadingLayout = dynamic(() => import('layouts/loading'), {
-  ssr: false,
-})
+const LoadingLayout = dynamic(() => import('layouts/loading'))
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -48,16 +46,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <ThemeProvider attribute="class">
+    <>
       <DefaultSeo {...defaultSeo} />
       <ApolloProvider client={apolloClient}>
-        {Component.getLayout ? (
-          getLayout(<Component {...pageProps} />)
-        ) : (
-          <>{pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}</>
-        )}
+        <ThemeProvider attribute="class">
+          {Component.getLayout ? (
+            getLayout(<Component {...pageProps} />)
+          ) : (
+            <>
+              {pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}
+            </>
+          )}
+        </ThemeProvider>
       </ApolloProvider>
-    </ThemeProvider>
+    </>
   )
 }
 

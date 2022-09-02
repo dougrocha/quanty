@@ -49,6 +49,7 @@ const GuildSelectionDropdown = ({
                   height={24}
                   loading="lazy"
                 />
+
                 <p className={`${!sidebarShrinked ? 'ml-3 block' : 'hidden'}`}>
                   {guild?.name}
                 </p>
@@ -56,7 +57,9 @@ const GuildSelectionDropdown = ({
             )}
           </li>
         ))}
+
         <hr className="mx-5 rounded border-primary-bright-purple" />
+
         <li
           className={`flex w-full cursor-pointer items-center justify-start py-3 uppercase text-gray-200 ${
             sidebarShrinked ? 'justify-center' : ' px-5'

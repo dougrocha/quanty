@@ -37,6 +37,11 @@ export const ServerManagementCategory: ISidebarItems[] = [
     link: 'moderation',
     icon: 'AnnotationIcon',
   },
+  {
+    name: 'Test',
+    link: 'test',
+    icon: 'PencilIcon',
+  },
   // {
   //   name: 'Custom Commands',
   //   link: 'custom-cmd',

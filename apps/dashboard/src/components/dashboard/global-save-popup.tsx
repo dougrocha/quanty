@@ -15,7 +15,7 @@ const GlobalSavePopup = ({
   loading: boolean
   successful: boolean
   isDirty: boolean
-  handleSubmit: () => void
+  handleSubmit: () => Promise<void>
   error: ApolloError | undefined
   reset: () => void
 }) => {
@@ -46,7 +46,7 @@ const GlobalSavePopup = ({
             handleSubmit()
           }}
         >
-          {loading ? 'SAVING' : 'SAVE'}
+          {loading ? 'SAVING' : successful ? 'SAVED' : 'SAVE'}
         </button>
       </div>
     </div>

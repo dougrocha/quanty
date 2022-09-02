@@ -187,6 +187,8 @@ input DateTimeFieldUpdateOperationsInput {
 
 type DiscordGuild {
   afk_timeout: Int
+  approximate_member_count: Float
+  approximate_presence_count: Float
   bot: Boolean
   channels: [Channel!]
   description: String

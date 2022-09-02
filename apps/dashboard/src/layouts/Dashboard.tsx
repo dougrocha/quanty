@@ -11,8 +11,8 @@ import {
   useAuth,
   useClickOn,
   useCurrentGuildConfig,
-  useCurrentGuildId,
   useSubscribeGuildConfig,
+  useSetCurrentGuildId,
 } from '../hooks'
 import { sidebarOpenAtom } from '../utils/atoms/dashboardSidebarStatus'
 
@@ -29,12 +29,12 @@ interface LayoutProps {
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
-  const guildId = useCurrentGuildId()
-
   useAuth()
-  useSubscribeGuildConfig(guildId)
+  useSetCurrentGuildId()
 
-  const { loading } = useCurrentGuildConfig()
+  const { guildId, loading } = useCurrentGuildConfig()
+
+  useSubscribeGuildConfig(guildId ?? '')
 
   const [sidebarOpened, setSidebarOpen] = useAtom(sidebarOpenAtom)
 
@@ -42,10 +42,14 @@ const DashboardLayout = ({ children }: LayoutProps) => {
 
   const isLarge = useMedia('(min-width: 1024px)', false)
 
-  useClickOn(dashboardContainerRef, () => {
-    if (isLarge) return
-    setSidebarOpen(false)
-  })
+  useClickOn(
+    dashboardContainerRef,
+    () => {
+      if (isLarge) return
+      setSidebarOpen(false)
+    },
+    'mouseup',
+  )
 
   return (
     <>

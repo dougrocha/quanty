@@ -6,24 +6,22 @@ import { useRef, useState } from 'react'
 import GuildSelectionDropdown from './guildSelectionDropdown'
 
 import { useGetMutualGuildsQuery } from '../../graphql/generated/schema'
-import { useCurrentGuildId, useOnClickOutside } from '../../hooks'
+import { useOnClickOutside } from '../../hooks'
 import { FetchGuildIcon } from '../../libs/fetchGuildIcon'
 import { sidebarCollapsedAtom } from '../../utils/atoms/dashboardSidebarStatus'
+import { currentGuildIdAtom } from '../../utils/atoms/guild'
 
 const GuildSelectionMenu = () => {
   const ref = useRef(null)
 
-  const guildId = useCurrentGuildId()
+  const { data } = useGetMutualGuildsQuery()
+
+  const guildId = useAtomValue(currentGuildIdAtom)
 
   const sidebarShrinked = useAtomValue(sidebarCollapsedAtom)
   const [open, setOpen] = useState(false)
 
-  const { data } = useGetMutualGuildsQuery({
-    fetchPolicy: 'cache-first',
-  })
-  const mutualGuilds = data?.mutualGuilds
-
-  const guild = mutualGuilds?.find(({ id }) => id == guildId)
+  const guild = data?.mutualGuilds?.find(({ id }) => id == guildId)
 
   useOnClickOutside(ref, () => setOpen(false))
 
@@ -63,7 +61,7 @@ const GuildSelectionMenu = () => {
       {open && (
         <GuildSelectionDropdown
           sidebarShrinked={sidebarShrinked}
-          mutualGuilds={mutualGuilds}
+          mutualGuilds={data?.mutualGuilds}
         />
       )}
     </div>

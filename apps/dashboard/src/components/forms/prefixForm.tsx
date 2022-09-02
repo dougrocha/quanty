@@ -1,4 +1,5 @@
 import { joiResolver } from '@hookform/resolvers/joi'
+import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -6,14 +7,14 @@ import { toast } from 'react-hot-toast'
 import { prefixSchema } from '../../data/schemas/PrefixSchema'
 import { useUpdateGuildByIdMutation } from '../../graphql/generated/schema'
 import { useCurrentGuildConfig } from '../../hooks'
-import { useCurrentGuildId } from '../../hooks/useCurrentGuildId'
+import { currentGuildIdAtom } from '../../utils/atoms/guild'
 
 const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: joiResolver(prefixSchema),
@@ -28,7 +29,7 @@ const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
 
   const [updatePrefix] = useUpdateGuildByIdMutation()
 
-  const guildId = useCurrentGuildId()
+  const guildId = useAtomValue(currentGuildIdAtom)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: { prefix?: string }) => {
