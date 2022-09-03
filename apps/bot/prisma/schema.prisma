@@ -9,13 +9,6 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model UserSession {
-  id        String   @id
-  sid       String   @unique
-  data      String   @db.Text
-  expiresAt DateTime
-}
-
 model Customer {
   id             String              @id @unique @db.VarChar(255)
   /// @Validator.IsEmail()
@@ -93,28 +86,16 @@ model GuildSubscription {
 }
 
 model User {
-  /// @Swagger.ApiProperty({ type: () => String })
   id                         String    @id @unique @db.VarChar(64)
-  /// @Swagger.ApiProperty({ type: () => String })
   username                   String    @db.VarChar(64)
-  /// @Swagger.ApiProperty({ type: () => String })
   discriminator              String    @db.Char(4)
-  /// @Swagger.ApiPropertyOptional({ type: () => String })
-  /// @Validator.IsEmail()
   email                      String?   @unique @db.VarChar(254)
-  /// @Swagger.ApiPropertyOptional({ type: () => String })
   avatar                     String?   @db.VarChar(254)
-  /// @Swagger.ApiProperty({ type: () => Date })
   createdAt                  DateTime  @default(now())
-  /// @Swagger.ApiPropertyOptional({ type: () => String })
   locale                     String?   @db.VarChar(10)
-  /// @HideField()
   accessToken                String?   @db.VarChar(100)
-  /// @HideField()
   refreshToken               String?   @db.VarChar(100)
-  /// @Swagger.ApiProperty({ type: () => Boolean })
   acceptedTermsAndConditions Boolean   @default(false)
-  /// @Swagger.ApiPropertyOptional({ type: () => Customer })
   customer                   Customer?
 }
 

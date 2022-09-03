@@ -22,7 +22,7 @@
     "format": "prettier --write src"
   },
   "dependencies": {
-    "@prisma/client": "^4.2.1",
+    "@prisma/client": "^4.3.1",
     "@quanty/framework": "*",
     "axios": "^0.27.2",
     "better-erela.js-apple": "^1.0.4",
@@ -43,7 +43,7 @@
     "config": "*",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.19",
-    "prisma": "^4.2.1",
+    "prisma": "^4.3.1",
     "rimraf": "^3.0.2",
     "tsconfig": "*",
     "typescript": "^4.7.4"
