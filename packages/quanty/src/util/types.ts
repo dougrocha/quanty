@@ -10,29 +10,35 @@ export declare type Optional<T> = {
  * A readonly array of any values.
  * @private
  */
-export type Arr = readonly any[]
+export type Arr = readonly unknown[]
 
 /**
  * A generic constructor with parameters
  */
-export type Ctor<A extends Arr = readonly any[], R = any> = new (
+export type Ctor<A extends Arr = readonly unknown[], R = unknown> = new (
   ...args: A
 ) => R
 
 /**
  * A generic constructor without parameters
  */
-export type Constructor<T> = new (...args: any[]) => T
+export type Constructor<T> = new (...args: unknown[]) => T
 
 /**
  * A generic abstract constructor with parameters
  */
 export type AbstractCtor<
-  A extends Arr = readonly any[],
-  R = any,
+  A extends Arr = readonly unknown[],
+  R = unknown,
 > = abstract new (...args: A) => R
 
 /**
  * A generic abstract constructor without parameters
  */
-export type AbstractConstructor<T> = abstract new (...args: any[]) => T
+export type AbstractConstructor<T> = abstract new (...args: unknown[]) => T
+
+/**
+ * An object that is non nullable, to bypass TypeScript not easily working with {@link Record}<{@link PropertyKey}, unknown> in various instances.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NonNullObject = {} & object

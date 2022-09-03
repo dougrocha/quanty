@@ -1,5 +1,7 @@
 import 'source-map-support/register'
 
+import 'reflect-metadata'
+
 import 'dotenv'
 
 import { Client, ClientOptions, Snowflake } from 'discord.js'

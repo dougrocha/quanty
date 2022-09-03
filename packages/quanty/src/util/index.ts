@@ -1,3 +1,3 @@
 export * from './Logger'
 export * from './types'
-export * from './isConstructor'
+export * from './shared'

@@ -34,7 +34,7 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
       <div className={`flex items-center ${small && 'text-sm'}`} ref={ref}>
         <div
           className="flex items-center justify-center"
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen(prev => !prev)}
         >
           {user ? (
             <>
