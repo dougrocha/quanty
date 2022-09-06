@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { ISidebarItems } from '../../../data/dashboardSidebarItems'
+import type { ISidebarItems } from '../../../data/dashboardSidebarItems'
 import HeroIcon from '../../icons/dynamicHeroIcon'
 
 interface IDrawerItem extends ISidebarItems {
@@ -30,19 +30,23 @@ const DrawerItem = ({
       }}
     >
       <a
-        className={`flex min-w-max items-center px-2 py-2 hover:text-primary-white ${
+        className={`py-2 hover:text-primary-white ${
           premium && 'text-primary-yellow'
         } ${
           isActive
             ? 'rounded-md bg-primary-purple-20 text-primary-white'
             : 'text-secondary-white'
-        } ${minimized && 'flex cursor-pointer justify-center'} `}
+        } ${
+          minimized
+            ? 'mx-auto flex w-min cursor-pointer justify-center px-2'
+            : 'flex items-center px-2'
+        } `}
       >
         {icon && <HeroIcon name={icon} className="h-6 w-6" outline />}
 
         <p
-          className={`ml-3 origin-left whitespace-nowrap duration-200 ${
-            minimized && 'hidden'
+          className={` origin-left whitespace-nowrap duration-200 ${
+            minimized ? 'hidden' : 'ml-3'
           }`}
         >
           {name}

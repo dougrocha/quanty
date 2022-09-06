@@ -40,116 +40,442 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model UserSession {
-  id        String   @id
-  sid       String   @unique
-  data      String   @db.Text
-  expiresAt DateTime
-}
-
-model Customer {
-  id             String              @id @unique @db.VarChar(255)
+model Customers {
+  id        String   @id @unique @db.VarChar(255)
   /// @Validator.IsEmail()
-  email          String?             @unique @db.VarChar(255)
-  subscriptionId Boolean             @default(false)
-  createdAt      DateTime            @default(now())
-  user           User?               @relation(fields: [userId], references: [id])
-  userId         String?             @unique @db.VarChar(64)
-  subscription   GuildSubscription[]
+  email     String?  @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
 
-  @@index([userId])
+  subscription GuildSubscriptions[]
+
+  user      Users?  @relation(fields: [discordId], references: [id])
+  discordId String? @unique @db.VarChar(64)
+
+  @@index([discordId])
 }
 
-model Guild {
-  id            String             @id @unique @db.VarChar(64)
-  premium       Boolean            @default(false)
-  prefix        String             @default("q!") @db.VarChar(10)
-  subscription  GuildSubscription?
-  guildSettings GuildSettings?
-  guildPlugins  GuildPlugins?
+model GuildLogs {
+  id       String    @id @unique @db.VarChar(255)
+  guildId  String    @db.VarChar(64)
+  userId   String    @db.VarChar(64)
+  plugin   Plugin
+  action   LogAction
+  metadata Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([guildId])
+}
+
+enum Plugin {
+  WELCOME
+  AUTOMOD
+  LOGS
+  MUSIC
+  POLLS
+  ROLES
+  EMBEDS
+  ECONOMY
+  LEVELS
+  ANIME
+  MEMES
+  BIRTHDAY
+  GIVEAWAYS
+  STATISTICS
+  TWITCH
+  YOUTUBE
+  TWITTER
+  REDDIT
+  INSTAGRAM
+}
+
+enum LogAction {
+  UPDATE
+  CREATE
+  DELETE
+  ENABLE
+  DISABLE
+}
+
+model BotMasterRoles {
+  guildId String @db.VarChar(64)
+  roleId  String @db.VarChar(64)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  guild Guilds @relation(fields: [guildId], references: [id])
+
+  @@id([guildId, roleId])
+}
+
+model Guilds {
+  id       String  @id @unique @db.VarChar(64)
+  premium  Boolean @default(false)
+  prefix   String  @default("q!") @db.VarChar(10)
+  language Locales @default(en_US)
+  timezone String  @default("America/New_York") @db.VarChar(64)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  botMasterRoles          BotMasterRoles[]
+  subscription            GuildSubscriptions?
+  guildPlugins            GuildPlugins?
+  guildWelcomeSettings    GuildWelcomeSettings?
+  guildModerationSettings GuildModerationSettings?
+  guildMusicSettings      GuildMusicSettings?
+  guildLevelSettings      GuildLevelSettings?
+  guildHelpSettings       GuildHelpSettings?
+  guildUsers              GuildUsers[]
+  storeItems              StoreItems[]
+  GuildEconomySettings    GuildEconomySettings?
+  GuildAnimeSettings      GuildAnimeSettings?
 }
 
 model GuildPlugins {
-  id      String  @id @unique @db.VarChar(64)
-  autoMod Boolean @default(false)
-  anime   Boolean @default(false)
-  guild   Guild   @relation(fields: [id], references: [id])
+  id String @id @unique @db.VarChar(64)
+
+  welcome    Boolean @default(false)
+  moderation Boolean @default(false)
+  logs       Boolean @default(false)
+  help       Boolean @default(false)
+
+  music Boolean @default(false)
+
+  polls   Boolean @default(false)
+  roles   Boolean @default(false)
+  embeds  Boolean @default(false)
+  economy Boolean @default(false)
+  levels  Boolean @default(false)
+
+  anime Boolean @default(false)
+  memes Boolean @default(false)
+
+  birthday   Boolean @default(false)
+  giveaways  Boolean @default(false)
+  statistics Boolean @default(false)
+
+  twitch    Boolean @default(false)
+  youtube   Boolean @default(false)
+  twitter   Boolean @default(false)
+  reddit    Boolean @default(false)
+  instagram Boolean @default(false)
+
+  guild Guilds @relation(fields: [id], references: [id], onDelete: Cascade)
 }
 
-model GuildSettings {
-  id              String  @id @unique @db.VarChar(64)
-  defaultJoinRole String  @default("@everyone") @db.VarChar(64)
-  nsfw            Boolean @default(false)
-  globalCooldown  Int     @default(0)
-  djRole          String  @default("@everyone") @db.VarChar(64)
-  musicTimeOut    Boolean @default(false)
-  guild           Guild   @relation(fields: [id], references: [id])
+model GuildEmbeds {
+  id      Int    @id @default(autoincrement())
+  guildId String @db.VarChar(64)
+
+  name String @db.VarChar(255)
+
+  channel String @db.VarChar(64)
+
+  status GuildEmbedStatus @default(PENDING)
+
+  color String @default("000000") @db.VarChar(6)
+
+  title  String? @db.VarChar(255)
+  url    String? @db.VarChar(255)
+  author String? @db.VarChar(255)
+
+  fields GuildEmbedFields[]
+
+  image       String? @db.VarChar(255)
+  imageWidth  Int?    @db.Int
+  imageHeight Int?    @db.Int
+
+  description String? @db.VarChar(2048)
+
+  footerText String? @db.VarChar(255)
+  footerIcon String? @db.VarChar(255)
+
+  timestamp Boolean? @default(false)
+
+  createdAt DateTime @default(now())
 }
 
-model Price {
-  id                String              @id @unique @db.VarChar(255)
+model GuildEmbedFields {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(255)
+  value String @db.VarChar(2048)
+
+  GuildEmbed   GuildEmbeds? @relation(fields: [guildEmbedId], references: [id])
+  guildEmbedId Int?
+}
+
+enum GuildEmbedStatus {
+  PENDING
+  PUBLISHED
+}
+
+model CustomCommands {
+  guildId     String  @id @db.VarChar(64)
+  commandId   String  @db.VarChar(64)
+  name        String  @db.VarChar(64)
+  description String  @db.VarChar(255)
+  response    String  @db.VarChar(255)
+  enabled     Boolean @default(false)
+
+  @@unique([guildId, commandId])
+}
+
+model StoreItems {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String  @db.VarChar(255)
+  price       Int     @db.Int()
+  enabled     Boolean @default(false)
+
+  metadata Json? @db.Json()
+
+  guild   Guilds @relation(fields: [guildId], references: [id])
+  guildId String @db.VarChar(64)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GuildHelpSettings {
+  guildId String @id @unique @db.VarChar(64)
+
+  dashboardCommand Boolean @default(false)
+  helpCommand      Boolean @default(false)
+
+  guild Guilds @relation(fields: [guildId], references: [id])
+}
+
+model GuildAnimeSettings {
+  guildId String @id @unique @db.VarChar(64)
+
+  imageCommand Boolean @default(false)
+
+  mangaCommand Boolean @default(false)
+
+  animeCommand Boolean @default(false)
+
+  animeNotifications Boolean @default(false)
+
+  guild Guilds @relation(fields: [guildId], references: [id])
+}
+
+model GuildWelcomeSettings {
+  guildId String @id @unique @db.VarChar(64)
+
+  welcomeMessage String  @db.VarChar(255)
+  welcomeEnabled Boolean @default(false)
+
+  defaultRoleId      String  @default("@everyone") @db.VarChar(64)
+  defaultRoleEnabled Boolean @default(false)
+  ignoreBots         Boolean @default(false)
+
+  guild Guilds @relation(fields: [guildId], references: [id], onDelete: Cascade)
+}
+
+model GuildEconomySettings {
+  guildId String @id @unique @db.VarChar(64)
+
+  currency String @default("$") @db.VarChar(64)
+
+  guild Guilds @relation(fields: [guildId], references: [id], onDelete: Cascade)
+}
+
+model GuildModerationSettings {
+  guildId        String  @id @unique @db.VarChar(64)
+  globalCooldown Int     @default(0)
+  nsfw           Boolean @default(false)
+  autoMod        Boolean @default(false)
+  logChannel     String? @db.VarChar(64)
+  ignoreBots     Boolean @default(false)
+
+  guild Guilds @relation(fields: [guildId], references: [id], onDelete: Cascade)
+}
+
+model GuildMusicSettings {
+  guildId      String  @id @unique @db.VarChar(64)
+  volume       Int     @default(100)
+  djRole       String  @default("@everyone") @db.VarChar(64)
+  musicTimeOut Boolean @default(false)
+
+  guild Guilds @relation(fields: [guildId], references: [id], onDelete: Cascade)
+}
+
+model GuildLevelSettings {
+  guildId String @id @unique @db.VarChar(64)
+
+  annoucementChannel String? @db.VarChar(64)
+  levelUpMessage     String? @db.VarChar(255)
+
+  guild Guilds @relation(fields: [guildId], references: [id], onDelete: Cascade)
+}
+
+model Prices {
+  id                String               @id @unique @db.VarChar(255)
   recurringInterval String?
   unit_amount       Int
-  currency          String              @db.VarChar(4)
+  currency          String               @db.VarChar(4)
   type              PriceType
-  product           Product             @relation(fields: [productId], references: [id])
+  product           Products             @relation(fields: [productId], references: [id])
   productId         String
-  subscription      GuildSubscription[]
-
-  @@index([productId])
+  subscription      GuildSubscriptions[]
 }
 
-model Product {
+model Products {
   id          String  @id @unique @db.VarChar(255)
   name        String  @db.VarChar(50)
   description String? @db.VarChar(350)
-  price       Price[]
+
+  price Prices[]
 }
 
-model GuildSubscription {
-  id                   String              @id @unique @db.VarChar(255)
-  status               Subscription_status @default(CANCELED)
+model GuildSubscriptions {
+  id                   String             @id @unique @db.VarChar(255)
+  status               SubscriptionStatus @default(CANCELED)
   current_period_end   DateTime
-  cancel_at_period_end Boolean             @default(false)
-  guild                Guild               @relation(fields: [guildId], references: [id])
-  guildId              String              @unique @db.VarChar(64)
-  customer             Customer            @relation(fields: [customerId], references: [id])
-  customerId           String              @db.VarChar(255)
-  price                Price               @relation(fields: [priceId], references: [id])
-  priceId              String              @db.VarChar(255)
+  cancel_at_period_end Boolean            @default(false)
+  guild                Guilds             @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  guildId              String             @unique @db.VarChar(64)
+  customer             Customers          @relation(fields: [customerId], references: [id])
+  customerId           String             @db.VarChar(255)
+  price                Prices             @relation(fields: [priceId], references: [id])
+  priceId              String             @db.VarChar(255)
 
   @@index([guildId])
-  @@index([customerId])
-  @@index([priceId])
 }
 
-model User {
+model Users {
   /// @Swagger.ApiProperty({ type: () => String })
-  id                         String    @id @unique @db.VarChar(64)
+  id                         String     @id @unique @db.VarChar(64)
   /// @Swagger.ApiProperty({ type: () => String })
-  username                   String    @db.VarChar(64)
+  username                   String     @db.VarChar(64)
   /// @Swagger.ApiProperty({ type: () => String })
-  discriminator              String    @db.Char(4)
+  discriminator              String     @db.Char(4)
   /// @Swagger.ApiPropertyOptional({ type: () => String })
   /// @Validator.IsEmail()
-  email                      String?   @unique @db.VarChar(254)
+  email                      String?    @unique @db.VarChar(254)
   /// @Swagger.ApiPropertyOptional({ type: () => String })
-  avatar                     String?   @db.VarChar(254)
+  avatar                     String?    @db.VarChar(254)
   /// @Swagger.ApiProperty({ type: () => Date })
-  createdAt                  DateTime  @default(now())
+  createdAt                  DateTime   @default(now())
+  /// @Swagger.ApiProperty({ type: () => Date })
+  updatedAt                  DateTime?  @updatedAt
   /// @Swagger.ApiPropertyOptional({ type: () => String })
-  locale                     String?   @db.VarChar(10)
+  locale                     String?    @db.VarChar(10)
   /// @HideField()
-  accessToken                String?   @db.VarChar(100)
+  accessToken                String?    @db.VarChar(100)
   /// @HideField()
-  refreshToken               String?   @db.VarChar(100)
+  refreshToken               String?    @db.VarChar(100)
   /// @Swagger.ApiProperty({ type: () => Boolean })
-  acceptedTermsAndConditions Boolean   @default(false)
+  acceptedTermsAndConditions Boolean    @default(false)
   /// @Swagger.ApiPropertyOptional({ type: () => Customer })
-  customer                   Customer?
+  customer                   Customers?
 }
 
-enum Subscription_status {
+model GuildUsers {
+  userId  String    @unique @db.VarChar(64)
+  guildId String    @db.VarChar(64)
+  bank    Int       @default(0)
+  wallet  Int       @default(0)
+  daily   DateTime?
+  weekly  DateTime?
+  work    DateTime?
+  xp      Int       @default(0)
+
+  guild Guilds @relation(fields: [guildId], references: [id])
+
+  animeList AnimeList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([guildId, userId])
+  @@unique([guildId, userId])
+}
+
+model AnimeList {
+  userId String @id @unique @db.VarChar(64)
+
+  favoriteAnimes FavoriteAnimes[]
+  favoriteMangas FavoriteMangas[]
+
+  GuildUsers   GuildUsers @relation(fields: [guildUsersId], references: [userId])
+  guildUsersId String     @db.VarChar(64)
+}
+
+model FavoriteMangas {
+  userId String @id @db.VarChar(64)
+
+  mangaId String @db.VarChar(64)
+
+  rating          Int? @default(0)
+  storyRating     Int? @default(0)
+  artRating       Int? @default(0)
+  characterRating Int? @default(0)
+
+  status MangaStatus?
+
+  notes String? @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  animeList       AnimeList @relation(fields: [animeListUserId], references: [userId])
+  animeListUserId String    @db.VarChar(64)
+}
+
+model FavoriteAnimes {
+  userId String @db.VarChar(64)
+
+  animeId String @db.VarChar(64)
+
+  rating          Int? @default(0)
+  storyRating     Int? @default(0)
+  animationRating Int? @default(0)
+
+  status AnimeStatus?
+
+  notes String? @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  animeList       AnimeList @relation(fields: [animeListUserId], references: [userId])
+  animeListUserId String    @db.VarChar(64)
+
+  @@id([userId])
+}
+
+enum AnimeStatus {
+  WATCHING
+  COMPLETED
+  DROPPED
+  ON_HOLD
+  PLAN_TO_WATCH
+}
+
+enum MangaStatus {
+  READING
+  COMPLETED
+  DROPPED
+  ON_HOLD
+  PLAN_TO_READ
+}
+
+model GuildUserWarnings {
+  id      String    @id @db.VarChar(64)
+  guildId String    @db.VarChar(64)
+  userId  String    @db.VarChar(64)
+  reason  String    @db.VarChar(255)
+  expires DateTime? @db.Date
+
+  issued DateTime @default(now())
+
+  @@index([guildId, userId])
+}
+
+enum SubscriptionStatus {
   ACTIVE
   CANCELED
   INCOMPLETE
@@ -158,4 +484,8 @@ enum Subscription_status {
 enum PriceType {
   RECURRING
   ONE_TIME
+}
+
+enum Locales {
+  en_US
 }

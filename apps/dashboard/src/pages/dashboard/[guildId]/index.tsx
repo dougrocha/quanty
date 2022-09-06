@@ -8,9 +8,6 @@ import { DashboardLayout } from '../../../layouts'
 
 const OverviewPluginsPage = dynamic(
   () => import('../../../components/dashboard/pages/overview'),
-  {
-    ssr: false,
-  },
 )
 
 const OverviewPage = () => {

@@ -122,10 +122,10 @@ export class DiscordGuild {
   // public_updates_channel_id: string
   // @Field()
   // max_video_channel_users?: number
-  // @Field()
-  // approximate_member_count?: number
-  // @Field()
-  // approximate_presence_count?: number
+  @Field({ nullable: true })
+  approximate_member_count?: number
+  @Field({ nullable: true })
+  approximate_presence_count?: number
   // @Field()
   // welcome_screen?: APIGuildWelcomeScreen
   // @Field(() => [APIStageInstance])

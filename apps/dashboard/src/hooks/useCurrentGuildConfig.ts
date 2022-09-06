@@ -1,16 +1,17 @@
-import { useCurrentGuildId } from './useCurrentGuildId'
+import { useAtomValue } from 'jotai'
 
 import { useGetGuildConfigQuery } from '../graphql/generated/schema'
+import { currentGuildIdAtom } from '../utils/atoms/guild'
 
 export const useCurrentGuildConfig = () => {
-  const guildId = useCurrentGuildId()
+  const guildId = useAtomValue(currentGuildIdAtom)
 
   const { data, loading, error } = useGetGuildConfigQuery({
     variables: {
-      guildId: guildId,
+      guildId: guildId ?? '',
     },
     skip: !guildId,
   })
 
-  return { guild: data?.guildConfig, loading, error }
+  return { guildId, guild: data?.guildConfig, loading, error }
 }

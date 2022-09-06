@@ -37,11 +37,11 @@ export class GuildsService implements IGuildsService {
   ) {}
 
   async getGuild(query: GuildWhereUniqueInput): Promise<Guild | null> {
-    const cachedGuild = await this.cacheManager.get<Guild>(
-      `guildConfig-${query.id}`,
-    )
+    // const cachedGuild = await this.cacheManager.get<Guild>(
+    //   `guildConfig-${query.id}`,
+    // )
 
-    if (cachedGuild) return cachedGuild
+    // if (cachedGuild) return cachedGuild
 
     if (!query.id) return null
 
@@ -96,11 +96,11 @@ export class GuildsService implements IGuildsService {
   ): Promise<GuildPlugins | null> {
     if (!query?.id) return null
 
-    const cachedGuildPlugins = await this.cacheManager.get(
-      `guildPlugins-${query.id}`,
-    )
+    // const cachedGuildPlugins = await this.cacheManager.get(
+    //   `guildPlugins-${query.id}`,
+    // )
 
-    if (cachedGuildPlugins) return <GuildPlugins>cachedGuildPlugins
+    // if (cachedGuildPlugins) return <GuildPlugins>cachedGuildPlugins
 
     let guildPlugins: GuildPlugins | null
 
@@ -127,11 +127,11 @@ export class GuildsService implements IGuildsService {
   ): Promise<GuildSettings | null> {
     if (!query?.id) return null
 
-    const cachedGuildSettings = await this.cacheManager.get(
-      `guildSettings-${query.id}`,
-    )
+    // const cachedGuildSettings = await this.cacheManager.get(
+    //   `guildSettings-${query.id}`,
+    // )
 
-    if (cachedGuildSettings) return <GuildSettings>cachedGuildSettings
+    // if (cachedGuildSettings) return <GuildSettings>cachedGuildSettings
 
     let guildSettings: GuildSettings | null
 
@@ -163,12 +163,6 @@ export class GuildsService implements IGuildsService {
         'Unauthenticated',
       )
 
-    const cachedGuilds = await this.cacheManager.get<MutualGuild[]>(
-      `mutualGuilds-${user.id}`,
-    )
-
-    if (cachedGuilds) return cachedGuilds
-
     let userGuilds = await this.cacheManager.get<DiscordGuild[]>(
       `userGuilds:${user.id}`,
     )
@@ -178,7 +172,7 @@ export class GuildsService implements IGuildsService {
         await this.guildsHttpService.fetchUserGuilds(user.accessToken)
       ).data
       await this.cacheManager.set(`userGuilds:${user.id}`, userGuilds, {
-        ttl: 60 * 3, // 3 minutes
+        ttl: 30, // 30 seconds
       })
     }
 
@@ -187,10 +181,11 @@ export class GuildsService implements IGuildsService {
     if (!botGuilds) {
       botGuilds = (await this.guildsHttpService.fetchBotGuilds()).data
       await this.cacheManager.set('botGuilds', botGuilds, {
-        ttl: 60 * 2, // 2 minutes
+        ttl: 60 * 2, // 3 minutes
       })
     }
 
+    // Find guilds with matching admin permissions
     const adminUserGuilds: DiscordGuild[] = userGuilds.filter(
       ({ permissions }) => (parseInt(permissions ?? '0') & 0x8) === 0x8,
     )
@@ -200,10 +195,6 @@ export class GuildsService implements IGuildsService {
         botGuild.id === guild.id ? (guild.bot = true) : (guild.bot = false),
       ),
     )
-
-    await this.cacheManager.set(`mutualGuilds-${user.id}`, adminUserGuilds, {
-      ttl: 60 * 2, // 2 minutes
-    })
 
     return adminUserGuilds as MutualGuild[]
   }

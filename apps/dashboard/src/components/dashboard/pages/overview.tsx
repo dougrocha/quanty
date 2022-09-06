@@ -5,16 +5,12 @@ import toast from 'react-hot-toast'
 
 import { useUpdateGuildByIdMutation } from '../../../graphql/generated/schema'
 import { useCurrentGuildConfig } from '../../../hooks'
-import { PluginToggle } from '../../forms'
 
-// global save popup dynamic import
-
-const GlobalSavePopup = dynamic(() => import('../global-save-popup'), {
-  ssr: false,
-})
+const PluginToggle = dynamic(() => import('../../forms/pluginToggle'))
+const GlobalSavePopup = dynamic(() => import('../global-save-popup'))
 
 const OverviewPluginsPage = () => {
-  const { guild } = useCurrentGuildConfig()
+  const { guildId, guild } = useCurrentGuildConfig()
 
   const methods = useForm({
     defaultValues: {
@@ -34,12 +30,12 @@ const OverviewPluginsPage = () => {
       anime: guild?.guildPlugins?.anime,
       autoMod: guild?.guildPlugins?.autoMod,
     })
-  }, [guild])
+  }, [guildId])
 
   const [updateGuild, { loading, error }] = useUpdateGuildByIdMutation()
 
   const saveConfig = () => {
-    handleSubmit(data => {
+    return handleSubmit(data => {
       updateGuild({
         variables: {
           guildId: guild?.id ?? '',
@@ -61,8 +57,6 @@ const OverviewPluginsPage = () => {
   }
 
   useEffect(() => {
-    toast.dismiss('dashboard-global-save')
-
     if (isDirty)
       toast.custom(
         t => (
@@ -82,7 +76,22 @@ const OverviewPluginsPage = () => {
           id: 'dashboard-global-save',
         },
       )
-  }, [isDirty])
+
+    if (isSubmitSuccessful && !loading && !error && !isSubmitting) {
+      reset({
+        anime: guild?.guildPlugins?.anime,
+        autoMod: guild?.guildPlugins?.autoMod,
+      })
+      setTimeout(() => toast.dismiss('dashboard-global-save'), 1000)
+    }
+
+    // TODO: Handle error here somehow
+    if (error) reset()
+
+    return () => {
+      toast.dismiss('dashboard-global-save')
+    }
+  }, [guild, isDirty, loading, error, isSubmitSuccessful, isSubmitting, reset])
 
   return (
     <FormProvider {...methods}>

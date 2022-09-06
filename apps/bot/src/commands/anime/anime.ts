@@ -41,22 +41,22 @@ export class AnimeCommand extends Command {
     const type = options.getString('type')
 
     if (!type) {
-      const allsfw = [
-        await neko.waifu(),
-        await neko.baka(),
-        await neko.cuddle(),
-        await neko.pat(),
-        await neko.tickle(),
-        await neko.feed(),
-        await neko.hug(),
-        await neko.kiss(),
-        await neko.slap(),
-        await neko.smug(),
-        await neko.poke(),
-        await neko.holo(),
+      const allSfw = [
+        neko.waifu(),
+        neko.baka(),
+        neko.cuddle(),
+        neko.pat(),
+        neko.tickle(),
+        neko.feed(),
+        neko.hug(),
+        neko.kiss(),
+        neko.slap(),
+        neko.smug(),
+        neko.poke(),
+        neko.holo(),
       ]
 
-      const res = allsfw[Math.floor(Math.random() * allsfw.length)]
+      const res = await allSfw[Math.floor(Math.random() * allSfw.length)]
 
       return {
         embeds: [embed.setImage(res.url).setColor('#FF5F9F')],

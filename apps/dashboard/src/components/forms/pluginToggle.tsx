@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 
-export const PluginToggle = ({ name }: { name: string }) => {
+const PluginToggle = ({ name }: { name: string }) => {
   const { register } = useFormContext()
 
   return (
@@ -24,3 +24,5 @@ export const PluginToggle = ({ name }: { name: string }) => {
     </div>
   )
 }
+
+export default PluginToggle

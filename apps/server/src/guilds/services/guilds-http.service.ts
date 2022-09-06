@@ -20,11 +20,14 @@ export class GuildsHttpService implements IGuildsHttpService {
   }
 
   fetchBotGuilds(): Promise<AxiosResponse<DiscordGuild[]>> {
-    return axios.get(`${DISCORD_API_URL}/api/v10/users/@me/guilds`, {
-      headers: {
-        Authorization: `Bot ${process.env.BOT_SECRET}`,
+    return axios.get(
+      `${DISCORD_API_URL}/api/v10/users/@me/guilds?with_counts=true`,
+      {
+        headers: {
+          Authorization: `Bot ${process.env.BOT_SECRET}`,
+        },
       },
-    })
+    )
   }
 
   fetchGuild(guildId: string): Observable<AxiosResponse<DiscordGuild>> {

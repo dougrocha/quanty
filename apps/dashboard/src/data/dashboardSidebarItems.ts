@@ -1,4 +1,4 @@
-import { IconName } from '../components/icons/dynamicHeroIcon'
+import type { IconName } from '../components/icons/dynamicHeroIcon'
 
 export interface ISidebarItems {
   name: string
@@ -36,6 +36,11 @@ export const ServerManagementCategory: ISidebarItems[] = [
     name: 'Moderation',
     link: 'moderation',
     icon: 'AnnotationIcon',
+  },
+  {
+    name: 'Test',
+    link: 'test',
+    icon: 'PencilIcon',
   },
   // {
   //   name: 'Custom Commands',
