@@ -1,11 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { PrismaClient } from '@prisma/client'
+import { Customers, PrismaClient } from '@prisma/client'
 
-import {
-  Customer,
-  User,
-  UserCreateWithoutCustomerInput,
-} from '../../@generated'
+import { Users, UsersCreateWithoutCustomerInput } from '../../@generated'
 import { PAYMENT_SERVICE, PRISMA_SERVICE } from '../../common'
 import { IPaymentsService } from '../../payments/interfaces/paymentsService.interface'
 import { IUsersService } from '../interfaces/users'
@@ -26,10 +22,10 @@ export class UsersService implements IUsersService {
     locale,
     accessToken,
     refreshToken,
-  }: UserCreateWithoutCustomerInput): Promise<User> {
+  }: UsersCreateWithoutCustomerInput): Promise<Users> {
     const customer = await this.paymentsService.createCustomer(id, email)
 
-    const user = await this.prisma.user.create({
+    const user = await this.prisma.users.create({
       data: {
         id,
         discriminator,
@@ -53,9 +49,9 @@ export class UsersService implements IUsersService {
 
   async updateUser(
     id: string,
-    newDetails: UserCreateWithoutCustomerInput,
-  ): Promise<User> {
-    return this.prisma.user.update({
+    newDetails: UsersCreateWithoutCustomerInput,
+  ): Promise<Users> {
+    return this.prisma.users.update({
       where: {
         id,
       },
@@ -63,18 +59,18 @@ export class UsersService implements IUsersService {
     })
   }
 
-  async findUser(id: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+  async findUser(id: string): Promise<Users | null> {
+    return this.prisma.users.findUnique({
       where: {
         id,
       },
     })
   }
 
-  async findCustomer(id: string): Promise<Customer | null> {
-    return this.prisma.customer.findUnique({
+  async findCustomer(id: string): Promise<Customers | null> {
+    return this.prisma.customers.findUnique({
       where: {
-        userId: id,
+        discordId: id,
       },
     })
   }

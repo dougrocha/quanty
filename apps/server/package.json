@@ -55,6 +55,7 @@
     "graphql": "^16.6.0",
     "graphql-iso-date": "^3.6.1",
     "graphql-subscriptions": "^2.0.0",
+    "graphql-type-json": "^0.3.2",
     "graphql-ws": "^5.10.1",
     "helmet": "^5.1.1",
     "joi": "^17.6.0",

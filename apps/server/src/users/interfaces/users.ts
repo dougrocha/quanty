@@ -1,16 +1,16 @@
 import {
-  UserCreateWithoutCustomerInput,
-  User,
-  Customer,
+  UsersCreateWithoutCustomerInput,
+  Users,
+  Customers,
 } from '../../@generated'
 
 export interface IUsersService {
-  createUser(details: UserCreateWithoutCustomerInput): Promise<User>
+  createUser(details: UsersCreateWithoutCustomerInput): Promise<Users>
   updateUser(
     discordId: string,
-    newDetails: UserCreateWithoutCustomerInput,
-  ): Promise<User>
-  findUser(discordId: string): Promise<User | null>
+    newDetails: UsersCreateWithoutCustomerInput,
+  ): Promise<Users>
+  findUser(discordId: string): Promise<Users | null>
 
-  findCustomer(id: string): Promise<Customer | null>
+  findCustomer(id: string): Promise<Customers | null>
 }

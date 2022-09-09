@@ -23,30 +23,6 @@ class GuardsConsumer {
       return true
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  public _init(client: C): this {
-    this.client = client
-    if (!this.commandName)
-      this._logger.error('Cannot register a command without a name.')
-
-    return this
-  }
-
-  public getUserCooldown(userId: Snowflake): CooldownObject | null {
-    if (this.client.owner?.includes(userId) || !this.cooldown) return null
-
-    let cooldown = this.userCooldowns.get(userId)
-    if (!cooldown) {
-      cooldown = {
-        start: Date.now(),
-        uses: 0,
-        timeout: this.client.setTimeout(() => {
-          this.userCooldowns.delete(userId)
-        }, this.cooldown.timeout * 1000),
-=======
-=======
->>>>>>> Stashed changes
     for (const guard of guards) {
       const test = new guard()
       test.canActivate({ test: 'test' })
@@ -55,10 +31,6 @@ class GuardsConsumer {
       console.log('resuslt', result)
       if (await result) {
         continue
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
       }
       return false
     }

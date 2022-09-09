@@ -2,16 +2,13 @@ import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
 
 import {
-  Guild,
+  Guilds,
   GuildPlugins,
   GuildPluginsWhereUniqueInput,
-  GuildSettings,
-  GuildSettingsWhereUniqueInput,
-  GuildWhereUniqueInput,
-  UpdateOneGuildArgs,
+  GuildsWhereUniqueInput,
+  UpdateOneGuildsArgs,
   UpdateOneGuildPluginsArgs,
-  UpdateOneGuildSettingsArgs,
-  User,
+  Users,
 } from '../../@generated'
 import {
   MutualGuild,
@@ -22,18 +19,14 @@ import {
 } from '../../common'
 
 export interface IGuildsService {
-  getGuild(query: GuildWhereUniqueInput): Promise<Guild | null>
+  getGuild(query: GuildsWhereUniqueInput): Promise<Guilds | null>
   getGuildPlugins(
     query: GuildPluginsWhereUniqueInput,
   ): Promise<GuildPlugins | null>
-  getGuildSettings(
-    query: GuildSettingsWhereUniqueInput,
-  ): Promise<GuildSettings | null>
-  getMutualGuilds(user: User): Promise<MutualGuild[]>
+  getMutualGuilds(user: Users): Promise<MutualGuild[]>
 
-  updateGuild(query: UpdateOneGuildArgs): Promise<Guild>
+  updateGuild(query: UpdateOneGuildsArgs): Promise<Guilds>
   updateGuildPlugins(args: UpdateOneGuildPluginsArgs): Promise<GuildPlugins>
-  updateGuildSettings(args: UpdateOneGuildSettingsArgs): Promise<GuildSettings>
 }
 
 export interface IGuildsHttpService {

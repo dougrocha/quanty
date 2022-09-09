@@ -1,6 +1,6 @@
 import Stripe from 'stripe'
 
-import { User } from '../../@generated'
+import { Users } from '../../@generated'
 
 export interface PaymentRequestBody {
   amount: number
@@ -20,6 +20,6 @@ export interface IPaymentsService {
 
   createPaymentIntent(
     body: PaymentRequestBody,
-    user: User,
+    user: Users,
   ): Promise<Stripe.Response<Stripe.PaymentIntent>>
 }

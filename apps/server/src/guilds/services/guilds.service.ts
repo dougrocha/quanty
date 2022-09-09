@@ -9,16 +9,13 @@ import { Cache } from 'cache-manager'
 import { IGuildsHttpService, IGuildsService } from 'guilds/interfaces/guilds'
 
 import {
-  Guild,
+  Guilds,
   GuildPlugins,
-  GuildSettings,
   GuildPluginsWhereUniqueInput,
-  GuildSettingsWhereUniqueInput,
-  GuildWhereUniqueInput,
-  UpdateOneGuildArgs,
+  GuildsWhereUniqueInput,
+  UpdateOneGuildsArgs,
   UpdateOneGuildPluginsArgs,
-  User,
-  UpdateOneGuildSettingsArgs,
+  Users,
 } from '../../@generated'
 import {
   PRISMA_SERVICE,
@@ -36,7 +33,7 @@ export class GuildsService implements IGuildsService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async getGuild(query: GuildWhereUniqueInput): Promise<Guild | null> {
+  async getGuild(query: GuildsWhereUniqueInput): Promise<Guilds | null> {
     // const cachedGuild = await this.cacheManager.get<Guild>(
     //   `guildConfig-${query.id}`,
     // )
@@ -45,12 +42,12 @@ export class GuildsService implements IGuildsService {
 
     if (!query.id) return null
 
-    let guild = await this.prisma.guild.findUnique({
+    let guild = await this.prisma.guilds.findUnique({
       where: query,
     })
 
     if (!guild)
-      guild = await this.prisma.guild.create({
+      guild = await this.prisma.guilds.create({
         data: {
           id: query.id,
         },
@@ -63,8 +60,8 @@ export class GuildsService implements IGuildsService {
     return guild
   }
 
-  async updateGuild(args: UpdateOneGuildArgs): Promise<Guild> {
-    const guild = await this.prisma.guild.update(args)
+  async updateGuild(args: UpdateOneGuildsArgs): Promise<Guilds> {
+    const guild = await this.prisma.guilds.update(args)
     // Await this.cacheManager.set(`guildConfig-${args.where.id}`, guild, {
     //   ttl: 60 * 5, // 5 minutes
     // })
@@ -76,16 +73,6 @@ export class GuildsService implements IGuildsService {
   ): Promise<GuildPlugins> {
     const guild = await this.prisma.guildPlugins.update(args)
     // Await this.cacheManager.set(`guildPlugins-${args.where.id}`, guild, {
-    //   ttl: 60 * 5, // 5 minutes
-    // })
-    return guild
-  }
-
-  async updateGuildSettings(
-    args: UpdateOneGuildSettingsArgs,
-  ): Promise<GuildSettings> {
-    const guild = await this.prisma.guildSettings.update(args)
-    // Await this.cacheManager.set(`guildSettings-${args.where.id}`, guild, {
     //   ttl: 60 * 5, // 5 minutes
     // })
     return guild
@@ -122,38 +109,7 @@ export class GuildsService implements IGuildsService {
     return guildPlugins
   }
 
-  async getGuildSettings(
-    query: GuildSettingsWhereUniqueInput,
-  ): Promise<GuildSettings | null> {
-    if (!query?.id) return null
-
-    // const cachedGuildSettings = await this.cacheManager.get(
-    //   `guildSettings-${query.id}`,
-    // )
-
-    // if (cachedGuildSettings) return <GuildSettings>cachedGuildSettings
-
-    let guildSettings: GuildSettings | null
-
-    guildSettings = await this.prisma.guildSettings.findUnique({
-      where: query,
-    })
-
-    if (!guildSettings)
-      guildSettings = await this.prisma.guildSettings.create({
-        data: {
-          id: query.id,
-        },
-      })
-
-    // Await this.cacheManager.set(`guildSettings-${query.id}`, guildSettings, {
-    //   ttl: 60 * 5, // 5 minutes
-    // })
-
-    return guildSettings
-  }
-
-  async getMutualGuilds(user: User) {
+  async getMutualGuilds(user: Users) {
     if (!user.accessToken)
       throw new ForbiddenException(
         {

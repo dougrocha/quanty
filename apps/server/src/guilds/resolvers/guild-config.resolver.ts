@@ -9,12 +9,7 @@ import {
 } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
 
-import {
-  Guild,
-  GuildPlugins,
-  GuildSettings,
-  GuildUpdateInput,
-} from '../../@generated'
+import { Guilds, GuildPlugins, GuildsUpdateInput } from '../../@generated'
 import {
   GqlThrottlerGuard,
   GraphQLAuthGuard,
@@ -25,7 +20,7 @@ import { LoggingInterceptor } from '../../common/interceptors/logging.intercepto
 import { IGuildsService } from '../interfaces/guilds'
 import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
-@Resolver(() => Guild)
+@Resolver(() => Guilds)
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(GraphQLAuthGuard)
 export class GuildConfigResolver {
@@ -38,12 +33,12 @@ export class GuildConfigResolver {
   ) {}
 
   @UseGuards(GqlThrottlerGuard)
-  @Mutation(() => Guild)
+  @Mutation(() => Guilds)
   async updateGuildById(
     @Args('guildId') id: string,
     @Args('guildUpdateInput')
-    updateArgs: GuildUpdateInput,
-  ): Promise<Guild> {
+    updateArgs: GuildsUpdateInput,
+  ): Promise<Guilds> {
     const updatedGuildConfig = await this.GuildsService.updateGuild({
       where: { id },
       data: updateArgs,
@@ -57,21 +52,14 @@ export class GuildConfigResolver {
   }
 
   @UseGuards(GqlThrottlerGuard)
-  @Query(() => Guild, { name: 'guildConfig', nullable: false })
-  async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
+  @Query(() => Guilds, { name: 'guildConfig', nullable: false })
+  async guild(@Args('guildId') guildId: string): Promise<Guilds | null> {
     return await this.GuildsService.getGuild({ id: guildId })
   }
 
   @ResolveField(() => GuildPlugins, { name: 'guildPlugins', nullable: true })
-  async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugins | null> {
+  async guildPlugins(@Parent() { id }: Guilds): Promise<GuildPlugins | null> {
     return await this.GuildsService.getGuildPlugins({
-      id: id,
-    })
-  }
-
-  @ResolveField(() => GuildSettings, { name: 'guildSettings', nullable: true })
-  async guildSettings(@Parent() { id }: Guild): Promise<GuildSettings | null> {
-    return await this.GuildsService.getGuildSettings({
       id: id,
     })
   }

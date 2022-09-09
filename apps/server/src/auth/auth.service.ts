@@ -5,7 +5,7 @@ import { Cache } from 'cache-manager'
 
 import { IAuthenticationService } from './interfaces/auth'
 
-import { User, UserCreateWithoutCustomerInput } from '../@generated'
+import { Users, UsersCreateWithoutCustomerInput } from '../@generated'
 import { PRISMA_SERVICE, USERS_SERVICE } from '../common'
 import { IUsersService } from '../users/interfaces/users'
 
@@ -17,7 +17,7 @@ export class AuthService implements IAuthenticationService {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  async validateUser(details: UserCreateWithoutCustomerInput): Promise<User> {
+  async validateUser(details: UsersCreateWithoutCustomerInput): Promise<Users> {
     const user = await this.usersService.findUser(details.id)
 
     return user
@@ -25,12 +25,12 @@ export class AuthService implements IAuthenticationService {
       : await this.usersService.createUser(details)
   }
 
-  async findUser(sid: string): Promise<User> {
+  async findUser(sid: string): Promise<Users> {
     // This only works if both redis clients are the same
     const user = await this.cacheManager.get(`sess:${sid}`)
 
     if (!user) throw new AuthenticationError('Invalid session')
 
-    return user as User
+    return user as Users
   }
 }

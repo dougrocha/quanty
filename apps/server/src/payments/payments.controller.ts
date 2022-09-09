@@ -17,7 +17,7 @@ import {
   PaymentRequestBody,
 } from './interfaces/paymentsService.interface'
 
-import { User } from '../@generated'
+import { Users } from '../@generated'
 import { AuthenticatedGuard, HttpUser, PAYMENT_SERVICE } from '../common'
 
 @ApiTags('Payments')
@@ -42,7 +42,7 @@ export class PaymentsController {
     @Req() request: Request,
     @Res() response: Response,
     @Body() body: PaymentRequestBody,
-    @HttpUser() user: User,
+    @HttpUser() user: Users,
   ) {
     try {
       const id: string = request.cookies['payment-intent']

@@ -369,12 +369,13 @@ model Users {
   refreshToken               String?    @db.VarChar(100)
   /// @Swagger.ApiProperty({ type: () => Boolean })
   acceptedTermsAndConditions Boolean    @default(false)
-  /// @Swagger.ApiPropertyOptional({ type: () => Customer })
+  /// @Swagger.ApiPropertyOptional({ type: () => Customers })
   customer                   Customers?
 }
 
 model GuildUsers {
-  userId  String    @unique @db.VarChar(64)
+  id      String    @id @unique @default(uuid())
+  userId  String    @db.VarChar(64)
   guildId String    @db.VarChar(64)
   bank    Int       @default(0)
   wallet  Int       @default(0)
@@ -385,27 +386,26 @@ model GuildUsers {
 
   guild Guilds @relation(fields: [guildId], references: [id])
 
-  animeList AnimeList[]
+  animeList UserAnimeLists[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id([guildId, userId])
-  @@unique([guildId, userId])
+  @@unique(fields: [guildId, userId], name: "guild_user")
 }
 
-model AnimeList {
+model UserAnimeLists {
   userId String @id @unique @db.VarChar(64)
 
   favoriteAnimes FavoriteAnimes[]
   favoriteMangas FavoriteMangas[]
 
-  GuildUsers   GuildUsers @relation(fields: [guildUsersId], references: [userId])
+  GuildUsers   GuildUsers @relation(fields: [guildUsersId], references: [id])
   guildUsersId String     @db.VarChar(64)
 }
 
 model FavoriteMangas {
-  userId String @id @db.VarChar(64)
+  userId String @db.VarChar(64)
 
   mangaId String @db.VarChar(64)
 
@@ -418,15 +418,20 @@ model FavoriteMangas {
 
   notes String? @db.VarChar(255)
 
+  position Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  animeList       AnimeList @relation(fields: [animeListUserId], references: [userId])
-  animeListUserId String    @db.VarChar(64)
+  animeList       UserAnimeLists @relation(fields: [animeListUserId], references: [userId])
+  animeListUserId String         @db.VarChar(64)
+  // @@unique(fields: [userId, mangaId], name: "mangaUserFavorite_unique")
+
+  @@id(fields: [userId, mangaId], name: "userMangaId")
 }
 
 model FavoriteAnimes {
-  userId String @db.VarChar(64)
+  userId String @id @db.VarChar(64)
 
   animeId String @db.VarChar(64)
 
@@ -441,10 +446,10 @@ model FavoriteAnimes {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  animeList       AnimeList @relation(fields: [animeListUserId], references: [userId])
-  animeListUserId String    @db.VarChar(64)
+  animeList       UserAnimeLists @relation(fields: [animeListUserId], references: [userId])
+  animeListUserId String         @db.VarChar(64)
 
-  @@id([userId])
+  @@unique(fields: [userId, animeId], map: "animeUser")
 }
 
 enum AnimeStatus {
@@ -472,7 +477,7 @@ model GuildUserWarnings {
 
   issued DateTime @default(now())
 
-  @@index([guildId, userId])
+  @@index(fields: [guildId, userId], map: "guild_user_index")
 }
 
 enum SubscriptionStatus {

@@ -7,7 +7,7 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { Cache } from 'cache-manager'
 
-import { User } from '../../../@generated'
+import { Users } from '../../../@generated'
 import { IGuildsService } from '../../../guilds/interfaces/guilds'
 import { GUILDS_SERVICE } from '../../constants'
 import { MutualGuild } from '../../models'
@@ -20,7 +20,7 @@ export class GuildAdminGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context)
-    const user = ctx.getContext().req.user as User
+    const user = ctx.getContext().req.user as Users
     const guildId = ctx.getArgs().guildId
 
     if (!user.accessToken) {
