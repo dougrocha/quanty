@@ -3,17 +3,7 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js'
 import { SlashCommand, GuildOnly, Test } from '../../src'
 import { UseGuards } from '../../src/decorators/core/useGuards'
 import { Command } from '../../src/structures/command/Command'
-
-interface CanActivate {
-  canActivate(context: unknown): boolean | Promise<boolean>
-}
-
-class TestingGuard implements CanActivate {
-  async canActivate(context: unknown): boolean | Promise<boolean> {
-    console.log('guard', context)
-    return true
-  }
-}
+import { TestingGuard } from '../guards/testGuards'
 
 @SlashCommand('anime', {
   description: 'This command is built for echoing',
@@ -30,7 +20,7 @@ class TestingGuard implements CanActivate {
 export class EchoCommand extends Command {
   @UseGuards(TestingGuard)
   async run(interaction: CommandInteraction) {
-    // console.log("I'm running")
+    console.log("I'm running")
     // interaction.reply({
     //   content: `${interaction.options.get('text')}`,
     // })

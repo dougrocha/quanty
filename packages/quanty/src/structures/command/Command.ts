@@ -1,52 +1,28 @@
-import {
+import type {
   ApplicationCommandOptionData,
   CommandInteraction,
   Awaitable,
   ContextMenuCommandInteraction,
+  InteractionReplyOptions,
+  GuildMember,
+  Guild,
+  Channel,
+  AutocompleteInteraction,
 } from 'discord.js'
 import { GUARDS_METADATA } from '../../constants'
-import { isEmpty } from '../../util'
 
 import { Logger } from '../../util/Logger'
-import { NonNullObject } from '../../util/types'
+import type { NonNullObject } from '../../util/types'
 import { Part } from '../part/Part'
-
-interface CanActivate {
-  canActivate(context: unknown): boolean | Promise<boolean>
-}
-
-class GuardsConsumer {
-  public async tryActivate<TContext extends string = any>(
-    guards: CanActivate[],
-  ): Promise<boolean> {
-    if (!guards || isEmpty(guards)) {
-      return true
-    }
-
-    for (const guard of guards) {
-      const test = new guard()
-      test.canActivate({ test: 'test' })
-      console.log('bf', new guard())
-      const result = guard.canActivate({ testing: 'test' })
-      console.log('resuslt', result)
-      if (await result) {
-        continue
-      }
-      return false
-    }
-
-    console.log({ guards })
-
-    return true
-  }
-}
+import type { Guard } from '../guards/Guard'
+import { INTERACTION_TYPE_METADATA } from '../../decorators'
 
 export class Command<O extends Command.Options = Command.Options> extends Part {
   public description?: string
 
   public detailedDescription?: DetailedDescription
 
-  public guards: CanActivate[] = []
+  public guards: Guard[] = []
 
   public readonly category?: readonly string[]
 
@@ -56,21 +32,21 @@ export class Command<O extends Command.Options = Command.Options> extends Part {
 
   protected logger?: Logger
 
-  private guardsConsumer?: GuardsConsumer
-
   public constructor(context: Part.Context, options: O = {} as O) {
     super(context, options)
 
     if (!this.category) this.category = this.location.directories
 
     this.logger = new Logger(`COMMAND:${this.name}`)
-
-    this.guardsConsumer = new GuardsConsumer()
   }
 
   public before() {
+    console.log(Reflect.getMetadata(INTERACTION_TYPE_METADATA, this))
     this.guards = Reflect.getMetadata(GUARDS_METADATA, this.run as () => void)
-    this.guardsConsumer?.tryActivate(this.guards)
+    const result = this.container.stores
+      ?.get('guards')
+      ?.tryActivate(this.guards)
+    return result
   }
 
   public run?(interaction: CommandInteraction): Awaitable<void>
@@ -80,10 +56,37 @@ export class Command<O extends Command.Options = Command.Options> extends Part {
   ): Awaitable<void>
 }
 
-export namespace Command {
-  export type Options = CommandOptions
-  export type Context = Part.Context
+export interface CommandInteractionParams {
+  interaction: CommandInteraction
+  extra: {
+    member: CommandInteraction['member']
+    guild: CommandInteraction['guild']
+    channel?: CommandInteraction['channel']
+    options: CommandInteraction['options']
+  }
 }
+
+export interface CommandContextMenuParams {
+  interaction: ContextMenuCommandInteraction
+  extra: {
+    member: ContextMenuCommandInteraction['member']
+    guild: ContextMenuCommandInteraction['guild']
+    channel?: ContextMenuCommandInteraction['channel']
+    options: ContextMenuCommandInteraction['options']
+  }
+}
+
+export interface AutoCompleteInteractionParams {
+  interaction: AutocompleteInteraction
+  extra: {
+    member: AutocompleteInteraction['member']
+    guild: AutocompleteInteraction['guild']
+    channel?: AutocompleteInteraction['channel']
+    options: AutocompleteInteraction['options']
+  }
+}
+
+export type CommandReturn = InteractionReplyOptions | string | void
 
 export interface CommandOptions extends Part.Options {
   description?: string
@@ -91,6 +94,15 @@ export interface CommandOptions extends Part.Options {
   detailedDescription?: DetailedDescription
 
   slashOptions?: ApplicationCommandOptionData[]
+}
+
+export namespace Command {
+  export type Options = CommandOptions
+  export type Context = Part.Context
+
+  export type Interaction = CommandInteractionParams
+  export type ContextMenuInteraction = CommandContextMenuParams
+  export type AutoCompleteInteraction = AutoCompleteInteractionParams
 }
 
 export type DetailedDescription = string | DetailedDescriptionObject

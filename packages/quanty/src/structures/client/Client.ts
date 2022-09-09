@@ -18,6 +18,7 @@ import { Container, container } from '../container'
 import { StoreRegistry } from '../store/StoreRegistry'
 import { CommandStore } from '../command/CommandStore'
 import { EventStore } from '../event/EventStore'
+import { GuardStore } from '../guards/GuardStore'
 
 /**
  * The base {@link Client} for Quanty Framework. When building a Discord bot with this framework, you must either choose to use this class or extend from it.
@@ -122,7 +123,10 @@ export class QuantyClient extends Client {
     this.stores = new StoreRegistry()
     container.stores = this.stores
 
-    this.stores.register(new CommandStore()).register(new EventStore())
+    this.stores
+      .register(new CommandStore())
+      .register(new EventStore())
+      .register(new GuardStore())
   }
 
   /**

@@ -21,4 +21,28 @@ export class PartLocation {
   public get name(): string {
     return basename(this.full)
   }
+
+  /**
+   * Defines the `JSON.stringify` behavior of this structure.
+   */
+  public toJSON(): PieceLocationJSON {
+    return {
+      directories: this.directories,
+      full: this.full,
+      name: this.name,
+      relative: this.relative,
+      root: this.root,
+    }
+  }
+}
+
+/**
+ * The return type of {@link PieceLocation.toJSON}.
+ */
+export interface PieceLocationJSON {
+  directories: string[]
+  full: string
+  name: string
+  relative: string
+  root: string
 }

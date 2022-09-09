@@ -23,8 +23,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "turbo run format",
-    "prepare": "husky install",
-    "pre-commit": "yarn format"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "husky": "^8.0.1",

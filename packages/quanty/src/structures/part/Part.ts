@@ -35,6 +35,11 @@ interface PartOptions {
    * If this part is enabled
    */
   readonly enabled?: boolean
+
+  /**
+   * Set the name of the Part to the constructor name of the object
+   */
+  readonly setConstructorName?: boolean
 }
 
 export class Part<O extends PartOptions = PartOptions> {
@@ -52,6 +57,7 @@ export class Part<O extends PartOptions = PartOptions> {
     this.store = context.store
     this.location = new PartLocation(context.path, context.root)
     if (!this.name) this.name = options.name ?? context.name
+    if (options.setConstructorName) this.name = this.constructor.name
     this.options = options as O
     this.enabled = options.enabled ?? true
   }
