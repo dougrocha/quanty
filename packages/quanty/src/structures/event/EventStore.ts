@@ -1,4 +1,4 @@
-import { Store } from '../store/store'
+import { Store } from '../store/Store'
 import { Event } from './Event'
 
 export class EventStore extends Store<Event> {

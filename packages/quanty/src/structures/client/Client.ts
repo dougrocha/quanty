@@ -19,6 +19,8 @@ import { StoreRegistry } from '../store/StoreRegistry'
 import { CommandStore } from '../command/CommandStore'
 import { EventStore } from '../event/EventStore'
 import { GuardStore } from '../guards/GuardStore'
+import { join } from 'path'
+import { getVersion } from '../../util/getBotVersion'
 
 /**
  * The base {@link Client} for Quanty Framework. When building a Discord bot with this framework, you must either choose to use this class or extend from it.
@@ -40,9 +42,7 @@ export class QuantyClient extends Client {
 
   public mentionPrefix?: boolean
 
-  public commandsDir = 'commands/'
-
-  public eventsDir = 'events/'
+  public readonly version = getVersion()
 
   /**
    * Base directory for bot.
@@ -125,7 +125,9 @@ export class QuantyClient extends Client {
 
     this.stores
       .register(new CommandStore())
-      .register(new EventStore())
+      .register(
+        new EventStore().registerPath(join(__dirname, '..', '..', 'events')),
+      )
       .register(new GuardStore())
   }
 

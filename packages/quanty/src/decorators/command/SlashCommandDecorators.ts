@@ -1,8 +1,7 @@
+import { ApplicationCommandType } from 'discord.js'
 import { CommandVerificationError, Messages } from '../../errors'
 import type { SlashCommandExtraData } from '../types/command'
 import { createClassDecorator } from '../utils/decoratorFactories'
-
-export const INTERACTION_TYPE_METADATA = '__interactiontype__'
 
 export function SlashCommand(
   name: string,
@@ -34,8 +33,6 @@ export function SlashCommand(
       )
     }
 
-    Reflect.defineMetadata(INTERACTION_TYPE_METADATA, 'slash', target.prototype)
-
     Object.defineProperties(target.prototype, {
       name: {
         // Must be set to lowercase to work with discord api
@@ -53,10 +50,10 @@ export function SlashCommand(
         enumerable: true,
         writable: true,
       },
-      interactionType: {
-        value: 'slash',
+      type: {
+        value: ApplicationCommandType.ChatInput,
         enumerable: true,
-        writable: false,
+        writable: true,
       },
       slashOptions: {
         value: options.options ?? [],

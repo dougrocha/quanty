@@ -2,8 +2,6 @@ import { join } from 'path'
 
 import { Collection } from 'discord.js'
 
-import type { Store } from './store'
-
 import { getRootData } from '../../util/getRootData'
 import { resolvePath } from '../../util/resolvePath'
 import { Container, container } from '../container'
@@ -11,6 +9,7 @@ import type { Part } from '../part/Part'
 import type { GuardStore } from '../guards/GuardStore'
 import type { EventStore } from '../event'
 import type { CommandStore } from '../command'
+import type { Store } from './Store'
 
 export type Key = keyof StoreRegistryEntries
 export type Value = StoreRegistryEntries[Key]

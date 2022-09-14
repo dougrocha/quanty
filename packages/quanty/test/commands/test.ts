@@ -1,29 +1,44 @@
-import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js'
+import {
+  ApplicationCommandOptionType,
+  CommandInteraction,
+  InteractionReplyOptions,
+} from 'discord.js'
 
-import { SlashCommand, GuildOnly, Test } from '../../src'
+import { SlashCommand, Test } from '../../src'
 import { UseGuards } from '../../src/decorators/core/useGuards'
+import { SetMetadata } from '../../src/decorators/utils'
 import { Command } from '../../src/structures/command/Command'
 import { TestingGuard } from '../guards/testGuards'
 
+const Roles = (...roles: string[]) => SetMetadata('roles', roles)
+
 @SlashCommand('anime', {
-  description: 'This command is built for echoing',
+  description: 'Testing Change',
   options: [
     {
       name: 'text',
       description: "Echo's text.",
-      type: ApplicationCommandOptionType.String,
+      type: ApplicationCommandOptionType.Subcommand,
+      options: [
+        {
+          name: 'waifu',
+          description: 'Waifu',
+          type: ApplicationCommandOptionType.String,
+          required: true,
+        },
+      ],
     },
   ],
 })
-@GuildOnly()
 @Test()
-export class EchoCommand extends Command {
+export class AnimeCommand extends Command {
   @UseGuards(TestingGuard)
-  async run(interaction: CommandInteraction) {
-    console.log("I'm running")
-    // interaction.reply({
-    //   content: `${interaction.options.get('text')}`,
-    // })
+  @Roles('admin', 'moderator')
+  async run(interaction: CommandInteraction): Promise<InteractionReplyOptions> {
+    // console.log(Reflect.getMetadata('roles', this.run))
+    return {
+      content: `${interaction.options.get('waifu', true).options}`,
+    }
   }
 
   // error(e: any, options?: CommandOptions): CommandReturnType {

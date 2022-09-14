@@ -25,7 +25,7 @@ export class PartLocation {
   /**
    * Defines the `JSON.stringify` behavior of this structure.
    */
-  public toJSON(): PieceLocationJSON {
+  public toJSON(): PartLocationJSON {
     return {
       directories: this.directories,
       full: this.full,
@@ -39,7 +39,7 @@ export class PartLocation {
 /**
  * The return type of {@link PieceLocation.toJSON}.
  */
-export interface PieceLocationJSON {
+export interface PartLocationJSON {
   directories: string[]
   full: string
   name: string

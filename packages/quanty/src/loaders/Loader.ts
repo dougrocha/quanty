@@ -1,6 +1,6 @@
 import { basename, extname } from 'path'
 import type { Part } from '../structures/part/Part'
-import type { Store } from '../structures/store/store'
+import type { Store } from '../structures/store/Store'
 
 import { classExtends, isClass, Logger, logger } from '../util'
 import type {
@@ -33,6 +33,10 @@ export class Loader<T extends Part> implements ILoader<T> {
   }
 
   public async importFile(file: ModuleData): AsyncImportResult<T> {
+    if (file.path.replaceAll('/', '\\').includes(process.cwd())) {
+      return await import(file.path)
+    }
+
     return await import(`${process.cwd()}/${file.path}`)
   }
 

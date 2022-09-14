@@ -4,18 +4,15 @@ import type {
   Awaitable,
   ContextMenuCommandInteraction,
   InteractionReplyOptions,
-  GuildMember,
-  Guild,
-  Channel,
-  AutocompleteInteraction,
+  ApplicationCommandType,
 } from 'discord.js'
-import { GUARDS_METADATA } from '../../constants'
+import { GUARDS_METADATA, TEST_COMMAND_METADATA } from '../../constants'
 
 import { Logger } from '../../util/Logger'
 import type { NonNullObject } from '../../util/types'
 import { Part } from '../part/Part'
 import type { Guard } from '../guards/Guard'
-import { INTERACTION_TYPE_METADATA } from '../../decorators'
+import { acquire } from './applicationCommands/ApplicationCommandRegistries'
 
 export class Command<O extends Command.Options = Command.Options> extends Part {
   public description?: string
@@ -28,9 +25,17 @@ export class Command<O extends Command.Options = Command.Options> extends Part {
 
   public typing?: boolean
 
-  private readonly slashOptions?: ApplicationCommandOptionData
+  public readonly type?: ApplicationCommandType
+
+  public readonly slashOptions?: ApplicationCommandOptionData[]
 
   protected logger?: Logger
+
+  /**
+   * The application command registry associated with this command.
+   * @since 3.0.0
+   */
+  public readonly applicationCommandRegistry = acquire(this.name)
 
   public constructor(context: Part.Context, options: O = {} as O) {
     super(context, options)
@@ -40,49 +45,41 @@ export class Command<O extends Command.Options = Command.Options> extends Part {
     this.logger = new Logger(`COMMAND:${this.name}`)
   }
 
-  public before() {
-    console.log(Reflect.getMetadata(INTERACTION_TYPE_METADATA, this))
-    this.guards = Reflect.getMetadata(GUARDS_METADATA, this.run as () => void)
-    const result = this.container.stores
-      ?.get('guards')
-      ?.tryActivate(this.guards)
-    return result
+  public handleGuards(interaction: unknown) {
+    if (!this.run) return false
+    this.guards = Reflect.getMetadata(GUARDS_METADATA, this.run)
+    if (!this.guards) return true
+
+    return this.container.stores?.get('guards')?.tryActivate(this.guards, {
+      interaction,
+      handler: this.run as unknown as () => void,
+    })
   }
 
-  public run?(interaction: CommandInteraction): Awaitable<void>
+  public run?(
+    interaction: CommandInteraction,
+  ): Awaitable<InteractionReplyOptions>
 
   public contextRun?(
     interaction: ContextMenuCommandInteraction,
   ): Awaitable<void>
-}
 
-export interface CommandInteractionParams {
-  interaction: CommandInteraction
-  extra: {
-    member: CommandInteraction['member']
-    guild: CommandInteraction['guild']
-    channel?: CommandInteraction['channel']
-    options: CommandInteraction['options']
+  public isTestCommand(): boolean {
+    return Reflect.getMetadata(TEST_COMMAND_METADATA, this)
   }
-}
 
-export interface CommandContextMenuParams {
-  interaction: ContextMenuCommandInteraction
-  extra: {
-    member: ContextMenuCommandInteraction['member']
-    guild: ContextMenuCommandInteraction['guild']
-    channel?: ContextMenuCommandInteraction['channel']
-    options: ContextMenuCommandInteraction['options']
-  }
-}
+  public error?(
+    error: unknown,
+    interaction: CommandInteraction,
+  ): Awaitable<void>
 
-export interface AutoCompleteInteractionParams {
-  interaction: AutocompleteInteraction
-  extra: {
-    member: AutocompleteInteraction['member']
-    guild: AutocompleteInteraction['guild']
-    channel?: AutocompleteInteraction['channel']
-    options: AutocompleteInteraction['options']
+  public toJSON(): Command.JSON {
+    return {
+      ...super.toJSON(),
+      description: this.description,
+      detailedDescription: this.detailedDescription,
+      category: this.category,
+    }
   }
 }
 
@@ -94,15 +91,20 @@ export interface CommandOptions extends Part.Options {
   detailedDescription?: DetailedDescription
 
   slashOptions?: ApplicationCommandOptionData[]
+
+  type?: ApplicationCommandType
 }
 
 export namespace Command {
   export type Options = CommandOptions
   export type Context = Part.Context
+  export type JSON = Part.JSON & CommandJSON
+}
 
-  export type Interaction = CommandInteractionParams
-  export type ContextMenuInteraction = CommandContextMenuParams
-  export type AutoCompleteInteraction = AutoCompleteInteractionParams
+export interface CommandJSON {
+  description?: string
+  detailedDescription?: DetailedDescription
+  category?: readonly string[]
 }
 
 export type DetailedDescription = string | DetailedDescriptionObject

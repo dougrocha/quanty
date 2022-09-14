@@ -7,7 +7,7 @@ import { StoreRegistry, StoreRegistryEntries } from './StoreRegistry'
 import { AbstractConstructor, Ctor, Logger } from '../../util'
 import { container, Container } from '../container'
 import type { Part } from '../part/Part'
-import { globPromise } from '../../util/resolvePath'
+import { globPromise, resolvePath } from '../../util/resolvePath'
 import { Loader } from '../../loaders/Loader'
 import type { HydratedModuleData, ModuleData } from '../../loaders/types'
 
@@ -25,7 +25,7 @@ export interface StoreOptions<T extends Part> {
   readonly loader?: Loader<T>
 }
 
-export class Store<T extends Part> extends Collection<string, Part> {
+export class Store<T extends Part> extends Collection<string, T> {
   private logger?: Logger
 
   public readonly Constructor: AbstractConstructor<T>
@@ -54,9 +54,12 @@ export class Store<T extends Part> extends Collection<string, Part> {
     return container
   }
 
-  public registerPath(path: string) {
+  public registerPath(path: string): this {
+    const root = resolvePath(path)
     this.logger?.log(`Registering path: '${path}'`)
-    this.paths?.add(path)
+    this.paths?.add(root)
+
+    return this
   }
 
   public async load(root: string, path: string) {

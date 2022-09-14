@@ -1,7 +1,7 @@
 import type { Awaitable } from 'discord.js'
 import { container, Container } from '../container'
-import type { Store } from '../store/store'
-import { PartLocation } from './PartLocation'
+import type { Store } from '../store/Store'
+import { PartLocation, PartLocationJSON } from './PartLocation'
 
 interface PartContext {
   /**
@@ -82,9 +82,26 @@ export class Part<O extends PartOptions = PartOptions> {
   public async reload() {
     await this.store.load(this.location.root, this.location.relative)
   }
+
+  public toJSON(): PartJSON {
+    return {
+      location: this.location.toJSON(),
+      name: this.name,
+      enabled: this.enabled,
+      options: this.options,
+    }
+  }
 }
 
 export namespace Part {
   export type Options = PartOptions
   export type Context = PartContext
+  export type JSON = PartJSON
+}
+
+export interface PartJSON {
+  location: PartLocationJSON
+  name: string
+  enabled: boolean
+  options: PartOptions
 }

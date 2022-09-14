@@ -14,6 +14,7 @@
     "prebuild": "rimraf dist",
     "build": "swc src -d ./dist/src && tsc --project tsconfig.build.json --emitDeclarationOnly",
     "build:watch": "swc src --out-dir dist/src -w --sync & tsc -w --pretty --skipLibCheck --noEmit",
+    "debug": "ts-node-dev --files --transpile-only --respawn --inspect=4321 --project tsconfig.json src/server.ts",
     "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "echo TESTING QUANTY/FRAMEWORK",
     "dev": "concurrently \"yarn watch-compile-client\" \"yarn watch-compile-bot\" \"yarn watch-dev\" \"yarn watch-tsc\"",
@@ -32,7 +33,8 @@
     "dotenv": "^16.0.1",
     "glob": "^7.2.0",
     "joi": "^17.6.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",
@@ -47,7 +49,9 @@
     "nodemon": "^2.0.19",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1",
     "tsconfig": "*",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.4"
   },
   "repository": {
