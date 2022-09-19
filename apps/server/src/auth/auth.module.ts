@@ -21,7 +21,6 @@ import { UsersService } from '../users/services/users.service'
   providers: [
     DiscordStrategy,
     SessionSerializer,
-    AuthService,
     { provide: AUTH_SERVICE, useClass: AuthService },
     { provide: PRISMA_SERVICE, useClass: PrismaService },
     { provide: USERS_SERVICE, useClass: UsersService },
