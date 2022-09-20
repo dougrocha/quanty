@@ -9,7 +9,7 @@ import {
 } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
 
-import { Guilds, GuildPlugins, GuildsUpdateInput } from '../../@generated'
+import { Guild, GuildPlugin, GuildUpdateInput } from '../../@generated'
 import {
   GqlThrottlerGuard,
   GraphQLAuthGuard,
@@ -20,7 +20,7 @@ import { LoggingInterceptor } from '../../common/interceptors/logging.intercepto
 import { IGuildsService } from '../interfaces/guilds'
 import { GuildServiceGateway } from '../websocket/guild-service.gateway'
 
-@Resolver(() => Guilds)
+@Resolver(() => Guild)
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(GraphQLAuthGuard)
 export class GuildConfigResolver {
@@ -33,12 +33,12 @@ export class GuildConfigResolver {
   ) {}
 
   @UseGuards(GqlThrottlerGuard)
-  @Mutation(() => Guilds)
+  @Mutation(() => Guild)
   async updateGuildById(
     @Args('guildId') id: string,
     @Args('guildUpdateInput')
-    updateArgs: GuildsUpdateInput,
-  ): Promise<Guilds> {
+    updateArgs: GuildUpdateInput,
+  ): Promise<Guild> {
     const updatedGuildConfig = await this.GuildsService.updateGuild({
       where: { id },
       data: updateArgs,
@@ -52,13 +52,13 @@ export class GuildConfigResolver {
   }
 
   @UseGuards(GqlThrottlerGuard)
-  @Query(() => Guilds, { name: 'guildConfig', nullable: false })
-  async guild(@Args('guildId') guildId: string): Promise<Guilds | null> {
+  @Query(() => Guild, { name: 'guildConfig', nullable: false })
+  async guild(@Args('guildId') guildId: string): Promise<Guild | null> {
     return await this.GuildsService.getGuild({ id: guildId })
   }
 
-  @ResolveField(() => GuildPlugins, { name: 'guildPlugins', nullable: true })
-  async guildPlugins(@Parent() { id }: Guilds): Promise<GuildPlugins | null> {
+  @ResolveField(() => GuildPlugin, { name: 'guildPlugins', nullable: true })
+  async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugin | null> {
     return await this.GuildsService.getGuildPlugins({
       id: id,
     })

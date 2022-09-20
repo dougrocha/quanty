@@ -16,7 +16,7 @@ import { Response, Request } from 'express'
 
 import { IAuthenticationService } from './interfaces/auth'
 
-import { Users } from '../@generated'
+import { User } from '../@generated'
 import {
   AuthenticatedGuard,
   AUTH_SERVICE,
@@ -52,7 +52,7 @@ export class AuthController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   protected(
     @HttpUser()
-    { id, username, discriminator }: Users,
+    { id, username, discriminator }: User,
     @Res() res: Response,
   ) {
     return res.status(HttpStatus.OK).send({

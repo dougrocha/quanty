@@ -5,9 +5,9 @@ import { Response } from 'express'
 import Stripe from 'stripe'
 
 import {
-  PricesCreateManyInput,
+  PriceCreateManyInput,
   PriceType,
-  ProductsCreateManyInput,
+  ProductCreateManyInput,
 } from '../../@generated'
 import { AuthenticatedGuard, PRISMA_SERVICE, STRIPE_CLIENT } from '../../common'
 
@@ -33,8 +33,8 @@ export class StripeController {
       active: true,
     })
 
-    const priceHolder: PricesCreateManyInput[] = []
-    const productHolder: ProductsCreateManyInput[] = []
+    const priceHolder: PriceCreateManyInput[] = []
+    const productHolder: ProductCreateManyInput[] = []
 
     stripePrices.data.map(
       ({ id, recurring, unit_amount, currency, product, type }, i) => {
@@ -67,11 +67,11 @@ export class StripeController {
       },
     )
 
-    await this.prisma.products.createMany({
+    await this.prisma.product.createMany({
       data: productHolder,
     })
 
-    await this.prisma.prices.createMany({
+    await this.prisma.price.createMany({
       data: priceHolder,
     })
   }

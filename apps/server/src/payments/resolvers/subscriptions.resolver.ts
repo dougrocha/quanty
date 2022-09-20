@@ -29,13 +29,13 @@ export class SubscriptionsResolver {
   async createSubscription(
     @Args('newSubscriptionParams') input: CreateSubscriptionInput,
   ): Promise<CreateSubscription> {
-    const guildSubscription = await this.prisma.guildSubscriptions.findUnique({
+    const guildSubscription = await this.prisma.guildSubscription.findUnique({
       where: {
         guildId: input.guildId,
       },
     })
 
-    const customer = await this.prisma.customers.findUnique({
+    const customer = await this.prisma.customer.findUnique({
       where: {
         discordId: input.userId,
       },
@@ -44,7 +44,7 @@ export class SubscriptionsResolver {
     if (!customer)
       throw new ForbiddenException('Customer account does not exist')
 
-    const guild = await this.prisma.guilds.findUnique({
+    const guild = await this.prisma.guild.findUnique({
       where: {
         id: input.guildId,
       },
@@ -52,7 +52,7 @@ export class SubscriptionsResolver {
 
     if (!guild) throw new ForbiddenException('Quanty cannot find current guild')
 
-    const price = await this.prisma.prices.findUnique({
+    const price = await this.prisma.price.findUnique({
       where: { id: input.priceId },
     })
 
@@ -85,7 +85,7 @@ export class SubscriptionsResolver {
 
     console.log('BEFORE SUBSCRIPTION')
 
-    await this.prisma.guildSubscriptions.create({
+    await this.prisma.guildSubscription.create({
       data: {
         id: subscription.id,
         current_period_end: new Date(subscription.current_period_end * 1000),

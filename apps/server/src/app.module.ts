@@ -31,6 +31,7 @@ import { DiscordController } from './discord/discord.controller'
 import { DiscordModule } from './discord/discord.module'
 import { GuildsModule } from './guilds/guilds.module'
 import { IGuildsService } from './guilds/interfaces/guilds'
+import { HealthModule } from './health/health.module'
 import { useSessionMiddleware } from './main'
 import { PaymentsModule } from './payments/payments.module'
 import { PrismaService } from './prisma.service'
@@ -183,6 +184,7 @@ const ENV = process.env.NODE_ENV
     }),
     PaymentsModule,
     DiscordModule,
+    HealthModule,
   ],
   providers: [{ provide: PRISMA_SERVICE, useClass: PrismaService }],
   controllers: [DiscordController],

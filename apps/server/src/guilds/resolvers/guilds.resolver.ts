@@ -3,7 +3,7 @@ import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { AxiosResponse } from 'axios'
 import { Observable } from 'rxjs'
 
-import { Users } from '../../@generated'
+import { User } from '../../@generated'
 import {
   GraphQLAuthGuard,
   GqlThrottlerGuard,
@@ -60,7 +60,7 @@ export class GuildsResolver {
   @Query(() => [MutualGuild], {
     description: 'Gets the available guilds that the user can edit.',
   })
-  async mutualGuilds(@GqlUser() user: Users): Promise<MutualGuild[]> {
+  async mutualGuilds(@GqlUser() user: User): Promise<MutualGuild[]> {
     return await this.GuildsService.getMutualGuilds(user)
   }
 }

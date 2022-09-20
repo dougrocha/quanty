@@ -1,3 +1,3 @@
-import { Users } from '../@generated'
+import { User } from '../@generated'
 
-export type Done = (err: Error | null, user: Users | null) => void
+export type Done = (err: Error | null, user: User | null) => void

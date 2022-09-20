@@ -1,7 +1,7 @@
 import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-import { Users } from '../../@generated'
+import { User } from '../../@generated'
 import {
   GraphQLAuthGuard,
   GqlThrottlerGuard,
@@ -22,7 +22,7 @@ export class CreditCardsResolver {
   ) {}
 
   @Query(() => [PaymentMethod], { nullable: true })
-  async getPaymentMethods(@GqlUser() user: Users) {
+  async getPaymentMethods(@GqlUser() user: User) {
     const customerId = user.customer?.id
 
     if (!customerId) return null

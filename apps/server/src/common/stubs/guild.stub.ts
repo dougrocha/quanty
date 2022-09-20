@@ -1,6 +1,6 @@
-import { Guilds } from '../../@generated'
+import { Guild } from '../../@generated'
 
-export const guildStub = (): Guilds => ({
+export const guildStub = (): Guild => ({
   id: '123',
   prefix: 'q!',
   premium: false,

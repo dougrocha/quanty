@@ -1,5 +1,5 @@
-import { Users, UsersCreateWithoutCustomerInput } from '../../@generated'
+import { User, UserCreateWithoutCustomerInput } from '../../@generated'
 
 export interface IAuthenticationService {
-  validateUser(user: UsersCreateWithoutCustomerInput): Promise<Users>
+  validateUser(user: UserCreateWithoutCustomerInput): Promise<User>
 }
