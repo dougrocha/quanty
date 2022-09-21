@@ -2,7 +2,7 @@ import { join } from 'path'
 
 import { Collection } from 'discord.js'
 
-import type { Store } from './store'
+import type { Store } from './Store'
 
 import { getRootData } from '../../util/getRootData'
 import { resolvePath } from '../../util/resolvePath'

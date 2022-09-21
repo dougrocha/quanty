@@ -1,6 +1,6 @@
 import type { Awaitable } from 'discord.js'
 import type { Part } from '../structures/part/Part'
-import type { Store } from '../structures/store/store'
+import type { Store } from '../structures/store/Store'
 import type { Constructor, Ctor } from '../util'
 
 export interface ModuleData {

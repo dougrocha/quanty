@@ -1,6 +1,6 @@
 import { basename, extname } from 'path'
 import type { Part } from '../structures/part/Part'
-import type { Store } from '../structures/store/store'
+import type { Store } from '../structures/store/Store'
 
 import { classExtends, isClass, Logger, logger } from '../util'
 import type {

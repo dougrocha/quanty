@@ -1,6 +1,6 @@
 import type { Awaitable } from 'discord.js'
 import { container, Container } from '../container'
-import type { Store } from '../store/store'
+import type { Store } from '../store/Store'
 import { PartLocation } from './PartLocation'
 
 interface PartContext {

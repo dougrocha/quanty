@@ -7,7 +7,7 @@ import type {
 import { Logger } from '../../util'
 
 import { Part } from '../part/Part'
-import { Store } from '../store/store'
+import { Store } from '../store/Store'
 
 export interface CommandOptions extends Part.Options {
   readonly description: string

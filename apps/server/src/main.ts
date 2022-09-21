@@ -36,9 +36,9 @@ redisClient
 export const useSessionMiddleware = session({
   store: new RedisStore({ client: redisClient }),
   cookie: {
-    httpOnly: ENV === 'production' ? true : false,
+    httpOnly: true,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
-    secure: false,
+    secure: ENV === 'production',
     domain: ENV === 'production' ? '.quanty.xyz' : undefined,
   },
   secret: process.env.SESSION_COOKIE,
