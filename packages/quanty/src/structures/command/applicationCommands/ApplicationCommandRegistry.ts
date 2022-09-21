@@ -20,4 +20,3 @@ export class ApplicationCommandRegistry {
     console.log('Registration API CALLS')
   }
 }
-

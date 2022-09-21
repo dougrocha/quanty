@@ -11,4 +11,3 @@ import { HealthController } from './health.controller'
   providers: [BotHealthIndicator],
 })
 export class HealthModule {}
-

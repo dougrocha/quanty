@@ -19,4 +19,3 @@ export class CoreReadyEvent extends Event<'ready'> {
     this.logger?.log(`ApplicationCommandRegistries: Initialized in ${diff}ms`)
   }
 }
-

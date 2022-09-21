@@ -59,4 +59,3 @@ export const enum InteractionHandlerTypes {
   SelectMenu = 'SELECT_MENU',
   ModalSubmit = 'MODAL_SUBMIT',
 }
-

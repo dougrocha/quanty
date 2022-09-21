@@ -80,4 +80,3 @@ export class Loader<T extends Part> implements ILoader<T> {
     this.logger?.error(`Error loading ${path}: ${error}`)
   }
 }
-

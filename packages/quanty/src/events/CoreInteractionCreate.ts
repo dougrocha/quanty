@@ -56,4 +56,3 @@ export class CoreCommandEvent extends Event<typeof Events.InteractionCreate> {
     }
   }
 }
-

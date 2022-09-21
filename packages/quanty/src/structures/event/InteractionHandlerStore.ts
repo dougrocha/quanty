@@ -40,4 +40,3 @@ export const InteractionHandlerFilters = new Map<
     interaction => interaction.isSelectMenu(),
   ],
 ])
-

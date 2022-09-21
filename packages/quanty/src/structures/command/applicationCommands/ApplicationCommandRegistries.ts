@@ -131,4 +131,3 @@ export const registerTestCommands = async (logger?: Logger) => {
     })
   }
 }
-
