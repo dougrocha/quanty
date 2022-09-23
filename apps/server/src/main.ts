@@ -88,6 +88,8 @@ async function bootstrap() {
     app.use(helmet())
   }
 
+  app.enableShutdownHooks()
+
   await app.listen(PORT, async () => {
     Logger.log('NODE_ENV:', ENV)
 
@@ -96,3 +98,4 @@ async function bootstrap() {
 }
 
 void bootstrap()
+

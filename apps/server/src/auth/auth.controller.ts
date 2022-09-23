@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Inject,
   Req,
   Res,
   UseGuards,
@@ -14,22 +13,12 @@ import {
 } from '@nestjs/swagger'
 import { Response, Request } from 'express'
 
-import { IAuthenticationService } from './interfaces/auth'
-
 import { User } from '../@generated'
-import {
-  AuthenticatedGuard,
-  AUTH_SERVICE,
-  DiscordAuthGuard,
-  HttpUser,
-} from '../common'
+import { AuthenticatedGuard, DiscordAuthGuard, HttpUser } from '../common'
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    @Inject(AUTH_SERVICE) private readonly authService: IAuthenticationService,
-  ) {}
   /**
    * GET /api/auth/login
    *
@@ -72,8 +61,10 @@ export class AuthController {
   @UseGuards(AuthenticatedGuard)
   async logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy(() => {
+      res.clearCookie('connect.sid')
       res.redirect(process.env.FRONTEND_URL)
       return { msg: 'User had logged out.' }
     })
   }
 }
+
