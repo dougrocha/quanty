@@ -85,5 +85,3 @@ export interface StoreRegistryEntries {
   events?: EventStore
   guards?: GuardStore
 }
-
-// TODO: Make stores for above items
