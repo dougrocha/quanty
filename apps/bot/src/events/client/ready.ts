@@ -17,5 +17,7 @@ export class ReadyEvent extends Event<'ready'> {
     })
 
     musicManager.init(client.user?.id)
+
+    console.log('GUILDS:', await client.guilds.fetch())
   }
 }

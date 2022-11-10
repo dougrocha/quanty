@@ -215,4 +215,3 @@ export namespace Store {
   export type Options<T extends Part> = StoreOptions<T>
   export type RegistryEntries = StoreRegistryEntries
 }
-

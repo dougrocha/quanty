@@ -9,6 +9,12 @@ export class TestingGuard extends Guard {
     )
 
     console.log('testing interaction', context.getCommandInteraction().user)
-    return true
+
+    if (context.getCommandInteraction().user.id === '571520537587875851') {
+      console.log('IS USER')
+      return true
+    }
+
+    return false
   }
 }

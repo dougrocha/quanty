@@ -1,5 +1,5 @@
 export const Messages = {
-  MISSING_CLIENT_CONFIG: (prop: any) =>
+  MISSING_CLIENT_CONFIG: (prop: string) =>
     `The ${prop} config option must be set.`,
 
   FILE_WITHOUT_EXPORTS: (path: string) =>

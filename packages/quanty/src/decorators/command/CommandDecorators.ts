@@ -1,7 +1,5 @@
-import type { PermissionsString } from 'discord.js'
 import { TEST_COMMAND_METADATA } from '../../constants'
 
-import type { CooldownObject } from '../../structures/command/types/Cooldown'
 import { createClassDecorator } from '../utils/decoratorFactories'
 
 // /**

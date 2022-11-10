@@ -13,8 +13,6 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
   public async run(interaction: Interaction) {
     if (!this.size) return false
 
-    const promises = []
-
     for (const handler of this.values() as IterableIterator<InteractionHandler>) {
       const filter = InteractionHandlerFilters.get(handler.type)
 

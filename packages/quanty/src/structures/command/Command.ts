@@ -13,6 +13,7 @@ import type { NonNullObject } from '../../util/types'
 import { Part } from '../part/Part'
 import type { Guard } from '../guards/Guard'
 import { acquire } from './applicationCommands/ApplicationCommandRegistries'
+import type { CommandReturnType } from './types'
 
 export class Command<O extends Command.Options = Command.Options> extends Part {
   public description?: string
@@ -56,9 +57,7 @@ export class Command<O extends Command.Options = Command.Options> extends Part {
     })
   }
 
-  public run?(
-    interaction: CommandInteraction,
-  ): Awaitable<InteractionReplyOptions>
+  public run?(interaction: CommandInteraction): Awaitable<CommandReturnType>
 
   public contextRun?(
     interaction: ContextMenuCommandInteraction,

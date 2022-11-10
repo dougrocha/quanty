@@ -149,11 +149,7 @@ export interface CommandOptions {
   >
 }
 
-export type CommandReturnObj =
-  | InteractionReplyOptions
-  | MessagePayload
-  | string
-  | void
+export type CommandReturnObj = InteractionReplyOptions | string | void
 
 export type CommandReturnType = Promise<CommandReturnObj>
 

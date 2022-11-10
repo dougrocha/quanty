@@ -10,7 +10,7 @@ const client: QuantyClient = new QuantyClient({
   baseDirectory: 'test/',
   defaults: true,
   logLevel: 'ALL',
-  devGuilds: ['871581301713555526'],
+  devGuilds: ['1039855915244998756'],
   intents: ['Guilds', 'GuildMessages', 'GuildPresences'],
 })
 

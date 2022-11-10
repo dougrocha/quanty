@@ -76,10 +76,12 @@ export const registerTestCommands = async (logger?: Logger) => {
 
   for (const testGuild of testGuilds) {
     const guild = await client.guilds.fetch(testGuild).catch(() => undefined)
+
     if (!guild) {
       logger?.warn(`Guild ${testGuild} not found.`)
       continue
     }
+
     const registeredGuildCommands = await guild.commands.fetch()
 
     registeredGuildCommands.map(async registeredCommand => {
@@ -110,6 +112,8 @@ export const registerTestCommands = async (logger?: Logger) => {
         return guild.commands.edit(registeredCommand, builtTestCmd)
       }
     })
+
+    // console.log(testCommands)
 
     testCommands.map(async testCmd => {
       if (
