@@ -33,6 +33,14 @@ export class Loader<T extends Part> implements ILoader<T> {
   }
 
   public async importFile(file: ModuleData): AsyncImportResult<T> {
+    if (file.path.replaceAll('/', '\\').includes(process.cwd())) {
+      return await import(file.path)
+    }
+    // FOR MAC DEVICES
+    if (file.path.includes(process.cwd())) {
+      return await import(file.path)
+    }
+
     return await import(`${process.cwd()}/${file.path}`)
   }
 

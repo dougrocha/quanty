@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export declare type Nullable<T> = {
   [P in keyof T]: T[P] | null
 }
@@ -36,3 +38,9 @@ export type AbstractCtor<
  * A generic abstract constructor without parameters
  */
 export type AbstractConstructor<T> = abstract new (...args: any[]) => T
+
+/**
+ * An object that is non nullable, to bypass TypeScript not easily working with {@link Record}<{@link PropertyKey}, any> in various instances.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NonNullObject = {} & object

@@ -1,11 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { PrismaClient } from '@prisma/client'
+import { Customer, PrismaClient } from '@prisma/client'
 
-import {
-  Customer,
-  User,
-  UserCreateWithoutCustomerInput,
-} from '../../@generated'
+import { User, UserCreateWithoutCustomerInput } from '../../@generated'
 import { PAYMENT_SERVICE, PRISMA_SERVICE } from '../../common'
 import { IPaymentsService } from '../../payments/interfaces/paymentsService.interface'
 import { IUsersService } from '../interfaces/users'
@@ -74,7 +70,7 @@ export class UsersService implements IUsersService {
   async findCustomer(id: string): Promise<Customer | null> {
     return this.prisma.customer.findUnique({
       where: {
-        userId: id,
+        discordId: id,
       },
     })
   }

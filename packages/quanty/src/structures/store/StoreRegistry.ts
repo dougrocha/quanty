@@ -2,12 +2,14 @@ import { join } from 'path'
 
 import { Collection } from 'discord.js'
 
-import type { Store } from './Store'
-
 import { getRootData } from '../../util/getRootData'
 import { resolvePath } from '../../util/resolvePath'
 import { Container, container } from '../container'
 import type { Part } from '../part/Part'
+import type { GuardStore } from '../guards/GuardStore'
+import type { EventStore } from '../event'
+import type { CommandStore } from '../command'
+import type { Store } from './Store'
 
 export type Key = keyof StoreRegistryEntries
 export type Value = StoreRegistryEntries[Key]
@@ -34,7 +36,6 @@ export class StoreRegistry extends Collection<Key, Value> {
       promises.push(store.loadAll())
     }
 
-    // TODO: Make a custom wrapper for Promise.all, So will not stop early in development. Only in production
     await Promise.all(promises)
   }
 
@@ -80,8 +81,7 @@ export interface StoreRegistry {
  * }
  */
 export interface StoreRegistryEntries {
-  commands?: Store<Part>
-  events?: Store<Part>
+  commands?: CommandStore
+  events?: EventStore
+  guards?: GuardStore
 }
-
-// TODO: Make stores for above items

@@ -24,6 +24,14 @@ type Address {
   state: String
 }
 
+enum AnimeStatus {
+  COMPLETED
+  DROPPED
+  ON_HOLD
+  PLAN_TO_WATCH
+  WATCHING
+}
+
 type BillingDetails {
   address: Address!
   email: String
@@ -37,6 +45,131 @@ type BillingDetails {
 
 input BoolFieldUpdateOperationsInput {
   set: Boolean
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+type BotMasterRole {
+  createdAt: DateTime!
+  guild: Guild!
+  guildId: String!
+  roleId: String!
+  updatedAt: DateTime
+}
+
+type BotMasterRoleCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  guildId: Int!
+  roleId: Int!
+  updatedAt: Int!
+}
+
+input BotMasterRoleCreateManyGuildInput {
+  createdAt: DateTime
+  roleId: String!
+  updatedAt: DateTime
+}
+
+input BotMasterRoleCreateManyGuildInputEnvelope {
+  data: [BotMasterRoleCreateManyGuildInput!]!
+  skipDuplicates: Boolean
+}
+
+input BotMasterRoleCreateNestedManyWithoutGuildInput {
+  connect: [BotMasterRoleWhereUniqueInput!]
+  connectOrCreate: [BotMasterRoleCreateOrConnectWithoutGuildInput!]
+  create: [BotMasterRoleCreateWithoutGuildInput!]
+  createMany: BotMasterRoleCreateManyGuildInputEnvelope
+}
+
+input BotMasterRoleCreateOrConnectWithoutGuildInput {
+  create: BotMasterRoleCreateWithoutGuildInput!
+  where: BotMasterRoleWhereUniqueInput!
+}
+
+input BotMasterRoleCreateWithoutGuildInput {
+  createdAt: DateTime
+  roleId: String!
+  updatedAt: DateTime
+}
+
+input BotMasterRoleGuildIdRoleIdCompoundUniqueInput {
+  guildId: String!
+  roleId: String!
+}
+
+type BotMasterRoleMaxAggregate {
+  createdAt: DateTime
+  guildId: String
+  roleId: String
+  updatedAt: DateTime
+}
+
+type BotMasterRoleMinAggregate {
+  createdAt: DateTime
+  guildId: String
+  roleId: String
+  updatedAt: DateTime
+}
+
+input BotMasterRoleScalarWhereInput {
+  AND: [BotMasterRoleScalarWhereInput!]
+  NOT: [BotMasterRoleScalarWhereInput!]
+  OR: [BotMasterRoleScalarWhereInput!]
+  createdAt: DateTimeFilter
+  guildId: StringFilter
+  roleId: StringFilter
+  updatedAt: DateTimeNullableFilter
+}
+
+input BotMasterRoleUpdateManyMutationInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  roleId: StringFieldUpdateOperationsInput
+  updatedAt: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input BotMasterRoleUpdateManyWithWhereWithoutGuildInput {
+  data: BotMasterRoleUpdateManyMutationInput!
+  where: BotMasterRoleScalarWhereInput!
+}
+
+input BotMasterRoleUpdateManyWithoutGuildNestedInput {
+  connect: [BotMasterRoleWhereUniqueInput!]
+  connectOrCreate: [BotMasterRoleCreateOrConnectWithoutGuildInput!]
+  create: [BotMasterRoleCreateWithoutGuildInput!]
+  createMany: BotMasterRoleCreateManyGuildInputEnvelope
+  delete: [BotMasterRoleWhereUniqueInput!]
+  deleteMany: [BotMasterRoleScalarWhereInput!]
+  disconnect: [BotMasterRoleWhereUniqueInput!]
+  set: [BotMasterRoleWhereUniqueInput!]
+  update: [BotMasterRoleUpdateWithWhereUniqueWithoutGuildInput!]
+  updateMany: [BotMasterRoleUpdateManyWithWhereWithoutGuildInput!]
+  upsert: [BotMasterRoleUpsertWithWhereUniqueWithoutGuildInput!]
+}
+
+input BotMasterRoleUpdateWithWhereUniqueWithoutGuildInput {
+  data: BotMasterRoleUpdateWithoutGuildInput!
+  where: BotMasterRoleWhereUniqueInput!
+}
+
+input BotMasterRoleUpdateWithoutGuildInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  roleId: StringFieldUpdateOperationsInput
+  updatedAt: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input BotMasterRoleUpsertWithWhereUniqueWithoutGuildInput {
+  create: BotMasterRoleCreateWithoutGuildInput!
+  update: BotMasterRoleUpdateWithoutGuildInput!
+  where: BotMasterRoleWhereUniqueInput!
+}
+
+input BotMasterRoleWhereUniqueInput {
+  guildId_roleId: BotMasterRoleGuildIdRoleIdCompoundUniqueInput
 }
 
 type CancelSubscription {
@@ -98,90 +231,112 @@ input CreateSubscriptionInput {
   userId: String!
 }
 
+type CustomCommandCountAggregate {
+  _all: Int!
+  commandId: Int!
+  description: Int!
+  enabled: Int!
+  guildId: Int!
+  name: Int!
+  response: Int!
+}
+
+type CustomCommandMaxAggregate {
+  commandId: String
+  description: String
+  enabled: Boolean
+  guildId: String
+  name: String
+  response: String
+}
+
+type CustomCommandMinAggregate {
+  commandId: String
+  description: String
+  enabled: Boolean
+  guildId: String
+  name: String
+  response: String
+}
+
 type Customer {
   _count: CustomerCount!
   createdAt: DateTime!
+  discordId: String!
   email: String
   id: ID!
-  subscription: [GuildSubscription!]
-  subscriptionId: Boolean!
-  user: User
-  userId: String
+  subscriptions: [GuildSubscription!]
+  user: User!
 }
 
 type CustomerCount {
-  subscription: Int!
+  subscriptions: Int!
 }
 
 type CustomerCountAggregate {
   _all: Int!
   createdAt: Int!
+  discordId: Int!
   email: Int!
   id: Int!
-  subscriptionId: Int!
-  userId: Int!
 }
 
-input CustomerCreateNestedOneWithoutSubscriptionInput {
+input CustomerCreateNestedOneWithoutSubscriptionsInput {
   connect: CustomerWhereUniqueInput
-  connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionInput
-  create: CustomerCreateWithoutSubscriptionInput
+  connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionsInput
+  create: CustomerCreateWithoutSubscriptionsInput
 }
 
-input CustomerCreateOrConnectWithoutSubscriptionInput {
-  create: CustomerCreateWithoutSubscriptionInput!
+input CustomerCreateOrConnectWithoutSubscriptionsInput {
+  create: CustomerCreateWithoutSubscriptionsInput!
   where: CustomerWhereUniqueInput!
 }
 
-input CustomerCreateWithoutSubscriptionInput {
+input CustomerCreateWithoutSubscriptionsInput {
   createdAt: DateTime
   email: String
   id: String!
-  subscriptionId: Boolean
-  user: UserCreateNestedOneWithoutCustomerInput
+  user: UserCreateNestedOneWithoutCustomerInput!
 }
 
 type CustomerMaxAggregate {
   createdAt: DateTime
+  discordId: String
   email: String
   id: String
-  subscriptionId: Boolean
-  userId: String
 }
 
 type CustomerMinAggregate {
   createdAt: DateTime
+  discordId: String
   email: String
   id: String
-  subscriptionId: Boolean
-  userId: String
 }
 
-input CustomerUpdateOneRequiredWithoutSubscriptionNestedInput {
+input CustomerUpdateOneRequiredWithoutSubscriptionsNestedInput {
   connect: CustomerWhereUniqueInput
-  connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionInput
-  create: CustomerCreateWithoutSubscriptionInput
-  update: CustomerUpdateWithoutSubscriptionInput
-  upsert: CustomerUpsertWithoutSubscriptionInput
+  connectOrCreate: CustomerCreateOrConnectWithoutSubscriptionsInput
+  create: CustomerCreateWithoutSubscriptionsInput
+  update: CustomerUpdateWithoutSubscriptionsInput
+  upsert: CustomerUpsertWithoutSubscriptionsInput
 }
 
-input CustomerUpdateWithoutSubscriptionInput {
+input CustomerUpdateWithoutSubscriptionsInput {
   createdAt: DateTimeFieldUpdateOperationsInput
   email: NullableStringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
-  subscriptionId: BoolFieldUpdateOperationsInput
-  user: UserUpdateOneWithoutCustomerNestedInput
+  user: UserUpdateOneRequiredWithoutCustomerNestedInput
 }
 
-input CustomerUpsertWithoutSubscriptionInput {
-  create: CustomerCreateWithoutSubscriptionInput!
-  update: CustomerUpdateWithoutSubscriptionInput!
+input CustomerUpsertWithoutSubscriptionsInput {
+  create: CustomerCreateWithoutSubscriptionsInput!
+  update: CustomerUpdateWithoutSubscriptionsInput!
 }
 
 input CustomerWhereUniqueInput {
+  discordId: String
   email: String
   id: String
-  userId: String
 }
 
 """
@@ -191,6 +346,28 @@ scalar DateTime
 
 input DateTimeFieldUpdateOperationsInput {
   set: DateTime
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeNullableFilter
+  notIn: [DateTime!]
 }
 
 type DiscordGuild {
@@ -262,34 +439,968 @@ type Emojis {
   user: DiscordUser
 }
 
+input EnumAnimeStatusNullableFilter {
+  equals: AnimeStatus
+  in: [AnimeStatus!]
+  not: NestedEnumAnimeStatusNullableFilter
+  notIn: [AnimeStatus!]
+}
+
+input EnumLocaleFieldUpdateOperationsInput {
+  set: Locale
+}
+
+input EnumMangaStatusNullableFilter {
+  equals: MangaStatus
+  in: [MangaStatus!]
+  not: NestedEnumMangaStatusNullableFilter
+  notIn: [MangaStatus!]
+}
+
 input EnumPriceTypeFieldUpdateOperationsInput {
   set: PriceType
 }
 
-input EnumSubscription_statusFieldUpdateOperationsInput {
-  set: Subscription_status
+input EnumSubscriptionStatusFieldUpdateOperationsInput {
+  set: SubscriptionStatus
+}
+
+type FavoriteAnime {
+  animationRating: Int
+  animeId: String!
+  animeList: UserAnimeList!
+  createdAt: DateTime!
+  notes: String
+  rating: Int
+  status: AnimeStatus
+  storyRating: Int
+  updatedAt: DateTime!
+  userId: ID!
+}
+
+type FavoriteAnimeAvgAggregate {
+  animationRating: Float
+  rating: Float
+  storyRating: Float
+}
+
+type FavoriteAnimeCountAggregate {
+  _all: Int!
+  animationRating: Int!
+  animeId: Int!
+  createdAt: Int!
+  notes: Int!
+  rating: Int!
+  status: Int!
+  storyRating: Int!
+  updatedAt: Int!
+  userId: Int!
+}
+
+input FavoriteAnimeCreateManyAnimeListInput {
+  animationRating: Int
+  animeId: String!
+  createdAt: DateTime
+  notes: String
+  rating: Int
+  status: AnimeStatus
+  storyRating: Int
+  updatedAt: DateTime
+}
+
+input FavoriteAnimeCreateManyAnimeListInputEnvelope {
+  data: [FavoriteAnimeCreateManyAnimeListInput!]!
+  skipDuplicates: Boolean
+}
+
+input FavoriteAnimeCreateNestedManyWithoutAnimeListInput {
+  connect: [FavoriteAnimeWhereUniqueInput!]
+  connectOrCreate: [FavoriteAnimeCreateOrConnectWithoutAnimeListInput!]
+  create: [FavoriteAnimeCreateWithoutAnimeListInput!]
+  createMany: FavoriteAnimeCreateManyAnimeListInputEnvelope
+}
+
+input FavoriteAnimeCreateOrConnectWithoutAnimeListInput {
+  create: FavoriteAnimeCreateWithoutAnimeListInput!
+  where: FavoriteAnimeWhereUniqueInput!
+}
+
+input FavoriteAnimeCreateWithoutAnimeListInput {
+  animationRating: Int
+  animeId: String!
+  createdAt: DateTime
+  notes: String
+  rating: Int
+  status: AnimeStatus
+  storyRating: Int
+  updatedAt: DateTime
+}
+
+type FavoriteAnimeMaxAggregate {
+  animationRating: Int
+  animeId: String
+  createdAt: DateTime
+  notes: String
+  rating: Int
+  status: AnimeStatus
+  storyRating: Int
+  updatedAt: DateTime
+  userId: String
+}
+
+type FavoriteAnimeMinAggregate {
+  animationRating: Int
+  animeId: String
+  createdAt: DateTime
+  notes: String
+  rating: Int
+  status: AnimeStatus
+  storyRating: Int
+  updatedAt: DateTime
+  userId: String
+}
+
+input FavoriteAnimeScalarWhereInput {
+  AND: [FavoriteAnimeScalarWhereInput!]
+  NOT: [FavoriteAnimeScalarWhereInput!]
+  OR: [FavoriteAnimeScalarWhereInput!]
+  animationRating: IntNullableFilter
+  animeId: StringFilter
+  createdAt: DateTimeFilter
+  notes: StringNullableFilter
+  rating: IntNullableFilter
+  status: EnumAnimeStatusNullableFilter
+  storyRating: IntNullableFilter
+  updatedAt: DateTimeFilter
+  userId: StringFilter
+}
+
+type FavoriteAnimeSumAggregate {
+  animationRating: Int
+  rating: Int
+  storyRating: Int
+}
+
+input FavoriteAnimeUpdateManyMutationInput {
+  animationRating: NullableIntFieldUpdateOperationsInput
+  animeId: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  notes: NullableStringFieldUpdateOperationsInput
+  rating: NullableIntFieldUpdateOperationsInput
+  status: NullableEnumAnimeStatusFieldUpdateOperationsInput
+  storyRating: NullableIntFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input FavoriteAnimeUpdateManyWithWhereWithoutAnimeListInput {
+  data: FavoriteAnimeUpdateManyMutationInput!
+  where: FavoriteAnimeScalarWhereInput!
+}
+
+input FavoriteAnimeUpdateManyWithoutAnimeListNestedInput {
+  connect: [FavoriteAnimeWhereUniqueInput!]
+  connectOrCreate: [FavoriteAnimeCreateOrConnectWithoutAnimeListInput!]
+  create: [FavoriteAnimeCreateWithoutAnimeListInput!]
+  createMany: FavoriteAnimeCreateManyAnimeListInputEnvelope
+  delete: [FavoriteAnimeWhereUniqueInput!]
+  deleteMany: [FavoriteAnimeScalarWhereInput!]
+  disconnect: [FavoriteAnimeWhereUniqueInput!]
+  set: [FavoriteAnimeWhereUniqueInput!]
+  update: [FavoriteAnimeUpdateWithWhereUniqueWithoutAnimeListInput!]
+  updateMany: [FavoriteAnimeUpdateManyWithWhereWithoutAnimeListInput!]
+  upsert: [FavoriteAnimeUpsertWithWhereUniqueWithoutAnimeListInput!]
+}
+
+input FavoriteAnimeUpdateWithWhereUniqueWithoutAnimeListInput {
+  data: FavoriteAnimeUpdateWithoutAnimeListInput!
+  where: FavoriteAnimeWhereUniqueInput!
+}
+
+input FavoriteAnimeUpdateWithoutAnimeListInput {
+  animationRating: NullableIntFieldUpdateOperationsInput
+  animeId: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  notes: NullableStringFieldUpdateOperationsInput
+  rating: NullableIntFieldUpdateOperationsInput
+  status: NullableEnumAnimeStatusFieldUpdateOperationsInput
+  storyRating: NullableIntFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input FavoriteAnimeUpsertWithWhereUniqueWithoutAnimeListInput {
+  create: FavoriteAnimeCreateWithoutAnimeListInput!
+  update: FavoriteAnimeUpdateWithoutAnimeListInput!
+  where: FavoriteAnimeWhereUniqueInput!
+}
+
+input FavoriteAnimeUserIdAnimeIdCompoundUniqueInput {
+  animeId: String!
+  userId: String!
+}
+
+input FavoriteAnimeWhereUniqueInput {
+  userId: String
+  userId_animeId: FavoriteAnimeUserIdAnimeIdCompoundUniqueInput
+}
+
+type FavoriteManga {
+  animeList: UserAnimeList!
+  artRating: Int
+  characterRating: Int
+  createdAt: DateTime!
+  mangaId: String!
+  notes: String
+  position: Int
+  rating: Int
+  status: MangaStatus
+  storyRating: Int
+  updatedAt: DateTime!
+  userId: String!
+}
+
+type FavoriteMangaAvgAggregate {
+  artRating: Float
+  characterRating: Float
+  position: Float
+  rating: Float
+  storyRating: Float
+}
+
+type FavoriteMangaCountAggregate {
+  _all: Int!
+  artRating: Int!
+  characterRating: Int!
+  createdAt: Int!
+  mangaId: Int!
+  notes: Int!
+  position: Int!
+  rating: Int!
+  status: Int!
+  storyRating: Int!
+  updatedAt: Int!
+  userId: Int!
+}
+
+input FavoriteMangaCreateManyAnimeListInput {
+  artRating: Int
+  characterRating: Int
+  createdAt: DateTime
+  mangaId: String!
+  notes: String
+  position: Int
+  rating: Int
+  status: MangaStatus
+  storyRating: Int
+  updatedAt: DateTime
+}
+
+input FavoriteMangaCreateManyAnimeListInputEnvelope {
+  data: [FavoriteMangaCreateManyAnimeListInput!]!
+  skipDuplicates: Boolean
+}
+
+input FavoriteMangaCreateNestedManyWithoutAnimeListInput {
+  connect: [FavoriteMangaWhereUniqueInput!]
+  connectOrCreate: [FavoriteMangaCreateOrConnectWithoutAnimeListInput!]
+  create: [FavoriteMangaCreateWithoutAnimeListInput!]
+  createMany: FavoriteMangaCreateManyAnimeListInputEnvelope
+}
+
+input FavoriteMangaCreateOrConnectWithoutAnimeListInput {
+  create: FavoriteMangaCreateWithoutAnimeListInput!
+  where: FavoriteMangaWhereUniqueInput!
+}
+
+input FavoriteMangaCreateWithoutAnimeListInput {
+  artRating: Int
+  characterRating: Int
+  createdAt: DateTime
+  mangaId: String!
+  notes: String
+  position: Int
+  rating: Int
+  status: MangaStatus
+  storyRating: Int
+  updatedAt: DateTime
+}
+
+type FavoriteMangaMaxAggregate {
+  artRating: Int
+  characterRating: Int
+  createdAt: DateTime
+  mangaId: String
+  notes: String
+  position: Int
+  rating: Int
+  status: MangaStatus
+  storyRating: Int
+  updatedAt: DateTime
+  userId: String
+}
+
+type FavoriteMangaMinAggregate {
+  artRating: Int
+  characterRating: Int
+  createdAt: DateTime
+  mangaId: String
+  notes: String
+  position: Int
+  rating: Int
+  status: MangaStatus
+  storyRating: Int
+  updatedAt: DateTime
+  userId: String
+}
+
+input FavoriteMangaScalarWhereInput {
+  AND: [FavoriteMangaScalarWhereInput!]
+  NOT: [FavoriteMangaScalarWhereInput!]
+  OR: [FavoriteMangaScalarWhereInput!]
+  artRating: IntNullableFilter
+  characterRating: IntNullableFilter
+  createdAt: DateTimeFilter
+  mangaId: StringFilter
+  notes: StringNullableFilter
+  position: IntNullableFilter
+  rating: IntNullableFilter
+  status: EnumMangaStatusNullableFilter
+  storyRating: IntNullableFilter
+  updatedAt: DateTimeFilter
+  userId: StringFilter
+}
+
+type FavoriteMangaSumAggregate {
+  artRating: Int
+  characterRating: Int
+  position: Int
+  rating: Int
+  storyRating: Int
+}
+
+input FavoriteMangaUpdateManyMutationInput {
+  artRating: NullableIntFieldUpdateOperationsInput
+  characterRating: NullableIntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  mangaId: StringFieldUpdateOperationsInput
+  notes: NullableStringFieldUpdateOperationsInput
+  position: NullableIntFieldUpdateOperationsInput
+  rating: NullableIntFieldUpdateOperationsInput
+  status: NullableEnumMangaStatusFieldUpdateOperationsInput
+  storyRating: NullableIntFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input FavoriteMangaUpdateManyWithWhereWithoutAnimeListInput {
+  data: FavoriteMangaUpdateManyMutationInput!
+  where: FavoriteMangaScalarWhereInput!
+}
+
+input FavoriteMangaUpdateManyWithoutAnimeListNestedInput {
+  connect: [FavoriteMangaWhereUniqueInput!]
+  connectOrCreate: [FavoriteMangaCreateOrConnectWithoutAnimeListInput!]
+  create: [FavoriteMangaCreateWithoutAnimeListInput!]
+  createMany: FavoriteMangaCreateManyAnimeListInputEnvelope
+  delete: [FavoriteMangaWhereUniqueInput!]
+  deleteMany: [FavoriteMangaScalarWhereInput!]
+  disconnect: [FavoriteMangaWhereUniqueInput!]
+  set: [FavoriteMangaWhereUniqueInput!]
+  update: [FavoriteMangaUpdateWithWhereUniqueWithoutAnimeListInput!]
+  updateMany: [FavoriteMangaUpdateManyWithWhereWithoutAnimeListInput!]
+  upsert: [FavoriteMangaUpsertWithWhereUniqueWithoutAnimeListInput!]
+}
+
+input FavoriteMangaUpdateWithWhereUniqueWithoutAnimeListInput {
+  data: FavoriteMangaUpdateWithoutAnimeListInput!
+  where: FavoriteMangaWhereUniqueInput!
+}
+
+input FavoriteMangaUpdateWithoutAnimeListInput {
+  artRating: NullableIntFieldUpdateOperationsInput
+  characterRating: NullableIntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  mangaId: StringFieldUpdateOperationsInput
+  notes: NullableStringFieldUpdateOperationsInput
+  position: NullableIntFieldUpdateOperationsInput
+  rating: NullableIntFieldUpdateOperationsInput
+  status: NullableEnumMangaStatusFieldUpdateOperationsInput
+  storyRating: NullableIntFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input FavoriteMangaUpsertWithWhereUniqueWithoutAnimeListInput {
+  create: FavoriteMangaCreateWithoutAnimeListInput!
+  update: FavoriteMangaUpdateWithoutAnimeListInput!
+  where: FavoriteMangaWhereUniqueInput!
+}
+
+input FavoriteMangaUserMangaIdCompoundUniqueInput {
+  mangaId: String!
+  userId: String!
+}
+
+input FavoriteMangaWhereUniqueInput {
+  userMangaId: FavoriteMangaUserMangaIdCompoundUniqueInput
 }
 
 type Guild {
-  guildPlugins: GuildPlugins
-  guildSettings: GuildSettings
+  _count: GuildCount!
+  botMasterRoles: [BotMasterRole!]
+  createdAt: DateTime!
+  guildAnimeSetting: GuildAnimeSetting
+  guildEconomySetting: GuildEconomySetting
+  guildHelpSetting: GuildHelpSetting
+  guildLevelSetting: GuildLevelSetting
+  guildModerationSetting: GuildModerationSetting
+  guildMusicSetting: GuildMusicSetting
+  guildPlugin: GuildPlugin
+  guildPlugins: GuildPlugin
+  guildUserWarnings: [GuildUserWarning!]
+  guildUsers: [GuildUser!]
+  guildWelcomeSetting: GuildWelcomeSetting
   id: ID!
+  language: Locale!
   prefix: String!
   premium: Boolean!
+  storeItems: [StoreItem!]
   subscription: GuildSubscription
+  timezone: String!
+  updatedAt: DateTime!
+}
+
+type GuildAnimeSetting {
+  animeCommand: Boolean!
+  animeNotifications: Boolean!
+  guild: Guild!
+  guildId: ID!
+  imageCommand: Boolean!
+  mangaCommand: Boolean!
+}
+
+type GuildAnimeSettingCountAggregate {
+  _all: Int!
+  animeCommand: Int!
+  animeNotifications: Int!
+  guildId: Int!
+  imageCommand: Int!
+  mangaCommand: Int!
+}
+
+input GuildAnimeSettingCreateNestedOneWithoutGuildInput {
+  connect: GuildAnimeSettingWhereUniqueInput
+  connectOrCreate: GuildAnimeSettingCreateOrConnectWithoutGuildInput
+  create: GuildAnimeSettingCreateWithoutGuildInput
+}
+
+input GuildAnimeSettingCreateOrConnectWithoutGuildInput {
+  create: GuildAnimeSettingCreateWithoutGuildInput!
+  where: GuildAnimeSettingWhereUniqueInput!
+}
+
+input GuildAnimeSettingCreateWithoutGuildInput {
+  animeCommand: Boolean
+  animeNotifications: Boolean
+  imageCommand: Boolean
+  mangaCommand: Boolean
+}
+
+type GuildAnimeSettingMaxAggregate {
+  animeCommand: Boolean
+  animeNotifications: Boolean
+  guildId: String
+  imageCommand: Boolean
+  mangaCommand: Boolean
+}
+
+type GuildAnimeSettingMinAggregate {
+  animeCommand: Boolean
+  animeNotifications: Boolean
+  guildId: String
+  imageCommand: Boolean
+  mangaCommand: Boolean
+}
+
+input GuildAnimeSettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildAnimeSettingWhereUniqueInput
+  connectOrCreate: GuildAnimeSettingCreateOrConnectWithoutGuildInput
+  create: GuildAnimeSettingCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildAnimeSettingUpdateWithoutGuildInput
+  upsert: GuildAnimeSettingUpsertWithoutGuildInput
+}
+
+input GuildAnimeSettingUpdateWithoutGuildInput {
+  animeCommand: BoolFieldUpdateOperationsInput
+  animeNotifications: BoolFieldUpdateOperationsInput
+  imageCommand: BoolFieldUpdateOperationsInput
+  mangaCommand: BoolFieldUpdateOperationsInput
+}
+
+input GuildAnimeSettingUpsertWithoutGuildInput {
+  create: GuildAnimeSettingCreateWithoutGuildInput!
+  update: GuildAnimeSettingUpdateWithoutGuildInput!
+}
+
+input GuildAnimeSettingWhereUniqueInput {
+  guildId: String
+}
+
+type GuildCount {
+  botMasterRoles: Int!
+  guildUserWarnings: Int!
+  guildUsers: Int!
+  storeItems: Int!
 }
 
 type GuildCountAggregate {
   _all: Int!
+  createdAt: Int!
   id: Int!
+  language: Int!
   prefix: Int!
   premium: Int!
+  timezone: Int!
+  updatedAt: Int!
+}
+
+input GuildCreateNestedOneWithoutGuildUserWarningsInput {
+  connect: GuildWhereUniqueInput
+  connectOrCreate: GuildCreateOrConnectWithoutGuildUserWarningsInput
+  create: GuildCreateWithoutGuildUserWarningsInput
+}
+
+input GuildCreateNestedOneWithoutGuildUsersInput {
+  connect: GuildWhereUniqueInput
+  connectOrCreate: GuildCreateOrConnectWithoutGuildUsersInput
+  create: GuildCreateWithoutGuildUsersInput
+}
+
+input GuildCreateOrConnectWithoutGuildUserWarningsInput {
+  create: GuildCreateWithoutGuildUserWarningsInput!
+  where: GuildWhereUniqueInput!
+}
+
+input GuildCreateOrConnectWithoutGuildUsersInput {
+  create: GuildCreateWithoutGuildUsersInput!
+  where: GuildWhereUniqueInput!
+}
+
+input GuildCreateWithoutGuildUserWarningsInput {
+  botMasterRoles: BotMasterRoleCreateNestedManyWithoutGuildInput
+  createdAt: DateTime
+  guildAnimeSetting: GuildAnimeSettingCreateNestedOneWithoutGuildInput
+  guildEconomySetting: GuildEconomySettingCreateNestedOneWithoutGuildInput
+  guildHelpSetting: GuildHelpSettingCreateNestedOneWithoutGuildInput
+  guildLevelSetting: GuildLevelSettingCreateNestedOneWithoutGuildInput
+  guildModerationSetting: GuildModerationSettingCreateNestedOneWithoutGuildInput
+  guildMusicSetting: GuildMusicSettingCreateNestedOneWithoutGuildInput
+  guildPlugin: GuildPluginCreateNestedOneWithoutGuildInput
+  guildUsers: GuildUserCreateNestedManyWithoutGuildInput
+  guildWelcomeSetting: GuildWelcomeSettingCreateNestedOneWithoutGuildInput
+  id: String!
+  language: Locale
+  prefix: String
+  premium: Boolean
+  storeItems: StoreItemCreateNestedManyWithoutGuildInput
+  subscription: GuildSubscriptionCreateNestedOneWithoutGuildInput
+  timezone: String
+  updatedAt: DateTime
+}
+
+input GuildCreateWithoutGuildUsersInput {
+  botMasterRoles: BotMasterRoleCreateNestedManyWithoutGuildInput
+  createdAt: DateTime
+  guildAnimeSetting: GuildAnimeSettingCreateNestedOneWithoutGuildInput
+  guildEconomySetting: GuildEconomySettingCreateNestedOneWithoutGuildInput
+  guildHelpSetting: GuildHelpSettingCreateNestedOneWithoutGuildInput
+  guildLevelSetting: GuildLevelSettingCreateNestedOneWithoutGuildInput
+  guildModerationSetting: GuildModerationSettingCreateNestedOneWithoutGuildInput
+  guildMusicSetting: GuildMusicSettingCreateNestedOneWithoutGuildInput
+  guildPlugin: GuildPluginCreateNestedOneWithoutGuildInput
+  guildUserWarnings: GuildUserWarningCreateNestedManyWithoutGuildInput
+  guildWelcomeSetting: GuildWelcomeSettingCreateNestedOneWithoutGuildInput
+  id: String!
+  language: Locale
+  prefix: String
+  premium: Boolean
+  storeItems: StoreItemCreateNestedManyWithoutGuildInput
+  subscription: GuildSubscriptionCreateNestedOneWithoutGuildInput
+  timezone: String
+  updatedAt: DateTime
+}
+
+type GuildEconomySetting {
+  currency: String!
+  guild: Guild!
+  guildId: ID!
+}
+
+type GuildEconomySettingCountAggregate {
+  _all: Int!
+  currency: Int!
+  guildId: Int!
+}
+
+input GuildEconomySettingCreateNestedOneWithoutGuildInput {
+  connect: GuildEconomySettingWhereUniqueInput
+  connectOrCreate: GuildEconomySettingCreateOrConnectWithoutGuildInput
+  create: GuildEconomySettingCreateWithoutGuildInput
+}
+
+input GuildEconomySettingCreateOrConnectWithoutGuildInput {
+  create: GuildEconomySettingCreateWithoutGuildInput!
+  where: GuildEconomySettingWhereUniqueInput!
+}
+
+input GuildEconomySettingCreateWithoutGuildInput {
+  currency: String
+}
+
+type GuildEconomySettingMaxAggregate {
+  currency: String
+  guildId: String
+}
+
+type GuildEconomySettingMinAggregate {
+  currency: String
+  guildId: String
+}
+
+input GuildEconomySettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildEconomySettingWhereUniqueInput
+  connectOrCreate: GuildEconomySettingCreateOrConnectWithoutGuildInput
+  create: GuildEconomySettingCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildEconomySettingUpdateWithoutGuildInput
+  upsert: GuildEconomySettingUpsertWithoutGuildInput
+}
+
+input GuildEconomySettingUpdateWithoutGuildInput {
+  currency: StringFieldUpdateOperationsInput
+}
+
+input GuildEconomySettingUpsertWithoutGuildInput {
+  create: GuildEconomySettingCreateWithoutGuildInput!
+  update: GuildEconomySettingUpdateWithoutGuildInput!
+}
+
+input GuildEconomySettingWhereUniqueInput {
+  guildId: String
+}
+
+type GuildEmbed {
+  _count: GuildEmbedCount!
+  author: String
+  channel: String!
+  color: String!
+  createdAt: DateTime!
+  description: String
+  fields: [GuildEmbedField!]
+  footerIcon: String
+  footerText: String
+  guildId: String!
+  id: ID!
+  image: String
+  imageHeight: Int
+  imageWidth: Int
+  name: String!
+  status: GuildEmbedStatus!
+  timestamp: Boolean
+  title: String
+  url: String
+}
+
+type GuildEmbedAvgAggregate {
+  id: Float
+  imageHeight: Float
+  imageWidth: Float
+}
+
+type GuildEmbedCount {
+  fields: Int!
+}
+
+type GuildEmbedCountAggregate {
+  _all: Int!
+  author: Int!
+  channel: Int!
+  color: Int!
+  createdAt: Int!
+  description: Int!
+  footerIcon: Int!
+  footerText: Int!
+  guildId: Int!
+  id: Int!
+  image: Int!
+  imageHeight: Int!
+  imageWidth: Int!
+  name: Int!
+  status: Int!
+  timestamp: Int!
+  title: Int!
+  url: Int!
+}
+
+type GuildEmbedField {
+  guildEmbed: GuildEmbed
+  guildEmbedId: Int
+  id: ID!
+  name: String!
+  value: String!
+}
+
+type GuildEmbedFieldAvgAggregate {
+  guildEmbedId: Float
+  id: Float
+}
+
+type GuildEmbedFieldCountAggregate {
+  _all: Int!
+  guildEmbedId: Int!
+  id: Int!
+  name: Int!
+  value: Int!
+}
+
+type GuildEmbedFieldMaxAggregate {
+  guildEmbedId: Int
+  id: Int
+  name: String
+  value: String
+}
+
+type GuildEmbedFieldMinAggregate {
+  guildEmbedId: Int
+  id: Int
+  name: String
+  value: String
+}
+
+type GuildEmbedFieldSumAggregate {
+  guildEmbedId: Int
+  id: Int
+}
+
+type GuildEmbedMaxAggregate {
+  author: String
+  channel: String
+  color: String
+  createdAt: DateTime
+  description: String
+  footerIcon: String
+  footerText: String
+  guildId: String
+  id: Int
+  image: String
+  imageHeight: Int
+  imageWidth: Int
+  name: String
+  status: GuildEmbedStatus
+  timestamp: Boolean
+  title: String
+  url: String
+}
+
+type GuildEmbedMinAggregate {
+  author: String
+  channel: String
+  color: String
+  createdAt: DateTime
+  description: String
+  footerIcon: String
+  footerText: String
+  guildId: String
+  id: Int
+  image: String
+  imageHeight: Int
+  imageWidth: Int
+  name: String
+  status: GuildEmbedStatus
+  timestamp: Boolean
+  title: String
+  url: String
+}
+
+enum GuildEmbedStatus {
+  PENDING
+  PUBLISHED
+}
+
+type GuildEmbedSumAggregate {
+  id: Int
+  imageHeight: Int
+  imageWidth: Int
+}
+
+type GuildHelpSetting {
+  dashboardCommand: Boolean!
+  guild: Guild!
+  guildId: ID!
+  helpCommand: Boolean!
+}
+
+type GuildHelpSettingCountAggregate {
+  _all: Int!
+  dashboardCommand: Int!
+  guildId: Int!
+  helpCommand: Int!
+}
+
+input GuildHelpSettingCreateNestedOneWithoutGuildInput {
+  connect: GuildHelpSettingWhereUniqueInput
+  connectOrCreate: GuildHelpSettingCreateOrConnectWithoutGuildInput
+  create: GuildHelpSettingCreateWithoutGuildInput
+}
+
+input GuildHelpSettingCreateOrConnectWithoutGuildInput {
+  create: GuildHelpSettingCreateWithoutGuildInput!
+  where: GuildHelpSettingWhereUniqueInput!
+}
+
+input GuildHelpSettingCreateWithoutGuildInput {
+  dashboardCommand: Boolean
+  helpCommand: Boolean
+}
+
+type GuildHelpSettingMaxAggregate {
+  dashboardCommand: Boolean
+  guildId: String
+  helpCommand: Boolean
+}
+
+type GuildHelpSettingMinAggregate {
+  dashboardCommand: Boolean
+  guildId: String
+  helpCommand: Boolean
+}
+
+input GuildHelpSettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildHelpSettingWhereUniqueInput
+  connectOrCreate: GuildHelpSettingCreateOrConnectWithoutGuildInput
+  create: GuildHelpSettingCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildHelpSettingUpdateWithoutGuildInput
+  upsert: GuildHelpSettingUpsertWithoutGuildInput
+}
+
+input GuildHelpSettingUpdateWithoutGuildInput {
+  dashboardCommand: BoolFieldUpdateOperationsInput
+  helpCommand: BoolFieldUpdateOperationsInput
+}
+
+input GuildHelpSettingUpsertWithoutGuildInput {
+  create: GuildHelpSettingCreateWithoutGuildInput!
+  update: GuildHelpSettingUpdateWithoutGuildInput!
+}
+
+input GuildHelpSettingWhereUniqueInput {
+  guildId: String
+}
+
+type GuildLevelSetting {
+  annoucementChannel: String
+  guild: Guild!
+  guildId: ID!
+  levelUpMessage: String
+}
+
+type GuildLevelSettingCountAggregate {
+  _all: Int!
+  annoucementChannel: Int!
+  guildId: Int!
+  levelUpMessage: Int!
+}
+
+input GuildLevelSettingCreateNestedOneWithoutGuildInput {
+  connect: GuildLevelSettingWhereUniqueInput
+  connectOrCreate: GuildLevelSettingCreateOrConnectWithoutGuildInput
+  create: GuildLevelSettingCreateWithoutGuildInput
+}
+
+input GuildLevelSettingCreateOrConnectWithoutGuildInput {
+  create: GuildLevelSettingCreateWithoutGuildInput!
+  where: GuildLevelSettingWhereUniqueInput!
+}
+
+input GuildLevelSettingCreateWithoutGuildInput {
+  annoucementChannel: String
+  levelUpMessage: String
+}
+
+type GuildLevelSettingMaxAggregate {
+  annoucementChannel: String
+  guildId: String
+  levelUpMessage: String
+}
+
+type GuildLevelSettingMinAggregate {
+  annoucementChannel: String
+  guildId: String
+  levelUpMessage: String
+}
+
+input GuildLevelSettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildLevelSettingWhereUniqueInput
+  connectOrCreate: GuildLevelSettingCreateOrConnectWithoutGuildInput
+  create: GuildLevelSettingCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildLevelSettingUpdateWithoutGuildInput
+  upsert: GuildLevelSettingUpsertWithoutGuildInput
+}
+
+input GuildLevelSettingUpdateWithoutGuildInput {
+  annoucementChannel: NullableStringFieldUpdateOperationsInput
+  levelUpMessage: NullableStringFieldUpdateOperationsInput
+}
+
+input GuildLevelSettingUpsertWithoutGuildInput {
+  create: GuildLevelSettingCreateWithoutGuildInput!
+  update: GuildLevelSettingUpdateWithoutGuildInput!
+}
+
+input GuildLevelSettingWhereUniqueInput {
+  guildId: String
+}
+
+type GuildLogCountAggregate {
+  _all: Int!
+  action: Int!
+  createdAt: Int!
+  guildId: Int!
+  id: Int!
+  plugin: Int!
+  userId: Int!
+}
+
+type GuildLogMaxAggregate {
+  action: LogAction
+  createdAt: DateTime
+  guildId: String
+  id: String
+  plugin: Plugin
+  userId: String
+}
+
+type GuildLogMinAggregate {
+  action: LogAction
+  createdAt: DateTime
+  guildId: String
+  id: String
+  plugin: Plugin
+  userId: String
 }
 
 type GuildMaxAggregate {
+  createdAt: DateTime
   id: String
+  language: Locale
   prefix: String
   premium: Boolean
+  timezone: String
+  updatedAt: DateTime
 }
 
 type GuildMember {
@@ -305,154 +1416,358 @@ type GuildMember {
 }
 
 type GuildMinAggregate {
+  createdAt: DateTime
   id: String
+  language: Locale
   prefix: String
   premium: Boolean
+  timezone: String
+  updatedAt: DateTime
 }
 
-type GuildPlugins {
-  anime: Boolean!
+type GuildModerationSetting {
   autoMod: Boolean!
-  guild: Guild!
-  id: ID!
-}
-
-type GuildPluginsCountAggregate {
-  _all: Int!
-  anime: Int!
-  autoMod: Int!
-  id: Int!
-}
-
-input GuildPluginsCreateOrConnectWithoutGuildInput {
-  create: GuildPluginsCreateWithoutGuildInput!
-  where: GuildPluginsWhereUniqueInput!
-}
-
-input GuildPluginsCreateWithoutGuildInput {
-  anime: Boolean
-  autoMod: Boolean
-}
-
-type GuildPluginsMaxAggregate {
-  anime: Boolean
-  autoMod: Boolean
-  id: String
-}
-
-type GuildPluginsMinAggregate {
-  anime: Boolean
-  autoMod: Boolean
-  id: String
-}
-
-input GuildPluginsUpdateOneWithoutGuildNestedInput {
-  connect: GuildPluginsWhereUniqueInput
-  connectOrCreate: GuildPluginsCreateOrConnectWithoutGuildInput
-  create: GuildPluginsCreateWithoutGuildInput
-  delete: Boolean
-  disconnect: Boolean
-  update: GuildPluginsUpdateWithoutGuildInput
-  upsert: GuildPluginsUpsertWithoutGuildInput
-}
-
-input GuildPluginsUpdateWithoutGuildInput {
-  anime: BoolFieldUpdateOperationsInput
-  autoMod: BoolFieldUpdateOperationsInput
-}
-
-input GuildPluginsUpsertWithoutGuildInput {
-  create: GuildPluginsCreateWithoutGuildInput!
-  update: GuildPluginsUpdateWithoutGuildInput!
-}
-
-input GuildPluginsWhereUniqueInput {
-  id: String
-}
-
-type GuildSettings {
-  defaultJoinRole: String!
-  djRole: String!
   globalCooldown: Int!
   guild: Guild!
-  id: ID!
-  musicTimeOut: Boolean!
+  guildId: ID!
+  ignoreBots: Boolean!
+  logChannel: String
   nsfw: Boolean!
 }
 
-type GuildSettingsAvgAggregate {
+type GuildModerationSettingAvgAggregate {
   globalCooldown: Float
 }
 
-type GuildSettingsCountAggregate {
+type GuildModerationSettingCountAggregate {
   _all: Int!
-  defaultJoinRole: Int!
-  djRole: Int!
+  autoMod: Int!
   globalCooldown: Int!
-  id: Int!
-  musicTimeOut: Int!
+  guildId: Int!
+  ignoreBots: Int!
+  logChannel: Int!
   nsfw: Int!
 }
 
-input GuildSettingsCreateOrConnectWithoutGuildInput {
-  create: GuildSettingsCreateWithoutGuildInput!
-  where: GuildSettingsWhereUniqueInput!
+input GuildModerationSettingCreateNestedOneWithoutGuildInput {
+  connect: GuildModerationSettingWhereUniqueInput
+  connectOrCreate: GuildModerationSettingCreateOrConnectWithoutGuildInput
+  create: GuildModerationSettingCreateWithoutGuildInput
 }
 
-input GuildSettingsCreateWithoutGuildInput {
-  defaultJoinRole: String
-  djRole: String
+input GuildModerationSettingCreateOrConnectWithoutGuildInput {
+  create: GuildModerationSettingCreateWithoutGuildInput!
+  where: GuildModerationSettingWhereUniqueInput!
+}
+
+input GuildModerationSettingCreateWithoutGuildInput {
+  autoMod: Boolean
   globalCooldown: Int
-  musicTimeOut: Boolean
+  ignoreBots: Boolean
+  logChannel: String
   nsfw: Boolean
 }
 
-type GuildSettingsMaxAggregate {
-  defaultJoinRole: String
-  djRole: String
+type GuildModerationSettingMaxAggregate {
+  autoMod: Boolean
   globalCooldown: Int
-  id: String
-  musicTimeOut: Boolean
+  guildId: String
+  ignoreBots: Boolean
+  logChannel: String
   nsfw: Boolean
 }
 
-type GuildSettingsMinAggregate {
-  defaultJoinRole: String
-  djRole: String
+type GuildModerationSettingMinAggregate {
+  autoMod: Boolean
   globalCooldown: Int
-  id: String
-  musicTimeOut: Boolean
+  guildId: String
+  ignoreBots: Boolean
+  logChannel: String
   nsfw: Boolean
 }
 
-type GuildSettingsSumAggregate {
+type GuildModerationSettingSumAggregate {
   globalCooldown: Int
 }
 
-input GuildSettingsUpdateOneWithoutGuildNestedInput {
-  connect: GuildSettingsWhereUniqueInput
-  connectOrCreate: GuildSettingsCreateOrConnectWithoutGuildInput
-  create: GuildSettingsCreateWithoutGuildInput
+input GuildModerationSettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildModerationSettingWhereUniqueInput
+  connectOrCreate: GuildModerationSettingCreateOrConnectWithoutGuildInput
+  create: GuildModerationSettingCreateWithoutGuildInput
   delete: Boolean
   disconnect: Boolean
-  update: GuildSettingsUpdateWithoutGuildInput
-  upsert: GuildSettingsUpsertWithoutGuildInput
+  update: GuildModerationSettingUpdateWithoutGuildInput
+  upsert: GuildModerationSettingUpsertWithoutGuildInput
 }
 
-input GuildSettingsUpdateWithoutGuildInput {
-  defaultJoinRole: StringFieldUpdateOperationsInput
-  djRole: StringFieldUpdateOperationsInput
+input GuildModerationSettingUpdateWithoutGuildInput {
+  autoMod: BoolFieldUpdateOperationsInput
   globalCooldown: IntFieldUpdateOperationsInput
-  musicTimeOut: BoolFieldUpdateOperationsInput
+  ignoreBots: BoolFieldUpdateOperationsInput
+  logChannel: NullableStringFieldUpdateOperationsInput
   nsfw: BoolFieldUpdateOperationsInput
 }
 
-input GuildSettingsUpsertWithoutGuildInput {
-  create: GuildSettingsCreateWithoutGuildInput!
-  update: GuildSettingsUpdateWithoutGuildInput!
+input GuildModerationSettingUpsertWithoutGuildInput {
+  create: GuildModerationSettingCreateWithoutGuildInput!
+  update: GuildModerationSettingUpdateWithoutGuildInput!
 }
 
-input GuildSettingsWhereUniqueInput {
+input GuildModerationSettingWhereUniqueInput {
+  guildId: String
+}
+
+type GuildMusicSetting {
+  djRole: String!
+  guild: Guild!
+  guildId: ID!
+  musicTimeOut: Boolean!
+  volume: Int!
+}
+
+type GuildMusicSettingAvgAggregate {
+  volume: Float
+}
+
+type GuildMusicSettingCountAggregate {
+  _all: Int!
+  djRole: Int!
+  guildId: Int!
+  musicTimeOut: Int!
+  volume: Int!
+}
+
+input GuildMusicSettingCreateNestedOneWithoutGuildInput {
+  connect: GuildMusicSettingWhereUniqueInput
+  connectOrCreate: GuildMusicSettingCreateOrConnectWithoutGuildInput
+  create: GuildMusicSettingCreateWithoutGuildInput
+}
+
+input GuildMusicSettingCreateOrConnectWithoutGuildInput {
+  create: GuildMusicSettingCreateWithoutGuildInput!
+  where: GuildMusicSettingWhereUniqueInput!
+}
+
+input GuildMusicSettingCreateWithoutGuildInput {
+  djRole: String
+  musicTimeOut: Boolean
+  volume: Int
+}
+
+type GuildMusicSettingMaxAggregate {
+  djRole: String
+  guildId: String
+  musicTimeOut: Boolean
+  volume: Int
+}
+
+type GuildMusicSettingMinAggregate {
+  djRole: String
+  guildId: String
+  musicTimeOut: Boolean
+  volume: Int
+}
+
+type GuildMusicSettingSumAggregate {
+  volume: Int
+}
+
+input GuildMusicSettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildMusicSettingWhereUniqueInput
+  connectOrCreate: GuildMusicSettingCreateOrConnectWithoutGuildInput
+  create: GuildMusicSettingCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildMusicSettingUpdateWithoutGuildInput
+  upsert: GuildMusicSettingUpsertWithoutGuildInput
+}
+
+input GuildMusicSettingUpdateWithoutGuildInput {
+  djRole: StringFieldUpdateOperationsInput
+  musicTimeOut: BoolFieldUpdateOperationsInput
+  volume: IntFieldUpdateOperationsInput
+}
+
+input GuildMusicSettingUpsertWithoutGuildInput {
+  create: GuildMusicSettingCreateWithoutGuildInput!
+  update: GuildMusicSettingUpdateWithoutGuildInput!
+}
+
+input GuildMusicSettingWhereUniqueInput {
+  guildId: String
+}
+
+type GuildPlugin {
+  anime: Boolean!
+  birthday: Boolean!
+  economy: Boolean!
+  embeds: Boolean!
+  giveaways: Boolean!
+  guild: Guild!
+  help: Boolean!
+  id: ID!
+  instagram: Boolean!
+  levels: Boolean!
+  logs: Boolean!
+  memes: Boolean!
+  moderation: Boolean!
+  music: Boolean!
+  polls: Boolean!
+  reddit: Boolean!
+  roles: Boolean!
+  statistics: Boolean!
+  twitch: Boolean!
+  twitter: Boolean!
+  welcome: Boolean!
+  youtube: Boolean!
+}
+
+type GuildPluginCountAggregate {
+  _all: Int!
+  anime: Int!
+  birthday: Int!
+  economy: Int!
+  embeds: Int!
+  giveaways: Int!
+  help: Int!
+  id: Int!
+  instagram: Int!
+  levels: Int!
+  logs: Int!
+  memes: Int!
+  moderation: Int!
+  music: Int!
+  polls: Int!
+  reddit: Int!
+  roles: Int!
+  statistics: Int!
+  twitch: Int!
+  twitter: Int!
+  welcome: Int!
+  youtube: Int!
+}
+
+input GuildPluginCreateNestedOneWithoutGuildInput {
+  connect: GuildPluginWhereUniqueInput
+  connectOrCreate: GuildPluginCreateOrConnectWithoutGuildInput
+  create: GuildPluginCreateWithoutGuildInput
+}
+
+input GuildPluginCreateOrConnectWithoutGuildInput {
+  create: GuildPluginCreateWithoutGuildInput!
+  where: GuildPluginWhereUniqueInput!
+}
+
+input GuildPluginCreateWithoutGuildInput {
+  anime: Boolean
+  birthday: Boolean
+  economy: Boolean
+  embeds: Boolean
+  giveaways: Boolean
+  help: Boolean
+  instagram: Boolean
+  levels: Boolean
+  logs: Boolean
+  memes: Boolean
+  moderation: Boolean
+  music: Boolean
+  polls: Boolean
+  reddit: Boolean
+  roles: Boolean
+  statistics: Boolean
+  twitch: Boolean
+  twitter: Boolean
+  welcome: Boolean
+  youtube: Boolean
+}
+
+type GuildPluginMaxAggregate {
+  anime: Boolean
+  birthday: Boolean
+  economy: Boolean
+  embeds: Boolean
+  giveaways: Boolean
+  help: Boolean
+  id: String
+  instagram: Boolean
+  levels: Boolean
+  logs: Boolean
+  memes: Boolean
+  moderation: Boolean
+  music: Boolean
+  polls: Boolean
+  reddit: Boolean
+  roles: Boolean
+  statistics: Boolean
+  twitch: Boolean
+  twitter: Boolean
+  welcome: Boolean
+  youtube: Boolean
+}
+
+type GuildPluginMinAggregate {
+  anime: Boolean
+  birthday: Boolean
+  economy: Boolean
+  embeds: Boolean
+  giveaways: Boolean
+  help: Boolean
+  id: String
+  instagram: Boolean
+  levels: Boolean
+  logs: Boolean
+  memes: Boolean
+  moderation: Boolean
+  music: Boolean
+  polls: Boolean
+  reddit: Boolean
+  roles: Boolean
+  statistics: Boolean
+  twitch: Boolean
+  twitter: Boolean
+  welcome: Boolean
+  youtube: Boolean
+}
+
+input GuildPluginUpdateOneWithoutGuildNestedInput {
+  connect: GuildPluginWhereUniqueInput
+  connectOrCreate: GuildPluginCreateOrConnectWithoutGuildInput
+  create: GuildPluginCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildPluginUpdateWithoutGuildInput
+  upsert: GuildPluginUpsertWithoutGuildInput
+}
+
+input GuildPluginUpdateWithoutGuildInput {
+  anime: BoolFieldUpdateOperationsInput
+  birthday: BoolFieldUpdateOperationsInput
+  economy: BoolFieldUpdateOperationsInput
+  embeds: BoolFieldUpdateOperationsInput
+  giveaways: BoolFieldUpdateOperationsInput
+  help: BoolFieldUpdateOperationsInput
+  instagram: BoolFieldUpdateOperationsInput
+  levels: BoolFieldUpdateOperationsInput
+  logs: BoolFieldUpdateOperationsInput
+  memes: BoolFieldUpdateOperationsInput
+  moderation: BoolFieldUpdateOperationsInput
+  music: BoolFieldUpdateOperationsInput
+  polls: BoolFieldUpdateOperationsInput
+  reddit: BoolFieldUpdateOperationsInput
+  roles: BoolFieldUpdateOperationsInput
+  statistics: BoolFieldUpdateOperationsInput
+  twitch: BoolFieldUpdateOperationsInput
+  twitter: BoolFieldUpdateOperationsInput
+  welcome: BoolFieldUpdateOperationsInput
+  youtube: BoolFieldUpdateOperationsInput
+}
+
+input GuildPluginUpsertWithoutGuildInput {
+  create: GuildPluginCreateWithoutGuildInput!
+  update: GuildPluginUpdateWithoutGuildInput!
+}
+
+input GuildPluginWhereUniqueInput {
   id: String
 }
 
@@ -466,7 +1781,7 @@ type GuildSubscription {
   id: ID!
   price: Price!
   priceId: String!
-  status: Subscription_status!
+  status: SubscriptionStatus!
 }
 
 type GuildSubscriptionCountAggregate {
@@ -480,6 +1795,12 @@ type GuildSubscriptionCountAggregate {
   status: Int!
 }
 
+input GuildSubscriptionCreateNestedOneWithoutGuildInput {
+  connect: GuildSubscriptionWhereUniqueInput
+  connectOrCreate: GuildSubscriptionCreateOrConnectWithoutGuildInput
+  create: GuildSubscriptionCreateWithoutGuildInput
+}
+
 input GuildSubscriptionCreateOrConnectWithoutGuildInput {
   create: GuildSubscriptionCreateWithoutGuildInput!
   where: GuildSubscriptionWhereUniqueInput!
@@ -488,10 +1809,10 @@ input GuildSubscriptionCreateOrConnectWithoutGuildInput {
 input GuildSubscriptionCreateWithoutGuildInput {
   cancel_at_period_end: Boolean
   current_period_end: DateTime!
-  customer: CustomerCreateNestedOneWithoutSubscriptionInput!
+  customer: CustomerCreateNestedOneWithoutSubscriptionsInput!
   id: String!
-  price: PriceCreateNestedOneWithoutSubscriptionInput!
-  status: Subscription_status
+  price: PriceCreateNestedOneWithoutSubscriptionsInput!
+  status: SubscriptionStatus
 }
 
 type GuildSubscriptionMaxAggregate {
@@ -501,7 +1822,7 @@ type GuildSubscriptionMaxAggregate {
   guildId: String
   id: String
   priceId: String
-  status: Subscription_status
+  status: SubscriptionStatus
 }
 
 type GuildSubscriptionMinAggregate {
@@ -511,7 +1832,7 @@ type GuildSubscriptionMinAggregate {
   guildId: String
   id: String
   priceId: String
-  status: Subscription_status
+  status: SubscriptionStatus
 }
 
 input GuildSubscriptionUpdateOneWithoutGuildNestedInput {
@@ -527,10 +1848,10 @@ input GuildSubscriptionUpdateOneWithoutGuildNestedInput {
 input GuildSubscriptionUpdateWithoutGuildInput {
   cancel_at_period_end: BoolFieldUpdateOperationsInput
   current_period_end: DateTimeFieldUpdateOperationsInput
-  customer: CustomerUpdateOneRequiredWithoutSubscriptionNestedInput
+  customer: CustomerUpdateOneRequiredWithoutSubscriptionsNestedInput
   id: StringFieldUpdateOperationsInput
-  price: PriceUpdateOneRequiredWithoutSubscriptionNestedInput
-  status: EnumSubscription_statusFieldUpdateOperationsInput
+  price: PriceUpdateOneRequiredWithoutSubscriptionsNestedInput
+  status: EnumSubscriptionStatusFieldUpdateOperationsInput
 }
 
 input GuildSubscriptionUpsertWithoutGuildInput {
@@ -544,12 +1865,648 @@ input GuildSubscriptionWhereUniqueInput {
 }
 
 input GuildUpdateInput {
-  guildPlugins: GuildPluginsUpdateOneWithoutGuildNestedInput
-  guildSettings: GuildSettingsUpdateOneWithoutGuildNestedInput
+  botMasterRoles: BotMasterRoleUpdateManyWithoutGuildNestedInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  guildAnimeSetting: GuildAnimeSettingUpdateOneWithoutGuildNestedInput
+  guildEconomySetting: GuildEconomySettingUpdateOneWithoutGuildNestedInput
+  guildHelpSetting: GuildHelpSettingUpdateOneWithoutGuildNestedInput
+  guildLevelSetting: GuildLevelSettingUpdateOneWithoutGuildNestedInput
+  guildModerationSetting: GuildModerationSettingUpdateOneWithoutGuildNestedInput
+  guildMusicSetting: GuildMusicSettingUpdateOneWithoutGuildNestedInput
+  guildPlugin: GuildPluginUpdateOneWithoutGuildNestedInput
+  guildUserWarnings: GuildUserWarningUpdateManyWithoutGuildNestedInput
+  guildUsers: GuildUserUpdateManyWithoutGuildNestedInput
+  guildWelcomeSetting: GuildWelcomeSettingUpdateOneWithoutGuildNestedInput
   id: StringFieldUpdateOperationsInput
+  language: EnumLocaleFieldUpdateOperationsInput
   prefix: StringFieldUpdateOperationsInput
   premium: BoolFieldUpdateOperationsInput
+  storeItems: StoreItemUpdateManyWithoutGuildNestedInput
   subscription: GuildSubscriptionUpdateOneWithoutGuildNestedInput
+  timezone: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input GuildUpdateOneRequiredWithoutGuildUserWarningsNestedInput {
+  connect: GuildWhereUniqueInput
+  connectOrCreate: GuildCreateOrConnectWithoutGuildUserWarningsInput
+  create: GuildCreateWithoutGuildUserWarningsInput
+  update: GuildUpdateWithoutGuildUserWarningsInput
+  upsert: GuildUpsertWithoutGuildUserWarningsInput
+}
+
+input GuildUpdateOneRequiredWithoutGuildUsersNestedInput {
+  connect: GuildWhereUniqueInput
+  connectOrCreate: GuildCreateOrConnectWithoutGuildUsersInput
+  create: GuildCreateWithoutGuildUsersInput
+  update: GuildUpdateWithoutGuildUsersInput
+  upsert: GuildUpsertWithoutGuildUsersInput
+}
+
+input GuildUpdateWithoutGuildUserWarningsInput {
+  botMasterRoles: BotMasterRoleUpdateManyWithoutGuildNestedInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  guildAnimeSetting: GuildAnimeSettingUpdateOneWithoutGuildNestedInput
+  guildEconomySetting: GuildEconomySettingUpdateOneWithoutGuildNestedInput
+  guildHelpSetting: GuildHelpSettingUpdateOneWithoutGuildNestedInput
+  guildLevelSetting: GuildLevelSettingUpdateOneWithoutGuildNestedInput
+  guildModerationSetting: GuildModerationSettingUpdateOneWithoutGuildNestedInput
+  guildMusicSetting: GuildMusicSettingUpdateOneWithoutGuildNestedInput
+  guildPlugin: GuildPluginUpdateOneWithoutGuildNestedInput
+  guildUsers: GuildUserUpdateManyWithoutGuildNestedInput
+  guildWelcomeSetting: GuildWelcomeSettingUpdateOneWithoutGuildNestedInput
+  id: StringFieldUpdateOperationsInput
+  language: EnumLocaleFieldUpdateOperationsInput
+  prefix: StringFieldUpdateOperationsInput
+  premium: BoolFieldUpdateOperationsInput
+  storeItems: StoreItemUpdateManyWithoutGuildNestedInput
+  subscription: GuildSubscriptionUpdateOneWithoutGuildNestedInput
+  timezone: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input GuildUpdateWithoutGuildUsersInput {
+  botMasterRoles: BotMasterRoleUpdateManyWithoutGuildNestedInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  guildAnimeSetting: GuildAnimeSettingUpdateOneWithoutGuildNestedInput
+  guildEconomySetting: GuildEconomySettingUpdateOneWithoutGuildNestedInput
+  guildHelpSetting: GuildHelpSettingUpdateOneWithoutGuildNestedInput
+  guildLevelSetting: GuildLevelSettingUpdateOneWithoutGuildNestedInput
+  guildModerationSetting: GuildModerationSettingUpdateOneWithoutGuildNestedInput
+  guildMusicSetting: GuildMusicSettingUpdateOneWithoutGuildNestedInput
+  guildPlugin: GuildPluginUpdateOneWithoutGuildNestedInput
+  guildUserWarnings: GuildUserWarningUpdateManyWithoutGuildNestedInput
+  guildWelcomeSetting: GuildWelcomeSettingUpdateOneWithoutGuildNestedInput
+  id: StringFieldUpdateOperationsInput
+  language: EnumLocaleFieldUpdateOperationsInput
+  prefix: StringFieldUpdateOperationsInput
+  premium: BoolFieldUpdateOperationsInput
+  storeItems: StoreItemUpdateManyWithoutGuildNestedInput
+  subscription: GuildSubscriptionUpdateOneWithoutGuildNestedInput
+  timezone: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input GuildUpsertWithoutGuildUserWarningsInput {
+  create: GuildCreateWithoutGuildUserWarningsInput!
+  update: GuildUpdateWithoutGuildUserWarningsInput!
+}
+
+input GuildUpsertWithoutGuildUsersInput {
+  create: GuildCreateWithoutGuildUsersInput!
+  update: GuildUpdateWithoutGuildUsersInput!
+}
+
+type GuildUser {
+  _count: GuildUserCount!
+  animeLists: UserAnimeList
+  bank: Int!
+  createdAt: DateTime!
+  daily: DateTime
+  guild: Guild!
+  guildId: String!
+  guildUserWarning: [GuildUserWarning!]
+  id: ID!
+  updatedAt: DateTime!
+  userId: String!
+  wallet: Int!
+  weekly: DateTime
+  work: DateTime
+  xp: Int!
+}
+
+type GuildUserAvgAggregate {
+  bank: Float
+  wallet: Float
+  xp: Float
+}
+
+type GuildUserCount {
+  guildUserWarning: Int!
+}
+
+type GuildUserCountAggregate {
+  _all: Int!
+  bank: Int!
+  createdAt: Int!
+  daily: Int!
+  guildId: Int!
+  id: Int!
+  updatedAt: Int!
+  userId: Int!
+  wallet: Int!
+  weekly: Int!
+  work: Int!
+  xp: Int!
+}
+
+input GuildUserCreateManyGuildInput {
+  bank: Int
+  createdAt: DateTime
+  daily: DateTime
+  id: String
+  updatedAt: DateTime
+  userId: String!
+  wallet: Int
+  weekly: DateTime
+  work: DateTime
+  xp: Int
+}
+
+input GuildUserCreateManyGuildInputEnvelope {
+  data: [GuildUserCreateManyGuildInput!]!
+  skipDuplicates: Boolean
+}
+
+input GuildUserCreateNestedManyWithoutGuildInput {
+  connect: [GuildUserWhereUniqueInput!]
+  connectOrCreate: [GuildUserCreateOrConnectWithoutGuildInput!]
+  create: [GuildUserCreateWithoutGuildInput!]
+  createMany: GuildUserCreateManyGuildInputEnvelope
+}
+
+input GuildUserCreateNestedOneWithoutGuildUserWarningInput {
+  connect: GuildUserWhereUniqueInput
+  connectOrCreate: GuildUserCreateOrConnectWithoutGuildUserWarningInput
+  create: GuildUserCreateWithoutGuildUserWarningInput
+}
+
+input GuildUserCreateOrConnectWithoutGuildInput {
+  create: GuildUserCreateWithoutGuildInput!
+  where: GuildUserWhereUniqueInput!
+}
+
+input GuildUserCreateOrConnectWithoutGuildUserWarningInput {
+  create: GuildUserCreateWithoutGuildUserWarningInput!
+  where: GuildUserWhereUniqueInput!
+}
+
+input GuildUserCreateWithoutGuildInput {
+  animeLists: UserAnimeListCreateNestedOneWithoutUserInput
+  bank: Int
+  createdAt: DateTime
+  daily: DateTime
+  guildUserWarning: GuildUserWarningCreateNestedManyWithoutGuildUserInput
+  id: String
+  updatedAt: DateTime
+  userId: String!
+  wallet: Int
+  weekly: DateTime
+  work: DateTime
+  xp: Int
+}
+
+input GuildUserCreateWithoutGuildUserWarningInput {
+  animeLists: UserAnimeListCreateNestedOneWithoutUserInput
+  bank: Int
+  createdAt: DateTime
+  daily: DateTime
+  guild: GuildCreateNestedOneWithoutGuildUsersInput!
+  id: String
+  updatedAt: DateTime
+  userId: String!
+  wallet: Int
+  weekly: DateTime
+  work: DateTime
+  xp: Int
+}
+
+input GuildUserGuild_userCompoundUniqueInput {
+  guildId: String!
+  userId: String!
+}
+
+type GuildUserMaxAggregate {
+  bank: Int
+  createdAt: DateTime
+  daily: DateTime
+  guildId: String
+  id: String
+  updatedAt: DateTime
+  userId: String
+  wallet: Int
+  weekly: DateTime
+  work: DateTime
+  xp: Int
+}
+
+type GuildUserMinAggregate {
+  bank: Int
+  createdAt: DateTime
+  daily: DateTime
+  guildId: String
+  id: String
+  updatedAt: DateTime
+  userId: String
+  wallet: Int
+  weekly: DateTime
+  work: DateTime
+  xp: Int
+}
+
+input GuildUserScalarWhereInput {
+  AND: [GuildUserScalarWhereInput!]
+  NOT: [GuildUserScalarWhereInput!]
+  OR: [GuildUserScalarWhereInput!]
+  bank: IntFilter
+  createdAt: DateTimeFilter
+  daily: DateTimeNullableFilter
+  guildId: StringFilter
+  id: StringFilter
+  updatedAt: DateTimeFilter
+  userId: StringFilter
+  wallet: IntFilter
+  weekly: DateTimeNullableFilter
+  work: DateTimeNullableFilter
+  xp: IntFilter
+}
+
+type GuildUserSumAggregate {
+  bank: Int
+  wallet: Int
+  xp: Int
+}
+
+input GuildUserUpdateManyMutationInput {
+  bank: IntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  daily: NullableDateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  userId: StringFieldUpdateOperationsInput
+  wallet: IntFieldUpdateOperationsInput
+  weekly: NullableDateTimeFieldUpdateOperationsInput
+  work: NullableDateTimeFieldUpdateOperationsInput
+  xp: IntFieldUpdateOperationsInput
+}
+
+input GuildUserUpdateManyWithWhereWithoutGuildInput {
+  data: GuildUserUpdateManyMutationInput!
+  where: GuildUserScalarWhereInput!
+}
+
+input GuildUserUpdateManyWithoutGuildNestedInput {
+  connect: [GuildUserWhereUniqueInput!]
+  connectOrCreate: [GuildUserCreateOrConnectWithoutGuildInput!]
+  create: [GuildUserCreateWithoutGuildInput!]
+  createMany: GuildUserCreateManyGuildInputEnvelope
+  delete: [GuildUserWhereUniqueInput!]
+  deleteMany: [GuildUserScalarWhereInput!]
+  disconnect: [GuildUserWhereUniqueInput!]
+  set: [GuildUserWhereUniqueInput!]
+  update: [GuildUserUpdateWithWhereUniqueWithoutGuildInput!]
+  updateMany: [GuildUserUpdateManyWithWhereWithoutGuildInput!]
+  upsert: [GuildUserUpsertWithWhereUniqueWithoutGuildInput!]
+}
+
+input GuildUserUpdateOneRequiredWithoutGuildUserWarningNestedInput {
+  connect: GuildUserWhereUniqueInput
+  connectOrCreate: GuildUserCreateOrConnectWithoutGuildUserWarningInput
+  create: GuildUserCreateWithoutGuildUserWarningInput
+  update: GuildUserUpdateWithoutGuildUserWarningInput
+  upsert: GuildUserUpsertWithoutGuildUserWarningInput
+}
+
+input GuildUserUpdateWithWhereUniqueWithoutGuildInput {
+  data: GuildUserUpdateWithoutGuildInput!
+  where: GuildUserWhereUniqueInput!
+}
+
+input GuildUserUpdateWithoutGuildInput {
+  animeLists: UserAnimeListUpdateOneWithoutUserNestedInput
+  bank: IntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  daily: NullableDateTimeFieldUpdateOperationsInput
+  guildUserWarning: GuildUserWarningUpdateManyWithoutGuildUserNestedInput
+  id: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  userId: StringFieldUpdateOperationsInput
+  wallet: IntFieldUpdateOperationsInput
+  weekly: NullableDateTimeFieldUpdateOperationsInput
+  work: NullableDateTimeFieldUpdateOperationsInput
+  xp: IntFieldUpdateOperationsInput
+}
+
+input GuildUserUpdateWithoutGuildUserWarningInput {
+  animeLists: UserAnimeListUpdateOneWithoutUserNestedInput
+  bank: IntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  daily: NullableDateTimeFieldUpdateOperationsInput
+  guild: GuildUpdateOneRequiredWithoutGuildUsersNestedInput
+  id: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  userId: StringFieldUpdateOperationsInput
+  wallet: IntFieldUpdateOperationsInput
+  weekly: NullableDateTimeFieldUpdateOperationsInput
+  work: NullableDateTimeFieldUpdateOperationsInput
+  xp: IntFieldUpdateOperationsInput
+}
+
+input GuildUserUpsertWithWhereUniqueWithoutGuildInput {
+  create: GuildUserCreateWithoutGuildInput!
+  update: GuildUserUpdateWithoutGuildInput!
+  where: GuildUserWhereUniqueInput!
+}
+
+input GuildUserUpsertWithoutGuildUserWarningInput {
+  create: GuildUserCreateWithoutGuildUserWarningInput!
+  update: GuildUserUpdateWithoutGuildUserWarningInput!
+}
+
+type GuildUserWarning {
+  expires: DateTime
+  guild: Guild!
+  guildId: String!
+  guildUser: GuildUser!
+  id: ID!
+  issued: DateTime!
+  reason: String!
+  userId: String!
+}
+
+type GuildUserWarningCountAggregate {
+  _all: Int!
+  expires: Int!
+  guildId: Int!
+  id: Int!
+  issued: Int!
+  reason: Int!
+  userId: Int!
+}
+
+input GuildUserWarningCreateManyGuildInput {
+  expires: DateTime
+  id: String!
+  issued: DateTime
+  reason: String!
+  userId: String!
+}
+
+input GuildUserWarningCreateManyGuildInputEnvelope {
+  data: [GuildUserWarningCreateManyGuildInput!]!
+  skipDuplicates: Boolean
+}
+
+input GuildUserWarningCreateManyGuildUserInput {
+  expires: DateTime
+  id: String!
+  issued: DateTime
+  reason: String!
+}
+
+input GuildUserWarningCreateManyGuildUserInputEnvelope {
+  data: [GuildUserWarningCreateManyGuildUserInput!]!
+  skipDuplicates: Boolean
+}
+
+input GuildUserWarningCreateNestedManyWithoutGuildInput {
+  connect: [GuildUserWarningWhereUniqueInput!]
+  connectOrCreate: [GuildUserWarningCreateOrConnectWithoutGuildInput!]
+  create: [GuildUserWarningCreateWithoutGuildInput!]
+  createMany: GuildUserWarningCreateManyGuildInputEnvelope
+}
+
+input GuildUserWarningCreateNestedManyWithoutGuildUserInput {
+  connect: [GuildUserWarningWhereUniqueInput!]
+  connectOrCreate: [GuildUserWarningCreateOrConnectWithoutGuildUserInput!]
+  create: [GuildUserWarningCreateWithoutGuildUserInput!]
+  createMany: GuildUserWarningCreateManyGuildUserInputEnvelope
+}
+
+input GuildUserWarningCreateOrConnectWithoutGuildInput {
+  create: GuildUserWarningCreateWithoutGuildInput!
+  where: GuildUserWarningWhereUniqueInput!
+}
+
+input GuildUserWarningCreateOrConnectWithoutGuildUserInput {
+  create: GuildUserWarningCreateWithoutGuildUserInput!
+  where: GuildUserWarningWhereUniqueInput!
+}
+
+input GuildUserWarningCreateWithoutGuildInput {
+  expires: DateTime
+  guildUser: GuildUserCreateNestedOneWithoutGuildUserWarningInput!
+  id: String!
+  issued: DateTime
+  reason: String!
+}
+
+input GuildUserWarningCreateWithoutGuildUserInput {
+  expires: DateTime
+  guild: GuildCreateNestedOneWithoutGuildUserWarningsInput!
+  id: String!
+  issued: DateTime
+  reason: String!
+}
+
+type GuildUserWarningMaxAggregate {
+  expires: DateTime
+  guildId: String
+  id: String
+  issued: DateTime
+  reason: String
+  userId: String
+}
+
+type GuildUserWarningMinAggregate {
+  expires: DateTime
+  guildId: String
+  id: String
+  issued: DateTime
+  reason: String
+  userId: String
+}
+
+input GuildUserWarningScalarWhereInput {
+  AND: [GuildUserWarningScalarWhereInput!]
+  NOT: [GuildUserWarningScalarWhereInput!]
+  OR: [GuildUserWarningScalarWhereInput!]
+  expires: DateTimeNullableFilter
+  guildId: StringFilter
+  id: StringFilter
+  issued: DateTimeFilter
+  reason: StringFilter
+  userId: StringFilter
+}
+
+input GuildUserWarningUpdateManyMutationInput {
+  expires: NullableDateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  issued: DateTimeFieldUpdateOperationsInput
+  reason: StringFieldUpdateOperationsInput
+}
+
+input GuildUserWarningUpdateManyWithWhereWithoutGuildInput {
+  data: GuildUserWarningUpdateManyMutationInput!
+  where: GuildUserWarningScalarWhereInput!
+}
+
+input GuildUserWarningUpdateManyWithWhereWithoutGuildUserInput {
+  data: GuildUserWarningUpdateManyMutationInput!
+  where: GuildUserWarningScalarWhereInput!
+}
+
+input GuildUserWarningUpdateManyWithoutGuildNestedInput {
+  connect: [GuildUserWarningWhereUniqueInput!]
+  connectOrCreate: [GuildUserWarningCreateOrConnectWithoutGuildInput!]
+  create: [GuildUserWarningCreateWithoutGuildInput!]
+  createMany: GuildUserWarningCreateManyGuildInputEnvelope
+  delete: [GuildUserWarningWhereUniqueInput!]
+  deleteMany: [GuildUserWarningScalarWhereInput!]
+  disconnect: [GuildUserWarningWhereUniqueInput!]
+  set: [GuildUserWarningWhereUniqueInput!]
+  update: [GuildUserWarningUpdateWithWhereUniqueWithoutGuildInput!]
+  updateMany: [GuildUserWarningUpdateManyWithWhereWithoutGuildInput!]
+  upsert: [GuildUserWarningUpsertWithWhereUniqueWithoutGuildInput!]
+}
+
+input GuildUserWarningUpdateManyWithoutGuildUserNestedInput {
+  connect: [GuildUserWarningWhereUniqueInput!]
+  connectOrCreate: [GuildUserWarningCreateOrConnectWithoutGuildUserInput!]
+  create: [GuildUserWarningCreateWithoutGuildUserInput!]
+  createMany: GuildUserWarningCreateManyGuildUserInputEnvelope
+  delete: [GuildUserWarningWhereUniqueInput!]
+  deleteMany: [GuildUserWarningScalarWhereInput!]
+  disconnect: [GuildUserWarningWhereUniqueInput!]
+  set: [GuildUserWarningWhereUniqueInput!]
+  update: [GuildUserWarningUpdateWithWhereUniqueWithoutGuildUserInput!]
+  updateMany: [GuildUserWarningUpdateManyWithWhereWithoutGuildUserInput!]
+  upsert: [GuildUserWarningUpsertWithWhereUniqueWithoutGuildUserInput!]
+}
+
+input GuildUserWarningUpdateWithWhereUniqueWithoutGuildInput {
+  data: GuildUserWarningUpdateWithoutGuildInput!
+  where: GuildUserWarningWhereUniqueInput!
+}
+
+input GuildUserWarningUpdateWithWhereUniqueWithoutGuildUserInput {
+  data: GuildUserWarningUpdateWithoutGuildUserInput!
+  where: GuildUserWarningWhereUniqueInput!
+}
+
+input GuildUserWarningUpdateWithoutGuildInput {
+  expires: NullableDateTimeFieldUpdateOperationsInput
+  guildUser: GuildUserUpdateOneRequiredWithoutGuildUserWarningNestedInput
+  id: StringFieldUpdateOperationsInput
+  issued: DateTimeFieldUpdateOperationsInput
+  reason: StringFieldUpdateOperationsInput
+}
+
+input GuildUserWarningUpdateWithoutGuildUserInput {
+  expires: NullableDateTimeFieldUpdateOperationsInput
+  guild: GuildUpdateOneRequiredWithoutGuildUserWarningsNestedInput
+  id: StringFieldUpdateOperationsInput
+  issued: DateTimeFieldUpdateOperationsInput
+  reason: StringFieldUpdateOperationsInput
+}
+
+input GuildUserWarningUpsertWithWhereUniqueWithoutGuildInput {
+  create: GuildUserWarningCreateWithoutGuildInput!
+  update: GuildUserWarningUpdateWithoutGuildInput!
+  where: GuildUserWarningWhereUniqueInput!
+}
+
+input GuildUserWarningUpsertWithWhereUniqueWithoutGuildUserInput {
+  create: GuildUserWarningCreateWithoutGuildUserInput!
+  update: GuildUserWarningUpdateWithoutGuildUserInput!
+  where: GuildUserWarningWhereUniqueInput!
+}
+
+input GuildUserWarningWhereUniqueInput {
+  id: String
+}
+
+input GuildUserWhereUniqueInput {
+  guild_user: GuildUserGuild_userCompoundUniqueInput
+  id: String
+}
+
+type GuildWelcomeSetting {
+  defaultRoleEnabled: Boolean!
+  defaultRoleId: String!
+  guild: Guild!
+  guildId: ID!
+  ignoreBots: Boolean!
+  welcomeEnabled: Boolean!
+  welcomeMessage: String!
+}
+
+type GuildWelcomeSettingCountAggregate {
+  _all: Int!
+  defaultRoleEnabled: Int!
+  defaultRoleId: Int!
+  guildId: Int!
+  ignoreBots: Int!
+  welcomeEnabled: Int!
+  welcomeMessage: Int!
+}
+
+input GuildWelcomeSettingCreateNestedOneWithoutGuildInput {
+  connect: GuildWelcomeSettingWhereUniqueInput
+  connectOrCreate: GuildWelcomeSettingCreateOrConnectWithoutGuildInput
+  create: GuildWelcomeSettingCreateWithoutGuildInput
+}
+
+input GuildWelcomeSettingCreateOrConnectWithoutGuildInput {
+  create: GuildWelcomeSettingCreateWithoutGuildInput!
+  where: GuildWelcomeSettingWhereUniqueInput!
+}
+
+input GuildWelcomeSettingCreateWithoutGuildInput {
+  defaultRoleEnabled: Boolean
+  defaultRoleId: String
+  ignoreBots: Boolean
+  welcomeEnabled: Boolean
+  welcomeMessage: String!
+}
+
+type GuildWelcomeSettingMaxAggregate {
+  defaultRoleEnabled: Boolean
+  defaultRoleId: String
+  guildId: String
+  ignoreBots: Boolean
+  welcomeEnabled: Boolean
+  welcomeMessage: String
+}
+
+type GuildWelcomeSettingMinAggregate {
+  defaultRoleEnabled: Boolean
+  defaultRoleId: String
+  guildId: String
+  ignoreBots: Boolean
+  welcomeEnabled: Boolean
+  welcomeMessage: String
+}
+
+input GuildWelcomeSettingUpdateOneWithoutGuildNestedInput {
+  connect: GuildWelcomeSettingWhereUniqueInput
+  connectOrCreate: GuildWelcomeSettingCreateOrConnectWithoutGuildInput
+  create: GuildWelcomeSettingCreateWithoutGuildInput
+  delete: Boolean
+  disconnect: Boolean
+  update: GuildWelcomeSettingUpdateWithoutGuildInput
+  upsert: GuildWelcomeSettingUpsertWithoutGuildInput
+}
+
+input GuildWelcomeSettingUpdateWithoutGuildInput {
+  defaultRoleEnabled: BoolFieldUpdateOperationsInput
+  defaultRoleId: StringFieldUpdateOperationsInput
+  ignoreBots: BoolFieldUpdateOperationsInput
+  welcomeEnabled: BoolFieldUpdateOperationsInput
+  welcomeMessage: StringFieldUpdateOperationsInput
+}
+
+input GuildWelcomeSettingUpsertWithoutGuildInput {
+  create: GuildWelcomeSettingCreateWithoutGuildInput!
+  update: GuildWelcomeSettingUpdateWithoutGuildInput!
+}
+
+input GuildWelcomeSettingWhereUniqueInput {
+  guildId: String
+}
+
+input GuildWhereUniqueInput {
+  id: String
 }
 
 input IntFieldUpdateOperationsInput {
@@ -558,6 +2515,48 @@ input IntFieldUpdateOperationsInput {
   increment: Int
   multiply: Int
   set: Int
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input IntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
+enum Locale {
+  en_US
+}
+
+enum LogAction {
+  CREATE
+  DELETE
+  DISABLE
+  ENABLE
+  UPDATE
+}
+
+enum MangaStatus {
+  COMPLETED
+  DROPPED
+  ON_HOLD
+  PLAN_TO_READ
+  READING
 }
 
 type Mutation {
@@ -579,6 +2578,119 @@ type MutualGuild {
   id: String!
   name: String!
   owner: Boolean!
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeNullableFilter
+  notIn: [DateTime!]
+}
+
+input NestedEnumAnimeStatusNullableFilter {
+  equals: AnimeStatus
+  in: [AnimeStatus!]
+  not: NestedEnumAnimeStatusNullableFilter
+  notIn: [AnimeStatus!]
+}
+
+input NestedEnumMangaStatusNullableFilter {
+  equals: MangaStatus
+  in: [MangaStatus!]
+  not: NestedEnumMangaStatusNullableFilter
+  notIn: [MangaStatus!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  search: String
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  search: String
+  startsWith: String
+}
+
+input NullableDateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input NullableEnumAnimeStatusFieldUpdateOperationsInput {
+  set: AnimeStatus
+}
+
+input NullableEnumMangaStatusFieldUpdateOperationsInput {
+  set: MangaStatus
+}
+
+input NullableIntFieldUpdateOperationsInput {
+  decrement: Int
+  divide: Int
+  increment: Int
+  multiply: Int
+  set: Int
 }
 
 input NullableStringFieldUpdateOperationsInput {
@@ -605,6 +2717,28 @@ type PaymentMethod {
   id: String!
 }
 
+enum Plugin {
+  ANIME
+  AUTOMOD
+  BIRTHDAY
+  ECONOMY
+  EMBEDS
+  GIVEAWAYS
+  INSTAGRAM
+  LEVELS
+  LOGS
+  MEMES
+  MUSIC
+  POLLS
+  REDDIT
+  ROLES
+  STATISTICS
+  TWITCH
+  TWITTER
+  WELCOME
+  YOUTUBE
+}
+
 type Price {
   _count: PriceCount!
   currency: String!
@@ -612,7 +2746,7 @@ type Price {
   product: Product!
   productId: String!
   recurringInterval: String
-  subscription: [GuildSubscription!]
+  subscriptions: [GuildSubscription!]
   type: PriceType!
   unit_amount: Int!
 }
@@ -622,7 +2756,7 @@ type PriceAvgAggregate {
 }
 
 type PriceCount {
-  subscription: Int!
+  subscriptions: Int!
 }
 
 type PriceCountAggregate {
@@ -635,21 +2769,21 @@ type PriceCountAggregate {
   unit_amount: Int!
 }
 
-input PriceCreateNestedOneWithoutSubscriptionInput {
+input PriceCreateNestedOneWithoutSubscriptionsInput {
   connect: PriceWhereUniqueInput
-  connectOrCreate: PriceCreateOrConnectWithoutSubscriptionInput
-  create: PriceCreateWithoutSubscriptionInput
+  connectOrCreate: PriceCreateOrConnectWithoutSubscriptionsInput
+  create: PriceCreateWithoutSubscriptionsInput
 }
 
-input PriceCreateOrConnectWithoutSubscriptionInput {
-  create: PriceCreateWithoutSubscriptionInput!
+input PriceCreateOrConnectWithoutSubscriptionsInput {
+  create: PriceCreateWithoutSubscriptionsInput!
   where: PriceWhereUniqueInput!
 }
 
-input PriceCreateWithoutSubscriptionInput {
+input PriceCreateWithoutSubscriptionsInput {
   currency: String!
   id: String!
-  product: ProductCreateNestedOneWithoutPriceInput!
+  product: ProductCreateNestedOneWithoutPricesInput!
   recurringInterval: String
   type: PriceType!
   unit_amount: Int!
@@ -682,26 +2816,26 @@ enum PriceType {
   RECURRING
 }
 
-input PriceUpdateOneRequiredWithoutSubscriptionNestedInput {
+input PriceUpdateOneRequiredWithoutSubscriptionsNestedInput {
   connect: PriceWhereUniqueInput
-  connectOrCreate: PriceCreateOrConnectWithoutSubscriptionInput
-  create: PriceCreateWithoutSubscriptionInput
-  update: PriceUpdateWithoutSubscriptionInput
-  upsert: PriceUpsertWithoutSubscriptionInput
+  connectOrCreate: PriceCreateOrConnectWithoutSubscriptionsInput
+  create: PriceCreateWithoutSubscriptionsInput
+  update: PriceUpdateWithoutSubscriptionsInput
+  upsert: PriceUpsertWithoutSubscriptionsInput
 }
 
-input PriceUpdateWithoutSubscriptionInput {
+input PriceUpdateWithoutSubscriptionsInput {
   currency: StringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
-  product: ProductUpdateOneRequiredWithoutPriceNestedInput
+  product: ProductUpdateOneRequiredWithoutPricesNestedInput
   recurringInterval: NullableStringFieldUpdateOperationsInput
   type: EnumPriceTypeFieldUpdateOperationsInput
   unit_amount: IntFieldUpdateOperationsInput
 }
 
-input PriceUpsertWithoutSubscriptionInput {
-  create: PriceCreateWithoutSubscriptionInput!
-  update: PriceUpdateWithoutSubscriptionInput!
+input PriceUpsertWithoutSubscriptionsInput {
+  create: PriceCreateWithoutSubscriptionsInput!
+  update: PriceUpdateWithoutSubscriptionsInput!
 }
 
 input PriceWhereUniqueInput {
@@ -713,11 +2847,11 @@ type Product {
   description: String
   id: ID!
   name: String!
-  price: [Price!]
+  prices: [Price!]
 }
 
 type ProductCount {
-  price: Int!
+  prices: Int!
 }
 
 type ProductCountAggregate {
@@ -727,18 +2861,18 @@ type ProductCountAggregate {
   name: Int!
 }
 
-input ProductCreateNestedOneWithoutPriceInput {
+input ProductCreateNestedOneWithoutPricesInput {
   connect: ProductWhereUniqueInput
-  connectOrCreate: ProductCreateOrConnectWithoutPriceInput
-  create: ProductCreateWithoutPriceInput
+  connectOrCreate: ProductCreateOrConnectWithoutPricesInput
+  create: ProductCreateWithoutPricesInput
 }
 
-input ProductCreateOrConnectWithoutPriceInput {
-  create: ProductCreateWithoutPriceInput!
+input ProductCreateOrConnectWithoutPricesInput {
+  create: ProductCreateWithoutPricesInput!
   where: ProductWhereUniqueInput!
 }
 
-input ProductCreateWithoutPriceInput {
+input ProductCreateWithoutPricesInput {
   description: String
   id: String!
   name: String!
@@ -756,23 +2890,23 @@ type ProductMinAggregate {
   name: String
 }
 
-input ProductUpdateOneRequiredWithoutPriceNestedInput {
+input ProductUpdateOneRequiredWithoutPricesNestedInput {
   connect: ProductWhereUniqueInput
-  connectOrCreate: ProductCreateOrConnectWithoutPriceInput
-  create: ProductCreateWithoutPriceInput
-  update: ProductUpdateWithoutPriceInput
-  upsert: ProductUpsertWithoutPriceInput
+  connectOrCreate: ProductCreateOrConnectWithoutPricesInput
+  create: ProductCreateWithoutPricesInput
+  update: ProductUpdateWithoutPricesInput
+  upsert: ProductUpsertWithoutPricesInput
 }
 
-input ProductUpdateWithoutPriceInput {
+input ProductUpdateWithoutPricesInput {
   description: NullableStringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
 }
 
-input ProductUpsertWithoutPriceInput {
-  create: ProductCreateWithoutPriceInput!
-  update: ProductUpdateWithoutPriceInput!
+input ProductUpsertWithoutPricesInput {
+  create: ProductCreateWithoutPricesInput!
+  update: ProductUpdateWithoutPricesInput!
 }
 
 input ProductWhereUniqueInput {
@@ -815,15 +2949,203 @@ type Sticker {
   user: DiscordUser
 }
 
+type StoreItem {
+  createdAt: DateTime!
+  description: String!
+  enabled: Boolean!
+  guild: Guild!
+  guildId: String!
+  id: ID!
+  name: String!
+  price: Int!
+  updatedAt: DateTime!
+}
+
+type StoreItemAvgAggregate {
+  id: Float
+  price: Float
+}
+
+type StoreItemCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  description: Int!
+  enabled: Int!
+  guildId: Int!
+  id: Int!
+  name: Int!
+  price: Int!
+  updatedAt: Int!
+}
+
+input StoreItemCreateManyGuildInput {
+  createdAt: DateTime
+  description: String!
+  enabled: Boolean
+  id: Int
+  name: String!
+  price: Int!
+  updatedAt: DateTime
+}
+
+input StoreItemCreateManyGuildInputEnvelope {
+  data: [StoreItemCreateManyGuildInput!]!
+  skipDuplicates: Boolean
+}
+
+input StoreItemCreateNestedManyWithoutGuildInput {
+  connect: [StoreItemWhereUniqueInput!]
+  connectOrCreate: [StoreItemCreateOrConnectWithoutGuildInput!]
+  create: [StoreItemCreateWithoutGuildInput!]
+  createMany: StoreItemCreateManyGuildInputEnvelope
+}
+
+input StoreItemCreateOrConnectWithoutGuildInput {
+  create: StoreItemCreateWithoutGuildInput!
+  where: StoreItemWhereUniqueInput!
+}
+
+input StoreItemCreateWithoutGuildInput {
+  createdAt: DateTime
+  description: String!
+  enabled: Boolean
+  name: String!
+  price: Int!
+  updatedAt: DateTime
+}
+
+type StoreItemMaxAggregate {
+  createdAt: DateTime
+  description: String
+  enabled: Boolean
+  guildId: String
+  id: Int
+  name: String
+  price: Int
+  updatedAt: DateTime
+}
+
+type StoreItemMinAggregate {
+  createdAt: DateTime
+  description: String
+  enabled: Boolean
+  guildId: String
+  id: Int
+  name: String
+  price: Int
+  updatedAt: DateTime
+}
+
+input StoreItemScalarWhereInput {
+  AND: [StoreItemScalarWhereInput!]
+  NOT: [StoreItemScalarWhereInput!]
+  OR: [StoreItemScalarWhereInput!]
+  createdAt: DateTimeFilter
+  description: StringFilter
+  enabled: BoolFilter
+  guildId: StringFilter
+  id: IntFilter
+  name: StringFilter
+  price: IntFilter
+  updatedAt: DateTimeFilter
+}
+
+type StoreItemSumAggregate {
+  id: Int
+  price: Int
+}
+
+input StoreItemUpdateManyMutationInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  enabled: BoolFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  price: IntFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input StoreItemUpdateManyWithWhereWithoutGuildInput {
+  data: StoreItemUpdateManyMutationInput!
+  where: StoreItemScalarWhereInput!
+}
+
+input StoreItemUpdateManyWithoutGuildNestedInput {
+  connect: [StoreItemWhereUniqueInput!]
+  connectOrCreate: [StoreItemCreateOrConnectWithoutGuildInput!]
+  create: [StoreItemCreateWithoutGuildInput!]
+  createMany: StoreItemCreateManyGuildInputEnvelope
+  delete: [StoreItemWhereUniqueInput!]
+  deleteMany: [StoreItemScalarWhereInput!]
+  disconnect: [StoreItemWhereUniqueInput!]
+  set: [StoreItemWhereUniqueInput!]
+  update: [StoreItemUpdateWithWhereUniqueWithoutGuildInput!]
+  updateMany: [StoreItemUpdateManyWithWhereWithoutGuildInput!]
+  upsert: [StoreItemUpsertWithWhereUniqueWithoutGuildInput!]
+}
+
+input StoreItemUpdateWithWhereUniqueWithoutGuildInput {
+  data: StoreItemUpdateWithoutGuildInput!
+  where: StoreItemWhereUniqueInput!
+}
+
+input StoreItemUpdateWithoutGuildInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  enabled: BoolFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  price: IntFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input StoreItemUpsertWithWhereUniqueWithoutGuildInput {
+  create: StoreItemCreateWithoutGuildInput!
+  update: StoreItemUpdateWithoutGuildInput!
+  where: StoreItemWhereUniqueInput!
+}
+
+input StoreItemWhereUniqueInput {
+  id: Int
+}
+
 input StringFieldUpdateOperationsInput {
   set: String
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  search: String
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  search: String
+  startsWith: String
 }
 
 type Subscription {
   updatedGuildConfig(id: String!): Guild!
 }
 
-enum Subscription_status {
+enum SubscriptionStatus {
   ACTIVE
   CANCELED
   INCOMPLETE
@@ -851,7 +3173,72 @@ type User {
   email: String
   id: ID!
   locale: String
+  updatedAt: DateTime
   username: String!
+}
+
+type UserAnimeList {
+  _count: UserAnimeListCount!
+  favoriteAnimes: [FavoriteAnime!]
+  favoriteMangas: [FavoriteManga!]
+  user: GuildUser!
+  userId: ID!
+}
+
+type UserAnimeListCount {
+  favoriteAnimes: Int!
+  favoriteMangas: Int!
+}
+
+type UserAnimeListCountAggregate {
+  _all: Int!
+  userId: Int!
+}
+
+input UserAnimeListCreateNestedOneWithoutUserInput {
+  create: UserAnimeListCreateWithoutUserInput
+}
+
+input UserAnimeListCreateOrConnectWithoutUserInput {
+  create: UserAnimeListCreateWithoutUserInput!
+  where: UserAnimeListWhereUniqueInput!
+}
+
+input UserAnimeListCreateWithoutUserInput {
+  favoriteAnimes: FavoriteAnimeCreateNestedManyWithoutAnimeListInput
+  favoriteMangas: FavoriteMangaCreateNestedManyWithoutAnimeListInput
+}
+
+type UserAnimeListMaxAggregate {
+  userId: String
+}
+
+type UserAnimeListMinAggregate {
+  userId: String
+}
+
+input UserAnimeListUpdateOneWithoutUserNestedInput {
+  connect: UserAnimeListWhereUniqueInput
+  connectOrCreate: UserAnimeListCreateOrConnectWithoutUserInput
+  create: UserAnimeListCreateWithoutUserInput
+  delete: Boolean
+  disconnect: Boolean
+  update: UserAnimeListUpdateWithoutUserInput
+  upsert: UserAnimeListUpsertWithoutUserInput
+}
+
+input UserAnimeListUpdateWithoutUserInput {
+  favoriteAnimes: FavoriteAnimeUpdateManyWithoutAnimeListNestedInput
+  favoriteMangas: FavoriteMangaUpdateManyWithoutAnimeListNestedInput
+}
+
+input UserAnimeListUpsertWithoutUserInput {
+  create: UserAnimeListCreateWithoutUserInput!
+  update: UserAnimeListUpdateWithoutUserInput!
+}
+
+input UserAnimeListWhereUniqueInput {
+  userId: String
 }
 
 type UserCountAggregate {
@@ -863,6 +3250,7 @@ type UserCountAggregate {
   email: Int!
   id: Int!
   locale: Int!
+  updatedAt: Int!
   username: Int!
 }
 
@@ -887,6 +3275,7 @@ input UserCreateWithoutCustomerInput {
   id: String!
   locale: String
   refreshToken: String
+  updatedAt: DateTime
   username: String!
 }
 
@@ -898,6 +3287,7 @@ type UserMaxAggregate {
   email: String
   id: String
   locale: String
+  updatedAt: DateTime
   username: String
 }
 
@@ -909,37 +3299,14 @@ type UserMinAggregate {
   email: String
   id: String
   locale: String
+  updatedAt: DateTime
   username: String
 }
 
-type UserSessionCountAggregate {
-  _all: Int!
-  data: Int!
-  expiresAt: Int!
-  id: Int!
-  sid: Int!
-}
-
-type UserSessionMaxAggregate {
-  data: String
-  expiresAt: DateTime
-  id: String
-  sid: String
-}
-
-type UserSessionMinAggregate {
-  data: String
-  expiresAt: DateTime
-  id: String
-  sid: String
-}
-
-input UserUpdateOneWithoutCustomerNestedInput {
+input UserUpdateOneRequiredWithoutCustomerNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutCustomerInput
   create: UserCreateWithoutCustomerInput
-  delete: Boolean
-  disconnect: Boolean
   update: UserUpdateWithoutCustomerInput
   upsert: UserUpsertWithoutCustomerInput
 }
@@ -954,6 +3321,7 @@ input UserUpdateWithoutCustomerInput {
   id: StringFieldUpdateOperationsInput
   locale: NullableStringFieldUpdateOperationsInput
   refreshToken: NullableStringFieldUpdateOperationsInput
+  updatedAt: NullableDateTimeFieldUpdateOperationsInput
   username: StringFieldUpdateOperationsInput
 }
 

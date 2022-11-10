@@ -27,3 +27,7 @@ export function classExtends<T extends AbstractCtor>(
 
   return false
 }
+
+export const isFunction = (val: unknown): boolean => typeof val === 'function'
+export const isEmpty = (array: unknown[]): boolean =>
+  !(array && array.length > 0)

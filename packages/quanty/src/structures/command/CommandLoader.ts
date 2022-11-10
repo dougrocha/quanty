@@ -37,8 +37,8 @@
 //       `Starting to load ${
 //         commandsDir ? `commands. Path: ${commandsDir}` : `default commands.`
 //       }`,
-//     )
-//     return
+//       )
+
 //     const commandsPath: string = resolve(
 //       defaultCommands
 //         ? `${__dirname}/base`
@@ -68,10 +68,10 @@
 //     })
 //   }
 
-//   /**
-//    * Will only run if test commands are available
-//    * @param devGuilds Test Guilds
-//    */
+/**
+ * Will only run if test commands are available
+ * @param devGuilds Test Guilds
+ */
 //   public async loadTestCommands(devGuilds: string[] | string) {
 //     this.client?.once('ready', async () => {
 //       // Will go through every dev guild and complete task

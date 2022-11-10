@@ -4,12 +4,8 @@ export const guildStub = (): Guild => ({
   id: '123',
   prefix: 'q!',
   premium: false,
-  guildSettings: {
-    id: '123',
-    defaultJoinRole: '123',
-    djRole: '123',
-    globalCooldown: 100,
-    musicTimeOut: true,
-    nsfw: false,
-  },
+  language: 'en_US',
+  createdAt: new Date('2020-01-01'),
+  updatedAt: new Date(Date.now()),
+  timezone: 'America/New_York',
 })

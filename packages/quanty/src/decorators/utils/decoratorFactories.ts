@@ -18,14 +18,25 @@ export function createParameterDecorator(
   return fn
 }
 
-export const setMetaData = (key: string, value: unknown): ClassDecorator => {
-  return createClassDecorator(target => {
-    Object.defineProperty(target.prototype, key, {
-      value,
-      enumerable: false,
-      configurable: true,
-      writable: true,
-    })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const SetMetadata = <K = string, V = any>(
+  metadataKey: K,
+  metadataValue: V,
+) => {
+  const decoratorFactory = (
+    target: object,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    key?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    descriptor?: any,
+  ) => {
+    if (descriptor) {
+      Reflect.defineMetadata(metadataKey, metadataValue, descriptor.value)
+      return descriptor
+    }
+    Reflect.defineMetadata(metadataKey, metadataValue, target)
     return target
-  })
+  }
+  decoratorFactory.KEY = metadataKey
+  return decoratorFactory
 }

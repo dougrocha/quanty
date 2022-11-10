@@ -1,7 +1,7 @@
 import {
-  UserCreateWithoutCustomerInput,
-  User,
   Customer,
+  User,
+  UserCreateWithoutCustomerInput,
 } from '../../@generated'
 
 export interface IUsersService {

@@ -37,7 +37,7 @@ export class SubscriptionsResolver {
 
     const customer = await this.prisma.customer.findUnique({
       where: {
-        userId: input.userId,
+        discordId: input.userId,
       },
     })
 

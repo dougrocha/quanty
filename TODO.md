@@ -37,7 +37,7 @@ Gonna copy some ideas from other frameworks - [sapphirejs](https://www.sapphirej
 
 - [ ] Try to incorporate new Slash Command Builder for usability and readability
 
-- [ ] Allow users to add preconditions, similar to to verify but class [link](https://www.sapphirejs.dev/docs/Guide/preconditions/creating-your-own-preconditions)
+- [x] Allow users to add preconditions, similar to to verify but class [link](https://www.sapphirejs.dev/docs/Guide/preconditions/creating-your-own-preconditions)
 
 - [ ] Add select functions/values for usability - Ex. Time class - `Time.Second * 10` = 10 seconds. Allow for webhooks to send cron jobs for specific plugins such as a birthday plugin.
 

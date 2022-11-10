@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common'
+import { Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -27,10 +27,10 @@ export const redisClient = createClient({
 redisClient
   .connect()
   .then(() => {
-    console.log('Redis client connected')
+    Logger.log('Redis client connected')
   })
   .catch(err => {
-    console.log(err)
+    Logger.log(err)
   })
 
 export const useSessionMiddleware = session({
@@ -38,10 +38,8 @@ export const useSessionMiddleware = session({
   cookie: {
     httpOnly: true,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
-    secure: false,
-    domain: ENV === 'production' ? 'quanty.xyz' : undefined,
-    path: '/',
-    sameSite: 'lax',
+    secure: ENV === 'production',
+    domain: ENV === 'production' ? '.quanty.xyz' : undefined,
   },
   secret: process.env.SESSION_COOKIE,
   resave: false,
@@ -90,10 +88,12 @@ async function bootstrap() {
     app.use(helmet())
   }
 
-  await app.listen(PORT, async () => {
-    console.log('NODE_ENV:', ENV)
+  app.enableShutdownHooks()
 
-    console.log(`Quanty Backend running at ${await app.getUrl()}`)
+  await app.listen(PORT, async () => {
+    Logger.log('NODE_ENV:', ENV)
+
+    Logger.log(`Quanty Backend running at ${await app.getUrl()}`)
   })
 }
 

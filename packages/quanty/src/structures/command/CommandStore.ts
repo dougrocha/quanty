@@ -1,48 +1,21 @@
-import type {
-  ApplicationCommandOptionData,
-  Awaitable,
-  CommandInteraction,
-  ContextMenuCommandInteraction,
-} from 'discord.js'
-import { Logger } from '../../util'
-
-import { Part } from '../part/Part'
+import { TEST_COMMAND_METADATA } from '../../constants'
 import { Store } from '../store/Store'
-
-export interface CommandOptions extends Part.Options {
-  readonly description: string
-
-  readonly detailedDescription?: string
-}
-
-export namespace Command {
-  export type Options = CommandOptions & ApplicationCommandOptionData
-}
-
-export class Command<O extends Command.Options = Command.Options> extends Part {
-  public description?: string
-
-  public detailedDescription?: string
-
-  protected logger?: Logger
-
-  // public readonly slashOptions?: ApplicationCommandOptionData
-
-  public constructor(context: Part.Context, options: O = {} as O) {
-    super(context, options)
-
-    this.logger = new Logger(`COMMAND:${this.name}`)
-  }
-
-  public run?(interaction: CommandInteraction): Awaitable<void>
-
-  public contextRun?(
-    interaction: ContextMenuCommandInteraction,
-  ): Awaitable<void>
-}
+import { Command } from './Command'
 
 export class CommandStore extends Store<Command> {
   public constructor() {
     super(Command, { name: 'commands' })
+  }
+
+  public async insert(part: Command): Promise<Command> {
+    super.insert(part)
+
+    const isTestCommand = Reflect.getMetadata(TEST_COMMAND_METADATA, part)
+
+    if (isTestCommand) {
+      // Load command in test guilds here
+    }
+
+    return part
   }
 }

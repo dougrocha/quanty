@@ -1,16 +1,12 @@
+import { Test, SlashCommand, Command, CommandReturn } from '@quanty/framework'
 import {
-  CommandReturnType,
-  Category,
-  Command,
-  Test,
-  SlashCommand,
-  CommandOptions,
-} from '@quanty/framework'
-import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
+  ApplicationCommandOptionType,
+  CommandInteraction,
+  EmbedBuilder,
+} from 'discord.js'
 import NekoClient from 'nekos.life'
 
 @Test()
-@Category('nsfw')
 @SlashCommand('anime', {
   description: 'Sends an anime picture.',
   options: [
@@ -33,33 +29,33 @@ import NekoClient from 'nekos.life'
   ],
 })
 export class AnimeCommand extends Command {
-  async run({ options }: CommandOptions): CommandReturnType {
+  async run({ options }: CommandInteraction): Promise<CommandReturn> {
     const neko = new NekoClient()
 
-    const embed = new EmbedBuilder()
-
-    const type = options.getString('type')
+    const type = options.get('type')
 
     if (!type) {
-      const allsfw = [
-        await neko.waifu(),
-        await neko.baka(),
-        await neko.cuddle(),
-        await neko.pat(),
-        await neko.tickle(),
-        await neko.feed(),
-        await neko.hug(),
-        await neko.kiss(),
-        await neko.slap(),
-        await neko.smug(),
-        await neko.poke(),
-        await neko.holo(),
+      const allSfw = [
+        neko.waifu(),
+        neko.baka(),
+        neko.cuddle(),
+        neko.pat(),
+        neko.tickle(),
+        neko.feed(),
+        neko.hug(),
+        neko.kiss(),
+        neko.slap(),
+        neko.smug(),
+        neko.poke(),
+        neko.holo(),
       ]
 
-      const res = allsfw[Math.floor(Math.random() * allsfw.length)]
+      const res = await allSfw[Math.floor(Math.random() * allSfw.length)]
 
       return {
-        embeds: [embed.setImage(res.url).setColor('#FF5F9F')],
+        embeds: [
+          new EmbedBuilder({ image: { url: res.url } }).setColor('#FF5F9F'),
+        ],
       }
     }
 
@@ -68,11 +64,11 @@ export class AnimeCommand extends Command {
     const url = (await res()).url
 
     return {
-      embeds: [embed.setImage(url).setColor('#FF5F9F')],
+      embeds: [new EmbedBuilder({ image: { url } }).setColor('#FF5F9F')],
     }
   }
 
-  async error(): CommandReturnType {
+  async error(error: unknown, interaction: CommandInteraction) {
     throw new Error('Method not implemented.')
   }
 }

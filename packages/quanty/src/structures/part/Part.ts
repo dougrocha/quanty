@@ -1,7 +1,7 @@
 import type { Awaitable } from 'discord.js'
 import { container, Container } from '../container'
 import type { Store } from '../store/Store'
-import { PartLocation } from './PartLocation'
+import { PartLocation, PartLocationJSON } from './PartLocation'
 
 interface PartContext {
   /**
@@ -35,6 +35,11 @@ interface PartOptions {
    * If this part is enabled
    */
   readonly enabled?: boolean
+
+  /**
+   * Set the name of the Part to the constructor name of the object
+   */
+  readonly setConstructorName?: boolean
 }
 
 export class Part<O extends PartOptions = PartOptions> {
@@ -52,6 +57,7 @@ export class Part<O extends PartOptions = PartOptions> {
     this.store = context.store
     this.location = new PartLocation(context.path, context.root)
     if (!this.name) this.name = options.name ?? context.name
+    if (options.setConstructorName) this.name = this.constructor.name
     this.options = options as O
     this.enabled = options.enabled ?? true
   }
@@ -76,9 +82,26 @@ export class Part<O extends PartOptions = PartOptions> {
   public async reload() {
     await this.store.load(this.location.root, this.location.relative)
   }
+
+  public toJSON(): PartJSON {
+    return {
+      location: this.location.toJSON(),
+      name: this.name,
+      enabled: this.enabled,
+      options: this.options,
+    }
+  }
 }
 
 export namespace Part {
   export type Options = PartOptions
   export type Context = PartContext
+  export type JSON = PartJSON
+}
+
+export interface PartJSON {
+  location: PartLocationJSON
+  name: string
+  enabled: boolean
+  options: PartOptions
 }

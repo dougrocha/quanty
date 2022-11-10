@@ -1,3 +1,6 @@
 export * from './client'
 export * from './command'
 export * from './event'
+export * from './guards'
+export * from './part'
+export * from './container'

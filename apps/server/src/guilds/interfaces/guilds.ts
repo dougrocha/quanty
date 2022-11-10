@@ -3,14 +3,11 @@ import { Observable } from 'rxjs'
 
 import {
   Guild,
-  GuildPlugins,
-  GuildPluginsWhereUniqueInput,
-  GuildSettings,
-  GuildSettingsWhereUniqueInput,
+  GuildPlugin,
+  GuildPluginWhereUniqueInput,
   GuildWhereUniqueInput,
   UpdateOneGuildArgs,
-  UpdateOneGuildPluginsArgs,
-  UpdateOneGuildSettingsArgs,
+  UpdateOneGuildPluginArgs,
   User,
 } from '../../@generated'
 import {
@@ -24,16 +21,12 @@ import {
 export interface IGuildsService {
   getGuild(query: GuildWhereUniqueInput): Promise<Guild | null>
   getGuildPlugins(
-    query: GuildPluginsWhereUniqueInput,
-  ): Promise<GuildPlugins | null>
-  getGuildSettings(
-    query: GuildSettingsWhereUniqueInput,
-  ): Promise<GuildSettings | null>
+    query: GuildPluginWhereUniqueInput,
+  ): Promise<GuildPlugin | null>
   getMutualGuilds(user: User): Promise<MutualGuild[]>
 
   updateGuild(query: UpdateOneGuildArgs): Promise<Guild>
-  updateGuildPlugins(args: UpdateOneGuildPluginsArgs): Promise<GuildPlugins>
-  updateGuildSettings(args: UpdateOneGuildSettingsArgs): Promise<GuildSettings>
+  updateGuildPlugins(args: UpdateOneGuildPluginArgs): Promise<GuildPlugin>
 }
 
 export interface IGuildsHttpService {

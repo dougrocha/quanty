@@ -9,12 +9,7 @@ import {
 } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
 
-import {
-  Guild,
-  GuildPlugins,
-  GuildSettings,
-  GuildUpdateInput,
-} from '../../@generated'
+import { Guild, GuildPlugin, GuildUpdateInput } from '../../@generated'
 import {
   GqlThrottlerGuard,
   GraphQLAuthGuard,
@@ -62,16 +57,9 @@ export class GuildConfigResolver {
     return await this.GuildsService.getGuild({ id: guildId })
   }
 
-  @ResolveField(() => GuildPlugins, { name: 'guildPlugins', nullable: true })
-  async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugins | null> {
+  @ResolveField(() => GuildPlugin, { name: 'guildPlugins', nullable: true })
+  async guildPlugins(@Parent() { id }: Guild): Promise<GuildPlugin | null> {
     return await this.GuildsService.getGuildPlugins({
-      id: id,
-    })
-  }
-
-  @ResolveField(() => GuildSettings, { name: 'guildSettings', nullable: true })
-  async guildSettings(@Parent() { id }: Guild): Promise<GuildSettings | null> {
-    return await this.GuildsService.getGuildSettings({
       id: id,
     })
   }

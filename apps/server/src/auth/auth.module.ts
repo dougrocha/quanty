@@ -1,5 +1,6 @@
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
+import { PassportModule } from '@nestjs/passport'
 
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
@@ -17,11 +18,10 @@ import { PrismaService } from '../prisma.service'
 import { UsersService } from '../users/services/users.service'
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, PassportModule.register({ session: true })],
   providers: [
     DiscordStrategy,
     SessionSerializer,
-    AuthService,
     { provide: AUTH_SERVICE, useClass: AuthService },
     { provide: PRISMA_SERVICE, useClass: PrismaService },
     { provide: USERS_SERVICE, useClass: UsersService },
