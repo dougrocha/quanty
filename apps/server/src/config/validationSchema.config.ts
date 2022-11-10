@@ -24,4 +24,3 @@ export const ValidationSchema = Joi.object<NodeJS.ProcessEnv>({
   REDIS_URL: Joi.string(),
   CACHE_TTL: Joi.number().default(20),
 })
-

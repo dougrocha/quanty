@@ -11,7 +11,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
   }
 
   public async run(interaction: Interaction) {
-    if (!this.size) return false
+    if (!super.size) return false
 
     for (const handler of this.values() as IterableIterator<InteractionHandler>) {
       const filter = InteractionHandlerFilters.get(handler.type)

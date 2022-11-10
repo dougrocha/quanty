@@ -32,4 +32,3 @@ export class AuthService implements IAuthenticationService {
     return user
   }
 }
-

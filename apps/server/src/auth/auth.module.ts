@@ -31,4 +31,3 @@ import { UsersService } from '../users/services/users.service'
   exports: [{ provide: AUTH_SERVICE, useClass: AuthService }],
 })
 export class AuthModule {}
-
