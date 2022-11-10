@@ -16,22 +16,22 @@
     "test": "echo TESTING QUANTY/CLI"
   },
   "devDependencies": {
-    "@types/figlet": "^1.5.4",
-    "@types/inquirer": "^8.2.0",
+    "@types/figlet": "^1.5.5",
+    "@types/inquirer": "^9.0.3",
     "config": "*",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.7.0",
+    "ts-node": "^10.9.1",
     "tsconfig": "*",
-    "typescript": "^4.6.3"
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@angular-devkit/core": "^13.3.0",
-    "@angular-devkit/schematics-cli": "^13.3.0",
+    "@angular-devkit/core": "^14.2.9",
+    "@angular-devkit/schematics-cli": "^14.2.9",
     "@quanty/schematics": "*",
     "chalk": "4.1.2",
-    "commander": "^9.1.0",
+    "commander": "^9.4.1",
     "figlet": "^1.5.2",
-    "inquirer": "^8.2.2"
+    "inquirer": "^9.1.4"
   },
   "engines": {
     "node": ">=16.6.0",
