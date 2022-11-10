@@ -1,11 +1,8 @@
-import { On, Event, logger, Logger } from '@quanty/framework'
+import { On, Event } from '@quanty/framework'
 import { Message } from 'discord.js'
 
 @On('messageCreate')
 export class AutoModEvent extends Event<'messageCreate'> {
-  @logger()
-  private logger!: Logger
-
   async run(message: Message<boolean>) {
     // If (!message.guild || message.type != 'DEFAULT') return
     // const guildPlugins = await GuildPluginsModel.findOne(

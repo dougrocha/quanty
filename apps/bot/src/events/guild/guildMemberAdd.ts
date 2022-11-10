@@ -1,11 +1,8 @@
-import { Event, logger, Logger, On } from '@quanty/framework'
-import { GuildMember, TextChannel } from 'discord.js'
+import { Event, On } from '@quanty/framework'
+import { GuildMember } from 'discord.js'
 
 @On('guildMemberAdd')
 export class GuildMemberAddEvent extends Event<'guildMemberAdd'> {
-  @logger()
-  private logger!: Logger
-
   async run(member: GuildMember) {
     // Const { user, guild } = member
     // const guildConfig = await this.fetchGuildConfig(guild.id)

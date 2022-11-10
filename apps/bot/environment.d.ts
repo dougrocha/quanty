@@ -17,6 +17,8 @@ declare namespace NodeJS {
     WEBSOCKET_TOKEN?: string | undefined
 
     DATABASE_URL: string
+
+    REDIS_URL?: string | undefined
   }
 }
 

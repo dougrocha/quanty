@@ -90,6 +90,7 @@
     "chokidar": "^3.5.3",
     "concurrently": "^7.3.0",
     "config": "*",
+    "cross-env": "^7.0.3",
     "discord-api-types": "^0.37.4",
     "eslint": "^8.22.0",
     "jest": "^28.1.3",

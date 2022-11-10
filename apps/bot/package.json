@@ -33,7 +33,8 @@
     "erela.js": "^2.3.3",
     "erela.js-spotify": "^1.2.0",
     "glob": "^7.2.0",
-    "nekos.life": "^3.0.0"
+    "nekos.life": "^3.0.0",
+    "redis": "^4.4.0"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",
