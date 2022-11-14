@@ -46,6 +46,8 @@ const ENV = process.env.NODE_ENV
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         ttl: configService.get('CACHE_TTL'),
+        // Currently RedisCacheStore does not implement a correct interface
+        // Please keep the `as CacheStore` until this is fixed
         store: (await redisStore({
           url: configService.get('REDIS_URL'),
         })) as unknown as CacheStore,
