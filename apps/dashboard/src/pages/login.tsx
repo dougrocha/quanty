@@ -11,10 +11,10 @@ const Login = () => {
   return (
     <div className="text-white">
       <Link href={`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/login`}>
-        <a>Login to your dashboard</a>
+        Login to your dashboard
       </Link>
     </div>
-  )
+  );
 }
 
 export default Login
