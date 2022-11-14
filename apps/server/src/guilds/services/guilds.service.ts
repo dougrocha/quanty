@@ -34,7 +34,7 @@ export class GuildsService implements IGuildsService {
   ) {}
 
   async getGuild(query: GuildWhereUniqueInput): Promise<Guild | null> {
-    // const cachedGuild = await this.cacheManager.get<Guild>(
+    // Const cachedGuild = await this.cacheManager.get<Guild>(
     //   `guildConfig-${query.id}`,
     // )
 
@@ -83,7 +83,7 @@ export class GuildsService implements IGuildsService {
   ): Promise<GuildPlugin | null> {
     if (!query?.id) return null
 
-    // const cachedGuildPlugins = await this.cacheManager.get(
+    // Const cachedGuildPlugins = await this.cacheManager.get(
     //   `guildPlugins-${query.id}`,
     // )
 

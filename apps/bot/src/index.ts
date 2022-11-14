@@ -12,10 +12,6 @@ const redis = createClient({
   url: process.env.REDIS_URL,
 })
 
-redis.on('error', err => console.log('Redis Client Error', err))
-
-void redis.connect()
-
 export const client = new QuantyClient({
   owner: ['571520537587875851'],
   devGuilds: ['871581301713555526'],
@@ -40,4 +36,9 @@ client.setDefaultCommandError(
   'This command is broken. Please contact the server owner.',
 )
 
-void client.login(process.env.BOT_TOKEN)
+void client.login(process.env.BOT_TOKEN).then(() => {
+  redis.on('connect', () => console.log('Redis connected'))
+  redis.on('error', err => console.log('Redis Client Error', err))
+
+  void redis.connect()
+})
