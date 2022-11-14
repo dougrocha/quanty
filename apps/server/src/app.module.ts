@@ -1,6 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import {
   CacheModule,
+  CacheStore,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -10,7 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RouterModule } from '@nestjs/core'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ThrottlerModule } from '@nestjs/throttler'
-import redisStore from 'cache-manager-redis-store'
+import { redisStore } from 'cache-manager-redis-store'
 
 import { AuthModule } from './auth/auth.module'
 import {
@@ -43,11 +44,11 @@ const ENV = process.env.NODE_ENV
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: async (configService: ConfigService) => ({
         ttl: configService.get('CACHE_TTL'),
-        store: redisStore.create({
+        store: (await redisStore({
           url: configService.get('REDIS_URL'),
-        }),
+        })) as unknown as CacheStore,
       }),
       inject: [ConfigService],
     }),
@@ -107,3 +108,4 @@ export class AppModule implements NestModule {
       .forRoutes('*')
   }
 }
+

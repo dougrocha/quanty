@@ -127,18 +127,22 @@ export class GuildsService implements IGuildsService {
       userGuilds = (
         await this.guildsHttpService.fetchUserGuilds(user.accessToken)
       ).data
-      await this.cacheManager.set(`userGuilds:${user.id}`, userGuilds, {
-        ttl: 30, // 30 seconds
-      })
+      await this.cacheManager.set(
+        `userGuilds:${user.id}`,
+        userGuilds,
+        30, // 30 seconds
+      )
     }
 
     let botGuilds = await this.cacheManager.get<DiscordGuild[]>('botGuilds')
 
     if (!botGuilds) {
       botGuilds = (await this.guildsHttpService.fetchBotGuilds()).data
-      await this.cacheManager.set('botGuilds', botGuilds, {
-        ttl: 60 * 2, // 3 minutes
-      })
+      await this.cacheManager.set(
+        'botGuilds',
+        botGuilds,
+        60 * 2, // 3 minutes
+      )
     }
 
     // Find guilds with matching admin permissions
@@ -155,3 +159,4 @@ export class GuildsService implements IGuildsService {
     return adminUserGuilds as MutualGuild[]
   }
 }
+
