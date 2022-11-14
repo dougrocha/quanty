@@ -5253,6 +5253,7 @@ __metadata:
     react-dom: ^18.2.0
     react-hook-form: ^7.39.2
     react-hot-toast: ^2.4.0
+    react-icons: ^4.6.0
     react-spinners-kit: ^1.9.1
     react-textarea-autosize: ^8.4.0
     react-use: ^17.4.0
@@ -15453,6 +15454,15 @@ __metadata:
     react: ">=16"
     react-dom: ">=16"
   checksum: 910214496d6821af8e643c5f7087eff6c76f1395756f3d6cf1fc07a599c582c443cbb5a4cadfc58205acf0845b77a2a10a4ca49b385e772b72edc57dfd38d016
+  languageName: node
+  linkType: hard
+
+"react-icons@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "react-icons@npm:4.6.0"
+  peerDependencies:
+    react: "*"
+  checksum: a08375d4563e381e156d826a8d551dd26c1bf7c424a79139173bf4c8df71e884badd7d4f5fe9faa0d73d18ace265bcc89891b65fd8f808812b1011b612ebbc53
   languageName: node
   linkType: hard
 
