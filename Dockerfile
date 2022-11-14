@@ -14,7 +14,7 @@ RUN apk update
 WORKDIR /app
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN yarn install --frozen-lockfile
+RUN yarn install --immutable
 
 FROM node:alpine AS sourcer
 ARG BUILD_CONTEXT
