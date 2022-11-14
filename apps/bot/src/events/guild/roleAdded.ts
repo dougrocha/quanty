@@ -1,11 +1,8 @@
-import { Event, logger, Logger, On } from '@quanty/framework'
+import { Event, On } from '@quanty/framework'
 import { Role } from 'discord.js'
 
 @On('roleCreate')
-export class GuildMemberAddEvent extends Event<'roleCreate'> {
-  @logger()
-  private logger!: Logger
-
+export class GuildRoleCreateEvent extends Event<'roleCreate'> {
   run(role: Role): void {
     const { members, guild } = role
 

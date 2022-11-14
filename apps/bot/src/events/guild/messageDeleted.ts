@@ -1,11 +1,8 @@
-import { Event, logger, Logger, On } from '@quanty/framework'
+import { Event, On } from '@quanty/framework'
 import { Message } from 'discord.js'
 
 @On('messageDelete')
 export class MessageDeleteEvent extends Event<'messageDelete'> {
-  @logger()
-  private logger!: Logger
-
   async run(message: Message) {
     // Const { guild, channel: msgChannel, author, content } = message
     // if (!guild) return

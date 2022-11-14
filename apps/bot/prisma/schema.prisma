@@ -22,20 +22,37 @@ model Customer {
   @@index([userId])
 }
 
+model GuildUser {
+  id String @id @unique @db.VarChar(255)
+
+  guild   Guild  @relation(fields: [guildId], references: [id])
+  guildId String @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.VarChar(255)
+
+  @@index([guildId, userId], name: "guild_user")
+}
+
 model Guild {
-  id            String             @id @unique @db.VarChar(64)
-  premium       Boolean            @default(false)
-  prefix        String             @default("q!") @db.VarChar(10)
-  subscription  GuildSubscription?
+  id           String             @id @unique @db.VarChar(64)
+  premium      Boolean            @default(false)
+  prefix       String             @default("q!") @db.VarChar(10)
+  subscription GuildSubscription?
+
   guildSettings GuildSettings?
   guildPlugins  GuildPlugins?
+  users         GuildUser[]
 }
 
 model GuildPlugins {
-  id      String  @id @unique @db.VarChar(64)
-  autoMod Boolean @default(false)
-  anime   Boolean @default(false)
-  guild   Guild   @relation(fields: [id], references: [id])
+  id       String  @id @unique @db.VarChar(64)
+  autoMod  Boolean @default(false)
+  anime    Boolean @default(false)
+  birthday Boolean @default(false)
+  guild    Guild   @relation(fields: [id], references: [id])
 }
 
 model GuildSettings {
@@ -86,17 +103,19 @@ model GuildSubscription {
 }
 
 model User {
-  id                         String    @id @unique @db.VarChar(64)
-  username                   String    @db.VarChar(64)
-  discriminator              String    @db.Char(4)
-  email                      String?   @unique @db.VarChar(254)
-  avatar                     String?   @db.VarChar(254)
-  createdAt                  DateTime  @default(now())
-  locale                     String?   @db.VarChar(10)
-  accessToken                String?   @db.VarChar(100)
-  refreshToken               String?   @db.VarChar(100)
-  acceptedTermsAndConditions Boolean   @default(false)
+  id                         String      @id @unique @db.VarChar(64)
+  username                   String      @db.VarChar(64)
+  discriminator              String      @db.Char(4)
+  birthday                   DateTime?
+  email                      String?     @unique @db.VarChar(254)
+  avatar                     String?     @db.VarChar(254)
+  createdAt                  DateTime    @default(now())
+  locale                     String?     @db.VarChar(10)
+  accessToken                String?     @db.VarChar(100)
+  refreshToken               String?     @db.VarChar(100)
+  acceptedTermsAndConditions Boolean     @default(false)
   customer                   Customer?
+  guildUsers                 GuildUser[]
 }
 
 enum Subscription_status {

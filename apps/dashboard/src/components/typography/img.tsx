@@ -1,4 +1,4 @@
-import Image, { ImageProps } from 'next/future/image'
+import Image, { ImageProps } from 'next/image'
 import React from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,3 +7,4 @@ const CustomImage = (props: ImageProps) => (
 )
 
 export default CustomImage
+

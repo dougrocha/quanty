@@ -72,3 +72,4 @@ export class AnimeCommand extends Command {
     throw new Error('Method not implemented.')
   }
 }
+

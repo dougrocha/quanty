@@ -1,5 +1,5 @@
-import { PlusIcon } from '@heroicons/react/outline'
-import Image from 'next/future/image'
+import { PlusIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -68,8 +68,11 @@ const GuildSelectionDropdown = ({
           <PlusIcon className="h-6 w-6 text-gray-200" />
 
           {!sidebarShrinked && (
-            <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}>
-              <a className="ml-3">Add a new server</a>
+            <Link
+              href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}
+              className="ml-3"
+            >
+              Add a new server
             </Link>
           )}
         </li>
@@ -79,3 +82,4 @@ const GuildSelectionDropdown = ({
 }
 
 export default GuildSelectionDropdown
+

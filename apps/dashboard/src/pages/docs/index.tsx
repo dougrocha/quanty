@@ -16,24 +16,30 @@ const Home: NextPage = () => {
         Join the Quantum Realm for future updates.
       </p>
       <div className="mt-11 flex flex-col space-y-5">
-        <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}>
-          <a className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-bright-purple">
+        <Link
+          href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_BOT_INVITE}
+          className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-bright-purple">
+          
             Invite Quanty
-          </a>
+          
         </Link>
-        <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}>
-          <a className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-purple-10">
+        <Link
+          href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}
+          className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-purple-10">
+          
             Support Server
-          </a>
+          
         </Link>
-        <Link href={`${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/dashboard`}>
-          <a className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-purple-10">
+        <Link
+          href={`${process.env.NEXT_PUBLIC_QUANTY_APP_URL}/dashboard`}
+          className="rounded-3xl bg-primary-lime-green px-12 py-2 text-center no-underline dark:bg-primary-purple-10">
+          
             Dashboard (Alpha)
-          </a>
+          
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 export default Home

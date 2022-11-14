@@ -18,10 +18,12 @@ const OverviewPage = () => {
       title="Overview"
       description="What would you like to change today?"
       actionButton={
-        <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}>
-          <a className="whitespace-nowrap rounded-3xl bg-primary-bright-purple px-6 py-2 text-center">
+        <Link
+          href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}
+          className="whitespace-nowrap rounded-3xl bg-primary-bright-purple px-6 py-2 text-center">
+          
             Support Server
-          </a>
+          
         </Link>
       }
       separateTitle
@@ -36,10 +38,12 @@ const OverviewPage = () => {
               more.
             </p>
 
-            <Link href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}>
-              <a className="whitespace-nowrap rounded-3xl bg-primary-bright-purple px-4 py-2 text-sm">
+            <Link
+              href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}
+              className="whitespace-nowrap rounded-3xl bg-primary-bright-purple px-4 py-2 text-sm">
+              
                 Support Server
-              </a>
+              
             </Link>
           </div>
         </div>
@@ -47,7 +51,7 @@ const OverviewPage = () => {
         <OverviewPluginsPage />
       </div>
     </DashboardContent>
-  )
+  );
 }
 
 OverviewPage.getLayout = function getLayout(page: ReactElement) {

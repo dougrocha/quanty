@@ -11,13 +11,15 @@ const Custom404 = () => {
       <p className=" text-2xl text-secondary-white">
         Sorry, the page you were trying to access may be lost forever.
       </p>
-      <Link href="/">
-        <a className="mt-5 w-fit rounded-2xl bg-primary-bright-purple px-4 py-2 text-lg transition-transform hover:scale-105 ">
+      <Link
+        href="/"
+        className="mt-5 w-fit rounded-2xl bg-primary-bright-purple px-4 py-2 text-lg transition-transform hover:scale-105 ">
+        
           Go Home
-        </a>
+        
       </Link>
     </div>
-  )
+  );
 }
 
 Custom404.getLayout = function getLayout(page: ReactElement) {

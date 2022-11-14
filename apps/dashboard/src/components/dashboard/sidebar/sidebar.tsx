@@ -1,8 +1,8 @@
-import { MenuAlt2Icon } from '@heroicons/react/outline'
-import { ChevronDoubleLeftIcon } from '@heroicons/react/solid'
+import { Bars2Icon } from '@heroicons/react/24/outline'
+import { ChevronDoubleLeftIcon } from '@heroicons/react/24/solid'
 import { useAtom, useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useMedia } from 'react-use'
@@ -52,7 +52,7 @@ const DashboardSidebar = () => {
     >
       <div className="flex w-full flex-col">
         <div className="relative mb-5 flex w-full items-center justify-center">
-          <MenuAlt2Icon
+          <Bars2Icon
             className={`h-7 w-7 cursor-pointer text-secondary-white transition-colors hover:text-primary-white ${
               !shrink ? 'hidden' : ''
             }`}
@@ -119,3 +119,4 @@ const DashboardSidebar = () => {
 }
 
 export default DashboardSidebar
+

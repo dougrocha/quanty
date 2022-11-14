@@ -1,6 +1,6 @@
-import { ChevronDownIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import dynamic from 'next/dynamic'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { useRef, useState } from 'react'
 
 import LoginButton from './buttons/loginButton'
@@ -73,3 +73,4 @@ const UserProfile = ({ small }: IUserProfileTypes) => {
 }
 
 export default UserProfile
+
