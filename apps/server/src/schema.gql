@@ -254,11 +254,11 @@ type CustomCommandMinAggregate {
 type Customer {
   _count: CustomerCount!
   createdAt: DateTime!
-  discordId: String!
   email: String
   id: ID!
   subscriptions: [GuildSubscription!]
   user: User!
+  userId: String!
 }
 
 type CustomerCount {
@@ -268,9 +268,9 @@ type CustomerCount {
 type CustomerCountAggregate {
   _all: Int!
   createdAt: Int!
-  discordId: Int!
   email: Int!
   id: Int!
+  userId: Int!
 }
 
 input CustomerCreateNestedOneWithoutSubscriptionsInput {
@@ -293,16 +293,16 @@ input CustomerCreateWithoutSubscriptionsInput {
 
 type CustomerMaxAggregate {
   createdAt: DateTime
-  discordId: String
   email: String
   id: String
+  userId: String
 }
 
 type CustomerMinAggregate {
   createdAt: DateTime
-  discordId: String
   email: String
   id: String
+  userId: String
 }
 
 input CustomerUpdateOneRequiredWithoutSubscriptionsNestedInput {
@@ -326,9 +326,9 @@ input CustomerUpsertWithoutSubscriptionsInput {
 }
 
 input CustomerWhereUniqueInput {
-  discordId: String
   email: String
   id: String
+  userId: String
 }
 
 """

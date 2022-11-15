@@ -22,6 +22,7 @@
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
+    "./prisma/**/*.ts",
     "environment.d.ts",
     ".eslintrc.js"
   ],

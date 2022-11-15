@@ -41,10 +41,10 @@ model Customer {
 
   subscriptions GuildSubscription[]
 
-  user      User   @relation(fields: [discordId], references: [id])
-  discordId String @unique @db.VarChar(64)
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.VarChar(64)
 
-  @@index([discordId])
+  @@index([userId])
 }
 
 model GuildLog {
@@ -109,7 +109,7 @@ model Guild {
   timezone String  @default("America/New_York") @db.VarChar(64)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   subscription           GuildSubscription?
   guildPlugin            GuildPlugin?

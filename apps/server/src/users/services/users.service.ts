@@ -70,7 +70,7 @@ export class UsersService implements IUsersService {
   async findCustomer(id: string): Promise<Customer | null> {
     return this.prisma.customer.findUnique({
       where: {
-        discordId: id,
+        userId: id,
       },
     })
   }
