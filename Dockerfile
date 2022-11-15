@@ -40,4 +40,4 @@ WORKDIR /app
 COPY --from=installer /app .
 
 EXPOSE 1-65000
-CMD node apps/server/dist/src/main.js
+CMD node apps/api/dist/src/main.js
