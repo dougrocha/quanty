@@ -10,6 +10,11 @@ export class HealthController {
     private botHealthIndicator: BotHealthIndicator,
   ) {}
 
+  /**
+   * GET /api/health
+   *
+   * This is a health check endpoint that can be used to check if the API is up and running.
+   */
   @Get()
   @HealthCheck()
   check() {

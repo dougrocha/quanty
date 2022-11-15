@@ -20,6 +20,8 @@ declare namespace NodeJS {
 
     FRONTEND_URL: string
 
+    NODE_ENV: 'development' | 'production' | 'test'
+
     DATABASE_URL: string
 
     REDIS_HOST: string
