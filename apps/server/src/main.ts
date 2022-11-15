@@ -7,7 +7,6 @@ import compression from 'compression'
 import connectRedis from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-import helmet from 'helmet'
 import passport from 'passport'
 import { createClient } from 'redis'
 
@@ -64,7 +63,7 @@ async function bootstrap() {
     credentials: true,
   })
 
-  app.use(useSessionMiddleware)
+  app.use(() => useSessionMiddleware)
 
   app.use(cookieParser())
 
@@ -85,9 +84,9 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document)
   }
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(helmet())
-  }
+  // if (process.env.NODE_ENV === 'production') {
+  //   app.use(helmet())
+  // }
 
   app.enableShutdownHooks()
 
