@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from '@heroicons/react/solid'
+import { ArrowRightIcon } from '@heroicons/react/24/solid'
 
 interface IHelpCard {
   title: string
@@ -18,3 +18,4 @@ const HelpCard = ({ title, actionText }: IHelpCard) => {
 }
 
 export default HelpCard
+

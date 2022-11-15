@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { useAtomValue } from 'jotai'
 import React, { useState } from 'react'
 
@@ -62,3 +62,4 @@ const SidebarDrawers = ({ title, items }: ISidebarDrawer) => {
 }
 
 export default SidebarDrawers
+

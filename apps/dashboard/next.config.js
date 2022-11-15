@@ -23,7 +23,6 @@ const nextConfig = {
   images: {
     domains: ['cdn.discordapp.com'],
   },
-  experimental: { images: { allowFutureImage: true } },
   env: {
     NEXT_PUBLIC_QUANTY_APP_URL: process.env.NEXT_PUBLIC_QUANTY_APP_URL,
     NEXT_PUBLIC_QUANTY_API_URL: process.env.NEXT_PUBLIC_QUANTY_API_URL,
@@ -49,3 +48,4 @@ module.exports = () => {
 
   return config
 }
+

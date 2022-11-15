@@ -1,4 +1,4 @@
-import Image from 'next/future/image'
+import Image from 'next/image'
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -74,14 +74,13 @@ const GuildCardButton = ({
   bot: boolean
 }) => {
   return (
-    <Link href={href}>
-      <a
-        className={`rounded-lg py-2 px-5 ${
-          bot ? 'bg-primary-bright-purple' : 'bg-primary-purple-6'
-        }`}
-      >
-        {text}
-      </a>
+    <Link
+      href={href}
+      className={`rounded-lg py-2 px-5 ${
+        bot ? 'bg-primary-bright-purple' : 'bg-primary-purple-6'
+      }`}
+    >
+      {text}
     </Link>
   )
 }
@@ -91,3 +90,4 @@ export const GuildCardSkeleton = () => {
     <div className="h-52 w-full animate-pulse overflow-hidden rounded-xl bg-gray-300/50 opacity-50 sm:w-80 md:m-2" />
   )
 }
+

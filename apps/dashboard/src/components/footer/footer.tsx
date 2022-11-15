@@ -27,18 +27,18 @@ const FooterTags = () => {
               {items.map(({ name, route }) => {
                 return (
                   <li className="pt-6" key={name}>
-                    <Link href={route} passHref>
-                      <a className="item">{name}</a>
+                    <Link href={route} passHref className="item">
+                      {name}
                     </Link>
                   </li>
-                )
+                );
               })}
             </ul>
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 export default Footer

@@ -16,12 +16,12 @@ export const DefaultCategory: ISidebarItems[] = [
   {
     name: 'Overview',
     link: '',
-    icon: 'ViewGridIcon',
+    icon: 'SquaresPlusIcon',
   },
   {
     name: 'Settings',
     link: 'settings',
-    icon: 'CogIcon',
+    icon: 'Cog8ToothIcon',
   },
   // {
   //   name: 'Premium',
@@ -35,7 +35,7 @@ export const ServerManagementCategory: ISidebarItems[] = [
   {
     name: 'Moderation',
     link: 'moderation',
-    icon: 'AnnotationIcon',
+    icon: 'CircleStackIcon',
   },
   {
     name: 'Test',
@@ -55,3 +55,4 @@ export const sidebarContents: ISidebarContents[] = [
   //   items: ServerManagementCategory,
   // },
 ]
+

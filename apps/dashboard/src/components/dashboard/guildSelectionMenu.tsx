@@ -1,6 +1,6 @@
-import { ChevronDownIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { useAtomValue } from 'jotai'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { useRef, useState } from 'react'
 
 import GuildSelectionDropdown from './guildSelectionDropdown'
@@ -69,3 +69,4 @@ const GuildSelectionMenu = () => {
 }
 
 export default GuildSelectionMenu
+

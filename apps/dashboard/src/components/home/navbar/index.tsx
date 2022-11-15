@@ -45,26 +45,24 @@ const NavLinks = ({
   toggleOpen?: () => void
   open?: boolean
 }) => {
-  return (
-    <>
-      {NavLinksData.map((link, index) => {
-        return (
-          <Link key={index} href={link.path} passHref>
-            <li
-              className={`w-full cursor-pointer py-4 text-center ${
-                open ? 'hover:bg-primary-pale-purple' : ''
-              }`}
-              onClick={() => {
-                if (toggleOpen) toggleOpen()
-              }}
-            >
-              <a>{link.name}</a>
-            </li>
-          </Link>
-        )
-      })}
-    </>
-  )
+  return <>
+    {NavLinksData.map((link, index) => {
+      return (
+        <Link key={index} href={link.path} passHref legacyBehavior>
+          <li
+            className={`w-full cursor-pointer py-4 text-center ${
+              open ? 'hover:bg-primary-pale-purple' : ''
+            }`}
+            onClick={() => {
+              if (toggleOpen) toggleOpen()
+            }}
+          >
+            <a>{link.name}</a>
+          </li>
+        </Link>
+      );
+    })}
+  </>;
 }
 
 export default Navbar
