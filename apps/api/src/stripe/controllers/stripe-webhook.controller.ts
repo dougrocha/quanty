@@ -24,6 +24,11 @@ export class StripeWebhookController {
     @Inject(STRIPE_CLIENT) private readonly stripe: Stripe,
   ) {}
 
+  /**
+   * POST /api/stripe/webhook
+   *
+   * This is a webhook endpoint that can be used to receive events from Stripe.
+   */
   @Post()
   async handleIncomingEvent(
     @Headers('stripe-signature') signature: string,

@@ -19,6 +19,12 @@ export class StripeController {
     @Inject(PRISMA_SERVICE) private readonly prisma: PrismaClient,
     @Inject(STRIPE_CLIENT) private readonly stripe: Stripe,
   ) {}
+
+  /**
+   * GET /api/stripe
+   *
+   * This will return the stripe config to payment pages.
+   */
   @Get('config')
   getPublicKey(@Res() response: Response) {
     response.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY })
