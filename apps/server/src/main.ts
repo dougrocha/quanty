@@ -98,3 +98,5 @@ async function bootstrap() {
 }
 
 void bootstrap()
+
+/// restart container
