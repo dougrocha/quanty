@@ -63,7 +63,7 @@ async function bootstrap() {
     credentials: true,
   })
 
-  app.use(() => useSessionMiddleware)
+  app.use(useSessionMiddleware)
 
   app.use(cookieParser())
 
