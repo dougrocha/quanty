@@ -73,6 +73,7 @@ async function bootstrap() {
   app.use(passport.initialize())
   app.use(passport.session())
 
+  // Only show for dev setup
   if (process.env.NODE_ENV === 'development') {
     const config = new DocumentBuilder()
       .setTitle('Quanty API')
