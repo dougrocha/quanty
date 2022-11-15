@@ -38,7 +38,7 @@ export const useSessionMiddleware = session({
     httpOnly: true,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
     path: '/',
-    sameSite: 'none',
+    sameSite: 'lax',
     secure: ENV === 'production',
     domain: ENV === 'production' ? '.quanty.xyz' : 'localhost',
   },
