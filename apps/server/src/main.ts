@@ -37,7 +37,6 @@ export const useSessionMiddleware = session({
   cookie: {
     httpOnly: true,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
-    path: '/',
     secure: ENV === 'production',
     domain: ENV === 'production' ? '.quanty.xyz' : 'localhost',
   },
