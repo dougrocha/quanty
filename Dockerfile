@@ -40,4 +40,5 @@ WORKDIR /app
 COPY --from=installer /app .
 
 EXPOSE 1-65000
+# TODO: Eventually make this file a template and pass in the command
 CMD node apps/api/dist/src/main.js
