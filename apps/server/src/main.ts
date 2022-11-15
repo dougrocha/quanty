@@ -37,8 +37,10 @@ export const useSessionMiddleware = session({
   cookie: {
     httpOnly: true,
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
+    path: '/',
+    sameSite: 'none',
     secure: ENV === 'production',
-    domain: ENV === 'production' ? '.quanty.xyz' : undefined,
+    domain: ENV === 'production' ? '.quanty.xyz' : 'localhost',
   },
   secret: process.env.SESSION_COOKIE,
   resave: false,
@@ -91,7 +93,7 @@ async function bootstrap() {
   app.enableShutdownHooks()
 
   await app.listen(PORT, async () => {
-    Logger.log('NODE_ENV:', ENV)
+    Logger.log(`NODE_ENV: ${ENV}`)
 
     Logger.log(`Quanty Backend running at ${await app.getUrl()}`)
   })

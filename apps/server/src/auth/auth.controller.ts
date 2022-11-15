@@ -26,7 +26,8 @@ export class AuthController {
    */
   @Get('login')
   @UseGuards(DiscordAuthGuard)
-  login() {
+  login(@Req() req: Request) {
+    console.log(req.session.cookie)
     return
   }
 

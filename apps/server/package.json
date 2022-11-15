@@ -8,10 +8,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "prisma generate && swc src -s -d ./dist && tsc -p tsconfig.build.json",
-    "start": "nest start",
+    "start": "NODE_ENV=production nest start",
     "test:dev": "node -r @swc/register src/main.ts",
     "debug": "nest start --debug --watch",
-    "dev": "cross-env NODE_ENV=development nest start --watch",
+    "dev": "NODE_ENV=development nest start --watch",
     "watch-devs": "concurrently \"yarn watch-compile\" \"yarn watch-tsc\" \"yarn watch-dev\"",
     "watch-compile": "swc src -w -s -d ./dist",
     "watch-prisma": "prisma generate --watch",
