@@ -39,7 +39,7 @@ export const useSessionMiddleware = session({
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
     sameSite: 'lax',
     domain: ENV === 'production' ? '.quanty.xyz' : 'localhost',
-    secure: ENV === 'production' ? true : false,
+    // secure: ENV === 'production' ? true : false,
   },
   secret: process.env.SESSION_COOKIE,
   resave: false,
