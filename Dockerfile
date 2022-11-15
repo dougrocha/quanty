@@ -1,5 +1,5 @@
 
-FROM node:alpine AS builder
+FROM node:19-alpine AS builder
 ARG BUILD_CONTEXT
 RUN apk add --no-cache libc6-compat
 RUN apk update
@@ -11,7 +11,7 @@ RUN echo "Pruning: $BUILD_CONTEXT"
 RUN turbo prune --scope=$BUILD_CONTEXT --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM node:alpine AS installer
+FROM node:19-alpine AS installer
 ARG BUILD_CONTEXT
 RUN apk add --no-cache libc6-compat
 RUN apk update
