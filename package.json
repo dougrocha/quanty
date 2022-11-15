@@ -14,8 +14,7 @@
     "start": "turbo run start",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "format": "turbo run format",
-    "prepare": "husky install"
+    "format": "turbo run format"
   },
   "devDependencies": {
     "lint-staged": "^13.0.3",
@@ -26,3 +25,4 @@
     "*.json": "prettier --write"
   }
 }
+
