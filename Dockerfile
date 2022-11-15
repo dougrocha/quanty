@@ -35,4 +35,4 @@ FROM node:alpine AS runner
 COPY --from=installer /app .
 
 EXPOSE 1-65000
-CMD yarn start
+CMD ["yarn", "start"]
