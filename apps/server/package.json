@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "swc src -s -d ./dist && tsc -p tsconfig.build.json",
+    "build": "prisma generate && swc src -s -d ./dist && tsc -p tsconfig.build.json",
     "start": "nest start",
     "test:dev": "node -r @swc/register src/main.ts",
     "debug": "nest start --debug --watch",
