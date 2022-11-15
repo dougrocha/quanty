@@ -70,7 +70,7 @@ describe('Command factory', () => {
       expect(tree.files).toBeUndefined
     })
     it('fails without package.json', () => {
-      tree.create('tsconfig.json', `{extends: "tsconfig/foo.json"}`)
+      tree.create('tsconfig.json', `{extends: "@quanty/tsconfig/foo.json"}`)
       expect(
         tree.files.find(filename => filename === '/tsconfig.json'),
       ).not.toBeUndefined()
@@ -89,3 +89,4 @@ describe('Command factory', () => {
     })
   })
 })
+

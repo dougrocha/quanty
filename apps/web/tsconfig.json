@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/nextjs.json",
+  "extends": "@quanty/tsconfig/nextjs.json",
   "compilerOptions": {
     "baseUrl": "src"
   },
@@ -8,6 +8,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     ".eslintrc.js",
+    "postcss.config.js",
     "environment.d.ts",
     "tailwind.config.js",
     "webpack.config.js",
@@ -15,3 +16,4 @@
   ],
   "exclude": ["node_modules"]
 }
+

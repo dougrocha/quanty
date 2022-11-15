@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/quanty.json",
+  "extends": "@quanty/tsconfig/quanty.json",
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": "./src",
@@ -9,3 +9,4 @@
   "include": ["src", ".eslintrc.js"],
   "exclude": ["src/templates/*/files/**/*", "dist", "node_modules"]
 }
+

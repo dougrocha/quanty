@@ -10,18 +10,18 @@
   "scripts": {
     "prebuild": "rimraf lib",
     "build": "tsc",
-    "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"{src,bin}/**/*.ts\"",
     "test:cli": "tsnd bin/quanty.ts",
     "test": "echo TESTING QUANTY/CLI"
   },
   "devDependencies": {
+    "@quanty/config": "*",
+    "@quanty/tsconfig": "*",
     "@types/figlet": "^1.5.5",
     "@types/inquirer": "^9.0.3",
-    "config": "*",
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.1",
-    "tsconfig": "*",
     "typescript": "^4.8.4"
   },
   "dependencies": {

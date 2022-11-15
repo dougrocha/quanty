@@ -39,7 +39,7 @@ export const useSessionMiddleware = session({
     maxAge: 60000 * 60 * 24 * 7, // 7 Days
     sameSite: 'lax',
     domain: ENV === 'production' ? '.quanty.xyz' : 'localhost',
-    // secure: ENV === 'production' ? true : false,
+    // Secure: ENV === 'production' ? true : false,
   },
   secret: process.env.SESSION_COOKIE,
   resave: false,
@@ -85,7 +85,7 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document)
   }
 
-  // if (process.env.NODE_ENV === 'production') {
+  // If (process.env.NODE_ENV === 'production') {
   //   app.use(helmet())
   // }
 

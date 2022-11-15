@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "tsconfig/quanty.json",
+  "extends": "@quanty/tsconfig/quanty.json",
   "compilerOptions": {
     "baseUrl": "./src",
     "outDir": "dist",
@@ -17,3 +17,4 @@
     "transpileOnly": true
   }
 }
+

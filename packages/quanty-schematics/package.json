@@ -13,7 +13,7 @@
     "copy:collection": "cpx src/collection.json dist/src && cpx \"src/templates/**/*.json\" dist/src/templates",
     "copy:templates": "cpx src/templates/**/files/**/*.* dist/src/templates",
     "format": "prettier --write src",
-    "lint": "cross-env TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "TIMING=1 eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest -w 1 --no-cache --config jest.json",
     "test:dev": "jest --watch --verbose false --config jest.json"
   },
@@ -31,14 +31,14 @@
     "@angular-devkit/schematics": "^14.2.9"
   },
   "devDependencies": {
+    "@quanty/config": "*",
+    "@quanty/tsconfig": "*",
     "@schematics/angular": "^14.2.9",
     "@types/node": "^18.11.9",
-    "config": "*",
     "cpx": "^1.5.0",
     "cz-conventional-changelog": "3.3.0",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.7",
-    "tsconfig": "*",
     "typescript": "^4.8.4"
   },
   "engines": {

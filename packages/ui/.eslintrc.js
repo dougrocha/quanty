@@ -1,5 +1,5 @@
 module.exports = {
-  ...require('config/eslint-dashboard'),
+  ...require('@quanty/config/eslint-dashboard'),
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,

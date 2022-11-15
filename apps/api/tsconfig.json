@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/server.json",
+  "extends": "@quanty/tsconfig/server.json",
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
@@ -23,8 +23,8 @@
     "./src/**/*.ts",
     "./test/**/*.ts",
     "./prisma/**/*.ts",
-    "environment.d.ts",
-    ".eslintrc.js"
+    "environment.d.ts"
   ],
   "exclude": ["node_modules"]
 }
+
