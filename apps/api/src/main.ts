@@ -22,17 +22,13 @@ export const redisClient = createClient({
   url: process.env.REDIS_URL,
   legacyMode: true,
 })
-
-redisClient
+  .on('error', err => Logger.log(err))
   .connect()
   .then(() => {
     Logger.log('Redis client connected')
   })
-  .catch(err => {
-    Logger.log(err)
-  })
 
-export const useSessionMiddleware = session({
+export const useSessionMiddleware: any = session({
   store: new RedisStore({ client: redisClient }),
   cookie: {
     httpOnly: true,

@@ -27,19 +27,19 @@
   "license": "MIT",
   "schematics": "./dist/src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^14.2.9",
-    "@angular-devkit/schematics": "^14.2.9"
+    "@angular-devkit/core": "^14.2.10",
+    "@angular-devkit/schematics": "^14.2.10"
   },
   "devDependencies": {
     "@quanty/config": "*",
     "@quanty/tsconfig": "*",
-    "@schematics/angular": "^14.2.9",
-    "@types/node": "^18.11.9",
+    "@schematics/angular": "^14.2.10",
+    "@types/node": "^18.11.18",
     "cpx": "^1.5.0",
     "cz-conventional-changelog": "3.3.0",
-    "rimraf": "^3.0.2",
-    "rxjs": "^7.5.7",
-    "typescript": "^4.9.3"
+    "rimraf": "^4.1.2",
+    "rxjs": "^7.8.0",
+    "typescript": "^4.9.4"
   },
   "engines": {
     "node": ">=16.6.0",
