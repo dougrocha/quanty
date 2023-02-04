@@ -1,0 +1,14 @@
+{
+  "name": "@quanty/lib",
+  "version": "0.1.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx --fix"
+  },
+  "devDependencies": {
+    "@quanty/tsconfig": "*",
+    "typescript": "^4.9.4"
+  }
+}

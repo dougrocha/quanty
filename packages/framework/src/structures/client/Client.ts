@@ -21,6 +21,7 @@ import { EventStore } from '../event/EventStore'
 import { GuardStore } from '../guards/GuardStore'
 import { join } from 'path'
 import { getVersion } from '../../util/getBotVersion'
+import { clientEnv, clientSchema } from '../../util/env'
 
 /**
  * The base {@link Client} for Quanty Framework. When building a Discord bot with this framework, you must either choose to use this class or extend from it.
@@ -75,6 +76,18 @@ export class QuantyClient extends Client {
 
   constructor(options: ClientOptions) {
     super(options)
+
+    // Check ClientEnv
+    const _clientEnv = clientSchema.safeParse(clientEnv)
+
+    if (!_clientEnv.success) {
+      console.error(
+        '❌ Invalid environment variables:\n',
+        //  TODO: Eventually format these errors
+        _clientEnv.error.format(),
+      )
+      throw new Error('Invalid environment variables')
+    }
 
     container.client = this
 

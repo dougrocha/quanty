@@ -5,9 +5,9 @@ import { z } from 'zod'
  * Specify your server-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.
  */
+
 export const serverSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
-
   DATABASE_URL: z.string().url(),
 
   NEXTAUTH_SECRET:
@@ -22,9 +22,12 @@ export const serverSchema = z.object({
     process.env.VERCEL ? z.string() : z.string().url(),
   ),
 
-  DISCORD_CLIENT_ID: z.string(),
-  DISCORD_CLIENT_SECRET: z.string(),
+  DISCORD_CLIENT_ID: z.string().min(1),
+  DISCORD_CLIENT_SECRET: z.string().min(1),
+  DISCORD_CLIENT_TOKEN: z.string().min(1),
 })
+
+// NODE_ENV: z.enum(['development', 'test', 'production']),
 
 /**
  * You can't destruct `process.env` as a regular object in the Next.js
@@ -41,6 +44,7 @@ export const serverEnv = {
 
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+  DISCORD_CLIENT_TOKEN: process.env.DISCORD_CLIENT_TOKEN,
 }
 
 /**
@@ -49,7 +53,8 @@ export const serverEnv = {
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string(),
+  NEXT_PUBLIC_BOT_INVITE_URL: z.string().url(),
+  NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL: z.string().url(),
 })
 
 /**
@@ -59,6 +64,7 @@ export const clientSchema = z.object({
  * @type {{ [k in keyof z.input<typeof clientSchema>]: string | undefined }}
  */
 export const clientEnv = {
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_BOT_INVITE_URL: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+  NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL:
+    process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
 }
-

@@ -15,6 +15,13 @@ export const api = createTRPCNext<AppRouter>({
   config() {
     return {
       transformer,
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            staleTime: 1000 * 60 * 5, // 5 minutes
+          },
+        },
+      },
       links: [
         loggerLink({
           enabled: opts =>

@@ -13,15 +13,17 @@ declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string
+      discordId: string
       // ...other properties
       // role: UserRole;
     } & DefaultSession['user']
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    discordId: string
+    // ...other properties
+    // role: UserRole;
+  }
 }
 
 /**
@@ -44,6 +46,12 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          scope:
+            'identify email guilds applications.commands.permissions.update',
+        },
+      },
     }),
     /**
      * ...add more providers here

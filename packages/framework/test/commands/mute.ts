@@ -33,4 +33,3 @@ export class MuteCommand extends Command {
     }
   }
 }
-

@@ -8,6 +8,7 @@
     "dist/**"
   ],
   "devDependencies": {
+    "@floating-ui/react": "0.19.0",
     "@iconify/react": "^4.1.0",
     "@quanty/config": "*",
     "@quanty/tsconfig": "*",
@@ -20,6 +21,7 @@
     "@types/react": "^18.0.27",
     "autoprefixer": "^10.4.13",
     "chokidar": "^3.5.3",
+    "daisyui": "^2.50.0",
     "eslint": "^8.33.0",
     "lodash": "^4.17.21",
     "next": "^13.1.6",

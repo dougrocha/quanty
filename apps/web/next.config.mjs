@@ -7,6 +7,23 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
+  images: {
+    domains: ['cdn.discordapp.com'],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/invite',
+        destination: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+        permanent: true,
+      },
+      {
+        source: '/discord',
+        destination: process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
+        permanent: true,
+      },
+    ]
+  },
   reactStrictMode: true,
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
@@ -14,6 +31,8 @@ const config = {
     '@quanty/auth',
     '@quanty/db',
     '@quanty/ui',
+    '@quanty/lib',
+    '@quanty/config',
   ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: !!process.env.CI },

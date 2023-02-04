@@ -18,11 +18,22 @@
     "format": "turbo run format"
   },
   "devDependencies": {
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "turbo": "^1.6.3"
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
+    "@types/eslint": "^8",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-turbo": "^0.0.7",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.3",
+    "prettier-plugin-tailwindcss": "^0.2.2",
+    "turbo": "^1.7.3"
   },
   "lint-staged": {
     "*.json": "prettier --write"
+  },
+  "dependencies": {
+    "jotai": "^2.0.0"
   }
 }

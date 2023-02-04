@@ -5,7 +5,9 @@
   "private": true,
   "files": [
     "eslint-preset.js",
-    "eslint-dashboard.js"
+    "eslint-dashboard.js",
+    "postcss.config.js",
+    "tailwind.config.js"
   ],
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.6",

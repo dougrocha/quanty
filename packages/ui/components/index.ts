@@ -1,2 +1,3 @@
-export { Modal } from './Modal'
-export { Button } from './Button'
+export * from './Modal'
+export * from './Button'
+export * from './Tooltip'

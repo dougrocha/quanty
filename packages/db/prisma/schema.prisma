@@ -11,10 +11,11 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Post {
-    id      String @id @default(cuid())
-    title   String
-    content String
+model Guild {
+    id        String   @id @default(cuid())
+    discordId String   @unique
+    timezone  String   @default("UTC")
+    joinedAt  DateTime @default(now())
 }
 
 // NextAuth.js Models
@@ -56,6 +57,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    createdAt     DateTime  @default(now())
     accounts      Account[]
     sessions      Session[]
 }
