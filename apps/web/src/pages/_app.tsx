@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import React from 'react'
 import type { AppType } from 'next/app'
 import Head from 'next/head'
+import { Inter, Lato, Montserrat, Roboto } from '@next/font/google'
 import type { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { DefaultSeo } from 'next-seo'
@@ -9,7 +10,6 @@ import { DefaultSeo } from 'next-seo'
 import { api } from '~/api'
 import nextSeoConfig from '../lib/config/next-seo.config'
 import { NextPageWithLayout } from '../lib/types'
-import { Inter, Lato, Montserrat, Roboto } from '@next/font/google'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -31,6 +31,7 @@ const inter = Inter({
 
 const montserrat = Montserrat({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   variable: '--font-montserrat',
 })
 
@@ -50,12 +51,6 @@ const MyApp: AppType<{
         }
       `}</style>
 
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
-      </Head>
       <DefaultSeo {...nextSeoConfig} />
       <main className={`${montserrat.variable} font-montserrat antialiased`}>
         {getLayout(<Component {...pageProps} />)}

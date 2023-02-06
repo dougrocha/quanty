@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { WEBAPP_URL } from '@quanty/lib'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@quanty/ui'
 
-import AppLayout from '../layouts/AppLayout'
-import { NextPageWithLayout } from '../lib/types'
+import AppLayout from '~/layouts/AppLayout'
+import { NextPageWithLayout } from '~/lib/types'
 
 const Commands: NextPageWithLayout = () => {
   return (

@@ -1,9 +1,21 @@
 // @ts-check
+import nextra from 'nextra'
+
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds and Linting.
  */
 !process.env.SKIP_ENV_VALIDATION && (await import('./src/env/server.mjs'))
+
+const withNextra = nextra({
+  theme: 'nextra-theme-docs',
+  themeConfig: './theme.config.tsx',
+  staticImage: true,
+  flexsearch: {
+    codeblocks: false,
+  },
+  defaultShowCopyCode: true,
+})
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -24,7 +36,14 @@ const config = {
       },
     ]
   },
+  env: {
+    NEXT_PUBLIC_BOT_INVITE_URL: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+    NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL:
+      process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
+  },
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
+  swcMinify: true,
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
     '@quanty/api',
@@ -39,4 +58,4 @@ const config = {
   typescript: { ignoreBuildErrors: !!process.env.CI },
 }
 
-export default config
+export default withNextra(config)

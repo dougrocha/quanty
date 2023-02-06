@@ -32,8 +32,5 @@
   },
   "lint-staged": {
     "*.json": "prettier --write"
-  },
-  "dependencies": {
-    "jotai": "^2.0.0"
   }
 }

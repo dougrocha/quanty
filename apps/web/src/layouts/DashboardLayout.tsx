@@ -1,9 +1,10 @@
-import { LOGO } from '@quanty/lib'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { LOGO } from '@quanty/lib'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 import { Fragment } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -14,7 +15,6 @@ import { useSession } from 'next-auth/react'
 import { api } from '~/api'
 import getGuildIcon from '~/lib/getGuildIcon'
 import { currentGuildAtom } from '~/lib/guildStore'
-import Link from 'next/dist/client/link'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
@@ -57,7 +57,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="h-screen overflow-hidden">
       <DashboardNavbar />
       <div
-        className={`h-full w-full overflow-auto rounded-t-3xl border-t-2 border-t-theme-primary bg-dark-purple-700 p-6`}
+        className={`h-full w-full overflow-auto rounded-t-3xl bg-dark-purple-700 p-6 shadow-[0px_8px_16px_#C335F0]`}
       >
         {children}
       </div>
@@ -152,15 +152,15 @@ const DashboardNavbar = () => {
   const currentGuild = useAtomValue(currentGuildAtom)
 
   return (
-    <div className="flex h-16 items-center justify-between bg-theme-base px-4">
+    <div className="flex h-20 items-center justify-between bg-theme-base px-4">
       <Link href="/">
         <Image
           src={LOGO.sm}
           alt="Quanty Profile Image"
-          width={36}
-          height={36}
+          width={40}
+          height={40}
           priority
-          className="h-9 w-9 overflow-hidden rounded-full shadow-md shadow-theme-primary"
+          className="h-10 w-10 overflow-hidden rounded-full shadow-md shadow-theme-primary"
         />
       </Link>
 
@@ -174,16 +174,16 @@ const DashboardNavbar = () => {
           <Image
             src={session?.user.image || '/images/discord_logo.png'}
             alt={`${session?.user.name || 'default'} profile image`}
-            width={36}
-            height={36}
+            width={40}
+            height={40}
             priority
-            className="h-9 w-9 overflow-hidden rounded-full"
+            className="h-10 w-10 overflow-hidden rounded-full"
           />
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            className="w-56 animate-[slideUpAndFade_1s_ease-in-out_2_200ms] rounded-md bg-dark-purple-400 p-1 font-montserrat shadow-lg ring-1 ring-dark-purple-200 ring-opacity-5 will-change-transform-opacity"
+            className="mr-4 w-56 animate-[slideUpAndFade_ease-in-out_200ms] rounded-md bg-dark-purple-400 p-1 font-montserrat shadow-lg ring-1 ring-dark-purple-200 ring-opacity-5 will-change-transform-opacity"
             sideOffset={5}
           >
             <DropdownMenu.Item className="relative flex h-6 select-none items-center px-4 py-2 text-sm outline-none">

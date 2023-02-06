@@ -1,8 +1,9 @@
-import DashboardLayout from '~/layouts/DashboardLayout'
-import { NextPageWithLayout } from '~/lib/types'
-import { api } from '../../../api'
 import { useAtomValue } from 'jotai'
-import { currentGuildAtom } from '../../../lib/guildStore'
+
+import { api } from '~/api'
+import DashboardLayout from '~/layouts/DashboardLayout'
+import { currentGuildAtom } from '~/lib/guildStore'
+import { NextPageWithLayout } from '~/lib/types'
 
 const DashboardPage: NextPageWithLayout = () => {
   const currentGuild = useAtomValue(currentGuildAtom)
@@ -16,7 +17,7 @@ const DashboardPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <div className="break-words">Dashboard Page</div>
+      <div className="break-words">Dashboard Page: {guild?.id}</div>
     </>
   )
 }

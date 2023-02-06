@@ -1,11 +1,13 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   content: [
     '../../packages/ui/components/**/*.{js,ts,jsx,tsx}',
-    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,md,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
     './src/layouts/**/*.{js,ts,jsx,tsx}',
+    './theme.config.tsx',
   ],
   darkMode: 'class',
   theme: {
@@ -102,9 +104,9 @@ module.exports = {
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/line-clamp'),
-    require('@tailwindcss/typography'),
     require('daisyui'),
     require('@headlessui/tailwindcss'),
     require('tailwindcss-radix')(),

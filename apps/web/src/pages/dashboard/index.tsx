@@ -9,8 +9,6 @@ import getGuildIcon from '~/lib/getGuildIcon'
 import { currentGuildAtom } from '~/lib/guildStore'
 import { NextPageWithLayout } from '~/lib/types'
 
-// <Skeleton count={3} baseColor="#2B303A" highlightColor="#443F5A" />
-
 const DashboardPage: NextPageWithLayout = () => {
   const {
     data: guilds,
@@ -22,23 +20,9 @@ const DashboardPage: NextPageWithLayout = () => {
 
   const router = useRouter()
 
-  // Alphabetical Sort
-  guilds?.sort((a, b) => {
-    if (a.name < b.name) return -1
-    if (a.name > b.name) return 1
-    return 0
-  })
-
-  // Sort Managed Guilds to the top
-  guilds?.sort((a, b) => {
-    if (a.bot && !b.bot) return -1
-    if (!a.bot && b.bot) return 1
-    return 0
-  })
-
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="my-8 text-center space-y-2">
+      <div className="my-8 space-y-2 text-center">
         <h1 className="mx-auto text-4xl font-semibold uppercase">
           Your servers
         </h1>
@@ -49,18 +33,18 @@ const DashboardPage: NextPageWithLayout = () => {
       </div>
 
       {isLoading ? (
-        <div className="w-full max-w-screen-lg h-16">
+        <div className="h-16 w-full max-w-screen-lg">
           <Skeleton
             count={4}
             baseColor="#2B303A"
             highlightColor="#443F5A"
-            className="my-4 w-full h-full"
+            className="my-4 h-full w-full"
           />
         </div>
       ) : null}
 
       {isError ? (
-        <p className="text-red-500 text-lg font-semibold">
+        <p className="text-lg font-semibold text-red-500">
           There was an error fetching your guilds. Please try again later.
         </p>
       ) : null}

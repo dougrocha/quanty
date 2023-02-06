@@ -19,16 +19,30 @@ export const userRouter = createTRPCRouter({
       getBotGuilds(),
     ])
 
-    return userGuilds
-      .map(guild => {
-        const botGuild = botGuilds.find(botGuild => botGuild.id === guild.id)
+    return (
+      userGuilds
+        .map(guild => {
+          const botGuild = botGuilds.find(botGuild => botGuild.id === guild.id)
 
-        return {
-          ...guild,
-          bot: !!botGuild,
-        }
-      })
-      .filter(guild => isAdmin(guild.permissions))
+          return {
+            ...guild,
+            bot: !!botGuild,
+          }
+        })
+        .filter(guild => isAdmin(guild.permissions))
+        // Alphabetical Sort
+        .sort((a, b) => {
+          if (a.name < b.name) return -1
+          if (a.name > b.name) return 1
+          return 0
+        })
+        // Sort Managed Guilds to the top
+        .sort((a, b) => {
+          if (a.bot && !b.bot) return -1
+          if (!a.bot && b.bot) return 1
+          return 0
+        })
+    )
   }),
 })
 
