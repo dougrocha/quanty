@@ -1,2 +1,3 @@
 export * from './strings'
-export * from './music'
+export * from '../../fix-commands/libs/music'
+
