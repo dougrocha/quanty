@@ -2,7 +2,7 @@ import { Guild as GuildType, User } from 'discord.js'
 
 import { musicManager } from './manager'
 
-import { client } from '../..'
+import { client } from '../../../src'
 
 export const checkChannel = ({
   guild: curGuild,
@@ -46,3 +46,4 @@ export const checkChannel = ({
     voiceChannel: channel,
   }
 }
+

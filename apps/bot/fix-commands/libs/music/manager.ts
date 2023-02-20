@@ -4,8 +4,8 @@ import { ChannelType, User } from 'discord.js'
 import { Track, Manager as ErelaManager } from 'erela.js'
 import { Spotify } from 'erela.js-spotify/dist/plugin'
 
-import { client } from '../..'
-import { lavalinkNodes, spotifyOptions } from '../../utils'
+import { client } from '../../../src'
+import { lavalinkNodes, spotifyOptions } from '../../../src/utils'
 
 const managerPlugins = [new AppleMusic(), new Spotify(spotifyOptions)]
 
@@ -132,3 +132,4 @@ class MusicManager extends ErelaManager {
 }
 
 export const musicManager = new MusicManager()
+

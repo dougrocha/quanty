@@ -11,7 +11,12 @@
     "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "environment.d.ts", ".eslintrc.js"],
+  "include": [
+    "src",
+    "environment.d.ts",
+    ".eslintrc.js",
+    "fix-commands/libs/music"
+  ],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"],
   "ts-node": {
     "transpileOnly": true
