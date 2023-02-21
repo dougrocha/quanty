@@ -53,7 +53,7 @@ export const serverEnv = {
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  NEXT_PUBLIC_BOT_INVITE_URL: z.string().url(),
+  NEXT_PUBLIC_DISCORD_INVITE_URL: z.string().url(),
   NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL: z.string().url(),
 })
 
@@ -64,7 +64,7 @@ export const clientSchema = z.object({
  * @type {{ [k in keyof z.input<typeof clientSchema>]: string | undefined }}
  */
 export const clientEnv = {
-  NEXT_PUBLIC_BOT_INVITE_URL: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+  NEXT_PUBLIC_DISCORD_INVITE_URL: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
   NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL:
     process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
 }

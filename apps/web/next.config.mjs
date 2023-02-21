@@ -26,7 +26,7 @@ const config = {
     return [
       {
         source: '/invite',
-        destination: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+        destination: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
         permanent: true,
       },
       {
@@ -37,7 +37,7 @@ const config = {
     ]
   },
   env: {
-    NEXT_PUBLIC_BOT_INVITE_URL: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+    NEXT_PUBLIC_DISCORD_INVITE_URL: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
     NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL:
       process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
   },
