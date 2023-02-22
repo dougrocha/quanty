@@ -11,13 +11,6 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Guild {
-    id        String   @id @default(cuid())
-    discordId String   @unique
-    timezone  String   @default("UTC")
-    joinedAt  DateTime @default(now())
-}
-
 // NextAuth.js Models
 // NOTE: When using postgresql, mysql or sqlserver, 
 // uncomment the @db.Text annotations below
