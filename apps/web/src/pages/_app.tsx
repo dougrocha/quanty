@@ -1,66 +1,62 @@
 import '../styles/globals.css'
-
-import { ApolloProvider } from '@apollo/client'
-import { NextPage } from 'next'
+import React from 'react'
+import type { AppType } from 'next/app'
+import Head from 'next/head'
+import { Inter, Lato, Montserrat, Roboto } from '@next/font/google'
+import type { Session } from 'next-auth'
+import { SessionProvider } from 'next-auth/react'
 import { DefaultSeo } from 'next-seo'
-import { ThemeProvider } from 'next-themes'
-import type { AppProps } from 'next/app'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import type { ReactElement, ReactNode } from 'react'
 
-import { useApollo } from '../hooks/useApollo'
-import defaultSeo from '../utils/defaultSeo'
+import { api } from '~/api'
+import nextSeoConfig from '../lib/config/next-seo.config'
+import { NextPageWithLayout } from '../lib/types'
 
-const LoadingLayout = dynamic(() => import('layouts/loading'))
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto',
+})
 
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode
-}
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '700'],
+  variable: '--font-lato',
+})
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+})
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const [pageLoading, setPageLoading] = useState<boolean>(false)
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-montserrat',
+})
 
-  const router = useRouter()
-
-  const apolloClient = useApollo(pageProps)
-
-  useEffect(() => {
-    const handleStart = () => {
-      setPageLoading(true)
-    }
-    const handleComplete = () => {
-      setPageLoading(false)
-    }
-
-    router.events.on('routeChangeStart', handleStart)
-    router.events.on('routeChangeComplete', handleComplete)
-    router.events.on('routeChangeError', handleComplete)
-  })
-
-  const getLayout = Component.getLayout ?? (page => page)
+const MyApp: AppType<{
+  session: Session | null
+}> = ({ Component, pageProps: { session, ...pageProps } }) => {
+  const getLayout =
+    (Component as NextPageWithLayout).getLayout ||
+    ((page: React.ReactElement) => page)
 
   return (
-    <>
-      <DefaultSeo {...defaultSeo} />
-      <ApolloProvider client={apolloClient}>
-        <ThemeProvider attribute="class">
-          {Component.getLayout ? (
-            getLayout(<Component {...pageProps} />)
-          ) : (
-            <>
-              {pageLoading ? <LoadingLayout /> : <Component {...pageProps} />}
-            </>
-          )}
-        </ThemeProvider>
-      </ApolloProvider>
-    </>
+    <SessionProvider session={session}>
+      {/* {@link https://github.com/vercel/next.js/issues/43674} */}
+      <style jsx global>{`
+        :root {
+          --font-montserrat: ${montserrat.style.fontFamily};
+        }
+      `}</style>
+
+      <DefaultSeo {...nextSeoConfig} />
+      <main className={`${montserrat.variable} font-montserrat antialiased`}>
+        {getLayout(<Component {...pageProps} />)}
+      </main>
+    </SessionProvider>
   )
 }
 
-export default MyApp
+export default api.withTRPC(MyApp)

@@ -1,26 +1,23 @@
 import 'source-map-support/register'
-
 import 'reflect-metadata'
-
 import 'dotenv'
-
+import { join } from 'path'
 import { Client, ClientOptions, Snowflake } from 'discord.js'
 
-import type {
-  QuantyClientOptions,
-  IQuantyDefaults,
-  LogLevels,
-} from './types/client'
-
-import { logger, Logger } from '../../util/Logger'
-import { getRootData } from '../../util/getRootData'
-import { Container, container } from '../container'
-import { StoreRegistry } from '../store/StoreRegistry'
+import { Logger, logger } from '../../util/Logger'
+import { parseClientEnv } from '../../util/env'
+import { getVersion } from '../../util/getBotVersion'
+import { getRootData, getTsConfig } from '../../util/getRootData'
 import { CommandStore } from '../command/CommandStore'
+import { Container, container } from '../container'
 import { EventStore } from '../event/EventStore'
 import { GuardStore } from '../guards/GuardStore'
-import { join } from 'path'
-import { getVersion } from '../../util/getBotVersion'
+import { StoreRegistry } from '../store/StoreRegistry'
+import type {
+  IQuantyDefaults,
+  LogLevels,
+  QuantyClientOptions,
+} from './types/client'
 
 /**
  * The base {@link Client} for Quanty Framework. When building a Discord bot with this framework, you must either choose to use this class or extend from it.
@@ -52,7 +49,7 @@ export class QuantyClient extends Client {
   /**
    * Directory for build files.
    */
-  public outDir?: string = 'dist/'
+  public outDir?: string
 
   public defaults?: IQuantyDefaults | boolean = false
 
@@ -76,6 +73,12 @@ export class QuantyClient extends Client {
   constructor(options: ClientOptions) {
     super(options)
 
+    // Check ClientEnv
+    parseClientEnv()
+
+    // Check ClientOptions
+    // parseClientOptions()
+
     container.client = this
 
     const {
@@ -95,7 +98,12 @@ export class QuantyClient extends Client {
     if (prefix) this.prefix = prefix
     // Mention prefix is @<client.id>
     if (mentionPrefix) this.mentionPrefix = mentionPrefix
-    if (outDir) this.outDir = outDir
+
+    if (outDir) {
+      this.outDir = outDir
+    } else {
+      this.outDir = getTsConfig({}).compilerOptions?.outDir
+    }
 
     if (baseDirectory) {
       this.baseDirectory = baseDirectory
@@ -151,7 +159,8 @@ export class QuantyClient extends Client {
 
     // Loads all stores, then call login:
     await Promise.all([...this.stores.values()].map(store => store?.loadAll()))
-    const login = await super.login(token)
+    // const login = await super.login(token)
+    const login = ''
 
     // Run post login plugins
     return login

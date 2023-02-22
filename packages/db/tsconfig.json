@@ -1,0 +1,4 @@
+{
+  "extends": "@quanty/tsconfig/base.json",
+  "include": ["index.ts", "prisma/seed.ts"]
+}

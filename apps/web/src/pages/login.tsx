@@ -1,20 +1,31 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
+import { WEBAPP_URL } from '@quanty/lib'
 
-const Login = () => {
+import AppLayout from '~/layouts/AppLayout'
+import { NextPageWithLayout } from '~/lib/types'
+
+/// TODO: Properly design this page.
+const LoginPage: NextPageWithLayout = () => {
   const router = useRouter()
 
-  if (typeof window !== 'undefined') {
-    router.push(`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/login`)
-  }
-
   return (
-    <div className="text-white">
-      <Link href={`${process.env.NEXT_PUBLIC_QUANTY_API_URL}/api/auth/login`}>
-        Login to your dashboard
-      </Link>
+    <div className="h-screen w-full">
+      Hey this is this. Please Log in.
+      <button
+        className="rounded bg-theme-primary px-2 py-1"
+        onClick={() => {
+          signIn('discord', {
+            callbackUrl: `${WEBAPP_URL}${router.query.redirect}`,
+          })
+        }}
+      >
+        Sign In
+      </button>
     </div>
-  );
+  )
 }
 
-export default Login
+LoginPage.getLayout = page => <AppLayout>{page}</AppLayout>
+
+export default LoginPage

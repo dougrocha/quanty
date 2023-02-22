@@ -1,27 +1,65 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
-    "dev": {
+    "db:generate": {
+      "inputs": ["db/schema.prisma"],
       "cache": false
     },
-    "start": {
-      "dependsOn": ["^build"]
+    "db:push": {
+      "inputs": ["db/schema.prisma"],
+      "cache": false
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "bot#dev": {
+      "dependsOn": ["^build", "^db:generate"],
+      "persistent": true,
+      "cache": false
     },
     "build": {
-      "outputs": ["dist/**", ".next/**", "lib/**"],
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "^db:generate"],
+      "outputs": ["dist/**", ".next/**", "lib/**"]
     },
-    "lint": {
-      "outputs": []
+    "web#build": {
+      "dependsOn": ["^build", "^db:generate"],
+      "env": [
+        "NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL",
+        "NEXT_PUBLIC_DISCORD_INVITE_URL",
+        "NEXT_PUBLIC_WEBAPP_URL",
+        "NEXT_PUBLIC_APP_NAME",
+        "NEXTAUTH_SECRET",
+        "NEXTAUTH_URL",
+        "VERCEL_URL",
+        "PORT"
+      ],
+      "outputs": [".next/**"]
     },
+    "lint": {},
+    "clean": {},
+    "//#clean": {
+      "cache": false
+    },
+    "format": {},
     "test": {
       "outputs": [],
       "dependsOn": ["build"],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
-    },
-    "format": {
-      "outputs": []
     }
-  }
-}
+  },
 
+  "globalDependencies": [
+    ".env",
+    ".eslintrc.js",
+    "prettier.config.js",
+    ".yarnrc.yml"
+  ],
+  "globalEnv": [
+    "DATABASE_URL",
+    "NODE_ENV",
+    "DISCORD_CLIENT_ID",
+    "DISCORD_CLIENT_SECRET",
+    "DISCORD_CLIENT_TOKEN"
+  ]
+}

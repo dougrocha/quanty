@@ -78,7 +78,7 @@ const ENV = process.env.NODE_ENV
     GuildsModule,
     UsersModule,
     StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2022-08-01',
+      apiVersion: '2022-11-15',
       typescript: true,
       appInfo: {
         name: 'Quantum Bot Server',

@@ -1,0 +1,15 @@
+{
+  "*": {
+    "type": "page"
+  },
+  "docs": {
+    "title": "Documentation",
+    "theme": {
+      "breadcrumb": true,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": true
+    }
+  }
+}

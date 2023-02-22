@@ -1,0 +1,10 @@
+{
+  "extends": "@quanty/tsconfig/base.json",
+  "compilerOptions": {
+    "target": "es5",
+    "resolveJsonModule": true
+  },
+  "exclude": [],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
+}
+

@@ -1,61 +1,40 @@
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { ReactElement } from 'react'
+import { GITHUB } from '@quanty/lib'
 
-import DashboardContent from '../../../components/dashboard/dashboardContent'
-import { useCurrentGuildConfig } from '../../../hooks'
-import { DashboardLayout } from '../../../layouts'
+import { env } from '~/env/client.mjs'
+import DashboardLayout from '~/layouts/DashboardLayout'
+import { NextPageWithLayout } from '~/lib/types'
 
-const OverviewPluginsPage = dynamic(
-  () => import('../../../components/dashboard/pages/overview'),
-)
+const DashboardPage: NextPageWithLayout = () => {
+  // const currentGuild = useAtomValue(currentGuildAtom)
 
-const OverviewPage = () => {
-  const { guild } = useCurrentGuildConfig()
+  // const { data: guild } = api.guild.getGuild.useQuery(
+  //   currentGuild?.id as string,
+  //   {
+  //     enabled: !!currentGuild,
+  //   },
+  // )
 
   return (
-    <DashboardContent
-      title="Overview"
-      description="What would you like to change today?"
-      actionButton={
-        <Link
-          href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}
-          className="whitespace-nowrap rounded-3xl bg-primary-bright-purple px-6 py-2 text-center">
-          
-            Support Server
-          
-        </Link>
-      }
-      separateTitle
-    >
-      <div className="flex w-full flex-col space-y-10">
-        <div>
-          <p className="italic">ID: {guild?.id}</p>
-
-          <div className="mt-5">
-            <p className="mb-2">
-              Join the Quantum Realm to give recommendations, get updates, and
-              more.
-            </p>
-
-            <Link
-              href={process.env.NEXT_PUBLIC_QUANTY_DISCORD_SERVER_INVITE}
-              className="whitespace-nowrap rounded-3xl bg-primary-bright-purple px-4 py-2 text-sm">
-              
-                Support Server
-              
-            </Link>
-          </div>
-        </div>
-
-        <OverviewPluginsPage />
+    <>
+      <div className="prose-invert prose mx-auto w-80 p-4">
+        <p className="break-words">
+          Thank you for checking out my Discord Bot <b>Quanty</b>. The dashboard
+          is a work in progress, but check back frequently for new features.
+          Your support means everything to me!
+          <br />
+          If you would like to see any features be introduce please check out
+          the{' '}
+          <Link href={env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL}>
+            Discord
+          </Link>{' '}
+          or <Link href={GITHUB}>Github</Link>
+        </p>
       </div>
-    </DashboardContent>
-  );
+    </>
+  )
 }
 
-OverviewPage.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>
-}
+DashboardPage.getLayout = page => <DashboardLayout>{page}</DashboardLayout>
 
-export default OverviewPage
+export default DashboardPage

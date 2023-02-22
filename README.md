@@ -1,58 +1,35 @@
-# Quanty Monorepo
-
-[![CodeFactor](https://www.codefactor.io/repository/github/slashtp3/quanty/badge)](https://www.codefactor.io/repository/github/slashtp3/quanty) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
-This is the official Quanty project.
+# Quanty
 
 ## What's inside?
 
-This monorepo servers to hold all of the apps/services quanty will have. Turborepo will make it easy to unify the codebase in order to try our best in only writing code once.
+Quanty is a discord bot planning to do it all. From moderation to fun commands, Quanty will be the bot for you. Quanty is built with discord.js, typescript, and my own custom framework.
 
-### Apps and Packages
+You will be able to invite quanty to your server at any time and configure it through its [dashboard](https://quanty.xyz) to your liking.
 
-- `bot`: A discord bot built discord.js, typescript, and my own framework.
-- `dashboard`: A [Next.js](https://nextjs.org) app.
-- `server`: A [Nest.js](https://nestjs.com) server.
-- `ui`: A stub React component library shared by both `web` and `docs` applications.
-- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`).
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo.
+### Overview
 
-Each package/app is 100% built with [TypeScript](https://www.typescriptlang.org/).
+- `Quanty - Bot`: A discord bot built discord.js, typescript, and my own framework.
+- `Web`: [Next.js](https://nextjs.org)
+- `Authentication`: [NextAuth.js](https://next-auth.js.org)
+- `API`: [tRPC](https://trpc.io)
+- `ORM`: [Prisma](https://prisma.io)
+- `Styling`: [TailwindCSS](https://tailwindcss.com)
+- `Database`: [PlanetScale](https://planetscale.com)
 
 #### Utilities
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking.
-- [ESLint](https://eslint.org/) for code linting.
-- [Jest](https://jestjs.io) test runner for all things JavaScript.
-- [Prettier](https://prettier.io) for code formatting.
+- `UI`: A React component library shared `web` and future applications.
+- `cli`: This is no longer maintained. It was used to generate command/feature templates.
+- `Schematics`: This is no longer maintained. Stored the schematics for the cli.
 
-### Setup
+## Join the community
 
-Clone this repository.
+Quanty is still in very early development. Currently it is a lacking direction with what kind of bot this will be. If you would like new features, please join the [discord server](https://discord.gg/2Z8qZ9Z) and let us know.
 
-#### Build
+## Contributing
 
-To build all apps and packages, run the following command:
+Any contributions are greatly appreciated.
 
-```sh
-cd quanty
-yarn build
-```
+If you would like to contribute to Quanty, please read the [contributing guidelines](CONTRIBUTING.md).
 
-#### Develop
-
-To develop all apps and packages, run the following command:
-
-```sh
-cd quanty
-yarn dev
-```
-
-#### Linting
-
-If you choose to not have an eslint plugin in your IDE. You can use this.
-
-```sh
-cd quanty
-yarn lint
-```
+If you have a suggestion, bug report, or framework request, please open an issue with the tag `request`. If you also have the time and would like to contribute to make Quanty even better, please fork the repo and create a pull request.
