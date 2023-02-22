@@ -64,11 +64,11 @@ const UserDropdownMenu = ({
 }: {
   user: { id: string } & DefaultSession['user']
 }) => {
-  const [open, setOpen] = useState(false)
+
 
   return (
-    <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
-      <DropdownMenuPrimitive.Trigger className="flex items-center">
+    <DropdownMenuPrimitive.Root>
+      <DropdownMenuPrimitive.Trigger className="flex items-center group">
         <Image
           src={user.image ?? DISCORD_LOGO}
           alt={`${user.name} profile image`}
@@ -78,9 +78,7 @@ const UserDropdownMenu = ({
           className="h-8 w-8 shrink-0 overflow-hidden rounded-full"
         />
         <ChevronUpIcon
-          className={`h-5 w-5 transition-transform ${
-            open ? 'rotate-180' : 'rotate-0'
-          }`}
+          className="h-5 w-5 transition-transform group-radix-state-open:rotate-180"
         />
       </DropdownMenuPrimitive.Trigger>
 

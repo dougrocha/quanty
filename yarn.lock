@@ -4139,6 +4139,7 @@ __metadata:
   dependencies:
     "@headlessui/tailwindcss": ^0.1.2
     "@next/eslint-plugin-next": ^13.1.6
+    "@tailwindcss/container-queries": ^0.1.0
     "@tailwindcss/forms": ^0.5.3
     "@tailwindcss/line-clamp": ^0.4.2
     "@tailwindcss/typography": ^0.5.9
@@ -5193,6 +5194,15 @@ __metadata:
   dependencies:
     defer-to-connect: ^2.0.0
   checksum: c29df3bcec6fc3bdec2b17981d89d9c9fc9bd7d0c9bcfe92821dc533f4440bc890ccde79971838b4ceed1921d456973c4180d7175ee1d0023ad0562240a58d95
+  languageName: node
+  linkType: hard
+
+"@tailwindcss/container-queries@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@tailwindcss/container-queries@npm:0.1.0"
+  peerDependencies:
+    tailwindcss: ">=3.2.0"
+  checksum: dcf5d1720280be115393351db274a21df4f552f20ebc2441421b190f1112550a9310b146de15fa627029469850421e4bcf07966a78d589103259e6eb1bd2a1f5
   languageName: node
   linkType: hard
 
