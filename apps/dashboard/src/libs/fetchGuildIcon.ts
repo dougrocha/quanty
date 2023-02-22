@@ -4,5 +4,5 @@ export const FetchGuildIcon = (
 ) => {
   if (!icon) return '/basic_discord_logo.png'
 
-  return `${process.env.NEXT_PUBLIC_DISCORD_CDN}/icons/${guildId}/${icon}.jpg`
+  return `https://cdn.discordapp.com/icons/${guildId}/${icon}.jpg`
 }

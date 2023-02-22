@@ -59,11 +59,17 @@ const getUserGuilds = async (userId: string, prisma: PrismaClient) => {
     throw new Error('Account cannot be found.')
   }
 
-  return await fetch('https://discord.com/api/users/@me/guilds', {
+  if (!userAccount.access_token) {
+    throw new Error('Account does not have an access token.')
+  }
+
+  const test = await fetch('https://discord.com/api/users/@me/guilds', {
     headers: {
       Authorization: `Bearer ${userAccount.access_token}`, // Bearer token
     },
   }).then(res => res.json() as Promise<APIGuild[]>)
+
+  return test
 }
 
 const getBotGuilds = async () => {

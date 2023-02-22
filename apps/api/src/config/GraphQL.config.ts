@@ -5,11 +5,9 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { GqlOptionsFactory, GraphQLISODateTime } from '@nestjs/graphql'
 import { Request } from 'express'
-
-import { IAuthenticationService } from '../auth/interfaces/auth'
-
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
 
+import { IAuthenticationService } from '../auth/interfaces/auth'
 import { AUTH_SERVICE, GUILDS_SERVICE } from '../common'
 import { IGuildsService } from '../guilds/interfaces/guilds'
 import { useSessionMiddleware } from '../main'

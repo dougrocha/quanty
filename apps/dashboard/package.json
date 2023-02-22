@@ -10,7 +10,6 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "lint": "TIMING=1 next lint --fix",
     "format": "prettier --write src",
     "test": "echo TESTING DASHBOARD",
     "generate": "graphql-codegen --config codegen.yml",

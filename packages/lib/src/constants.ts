@@ -4,8 +4,6 @@ const VERCEL_URL = process.env.VERCEL_URL
 
 export const WEBAPP_URL =
   process.env.NEXT_PUBLIC_WEBAPP_URL || VERCEL_URL || 'http://localhost:3000'
-export const WEBSITE_URL =
-  process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://quanty.xyz'
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Quanty'
 
 export const LOGO = {
@@ -20,4 +18,3 @@ export const INVITE_BOT = 'https://quanty.xyz/invite'
 export const GITHUB = 'https://github.com/dougrocha/quanty'
 
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production'
-

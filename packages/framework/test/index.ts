@@ -1,6 +1,6 @@
 import { GatewayIntentBits } from 'discord.js'
-import { clientEnv } from '../src'
 
+import { clientEnv } from '../src'
 import { QuantyClient } from '../src/structures/client/Client'
 
 const client = new QuantyClient({

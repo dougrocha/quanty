@@ -31,7 +31,7 @@ const PrefixForm = ({ placeholder }: { placeholder?: string }) => {
 
   const guildId = useAtomValue(currentGuildIdAtom)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const onSubmit = (data: { prefix?: string }) => {
     toast.promise(
       updatePrefix({

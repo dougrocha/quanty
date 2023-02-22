@@ -13,14 +13,13 @@ declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string
-      discordId: string
       // ...other properties
       // role: UserRole;
     } & DefaultSession['user']
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface User {
-    discordId: string
     // ...other properties
     // role: UserRole;
   }

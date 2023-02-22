@@ -65,6 +65,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
+  isDev: process.env.NODE_ENV === 'development',
   errorFormatter({ shape }) {
     return shape
   },

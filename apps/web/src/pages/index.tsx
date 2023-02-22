@@ -1,24 +1,18 @@
-import { useState } from 'react'
-import type { NextPage } from 'next'
-import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { DefaultSeo } from 'next-seo'
-import { useForm } from 'react-hook-form'
+import { signOut } from 'next-auth/react'
 import { LOGO } from '@quanty/lib'
 
-import { api, type RouterOutputs } from '~/api'
+import { api } from '~/api'
 import AppLayout from '~/layouts/AppLayout'
-import nextSeoConfig from '~/lib/config/next-seo.config'
 import { NextPageWithLayout } from '~/lib/types'
 
 const Home: NextPageWithLayout = () => {
   const { data: session } = api.auth.getSession.useQuery()
 
   return (
-    <div className="mt-36 flex h-full flex-col items-center justify-center">
+    <div className="my-auto flex min-h-full flex-col items-center justify-center py-4">
       <Image
         src={LOGO.lg}
         alt="Quanty Profile Image"
@@ -44,7 +38,7 @@ const Home: NextPageWithLayout = () => {
 
       <div className="mt-6 flex flex-col gap-y-4">
         <Link
-          href={process.env.NEXT_PUBLIC_BOT_INVITE_URL}
+          href={process.env.NEXT_PUBLIC_DISCORD_INVITE_URL}
           target="_blank"
           rel="noreferrer"
           className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
