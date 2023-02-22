@@ -38,7 +38,7 @@ const Home: NextPageWithLayout = () => {
 
       <div className="mt-6 flex flex-col gap-y-4">
         <Link
-          href={process.env.NEXT_PUBLIC_DISCORD_INVITE_URL}
+          href="/invite"
           target="_blank"
           rel="noreferrer"
           className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"

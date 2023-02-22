@@ -33,7 +33,7 @@ const Navbar = () => {
         </Link>
         <div className="flex gap-x-4">
           <Link
-            href={process.env.NEXT_PUBLIC_DISCORD_INVITE_URL}
+            href="/discord"
             target="_blank"
             rel="noreferrer"
             className="select-none rounded-lg border px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
@@ -64,11 +64,9 @@ const UserDropdownMenu = ({
 }: {
   user: { id: string } & DefaultSession['user']
 }) => {
-
-
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className="flex items-center group">
+      <DropdownMenuPrimitive.Trigger className="group flex items-center">
         <Image
           src={user.image ?? DISCORD_LOGO}
           alt={`${user.name} profile image`}
@@ -77,9 +75,7 @@ const UserDropdownMenu = ({
           priority
           className="h-8 w-8 shrink-0 overflow-hidden rounded-full"
         />
-        <ChevronUpIcon
-          className="h-5 w-5 transition-transform group-radix-state-open:rotate-180"
-        />
+        <ChevronUpIcon className="h-5 w-5 transition-transform group-radix-state-open:rotate-180" />
       </DropdownMenuPrimitive.Trigger>
 
       <DropdownMenuPrimitive.Portal>
