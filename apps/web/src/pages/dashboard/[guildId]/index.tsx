@@ -22,12 +22,12 @@ const DashboardPage: NextPageWithLayout = () => {
           Thank you for checking out my Discord Bot <b>Quanty</b>. The dashboard
           is a work in progress, but check back frequently for new features.
           Your support means everything to me!
-          <br />
+        </p>
+
+        <p>
           If you would like to see any features be introduce please check out
           the{' '}
-          <Link href={env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL}>
-            Discord
-          </Link>{' '}
+          <Link href={env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL}>Discord</Link>{' '}
           or <Link href={GITHUB}>Github</Link>
         </p>
       </div>

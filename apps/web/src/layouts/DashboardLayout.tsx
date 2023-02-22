@@ -1,17 +1,17 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { LOGO } from '@quanty/lib'
 
 import 'react-loading-skeleton/dist/skeleton.css'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
-import { useAtom, useAtomValue } from 'jotai/react'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai/react'
 import { useSession } from 'next-auth/react'
 
+import UserDropdownMenu from '~/components/UserDropdownMenu'
 import { api } from '~/api'
 import getGuildIcon from '~/lib/getGuildIcon'
 import { currentGuildAtom } from '~/lib/guildStore'
@@ -19,8 +19,9 @@ import { currentGuildAtom } from '~/lib/guildStore'
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
 
-  useSession({
+  const { status } = useSession({
     required: true,
+
     onUnauthenticated: () => {
       router.push({
         pathname: '/login',
@@ -31,21 +32,24 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     },
   })
 
-  const { status } = useSession()
+  const setCurrentGuild = useSetAtom(currentGuildAtom)
 
-  const [currentGuild, setCurrentGuild] = useAtom(currentGuildAtom)
+  useEffect(() => {
+    if (!router.query.guildId) {
+      setCurrentGuild(undefined)
+    }
+  }, [router.query.guildId, setCurrentGuild])
 
   api.user.getManagedGuilds.useQuery(undefined, {
     enabled: status === 'authenticated',
     onSuccess: data => {
-      if (data.length === 1) {
-        setCurrentGuild(data[0])
-      } else if (router.query.guildId) {
+      if (router.query.guildId) {
         const routerGuild = data.find(
           guild => guild.id === router.query.guildId,
         )
         setCurrentGuild(routerGuild)
       } else {
+        setCurrentGuild(undefined)
         router.push({
           pathname: '/dashboard',
         })
@@ -54,10 +58,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   })
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="flex h-screen flex-col overflow-hidden">
       <DashboardNavbar />
       <div
-        className={`h-full w-full overflow-auto rounded-t-3xl bg-dark-purple-700 p-6 shadow-[0px_8px_16px_#C335F0]`}
+        className={`h-full w-full flex-auto overflow-y-scroll rounded-t-3xl bg-dark-purple-700 p-6 shadow-[0px_8px_16px_#C335F0]`}
       >
         {children}
       </div>
@@ -147,12 +151,12 @@ const GuildSelectionBox = () => {
 }
 
 const DashboardNavbar = () => {
-  const { data: session } = useSession()
+  const { data: session } = api.auth.getSession.useQuery()
 
   const currentGuild = useAtomValue(currentGuildAtom)
 
   return (
-    <div className="flex h-20 items-center justify-between bg-theme-base px-4">
+    <div className="flex h-20 shrink-0 items-center justify-between bg-theme-base px-4">
       <Link href="/">
         <Image
           src={LOGO.sm}
@@ -166,44 +170,7 @@ const DashboardNavbar = () => {
 
       {currentGuild ? <GuildSelectionBox /> : null}
 
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger
-          className="overflow-hidden rounded-full"
-          aria-label="Profile Dropdown"
-        >
-          <Image
-            src={session?.user.image || '/images/discord_logo.png'}
-            alt={`${session?.user.name || 'default'} profile image`}
-            width={40}
-            height={40}
-            priority
-            className="h-10 w-10 overflow-hidden rounded-full"
-          />
-        </DropdownMenu.Trigger>
-
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            className="mr-4 w-56 animate-[slideUpAndFade_ease-in-out_200ms] rounded-md bg-dark-purple-400 p-1 font-montserrat shadow-lg ring-1 ring-dark-purple-200 ring-opacity-5 will-change-transform-opacity"
-            sideOffset={5}
-          >
-            <DropdownMenu.Item className="relative flex h-6 select-none items-center px-4 py-2 text-sm outline-none">
-              Servers
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className="relative flex h-6 select-none items-center px-4 py-2 text-sm outline-none">
-              Servers
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className="relative flex h-6 select-none items-center px-4 py-2 text-sm outline-none">
-              Servers
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className="relative flex h-6 select-none items-center px-4 py-2 text-sm outline-none">
-              Servers
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className="relative flex h-6 select-none items-center px-4 py-2 text-sm outline-none">
-              Servers
-            </DropdownMenu.Item>
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
+      <UserDropdownMenu user={session?.user} />
     </div>
   )
 }

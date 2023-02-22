@@ -21,7 +21,7 @@ const DashboardPage: NextPageWithLayout = () => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <>
       <div className="my-8 space-y-2 text-center">
         <h1 className="mx-auto text-4xl font-semibold uppercase">
           Your servers
@@ -33,7 +33,7 @@ const DashboardPage: NextPageWithLayout = () => {
       </div>
 
       {isLoading ? (
-        <div className="h-16 w-full max-w-screen-lg">
+        <div className="mx-auto h-16 w-full max-w-screen-lg">
           <Skeleton
             count={4}
             baseColor="#2B303A"
@@ -59,7 +59,7 @@ const DashboardPage: NextPageWithLayout = () => {
             return (
               <div
                 key={guild.id}
-                className="my-4 flex w-full max-w-screen-lg items-center justify-between space-x-4 overflow-auto rounded-lg bg-theme-base pr-10"
+                className="mx-auto my-4 flex w-full max-w-screen-lg items-center justify-between space-x-4 overflow-auto rounded-lg bg-theme-base pr-10"
               >
                 <div className="flex items-center">
                   {iconUrl ? (
@@ -100,7 +100,7 @@ const DashboardPage: NextPageWithLayout = () => {
           })}
         </>
       )}
-    </div>
+    </>
   )
 }
 
