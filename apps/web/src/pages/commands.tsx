@@ -8,7 +8,7 @@ import { NextPageWithLayout } from '~/lib/types'
 
 const Commands: NextPageWithLayout = () => {
   return (
-    <div className="mx-auto w-full max-w-screen-xl px-2 pt-16 sm:px-4 lg:px-6">
+    <div className="mx-auto w-full max-w-screen-xl p-16 px-2 sm:px-4 lg:px-6">
       <div className="my-6 space-y-2 text-center">
         <h1 className="text-5xl font-bold">Commands</h1>
         <p className="text-lg">

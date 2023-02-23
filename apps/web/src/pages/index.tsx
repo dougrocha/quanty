@@ -5,7 +5,6 @@ import { signOut } from 'next-auth/react'
 import { LOGO } from '@quanty/lib'
 
 import { api } from '~/api'
-import { env } from '~/env/client.mjs'
 import AppLayout from '~/layouts/AppLayout'
 import { NextPageWithLayout } from '~/lib/types'
 
