@@ -24,7 +24,7 @@ const Navbar = () => {
             Join our Discord
           </Link>
         </li>
-        <div className="flex gap-x-4">
+        <div className="flex items-center gap-x-4">
           <li>
             <Link
               href="/discord"

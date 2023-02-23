@@ -23,9 +23,10 @@ const config = {
     domains: ['cdn.discordapp.com'],
   },
   i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+    locales: ['en-US'],
+    defaultLocale: 'en-US',
   },
+
   async redirects() {
     return [
       {
@@ -38,13 +39,14 @@ const config = {
         destination: process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
         permanent: true,
       },
+      {
+        source: '/github',
+        destination: process.env.NEXT_PUBLIC_GITHUB_URL,
+        permanent: true,
+      },
     ]
   },
-  env: {
-    NEXT_PUBLIC_DISCORD_INVITE_URL: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
-    NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL:
-      process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
-  },
+
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
   swcMinify: true,

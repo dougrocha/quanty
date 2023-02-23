@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { GITHUB } from '@quanty/lib'
 
-import { env } from '~/env/client.mjs'
 import DashboardLayout from '~/layouts/DashboardLayout'
 import { NextPageWithLayout } from '~/lib/types'
 
@@ -26,9 +25,8 @@ const DashboardPage: NextPageWithLayout = () => {
 
         <p>
           If you would like to see any features be introduce please check out
-          the{' '}
-          <Link href={env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL}>Discord</Link>{' '}
-          or <Link href={GITHUB}>Github</Link>
+          the <Link href="/discord">Discord</Link> or{' '}
+          <Link href={GITHUB}>Github</Link>
         </p>
       </div>
     </>

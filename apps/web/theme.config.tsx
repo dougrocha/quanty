@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useConfig, type DocsThemeConfig } from 'nextra-theme-docs'
@@ -7,7 +5,7 @@ import { WEBAPP_URL } from '@quanty/lib'
 
 const config: DocsThemeConfig = {
   docsRepositoryBase:
-    'https://github.com/dougrocha/quanty/tree/master/apps/web/src/pages',
+    'https://github.com/dougrocha/quanty/tree/master/apps/web',
   project: {
     link: 'https://github.com/dougrocha/quanty',
   },

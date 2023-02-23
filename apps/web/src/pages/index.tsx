@@ -5,6 +5,7 @@ import { signOut } from 'next-auth/react'
 import { LOGO } from '@quanty/lib'
 
 import { api } from '~/api'
+import { env } from '~/env/client.mjs'
 import AppLayout from '~/layouts/AppLayout'
 import { NextPageWithLayout } from '~/lib/types'
 
@@ -52,7 +53,7 @@ const Home: NextPageWithLayout = () => {
           Dashboard (WIP)
         </Link>
         <Link
-          href={process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL}
+          href="/discord"
           target="_blank"
           rel="noreferrer"
           className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"

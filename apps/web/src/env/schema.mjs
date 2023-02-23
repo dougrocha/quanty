@@ -55,6 +55,9 @@ export const serverEnv = {
 export const clientSchema = z.object({
   NEXT_PUBLIC_DISCORD_INVITE_URL: z.string().url(),
   NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL: z.string().url(),
+  NEXT_PUBLIC_GITHUB_URL: z.string().url(),
+  NEXT_PUBLIC_WEBAPP_URL: z.string().url().optional(),
+  NEXT_PUBLIC_APP_NAME: z.string().optional(),
 })
 
 /**
@@ -67,4 +70,7 @@ export const clientEnv = {
   NEXT_PUBLIC_DISCORD_INVITE_URL: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
   NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL:
     process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
+  NEXT_PUBLIC_GITHUB_URL: process.env.NEXT_PUBLIC_GITHUB_URL,
+  NEXT_PUBLIC_WEBAPP_URL: process.env.NEXT_PUBLIC_WEBAPP_URL,
+  NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
 }
