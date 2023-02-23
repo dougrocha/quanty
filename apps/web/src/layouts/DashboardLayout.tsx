@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
+import { APIGuild } from 'discord-api-types/v10'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai/react'
 import { useSession } from 'next-auth/react'
 
@@ -72,15 +73,22 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 export default DashboardLayout
 
 const GuildSelectionBox = () => {
+  const router = useRouter()
+
   const [currentGuild, setCurrentGuild] = useAtom(currentGuildAtom)
 
   const { data: guilds } = api.user.getManagedGuilds.useQuery(undefined, {
     enabled: !!currentGuild,
   })
 
+  const onGuildChange = (guild: APIGuild) => {
+    setCurrentGuild(guild)
+    router.push(`/dashboard/${guild.id}`)
+  }
+
   return (
     <div className="relative w-56 max-w-sm">
-      <Listbox value={currentGuild} by="id" onChange={setCurrentGuild}>
+      <Listbox value={currentGuild} by="id" onChange={onGuildChange}>
         <Listbox.Button
           className="relative flex h-9 w-full cursor-default items-center space-x-3 overflow-auto rounded-lg bg-theme-neutral pr-8 text-left shadow-md focus:outline-none focus-visible:border-theme-secondary focus-visible:ring-2 focus-visible:ring-theme-primary
             focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-theme-secondary sm:text-sm"
