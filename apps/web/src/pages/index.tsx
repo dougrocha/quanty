@@ -36,30 +36,36 @@ const Home: NextPageWithLayout = () => {
         </div>
       ) : null}
 
-      <div className="mt-6 flex flex-col gap-y-4">
-        <Link
-          href="/invite"
-          target="_blank"
-          rel="noreferrer"
-          className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
-        >
-          Invite Quanty
-        </Link>
-        <Link
-          href="/dashboard"
-          className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
-        >
-          Dashboard (WIP)
-        </Link>
-        <Link
-          href="/discord"
-          target="_blank"
-          rel="noreferrer"
-          className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
-        >
-          Join the community
-        </Link>
-      </div>
+      <ul className="mt-6 flex flex-col gap-y-4">
+        <li>
+          <Link
+            href="/invite"
+            target="_blank"
+            rel="noreferrer"
+            className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
+          >
+            Invite Quanty
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/dashboard"
+            className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
+          >
+            Dashboard (WIP)
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/discord"
+            target="_blank"
+            rel="noreferrer"
+            className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
+          >
+            Join the community
+          </Link>
+        </li>
+      </ul>
     </div>
   )
 }

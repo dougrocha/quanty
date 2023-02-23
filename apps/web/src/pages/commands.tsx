@@ -25,7 +25,7 @@ const Commands: NextPageWithLayout = () => {
         </Link>
       </div>
 
-      <div className="mx-auto w-full space-y-1 rounded-md bg-dark-gray-900 p-2">
+      <ul className="mx-auto w-full space-y-1 rounded-md bg-dark-gray-900 p-2">
         <CommandRow
           command={{
             name: 'play',
@@ -79,7 +79,7 @@ const Commands: NextPageWithLayout = () => {
             ],
           }}
         />
-      </div>
+      </ul>
     </div>
   )
 }
@@ -99,38 +99,36 @@ interface Command {
 
 const CommandRow = ({ command }: { command: Command }) => {
   return (
-    <>
-      <div className="hover:bg-base w-full rounded-lg px-4 py-2 text-left font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-        <div className="flex items-center gap-x-2">
-          <span className="font-semibold">/{command.name}</span>
+    <li className="hover:bg-base w-full rounded-lg px-4 py-2 text-left font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+      <div className="flex items-center gap-x-2">
+        <span className="font-semibold">/{command.name}</span>
 
-          <div className="flex gap-x-2">
-            {command.options?.map(option => (
-              <Tooltip key={option.name}>
-                <TooltipTrigger asChild>
-                  <code
-                    className={`select-none rounded px-2 text-white ${
-                      option.required ? 'bg-theme-base' : 'bg-theme-neutral'
-                    }`}
-                  >
-                    {option.name}
-                  </code>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <div className="flex flex-col gap-y-2 rounded-md bg-theme-base p-2 text-white">
-                    {option.description}
-                    <span>Option: {option.type}</span>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            ))}
-          </div>
+        <div className="flex gap-x-2">
+          {command.options?.map(option => (
+            <Tooltip key={option.name}>
+              <TooltipTrigger asChild>
+                <code
+                  className={`select-none rounded px-2 text-white ${
+                    option.required ? 'bg-theme-base' : 'bg-theme-neutral'
+                  }`}
+                >
+                  {option.name}
+                </code>
+              </TooltipTrigger>
+              <TooltipContent>
+                <div className="flex flex-col gap-y-2 rounded-md bg-theme-base p-2 text-white">
+                  {option.description}
+                  <span>Option: {option.type}</span>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          ))}
         </div>
-
-        {/* Description */}
-        <p className="text-brand-100 mt-1 font-light">{command.description}</p>
       </div>
-    </>
+
+      {/* Description */}
+      <p className="text-brand-100 mt-1 font-light">{command.description}</p>
+    </li>
   )
 }
 

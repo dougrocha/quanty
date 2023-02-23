@@ -23,7 +23,7 @@ const Navbar = () => {
       </Link>
       <ul className="flex items-center space-x-10">
         <li>
-          <Link href="/commands">Commands</Link>
+          <Link href="/docs">Documentation</Link>
         </li>
         <li>
           <Link href="/dashboard">Dashboard</Link>
