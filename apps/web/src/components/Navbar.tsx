@@ -1,5 +1,7 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
+import { LOGO } from '@quanty/lib'
 
 import { api } from '~/api'
 import UserDropdownMenu from './UserDropdownMenu'
@@ -9,8 +11,15 @@ const Navbar = () => {
 
   return (
     <nav className="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-2 sm:px-4 lg:px-6">
-      <Link href="/" className="no-select text-2xl uppercase">
-        QUANTY
+      <Link href="/">
+        <Image
+          src={LOGO.sm}
+          alt="Quanty Profile Image"
+          width={40}
+          height={40}
+          priority
+          className="h-10 w-10 overflow-hidden rounded-full shadow-md shadow-theme-primary"
+        />
       </Link>
       <ul className="flex items-center space-x-10">
         <li>
