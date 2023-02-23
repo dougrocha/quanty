@@ -1770,6 +1770,7 @@ __metadata:
     "@types/node": ^18.14.0
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
+    "@vercel/analytics": ^0.1.10
     clsx: ^1.2.1
     dayjs: ^1.11.7
     discord-api-types: ^0.37.35
@@ -2982,6 +2983,15 @@ __metadata:
     "@typescript-eslint/types": 5.53.0
     eslint-visitor-keys: ^3.3.0
   checksum: 090695883c15364c6f401e97f56b13db0f31c1114f3bd22562bd41734864d27f6a3c80de33957e9dedab2d5f94b0f4480ba3fde1d4574e74dca4593917b7b54a
+  languageName: node
+  linkType: hard
+
+"@vercel/analytics@npm:^0.1.10":
+  version: 0.1.10
+  resolution: "@vercel/analytics@npm:0.1.10"
+  peerDependencies:
+    react: ^16.8||^17||^18
+  checksum: e6f6741f47363e32105593e003c7034a48af417019e2c6bf90156f65cee6432cac32b01ac89fe14b985161bb8639757047696de0c9e7dcd44217387828734e0c
   languageName: node
   linkType: hard
 

@@ -1,8 +1,8 @@
 import '../styles/globals.css'
 import React from 'react'
 import type { AppType } from 'next/app'
-import Head from 'next/head'
 import { Inter, Lato, Montserrat, Roboto } from '@next/font/google'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import type { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { DefaultSeo } from 'next-seo'
@@ -52,6 +52,7 @@ const MyApp: AppType<{
       `}</style>
 
       <DefaultSeo {...nextSeoConfig} />
+      <VercelAnalytics />
       <main className={`${montserrat.variable} font-montserrat antialiased`}>
         {getLayout(<Component {...pageProps} />)}
       </main>
