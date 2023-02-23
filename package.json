@@ -32,5 +32,8 @@
   },
   "lint-staged": {
     "*.json": "prettier --write"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.0"
   }
 }

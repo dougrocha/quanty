@@ -1,7 +1,0 @@
-query GetCustomer {
-  me {
-    customer {
-      id
-    }
-  }
-}

@@ -13,24 +13,28 @@ const Navbar = () => {
         QUANTY
       </Link>
       <ul className="flex items-center space-x-10">
-        <Link href="/commands">
-          <li>Commands</li>
-        </Link>
-        <Link href="/dashboard">
-          <li>Dashboard</li>
-        </Link>
-        <Link href="/discord" target="_blank" rel="noreferrer">
-          <li>Join our Discord</li>
-        </Link>
-        <div className="flex gap-x-4">
-          <Link
-            href="/discord"
-            target="_blank"
-            rel="noreferrer"
-            className="select-none rounded-lg border px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
-          >
-            <li>Invite</li>
+        <li>
+          <Link href="/commands">Commands</Link>
+        </li>
+        <li>
+          <Link href="/dashboard">Dashboard</Link>
+        </li>
+        <li>
+          <Link href="/discord" target="_blank" rel="noreferrer">
+            Join our Discord
           </Link>
+        </li>
+        <div className="flex gap-x-4">
+          <li>
+            <Link
+              href="/discord"
+              target="_blank"
+              rel="noreferrer"
+              className="select-none rounded-lg border px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
+            >
+              Invite
+            </Link>
+          </li>
 
           {session ? (
             <UserDropdownMenu user={session.user} />

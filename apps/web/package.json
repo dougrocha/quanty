@@ -1,6 +1,5 @@
 {
   "name": "@quanty/web",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "yarn with-env next build",
