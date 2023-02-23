@@ -2,6 +2,7 @@
   "name": "@quanty/config",
   "license": "MIT",
   "private": true,
+  "version": "0.0.0",
   "files": [
     "eslint-preset.js",
     "eslint-dashboard.js",

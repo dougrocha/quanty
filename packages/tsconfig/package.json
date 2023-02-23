@@ -1,9 +1,9 @@
 {
   "name": "@quanty/tsconfig",
   "private": true,
+  "version": "0.0.0",
   "files": [
-    "./nextjs.json",
-    "./quanty.json",
-    "./server.json"
+    "nextjs.json",
+    "quanty.json"
   ]
 }

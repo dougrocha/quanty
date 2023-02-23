@@ -1,7 +1,6 @@
 {
   "name": "@quanty/framework",
   "version": "0.0.1",
-  "private": "false",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "source": "src/index.ts",
