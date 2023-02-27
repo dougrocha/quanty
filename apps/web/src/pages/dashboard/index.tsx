@@ -92,33 +92,30 @@ const DashboardPage: NextPageWithLayout = () => {
                       />
                     ) : null}
 
-                    <span className="ml-6 text-lg font-medium">
-                      {guild.name}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center space-x-4 font-medium">
-                    <span
-                      className={`w-20 rounded-lg py-1 px-2 text-center ${
-                        guild.owner ? 'bg-theme-primary' : 'bg-theme-secondary'
-                      }`}
-                    >
-                      {guild.owner ? 'Owner' : 'Admin'}
-                    </span>
-
-                    <button
-                      className="w-24 rounded-lg bg-theme-neutral py-1 px-2"
-                      onClick={() => {
-                        router.push(`/dashboard/${guild.id}`)
-                        setCurrentGuild(guild)
-                      }}
-                    >
-                      {guild.bot ? 'Manage' : 'Invite'}
-                    </button>
-                  </div>
+                  <span className="ml-6 text-lg font-medium">{guild.name}</span>
+                  <span
+                    className={`w-20 rounded-lg py-1 px-2 text-center ${
+                      guild.owner ? 'bg-theme-primary' : 'bg-theme-secondary'
+                    }`}
+                  >
+                    {guild.owner ? 'Owner' : 'Admin'}
+                  </span>
                 </div>
-              )
-            })}
+
+                <div className="flex items-center space-x-4 font-medium">
+                  <button
+                    className="w-24 rounded-lg bg-theme-neutral py-1 px-2"
+                    onClick={() => {
+                      router.push(`/dashboard/${guild.id}`)
+                      setCurrentGuild(guild)
+                    }}
+                  >
+                    {guild.bot ? 'Manage' : 'Invite'}
+                  </button>
+                </div>
+              </div>
+            )
+          })}
         </>
       ) : null}
     </>
