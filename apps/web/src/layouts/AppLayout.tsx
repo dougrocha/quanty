@@ -3,7 +3,7 @@ import Navbar from '~/components/Navbar'
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="min-safe-h-screen flex flex-col">
       <Navbar />
       {children}
       <Footer />

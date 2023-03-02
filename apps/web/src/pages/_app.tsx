@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import React from 'react'
 import type { AppType } from 'next/app'
-import { Inter, Lato, Montserrat, Roboto } from '@next/font/google'
+import { Inter, Lato, Montserrat, Roboto } from "next/font/google";
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import type { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'

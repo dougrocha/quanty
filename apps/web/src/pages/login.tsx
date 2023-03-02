@@ -10,8 +10,7 @@ const LoginPage: NextPageWithLayout = () => {
   const router = useRouter()
 
   return (
-    <div className="h-screen w-full">
-      Hey this is this. Please Log in.
+    <div className="flex h-full w-full flex-1 items-center justify-center">
       <button
         className="rounded bg-theme-primary px-2 py-1"
         onClick={() => {

@@ -13,15 +13,15 @@
   "dependencies": {
     "@quanty/auth": "*",
     "@quanty/db": "*",
-    "@trpc/client": "^10.12.0",
-    "@trpc/server": "^10.12.0",
+    "@trpc/client": "^10.13.2",
+    "@trpc/server": "^10.13.2",
     "superjson": "1.12.2",
     "zod": "^3.20.6"
   },
   "devDependencies": {
     "@quanty/tsconfig": "*",
     "discord-api-types": "^0.37.35",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "typescript": "^4.9.5"
   }
 }

@@ -22,13 +22,13 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@prisma/client": "^4.10.1",
-    "@quanty/framework": "*",
-    "axios": "^1.3.3",
+    "@prisma/client": "^4.11.0",
+    "@quanty/framework": "^3.0.0",
+    "axios": "^1.3.4",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "nekos.life": "^3.0.0",
-    "redis": "^4.6.4",
+    "redis": "^4.6.5",
     "zod": "^3.20.6"
   },
   "devDependencies": {
@@ -36,15 +36,15 @@
     "@quanty/db": "*",
     "@quanty/tsconfig": "*",
     "@swc/cli": "^0.1.62",
-    "@swc/core": "^1.3.36",
+    "@swc/core": "^1.3.37",
     "@total-typescript/ts-reset": "^0.3.7",
-    "@types/node": "^18.14.0",
+    "@types/node": "^18.14.4",
     "chokidar": "^3.5.3",
     "concurrently": "^7.6.0",
     "dotenv-cli": "^7.0.0",
-    "nodemon": "^2.0.20",
-    "prisma": "^4.10.1",
-    "rimraf": "^4.1.2",
+    "nodemon": "^2.0.21",
+    "prisma": "^4.11.0",
+    "rimraf": "^4.1.3",
     "typescript": "^4.9.5"
   }
 }

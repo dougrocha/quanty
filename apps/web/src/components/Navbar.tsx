@@ -10,7 +10,7 @@ const Navbar = () => {
   const { data: session } = api.auth.getSession.useQuery()
 
   return (
-    <nav className="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-2 sm:px-4 lg:px-6">
+    <nav className="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <Link href="/">
         <Image
           src={LOGO.sm}
@@ -21,44 +21,55 @@ const Navbar = () => {
           className="h-10 w-10 overflow-hidden rounded-full shadow-md shadow-theme-primary"
         />
       </Link>
-      <ul className="flex items-center space-x-10">
-        <li>
-          <Link href="/docs">Documentation</Link>
-        </li>
-        <li>
-          <Link href="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link href="/discord" target="_blank" rel="noreferrer">
-            Join our Discord
-          </Link>
-        </li>
-        <div className="flex items-center gap-x-4">
+
+      <div className="flex gap-x-4">
+        <ul className="hidden md:flex md:items-center md:space-x-6">
+          <li className="rounded border border-transparent transition hover:border-theme-secondary">
+            <Link href="/docs" className="px-2 py-1">
+              Documentation
+            </Link>
+          </li>
+          <li className="rounded border border-transparent transition hover:border-theme-secondary">
+            <Link href="/dashboard" className="px-2 py-1">
+              Dashboard
+            </Link>
+          </li>
+          <li className="rounded border border-transparent transition hover:border-theme-secondary">
+            <Link
+              href="/discord"
+              target="_blank"
+              rel="noreferrer"
+              className="px-2 py-1"
+            >
+              Join our Discord
+            </Link>
+          </li>
+
           <li>
             <Link
               href="/discord"
               target="_blank"
               rel="noreferrer"
-              className="select-none rounded-lg border px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
+              className="select-none rounded-lg border border-theme-secondary px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-primary"
             >
               Invite
             </Link>
           </li>
+        </ul>
 
-          {session ? (
-            <UserDropdownMenu user={session.user} />
-          ) : (
-            <button
-              className="rounded-lg border bg-theme-primary px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
-              onClick={() => {
-                signIn('discord')
-              }}
-            >
-              Log in
-            </button>
-          )}
-        </div>
-      </ul>
+        {session ? (
+          <UserDropdownMenu user={session.user} />
+        ) : (
+          <button
+            className="rounded-lg border bg-theme-primary px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
+            onClick={() => {
+              signIn('discord')
+            }}
+          >
+            Log in
+          </button>
+        )}
+      </div>
     </nav>
   )
 }

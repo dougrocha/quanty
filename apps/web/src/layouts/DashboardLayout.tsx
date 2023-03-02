@@ -59,7 +59,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   })
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
+    <div className="min-safe-h-screen flex flex-col overflow-hidden">
       <DashboardNavbar />
       <div
         className={`h-full w-full flex-auto overflow-y-scroll rounded-t-3xl bg-dark-purple-700 p-6 shadow-[0px_8px_16px_#C335F0]`}

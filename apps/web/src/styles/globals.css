@@ -3,13 +3,10 @@
 @tailwind utilities;
 
 html {
-  margin: 0px;
-  width: 100%;
   font-family: var(--font-montserrat), system-ui, sans-serif;
 }
 
 body {
-  width: 100%;
   color: #f8f8f8;
   background-color: #17151e;
 }
