@@ -34,7 +34,7 @@ const UserDropdownMenu = ({
           sideOffset={5}
         >
           <DropdownMenuPrimitive.Item
-            className="relative flex h-7 select-none items-center rounded-md px-1 pl-4 text-sm leading-3 outline-none radix-highlighted:bg-primary-purple-20"
+            className="relative flex h-8 select-none items-center rounded-md px-1 pl-4 text-sm leading-3 outline-none radix-highlighted:bg-primary-purple-20"
             asChild
           >
             <Link href="/dashboard">Dashboard</Link>
@@ -42,14 +42,13 @@ const UserDropdownMenu = ({
 
           <DropdownMenuPrimitive.Separator className="my-1 h-px bg-primary-bright-purple" />
 
-          <DropdownMenuPrimitive.Item className="relative flex h-7 select-none items-center rounded-md px-1 pl-4 text-sm leading-3 outline-none radix-highlighted:bg-primary-purple-20">
-            <button
-              onClick={() => {
-                signOut({ redirect: false, callbackUrl: '/' })
-              }}
-            >
-              Logout
-            </button>
+          <DropdownMenuPrimitive.Item
+            className="relative flex h-8 cursor-pointer select-none items-center rounded-md px-1 pl-4 text-sm leading-3 outline-none radix-highlighted:bg-primary-purple-20"
+            onClick={() => {
+              signOut({ redirect: true, callbackUrl: '/' })
+            }}
+          >
+            Logout
           </DropdownMenuPrimitive.Item>
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>
