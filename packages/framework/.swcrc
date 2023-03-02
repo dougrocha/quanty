@@ -11,7 +11,6 @@
       "syntax": "typescript",
       "decorators": true
     },
-    "baseUrl": "./src",
     "transform": {
       "legacyDecorator": true,
       "decoratorMetadata": true

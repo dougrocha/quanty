@@ -16,7 +16,8 @@
     "bot#dev": {
       "dependsOn": ["^build", "^db:generate"],
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "env": ["LOG_LEVEL"]
     },
     "build": {
       "dependsOn": ["^build", "^db:generate"],

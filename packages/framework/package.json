@@ -35,6 +35,8 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "glob": "^7.2.3",
+    "pino": "^8.11.0",
+    "pino-pretty": "^9.4.0",
     "reflect-metadata": "^0.1.13",
     "zod": "^3.20.6"
   },

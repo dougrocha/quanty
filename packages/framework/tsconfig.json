@@ -2,13 +2,12 @@
   "extends": "@quanty/tsconfig/quanty.json",
   "compilerOptions": {
     "rootDir": "./",
-    "baseUrl": "./src",
+    "baseUrl": "./test",
     "outDir": "dist",
 
     "moduleResolution": "node",
     "importsNotUsedAsValues": "preserve"
   },
-  "include": ["src/**/*", "test/**/*", ".eslintrc.js", "environment.d.ts"],
-  "exclude": ["node_modules", "dist/**/*", "**/*.spec.ts", "generate-joi.ts"]
+  "include": ["src/**/*", "test/**/*", "environment.d.ts"],
+  "exclude": ["node_modules", "dist/**/*"]
 }
-
