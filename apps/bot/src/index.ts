@@ -1,44 +1,20 @@
-import { PrismaClient } from '@prisma/client'
-import { QuantyClient } from '@quanty/framework'
-import * as dotenv from 'dotenv'
-import { createClient } from 'redis'
+import '@total-typescript/ts-reset'
+import 'dotenv'
+import { SapphireClient } from '@sapphire/framework'
+import { GatewayIntentBits } from 'discord.js'
 
-const production = process.env.NODE_ENV === 'production'
-dotenv.config({ path: production ? '.env.production' : '.env.development' })
+import { clientEnv } from './utils/env'
 
-export const prisma = new PrismaClient()
-
-const redis = createClient({
-  url: process.env.REDIS_URL,
-})
-
-export const client = new QuantyClient({
-  owner: ['571520537587875851'],
-  devGuilds: ['871581301713555526'],
-  defaults: {
-    events: true,
-  },
-  logLevel: production ? 'ALL' : 'DEBUG',
-  outDir: 'dist/',
-  baseDirectory: 'src/',
+export const client = new SapphireClient({
   intents: [
-    'Guilds',
-    'GuildBans',
-    'GuildInvites',
-    'GuildMembers',
-    'GuildMessages',
-    'GuildMessageReactions',
-    'GuildWebhooks',
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildWebhooks,
   ],
 })
 
-client.setDefaultCommandError(
-  'This command is broken. Please contact the server owner.',
-)
-
-void client.login(process.env.BOT_TOKEN).then(() => {
-  redis.on('connect', () => console.log('Redis connected'))
-  redis.on('error', err => console.log('Redis Client Error', err))
-
-  void redis.connect()
-})
+void client.login(clientEnv.DISCORD_CLIENT_TOKEN)

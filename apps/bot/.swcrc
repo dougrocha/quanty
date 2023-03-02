@@ -1,5 +1,4 @@
 {
-  "sourceMaps": true,
   "module": {
     "type": "commonjs",
     "strict": true
@@ -12,10 +11,6 @@
       "decorators": true
     },
     "baseUrl": "./src",
-    "transform": {
-      "legacyDecorator": true,
-      "decoratorMetadata": true
-    },
 
     "keepClassNames": true
   }

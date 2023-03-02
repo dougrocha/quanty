@@ -1,16 +1,31 @@
-import { Command, CommandReturn, SlashCommand } from '@quanty/framework'
+import { ChatInputCommand, Command } from '@sapphire/framework'
 import axios from 'axios'
 import { EmbedBuilder } from 'discord.js'
 
-import { IMeme } from '../../types/Meme'
+export interface IMeme {
+  title: string
+  postLink: string
+  url: string
+  subreddit: string
+  ups: string
+}
 
-@SlashCommand('meme', {
-  description: 'Will send a random meme',
-})
-export class MemeCommand extends Command {
-  async run(): Promise<CommandReturn> {
+export class AnimeCommand extends Command {
+  public constructor(context: Command.Context, options: Command.Options) {
+    super(context, { ...options })
+  }
+
+  public override registerApplicationCommands(
+    registry: ChatInputCommand.Registry,
+  ) {
+    registry.registerChatInputCommand(builder =>
+      builder.setName('meme').setDescription('Will send a random meme'),
+    )
+  }
+
+  public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     await axios
-      .get('https://meme-api.herokuapp.com/gimme')
+      .get('https://meme-api.com/gimme')
       .then(({ data }: { data: IMeme }) => {
         const embed = new EmbedBuilder()
           .setTitle(data.title)
@@ -20,13 +35,9 @@ export class MemeCommand extends Command {
           .setTimestamp(Date.now())
           .setColor('#FF5F9F')
 
-        return {
+        interaction.reply({
           embeds: [embed],
-        }
+        })
       })
-  }
-
-  async error() {
-    throw new Error('Method not implemented.')
   }
 }

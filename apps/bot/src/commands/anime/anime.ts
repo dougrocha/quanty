@@ -1,75 +1,76 @@
-import { Test, SlashCommand, Command, CommandReturn } from '@quanty/framework'
-import {
-  ApplicationCommandOptionType,
-  CommandInteraction,
-  EmbedBuilder,
-} from 'discord.js'
+import { ChatInputCommand, Command } from '@sapphire/framework'
+import { EmbedBuilder } from 'discord.js'
 import NekoClient from 'nekos.life'
 
-@Test()
-@SlashCommand('anime', {
-  description: 'Sends an anime picture.',
-  options: [
-    {
-      type: ApplicationCommandOptionType.String,
-      name: 'type',
-      description: 'type of image',
-      required: false,
-      choices: [
-        { name: 'Waifu', value: 'waifu' },
-        { name: 'Baka', value: 'baka' },
-        { name: 'Cuddle', value: 'cuddle' },
-        { name: 'Pat', value: 'pat' },
-        { name: 'Holo', value: 'holo' },
-        { name: 'Food', value: 'feed' },
-        { name: 'Kiss', value: 'kiss' },
-        { name: 'Poke', value: 'poke' },
-      ],
-    },
-  ],
-})
 export class AnimeCommand extends Command {
-  async run({ options }: CommandInteraction): Promise<CommandReturn> {
-    const neko = new NekoClient()
+  public constructor(context: Command.Context, options: Command.Options) {
+    super(context, { ...options })
+  }
 
-    const type = options.get('type')
+  public override registerApplicationCommands(
+    registry: ChatInputCommand.Registry,
+  ) {
+    registry.registerChatInputCommand(builder =>
+      builder
+        .setName('anime')
+        .setDescription('Sends an anime picture.')
+        .addStringOption(option =>
+          option
+            .setName('type')
+            .setDescription('type of image')
+            .setRequired(false)
+            .addChoices(
+              { name: 'Waifu', value: 'waifu' },
+              { name: 'Waifu', value: 'waifu' },
+              { name: 'Baka', value: 'baka' },
+              { name: 'Cuddle', value: 'cuddle' },
+              { name: 'Pat', value: 'pat' },
+              { name: 'Holo', value: 'holo' },
+              { name: 'Food', value: 'feed' },
+              { name: 'Kiss', value: 'kiss' },
+              { name: 'Poke', value: 'poke' },
+            )
+            .setRequired(false),
+        ),
+    )
+  }
+
+  private neko = new NekoClient()
+
+  public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+    const type = interaction.options.get('type')
+
+    const embed = new EmbedBuilder()
 
     if (!type) {
       const allSfw = [
-        neko.waifu(),
-        neko.baka(),
-        neko.cuddle(),
-        neko.pat(),
-        neko.tickle(),
-        neko.feed(),
-        neko.hug(),
-        neko.kiss(),
-        neko.slap(),
-        neko.smug(),
-        neko.poke(),
-        neko.holo(),
+        this.neko.waifu(),
+        this.neko.baka(),
+        this.neko.cuddle(),
+        this.neko.pat(),
+        this.neko.tickle(),
+        this.neko.feed(),
+        this.neko.hug(),
+        this.neko.kiss(),
+        this.neko.slap(),
+        this.neko.smug(),
+        this.neko.poke(),
+        this.neko.holo(),
       ]
 
-      const res = await allSfw[Math.floor(Math.random() * allSfw.length)]
+      console.log(allSfw)
 
-      return {
-        embeds: [
-          new EmbedBuilder({ image: { url: res.url } }).setColor('#FF5F9F'),
-        ],
-      }
+      const res = await allSfw[Math.floor(Math.random() * allSfw.length)]
+      interaction.reply({
+        embeds: [embed.setImage(res.url).setColor('#FF5F9F')],
+      })
     }
 
-    const res = neko[type as never] as () => Promise<{ url: string }>
-
+    const res = this.neko[type as never] as () => Promise<{ url: string }>
     const url = (await res()).url
 
-    return {
-      embeds: [new EmbedBuilder({ image: { url } }).setColor('#FF5F9F')],
-    }
-  }
-
-  async error(error: unknown, interaction: CommandInteraction) {
-    throw new Error('Method not implemented.')
+    interaction.reply({
+      embeds: [embed.setImage(url).setColor('#FF5F9F')],
+    })
   }
 }
-
