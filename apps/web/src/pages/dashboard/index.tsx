@@ -14,6 +14,7 @@ const DashboardPage: NextPageWithLayout = () => {
     data: guilds,
     isLoading,
     isError,
+    isSuccess,
   } = api.user.getManagedGuilds.useQuery()
 
   const setCurrentGuild = useSetAtom(currentGuildAtom)
@@ -49,11 +50,13 @@ const DashboardPage: NextPageWithLayout = () => {
         </p>
       ) : null}
 
-      {!guilds || guilds?.length === 0 ? (
+      {guilds?.length === 0 && isSuccess ? (
         <p>You seem lonely. You should find some friends.</p>
-      ) : (
+      ) : null}
+
+      {guilds && guilds?.length > 0 && isSuccess ? (
         <>
-          {guilds
+          {guilds!
             // Alphabetical Sort
             .sort((a, b) => {
               if (a.name < b.name) return -1
@@ -114,7 +117,7 @@ const DashboardPage: NextPageWithLayout = () => {
               )
             })}
         </>
-      )}
+      ) : null}
     </>
   )
 }
