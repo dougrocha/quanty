@@ -44,60 +44,75 @@ const DashboardPage: NextPageWithLayout = () => {
       ) : null}
 
       {isError ? (
-        <p className="text-lg font-semibold text-red-500">
+        <p className="mx-auto text-lg font-semibold text-red-500">
           There was an error fetching your guilds. Please try again later.
         </p>
       ) : null}
 
-      {guilds?.length === 0 ? (
+      {!guilds || guilds?.length === 0 ? (
         <p>You seem lonely. You should find some friends.</p>
       ) : (
         <>
-          {guilds?.map(guild => {
-            const iconUrl = getGuildIcon(guild)
+          {guilds
+            // Alphabetical Sort
+            .sort((a, b) => {
+              if (a.name < b.name) return -1
+              if (a.name > b.name) return 1
+              return 0
+            })
+            // Sort Managed Guilds to the top
+            .sort((a, b) => {
+              if (a.bot && !b.bot) return -1
+              if (!a.bot && b.bot) return 1
+              return 0
+            })
+            .map(guild => {
+              const iconUrl = getGuildIcon(guild)
 
-            return (
-              <div
-                key={guild.id}
-                className="mx-auto my-4 flex w-full max-w-screen-lg items-center justify-between space-x-4 overflow-auto rounded-lg bg-theme-base pr-10"
-              >
-                <div className="flex items-center">
-                  {iconUrl ? (
-                    <Image
-                      src={iconUrl}
-                      alt="Quanty Profile Image"
-                      width={64}
-                      height={64}
-                      priority
-                      className="h-16 w-16"
-                    />
-                  ) : null}
+              return (
+                <div
+                  key={guild.id}
+                  className="mx-auto my-4 flex w-full max-w-screen-lg items-center justify-between space-x-4 overflow-auto rounded-lg bg-theme-base pr-10"
+                >
+                  <div className="flex items-center">
+                    {iconUrl ? (
+                      <Image
+                        src={iconUrl}
+                        alt="Quanty Profile Image"
+                        width={64}
+                        height={64}
+                        priority
+                        className="h-16 w-16"
+                      />
+                    ) : null}
 
-                  <span className="ml-6 text-lg font-medium">{guild.name}</span>
+                    <span className="ml-6 text-lg font-medium">
+                      {guild.name}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center space-x-4 font-medium">
+                    <span
+                      className={`w-20 rounded-lg py-1 px-2 text-center ${
+                        guild.owner ? 'bg-theme-primary' : 'bg-theme-secondary'
+                      }`}
+                    >
+                      {guild.owner ? 'Owner' : 'Admin'}
+                    </span>
+
+                    <button
+                      className="w-24 rounded-lg bg-theme-neutral py-1 px-2"
+                      onClick={() => {
+                        router.push(`/dashboard/${guild.id}`)
+                        setCurrentGuild(guild)
+                      }}
+                    >
+                      {guild.bot ? 'Manage' : 'Invite'}
+                    </button>
+                  </div>
                 </div>
-
-                <div className="flex items-center space-x-4 font-medium">
-                  <span
-                    className={`w-20 rounded-lg py-1 px-2 text-center ${
-                      guild.owner ? 'bg-theme-primary' : 'bg-theme-secondary'
-                    }`}
-                  >
-                    {guild.owner ? 'Owner' : 'Admin'}
-                  </span>
-
-                  <button
-                    className="w-24 rounded-lg bg-theme-neutral py-1 px-2"
-                    onClick={() => {
-                      router.push(`/dashboard/${guild.id}`)
-                      setCurrentGuild(guild)
-                    }}
-                  >
-                    {guild.bot ? 'Manage' : 'Invite'}
-                  </button>
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
         </>
       )}
     </>
