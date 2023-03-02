@@ -19,9 +19,6 @@ export const userRouter = createTRPCRouter({
       getBotGuilds(),
     ])
 
-    console.log('userGuilds', userGuilds)
-    console.log('botGuilds', botGuilds)
-
     return userGuilds
       .map(guild => ({
         ...guild,
@@ -38,32 +35,28 @@ const isAdmin = (permissions: string | undefined) => {
 const getUserGuilds = async (userId: string, prisma: PrismaClient) => {
   const userAccount = await getUserAccount(userId, prisma, {
     access_token: true,
+    token_type: true,
   })
 
   if (!userAccount) {
     throw new Error('Account cannot be found.')
   }
 
-  if (!userAccount.access_token) {
+  if (!userAccount.access_token || !userAccount.token_type) {
     throw new Error('Account does not have an access token.')
   }
 
   return await fetch('https://discord.com/api/users/@me/guilds', {
     headers: {
-      Authorization: `Bearer ${userAccount.access_token}`, // Bearer token
+      authorization: `${userAccount.token_type} ${userAccount.access_token}`, // Bearer token
     },
-  })
-    .then(res => res.json() as Promise<APIGuild[]>)
-    .catch(err => {
-      console.error(err)
-      return []
-    })
+  }).then(res => res.json() as Promise<APIGuild[]>)
 }
 
 const getBotGuilds = async () => {
   return await fetch('https://discord.com/api/users/@me/guilds', {
     headers: {
-      Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`, // Bearer token
+      authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`, // Bearer token
     },
   }).then(res => res.json() as Promise<APIGuild[]>)
 }

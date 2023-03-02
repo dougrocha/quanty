@@ -45,9 +45,12 @@ const DashboardPage: NextPageWithLayout = () => {
       ) : null}
 
       {isError ? (
-        <p className="mx-auto text-lg font-semibold text-red-500">
-          There was an error fetching your guilds. Please try again later.
-        </p>
+        <div className="mx-auto flex h-16 w-full max-w-screen-lg justify-center py-6 text-lg font-semibold text-red-500">
+          <p>
+            There was an error fetching your guilds. <br /> Please try again
+            later.
+          </p>
+        </div>
       ) : null}
 
       {guilds?.length === 0 && isSuccess ? (
