@@ -1718,40 +1718,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@quanty/old-framework@workspace:packages/old-framework":
-  version: 0.0.0-use.local
-  resolution: "@quanty/old-framework@workspace:packages/old-framework"
-  dependencies:
-    "@quanty/config": "*"
-    "@quanty/tsconfig": "*"
-    "@swc/cli": ^0.1.62
-    "@swc/core": ^1.3.36
-    "@types/glob": ^7.2.0
-    "@types/node": ^18.14.0
-    "@types/source-map-support": ^0.5.6
-    chalk: 4.1.2
-    chokidar: ^3.5.3
-    concurrently: ^7.6.0
-    date-fns: ^2.29.3
-    discord.js: ^14.7.1
-    dotenv: ^16.0.3
-    dotenv-cli: ^7.0.0
-    eslint: ^8.34.0
-    glob: ^7.2.3
-    nodemon: ^2.0.20
-    reflect-metadata: ^0.1.13
-    rimraf: ^4.1.2
-    source-map-support: ^0.5.21
-    ts-node: ^10.9.1
-    ts-node-dev: ^2.0.0
-    tsconfig-paths: ^4.1.2
-    typescript: ^4.9.5
-    zod: ^3.20.6
-  peerDependencies:
-    discord.js: ^14.6.0
-  languageName: unknown
-  linkType: soft
-
 "@quanty/tsconfig@*, @quanty/tsconfig@workspace:packages/tsconfig":
   version: 0.0.0-use.local
   resolution: "@quanty/tsconfig@workspace:packages/tsconfig"
