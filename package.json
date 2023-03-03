@@ -34,7 +34,6 @@
     "*.json": "prettier --write"
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.0",
-    "@sapphire/framework": "^4.2.0"
+    "@changesets/cli": "^2.26.0"
   }
 }

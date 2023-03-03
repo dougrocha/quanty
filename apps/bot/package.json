@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
-    "@quanty/framework": "^3.0.0",
+    "@sapphire/framework": "^4.2.0",
     "axios": "^1.3.4",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
