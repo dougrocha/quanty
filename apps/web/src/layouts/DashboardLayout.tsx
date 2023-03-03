@@ -1,4 +1,4 @@
-import { LOGO } from '@quanty/lib'
+import { LOGO, WEBAPP_URL } from '@quanty/lib'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 import { Fragment, useEffect } from 'react'
@@ -10,7 +10,7 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { APIGuild } from 'discord-api-types/v10'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai/react'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 import UserDropdownMenu from '~/components/UserDropdownMenu'
 import { api } from '~/api'
@@ -22,32 +22,29 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { status } = useSession({
     required: true,
-
     onUnauthenticated: () => {
-      router.push({
-        pathname: '/login',
-        query: {
-          redirect: router.asPath,
-        },
+      signIn('discord', {
+        callbackUrl: `${WEBAPP_URL}${router.asPath}`,
+        redirect: false,
       })
     },
   })
 
   const setCurrentGuild = useSetAtom(currentGuildAtom)
 
+  const routerGuildId = router.query.guildId as string
+
   useEffect(() => {
-    if (!router.query.guildId) {
+    if (!routerGuildId) {
       setCurrentGuild(undefined)
     }
-  }, [router.query.guildId, setCurrentGuild])
+  }, [routerGuildId, setCurrentGuild])
 
   api.user.getManagedGuilds.useQuery(undefined, {
     enabled: status === 'authenticated',
     onSuccess: data => {
-      if (router.query.guildId) {
-        const routerGuild = data.find(
-          guild => guild.id === router.query.guildId,
-        )
+      if (routerGuildId) {
+        const routerGuild = data.find(guild => guild.id === routerGuildId)
         setCurrentGuild(routerGuild)
       } else {
         setCurrentGuild(undefined)
