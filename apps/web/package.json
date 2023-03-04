@@ -29,6 +29,7 @@
     "@trpc/server": "^10.14.0",
     "@vercel/analytics": "^0.1.11",
     "clsx": "^1.2.1",
+    "cssnano": "^5.1.15",
     "dayjs": "^1.11.7",
     "framer-motion": "^10.0.1",
     "jotai": "^2.0.3",
