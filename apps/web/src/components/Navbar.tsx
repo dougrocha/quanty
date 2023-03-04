@@ -1,13 +1,13 @@
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { LOGO } from '@quanty/lib'
 
-import { api } from '~/api'
-import UserDropdownMenu from './UserDropdownMenu'
+const UserDropdownMenu = dynamic(() => import('./UserDropdownMenu'))
 
 const Navbar = () => {
-  const { data: session } = api.auth.getSession.useQuery()
+  const { data: session, status } = useSession()
 
   return (
     <nav className="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -57,9 +57,17 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {session ? (
+        {session && status === 'authenticated' ? (
           <UserDropdownMenu user={session.user} />
-        ) : (
+        ) : null}
+
+        {status === 'loading' ? (
+          <div className="flex items-center justify-center">
+            <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-theme-primary" />
+          </div>
+        ) : null}
+
+        {status === 'unauthenticated' ? (
           <button
             className="rounded-lg border bg-theme-primary px-3 py-1 transition-all duration-200 ease-in-out hover:bg-theme-secondary"
             onClick={() => {
@@ -68,7 +76,7 @@ const Navbar = () => {
           >
             Log in
           </button>
-        )}
+        ) : null}
       </div>
     </nav>
   )

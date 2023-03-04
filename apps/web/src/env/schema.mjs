@@ -64,7 +64,7 @@ export const clientSchema = z.object({
  * You can't destruct `process.env` as a regular object, so you have to do
  * it manually here. This is because Next.js evaluates this at build time,
  * and only used environment variables are included in the build.
- * @type {{ [k in keyof z.input<typeof clientSchema>]: string | undefined }}
+ * @type {{ [k in keyof z.input<typeof clientSchema>]: string | undefined  }}
  */
 export const clientEnv = {
   NEXT_PUBLIC_DISCORD_INVITE_URL: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,

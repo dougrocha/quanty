@@ -31,17 +31,17 @@ const config = {
     return [
       {
         source: '/invite',
-        destination: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
+        destination: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL ?? '',
         permanent: true,
       },
       {
         source: '/discord',
-        destination: process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
+        destination: process.env.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL ?? '',
         permanent: true,
       },
       {
         source: '/github',
-        destination: process.env.NEXT_PUBLIC_GITHUB_URL,
+        destination: process.env.NEXT_PUBLIC_GITHUB_URL ?? '',
         permanent: true,
       },
     ]

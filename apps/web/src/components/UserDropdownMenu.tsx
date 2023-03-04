@@ -21,8 +21,6 @@ const UserDropdownMenu = ({
           height={32}
           priority
           className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-theme-primary"
-          placeholder="blur"
-          blurDataURL={DISCORD_LOGO}
         />
 
         <ChevronUpIcon className="h-5 w-5 transition-transform group-radix-state-open:rotate-180" />

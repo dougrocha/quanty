@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useSetAtom } from 'jotai'
 import Skeleton from 'react-loading-skeleton'
@@ -8,6 +9,7 @@ import DashboardLayout from '~/layouts/DashboardLayout'
 import getGuildIcon from '~/lib/getGuildIcon'
 import { currentGuildAtom } from '~/lib/guildStore'
 import { NextPageWithLayout } from '~/lib/types'
+import { clientEnv } from '../../env/schema.mjs'
 
 const DashboardPage: NextPageWithLayout = () => {
   const {
@@ -106,15 +108,26 @@ const DashboardPage: NextPageWithLayout = () => {
                       {guild.owner ? 'Owner' : 'Admin'}
                     </span>
 
-                    <button
-                      className="w-full rounded-lg bg-theme-neutral py-1 px-2 md:w-24"
-                      onClick={() => {
-                        router.push(`/dashboard/${guild.id}`)
-                        setCurrentGuild(guild)
-                      }}
-                    >
-                      {guild.bot ? 'Manage' : 'Invite'}
-                    </button>
+                    {guild.bot ? (
+                      <button
+                        className="w-full rounded-lg bg-theme-neutral py-1 px-2 md:w-24"
+                        onClick={() => {
+                          router.push(`/dashboard/${guild.id}`)
+                          setCurrentGuild(guild)
+                        }}
+                      >
+                        Manage
+                      </button>
+                    ) : (
+                      <Link
+                        className="w-full rounded-lg bg-theme-neutral py-1 px-2 text-center md:w-24"
+                        href={inviteUrlWithGuild(guild.id)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Invite
+                      </Link>
+                    )}
                   </div>
                 </div>
               )
@@ -123,6 +136,11 @@ const DashboardPage: NextPageWithLayout = () => {
       ) : null}
     </>
   )
+}
+
+const inviteUrlWithGuild = (guildId: string) => {
+  // This uses a & because INVITE_URL already has a ?
+  return `${clientEnv.NEXT_PUBLIC_DISCORD_INVITE_URL}&guild_id=${guildId}`
 }
 
 DashboardPage.getLayout = page => <DashboardLayout>{page}</DashboardLayout>
