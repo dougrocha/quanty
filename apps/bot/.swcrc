@@ -8,10 +8,20 @@
     "target": "es2021",
     "parser": {
       "syntax": "typescript",
-      "decorators": true
+      "tsx": false,
+      "decorators": false,
+      "dynamicImport": true
     },
     "baseUrl": "./src",
 
-    "keepClassNames": true
-  }
+    "keepClassNames": true,
+
+    "minify": {
+      "compress": {
+        "unused": true
+      },
+      "mangle": true
+    }
+  },
+  "minify": true
 }
