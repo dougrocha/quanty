@@ -43,7 +43,7 @@ export class GetBannerCommand extends Command {
       ?.members.cache.get(targetId)?.user
 
     await axios
-      .get(`https://discord.com/api/v9/users/${targetId}`, {
+      .get(`https://discord.com/api/v10/v9/users/${targetId}`, {
         headers: {
           Authorization: `Bot ${client.token}`,
         },

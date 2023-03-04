@@ -1,4 +1,6 @@
 // @ts-check
+
+import NextBundleAnalyzer from '@next/bundle-analyzer'
 import nextra from 'nextra'
 
 /**
@@ -15,6 +17,10 @@ const withNextra = nextra({
     codeblocks: false,
   },
   defaultShowCopyCode: true,
+})
+
+const withBundleAnalyzer = NextBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
 })
 
 /** @type {import("next").NextConfig} */
@@ -64,4 +70,4 @@ const config = {
   typescript: { ignoreBuildErrors: !!process.env.CI },
 }
 
-export default withNextra(config)
+export default withBundleAnalyzer(withNextra(config))

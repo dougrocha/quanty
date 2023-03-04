@@ -16,7 +16,7 @@ const GuildSelectionDropdown = () => {
 
   const [currentGuild, setCurrentGuild] = useAtom(currentGuildAtom)
 
-  const { data: guilds } = api.user.getManagedGuilds.useQuery(undefined, {
+  const { data: guilds } = api.user.managedGuilds.useQuery(undefined, {
     enabled: !!currentGuild,
   })
 

@@ -47,7 +47,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [routerGuildId, setCurrentGuild])
 
-  api.user.getManagedGuilds.useQuery(undefined, {
+  api.user.managedGuilds.useQuery(undefined, {
     enabled: status === 'authenticated',
     onSuccess: data => {
       if (routerGuildId) {

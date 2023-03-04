@@ -17,7 +17,7 @@ const DashboardPage: NextPageWithLayout = () => {
     isLoading,
     isError,
     isSuccess,
-  } = api.user.getManagedGuilds.useQuery()
+  } = api.user.managedGuilds.useQuery()
 
   const setCurrentGuild = useSetAtom(currentGuildAtom)
 

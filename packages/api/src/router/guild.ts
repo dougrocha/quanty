@@ -1,6 +1,8 @@
-import { PrismaClient } from '@quanty/db'
+import { TRPCError } from '@trpc/server'
 import { APIGuild } from 'discord-api-types/v10'
 import { z } from 'zod'
+import { PrismaClient } from '@quanty/db'
+
 import { createTRPCRouter, protectedProcedure } from '../trpc'
 import { getUserAccount } from '../util'
 
@@ -27,7 +29,7 @@ export const guildRouter = createTRPCRouter({
 })
 
 const getBotGuild = async (guildId: string) => {
-  return await fetch(`https://discord.com/api/guilds/${guildId}`, {
+  return await fetch(`https://discord.com/api/v10/guilds/${guildId}`, {
     headers: {
       Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`, // Bot token
     },
@@ -47,9 +49,11 @@ const checkGuildAccess = async ({
     providerAccountId: true,
   })
 
-  if (discordGuild.owner_id === userAccount?.providerAccountId) {
-    return true
-  } else {
-    throw new Error('You do not have permission to manage this guild.')
-  }
+  if (discordGuild.owner_id !== userAccount?.providerAccountId)
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'You do not have access to this guild.',
+    })
+
+  return true
 }
