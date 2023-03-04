@@ -78,9 +78,9 @@ const DashboardPage: NextPageWithLayout = () => {
               return (
                 <div
                   key={guild.id}
-                  className="mx-auto my-4 flex w-full max-w-screen-lg items-center justify-between space-x-4 overflow-auto rounded-lg bg-theme-base pr-10"
+                  className="mx-auto my-4 flex w-full max-w-screen-lg flex-col items-center justify-between gap-4 overflow-auto rounded-lg bg-theme-base py-2 pb-2 md:flex-row md:py-0 md:px-0 md:pr-10 md:pb-0"
                 >
-                  <div className="flex items-center">
+                  <div className="flex flex-col items-center gap-2 overflow-hidden md:flex-row">
                     {iconUrl ? (
                       <Image
                         src={iconUrl}
@@ -88,34 +88,39 @@ const DashboardPage: NextPageWithLayout = () => {
                         width={64}
                         height={64}
                         priority
-                        className="h-16 w-16"
+                        className="h-16 w-16 rounded-full md:rounded-none"
                       />
                     ) : null}
 
-                  <span className="ml-6 text-lg font-medium">{guild.name}</span>
-                  <span
-                    className={`w-20 rounded-lg py-1 px-2 text-center ${
-                      guild.owner ? 'bg-theme-primary' : 'bg-theme-secondary'
-                    }`}
-                  >
-                    {guild.owner ? 'Owner' : 'Admin'}
-                  </span>
-                </div>
+                    <span className="px-4 text-lg font-medium line-clamp-2 md:truncate">
+                      {guild.name}
+                      jklha sdfkh jasdfhjkl asdfjkhl asdfhjklasd fhjklasd fhjlka
+                      sdfhjklasdfh jklfas
+                    </span>
+                  </div>
 
-                <div className="flex items-center space-x-4 font-medium">
-                  <button
-                    className="w-24 rounded-lg bg-theme-neutral py-1 px-2"
-                    onClick={() => {
-                      router.push(`/dashboard/${guild.id}`)
-                      setCurrentGuild(guild)
-                    }}
-                  >
-                    {guild.bot ? 'Manage' : 'Invite'}
-                  </button>
+                  <div className="flex w-full flex-col items-center justify-center gap-2 px-4 font-medium md:w-auto md:flex-row">
+                    <span
+                      className={`w-full rounded-lg py-1 px-2 text-center md:w-20 ${
+                        guild.owner ? 'bg-theme-primary' : 'bg-theme-secondary'
+                      }`}
+                    >
+                      {guild.owner ? 'Owner' : 'Admin'}
+                    </span>
+
+                    <button
+                      className="w-full rounded-lg bg-theme-neutral py-1 px-2 md:w-24"
+                      onClick={() => {
+                        router.push(`/dashboard/${guild.id}`)
+                        setCurrentGuild(guild)
+                      }}
+                    >
+                      {guild.bot ? 'Manage' : 'Invite'}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
         </>
       ) : null}
     </>

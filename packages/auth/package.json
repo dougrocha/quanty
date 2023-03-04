@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "@quanty/tsconfig": "*",
-    "eslint": "^8.35.0",
     "typescript": "^4.9.5"
   }
 }

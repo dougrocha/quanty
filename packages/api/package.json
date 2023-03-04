@@ -21,7 +21,6 @@
   "devDependencies": {
     "@quanty/tsconfig": "*",
     "discord-api-types": "^0.37.35",
-    "eslint": "^8.35.0",
     "typescript": "^4.9.5"
   }
 }
