@@ -94,8 +94,6 @@ const DashboardPage: NextPageWithLayout = () => {
 
                     <span className="px-4 text-lg font-medium line-clamp-2 md:truncate">
                       {guild.name}
-                      jklha sdfkh jasdfhjkl asdfjkhl asdfhjklasd fhjklasd fhjlka
-                      sdfhjklasdfh jklfas
                     </span>
                   </div>
 
