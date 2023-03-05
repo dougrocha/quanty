@@ -2,8 +2,7 @@
   "name": "@quanty/web",
   "private": true,
   "scripts": {
-    "build": "yarn with-env next build",
-    "postbuild": "yarn with-env next-sitemap",
+    "build": "yarn with-env next build && yarn with-env next-sitemap",
     "start": "yarn with-env next start",
     "clean": "rm -rf .next .turbo node_modules",
     "dev": "yarn with-env next dev",
