@@ -1,24 +1,23 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
-  extends: ['next/core-web-vitals', 'eslint:recommended'],
+  root: true,
+  extends: ['eslint:recommended', 'next/core-web-vitals'],
   overrides: [
     {
-      plugins: ['turbo'],
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:@next/next/recommended',
       ],
       files: ['**/*.ts', '**/*.tsx'],
       parserOptions: {
+        ecmaVersion: 'latest',
         tsconfigRootDir: __dirname,
-        project: [
-          //   './tsconfig.json',
-          './apps/*/tsconfig.json',
-          './packages/*/tsconfig.json',
-        ],
+        project: ['./apps/*/tsconfig.json', './packages/*/tsconfig.json'],
       },
       rules: {
         'no-unused-vars': 'off',
+        '@next/next/no-html-link-for-pages': 'off',
         '@typescript-eslint/no-unused-vars': [
           'warn',
           {
@@ -29,15 +28,17 @@ const config = {
         ],
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-unsafe-argument': 'off',
-        '@typescript-eslint/no-unsafe-call': 'off',
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        'turbo/no-undeclared-env-vars': 'error',
+        // '@typescript-eslint/no-unsafe-assignment': 'off',
+        // '@typescript-eslint/no-unsafe-argument': 'off',
+        // '@typescript-eslint/no-unsafe-call': 'off',
       },
     },
   ],
-  root: true,
+  settings: {
+    next: {
+      rootDir: 'apps/web/',
+    },
+  },
   reportUnusedDisableDirectives: true,
   ignorePatterns: [
     '.eslintrc.js',

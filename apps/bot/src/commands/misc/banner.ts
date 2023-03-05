@@ -7,6 +7,8 @@ import {
   User,
 } from 'discord.js'
 
+import { clientEnv } from '../../utils/env'
+
 export class GetBannerCommand extends Command {
   public constructor(context: Command.Context, options: Command.Options) {
     super(context, {
@@ -43,9 +45,9 @@ export class GetBannerCommand extends Command {
       ?.members.cache.get(targetId)?.user
 
     await axios
-      .get(`https://discord.com/api/v10/v9/users/${targetId}`, {
+      .get(`https://discord.com/api/v10/users/${targetId}`, {
         headers: {
-          Authorization: `Bot ${client.token}`,
+          Authorization: `Bot ${clientEnv.DISCORD_CLIENT_TOKEN ?? ''}`,
         },
       })
       .then((res: AxiosResponse<User>) => {
@@ -60,7 +62,7 @@ export class GetBannerCommand extends Command {
           embed.setDescription(`${user?.tag}'s banner`).setImage(url)
         } else if (accentColor) {
           embed
-            .setDescription(`${user?.tag} doesnt have a banner`)
+            .setDescription(`${user?.tag} doesn't have a banner`)
             .setColor(accentColor)
         } else {
           embed.setDescription(

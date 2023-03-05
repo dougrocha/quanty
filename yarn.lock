@@ -496,6 +496,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@corex/deepmerge@npm:^4.0.37":
+  version: 4.0.37
+  resolution: "@corex/deepmerge@npm:4.0.37"
+  checksum: f6f5daf29762f691dbc1104c092639897d65219e809f7c1028f7797e361c7787bd247bfd09e81f31b70386f1611ed9c4c137dd45c404b4da2f606a6cca51c6d8
+  languageName: node
+  linkType: hard
+
 "@discordjs/builders@npm:^1.4.0":
   version: 1.4.0
   resolution: "@discordjs/builders@npm:1.4.0"
@@ -1645,6 +1652,7 @@ __metadata:
     next-auth: ^4.20.1
     next-plausible: ^3.7.2
     next-seo: ^5.15.0
+    next-sitemap: ^4.0.2
     nextra: ^2.2.17
     nextra-theme-docs: ^2.2.17
     react: 18.2.0
@@ -4765,6 +4773,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-turbo@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "eslint-config-turbo@npm:0.0.9"
+  dependencies:
+    eslint-plugin-turbo: 0.0.9
+  peerDependencies:
+    eslint: ">6.6.0"
+  checksum: 694d601c2a3d1e825edbfb0f868c26923d14ef69222f4b06757d681c407fdb282a60d8719ba6440216f476a2317108a0a59108aa1115b594b9cc6e39764a864a
+  languageName: node
+  linkType: hard
+
 "eslint-import-resolver-node@npm:^0.3.6, eslint-import-resolver-node@npm:^0.3.7":
   version: 0.3.7
   resolution: "eslint-import-resolver-node@npm:0.3.7"
@@ -4891,7 +4910,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-turbo@npm:^0.0.9":
+"eslint-plugin-turbo@npm:0.0.9":
   version: 0.0.9
   resolution: "eslint-plugin-turbo@npm:0.0.9"
   peerDependencies:
@@ -7968,7 +7987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.2.0, minimist@npm:^1.2.6":
+"minimist@npm:^1.2.0, minimist@npm:^1.2.6, minimist@npm:^1.2.8":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
   checksum: 75a6d645fb122dad29c06a7597bddea977258957ed88d7a6df59b5cd3fe4a527e253e9bbf2e783e4b73657f9098b96a5fe96ab8a113655d4109108577ecf85b0
@@ -8192,6 +8211,22 @@ __metadata:
     react: ">=16.0.0"
     react-dom: ">=16.0.0"
   checksum: 05b0769d9c9abcc6a0179e5d724e87b1a3a7591a9c2caa4ef5b791769fcf868cb97fbcd90264106101cf7fbc073b0375ab90026aa519d2e899fbabea12cafbfb
+  languageName: node
+  linkType: hard
+
+"next-sitemap@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "next-sitemap@npm:4.0.2"
+  dependencies:
+    "@corex/deepmerge": ^4.0.37
+    minimist: ^1.2.8
+  peerDependencies:
+    "@next/env": "*"
+    next: "*"
+  bin:
+    next-sitemap: bin/next-sitemap.mjs
+    next-sitemap-cjs: bin/next-sitemap.cjs
+  checksum: 800baf84ac0878791f632f6877495ad23f3d84f02766fd959bd9348ed845fcff0a8e65092491168da628dd23a886faa3397dc44c4df1e52268698425a4ee0e94
   languageName: node
   linkType: hard
 
@@ -9575,13 +9610,14 @@ __metadata:
   dependencies:
     "@changesets/cli": ^2.26.0
     "@ianvs/prettier-plugin-sort-imports": ^3.7.1
+    "@next/eslint-plugin-next": ^13.2.3
     "@total-typescript/ts-reset": ^0.3.7
     "@types/eslint": ^8.21.1
     "@typescript-eslint/eslint-plugin": ^5.54.0
     "@typescript-eslint/parser": ^5.54.0
     eslint: ^8.35.0
     eslint-config-prettier: ^8.6.0
-    eslint-plugin-turbo: ^0.0.9
+    eslint-config-turbo: ^0.0.9
     prettier: ^2.8.4
     prettier-plugin-tailwindcss: ^0.2.4
     turbo: ^1.8.3

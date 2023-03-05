@@ -9,11 +9,12 @@
   },
   "exclude": [],
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "theme.config.tsx"
+    "next-env.d.ts",
+    "theme.config.tsx",
+    "next-sitemap.config.js"
   ]
 }
