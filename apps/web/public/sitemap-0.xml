@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>http://localhost:3000</loc><lastmod>2023-03-05T07:35:01.052Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/commands</loc><lastmod>2023-03-05T07:35:01.052Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/dashboard</loc><lastmod>2023-03-05T07:35:01.052Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/docs</loc><lastmod>2023-03-05T07:35:01.052Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/docs/getting-started/new-commands</loc><lastmod>2023-03-05T07:35:01.052Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/login</loc><lastmod>2023-03-05T07:35:01.052Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://quanty.xyz</loc><lastmod>2023-03-05T07:40:29.471Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://quanty.xyz/dashboard</loc><lastmod>2023-03-05T07:40:29.472Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://quanty.xyz/docs</loc><lastmod>2023-03-05T07:40:29.472Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://quanty.xyz/docs/getting-started/new-commands</loc><lastmod>2023-03-05T07:40:29.472Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://quanty.xyz/login</loc><lastmod>2023-03-05T07:40:29.472Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
