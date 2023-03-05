@@ -4773,17 +4773,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-turbo@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "eslint-config-turbo@npm:0.0.9"
-  dependencies:
-    eslint-plugin-turbo: 0.0.9
-  peerDependencies:
-    eslint: ">6.6.0"
-  checksum: 694d601c2a3d1e825edbfb0f868c26923d14ef69222f4b06757d681c407fdb282a60d8719ba6440216f476a2317108a0a59108aa1115b594b9cc6e39764a864a
-  languageName: node
-  linkType: hard
-
 "eslint-import-resolver-node@npm:^0.3.6, eslint-import-resolver-node@npm:^0.3.7":
   version: 0.3.7
   resolution: "eslint-import-resolver-node@npm:0.3.7"
@@ -4907,15 +4896,6 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 2232b3b8945aa50b7773919c15cd96892acf35d2f82503667a79e2f55def90f728ed4f0e496f0f157acbe1bd4397c5615b676ae7428fe84488a544ca53feb944
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-turbo@npm:0.0.9":
-  version: 0.0.9
-  resolution: "eslint-plugin-turbo@npm:0.0.9"
-  peerDependencies:
-    eslint: ">6.6.0"
-  checksum: bc512041a9026541dda2ba15c18f1c6d71175145a5a7724b8ecb638d5f2d1de031377c6176ad1be4750a8adc7088047010b6cfa606deac466c54fccd403b57f2
   languageName: node
   linkType: hard
 
@@ -9617,7 +9597,6 @@ __metadata:
     "@typescript-eslint/parser": ^5.54.0
     eslint: ^8.35.0
     eslint-config-prettier: ^8.6.0
-    eslint-config-turbo: ^0.0.9
     prettier: ^2.8.4
     prettier-plugin-tailwindcss: ^0.2.4
     turbo: ^1.8.3
