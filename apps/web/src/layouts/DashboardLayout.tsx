@@ -27,6 +27,10 @@ const GuildSelectionDropdown = dynamic(
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
 
+  const setCurrentGuild = useSetAtom(currentGuildAtom)
+
+  const routerGuildId = router.query.guildId as string
+
   const { status } = useSession({
     required: true,
     onUnauthenticated: () => {
@@ -36,16 +40,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       })
     },
   })
-
-  const setCurrentGuild = useSetAtom(currentGuildAtom)
-
-  const routerGuildId = router.query.guildId as string
-
-  useEffect(() => {
-    if (!routerGuildId) {
-      setCurrentGuild(undefined)
-    }
-  }, [routerGuildId, setCurrentGuild])
 
   api.user.managedGuilds.useQuery(undefined, {
     enabled: status === 'authenticated',
@@ -61,6 +55,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       }
     },
   })
+
+  useEffect(() => {
+    if (!routerGuildId) {
+      setCurrentGuild(undefined)
+    }
+  }, [routerGuildId, setCurrentGuild])
 
   return (
     <div className="min-safe-h-screen flex flex-col overflow-hidden">

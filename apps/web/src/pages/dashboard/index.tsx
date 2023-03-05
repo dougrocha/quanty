@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -61,17 +62,13 @@ const DashboardPage: NextPageWithLayout = () => {
 
       {guilds && guilds?.length > 0 && isSuccess ? (
         <>
-          {guilds!
-            // Alphabetical Sort
+          {guilds
             .sort((a, b) => {
+              if (a.owner && !b.owner) return -1
+              if (!a.owner && b.owner) return 1
+
               if (a.name < b.name) return -1
               if (a.name > b.name) return 1
-              return 0
-            })
-            // Sort Managed Guilds to the top
-            .sort((a, b) => {
-              if (a.bot && !b.bot) return -1
-              if (!a.bot && b.bot) return 1
               return 0
             })
             .map(guild => {

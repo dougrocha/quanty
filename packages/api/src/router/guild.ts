@@ -7,7 +7,7 @@ import { createTRPCRouter, protectedProcedure } from '../trpc'
 import { getUserAccount } from '../util'
 
 export const guildRouter = createTRPCRouter({
-  getGuild: protectedProcedure
+  getById: protectedProcedure
     .input(
       z
         .string({
@@ -18,7 +18,7 @@ export const guildRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const guild = await getBotGuild(input)
 
-      checkGuildAccess({
+      await checkGuildAccess({
         guild,
         userId: ctx.session.user.id,
         prisma: ctx.prisma,
@@ -51,7 +51,7 @@ const checkGuildAccess = async ({
 
   if (discordGuild.owner_id !== userAccount?.providerAccountId)
     throw new TRPCError({
-      code: 'UNAUTHORIZED',
+      code: 'FORBIDDEN',
       message: 'You do not have access to this guild.',
     })
 
