@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://quanty.xyz
-
-# Sitemaps
-Sitemap: https://quanty.xyz/sitemap.xml
