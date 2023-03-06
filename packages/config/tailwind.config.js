@@ -35,10 +35,7 @@ module.exports = {
         'transform-opacity': 'transform, opacity',
       },
       fontFamily: {
-        lato: ['var(--font-lato)', ...fontFamily.serif],
-        roboto: ['var(--font-roboto)', ...fontFamily.serif],
-        inter: ['var(--font-inter)', ...fontFamily.sans],
-        montserrat: ['var(--font-montserrat)', ...fontFamily.serif],
+        sans: ['var(--font-sans)', ...fontFamily.sans],
       },
       colors: {
         primary: {

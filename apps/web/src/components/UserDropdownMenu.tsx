@@ -28,7 +28,7 @@ const UserDropdownMenu = ({
 
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content
-          className="radix-side-bottom:animate-slide-up mx-6 my-2 w-48 rounded-lg bg-theme-neutral p-1 shadow-md md:w-56"
+          className="radix-side-bottom:animate-slide-up willChange mx-6 my-2 w-48 rounded-lg bg-theme-neutral p-1 shadow-md md:w-56"
           sideOffset={5}
         >
           <DropdownMenuPrimitive.Item
