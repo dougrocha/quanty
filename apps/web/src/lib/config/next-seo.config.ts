@@ -67,6 +67,11 @@ const nextSeoConfig: DefaultSeoProps = {
     siteName: 'Quanty',
     description: 'The next generation Discord bot.',
     locale: 'en_US',
+    images: [
+      {
+        url: `${WEBAPP_URL}/images/quanty_lg.jpg`,
+      },
+    ],
   },
 
   // twitter: {

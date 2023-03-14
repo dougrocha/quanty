@@ -1,7 +1,10 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { NextSeoProps } from 'next-seo'
 import { useConfig, type DocsThemeConfig } from 'nextra-theme-docs'
 import { WEBAPP_URL } from '@quanty/lib'
+
+import { clientEnv } from './src/env/schema.mjs'
 
 const config: DocsThemeConfig = {
   docsRepositoryBase:
@@ -10,7 +13,7 @@ const config: DocsThemeConfig = {
     link: 'https://github.com/dougrocha/quanty',
   },
   chat: {
-    link: `${WEBAPP_URL}/discord`,
+    link: clientEnv.NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL,
   },
   editLink: {
     text: '✏️ Edit this page on GitHub',
@@ -35,7 +38,7 @@ const config: DocsThemeConfig = {
   navigation: { next: true, prev: true },
   useNextSeoProps: () => {
     const { asPath } = useRouter()
-    const { title, ...meta } = useConfig().frontMatter
+    const { title, ...meta } = useConfig().frontMatter as Record<string, string>
 
     const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
 
@@ -51,6 +54,10 @@ const config: DocsThemeConfig = {
         {
           rel: 'icon',
           href: '/favicon/favicon.ico',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: '/favicon/apple-touch-icon.png',
         },
       ],
 
