@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { NextSeoProps } from 'next-seo'
 import { useConfig, type DocsThemeConfig } from 'nextra-theme-docs'
 import { WEBAPP_URL } from '@quanty/lib'
 
@@ -42,11 +41,21 @@ const config: DocsThemeConfig = {
 
     const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
 
+    console.log('title', title)
+    console.log('meta', meta)
+
     return {
       title,
       titleTemplate,
-      description: meta.description ?? 'The next generation Discord bot.',
+      description:
+        meta.description ??
+        'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
+
       additionalLinkTags: [
+        {
+          rel: 'canonical',
+          href: `${WEBAPP_URL}`,
+        },
         {
           rel: 'manifest',
           href: '/site.webmanifest',
@@ -57,7 +66,20 @@ const config: DocsThemeConfig = {
         },
         {
           rel: 'apple-touch-icon',
+          sizes: '76x76',
           href: '/favicon/apple-touch-icon.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          href: '/favicon/favicon-32x32.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          href: '/favicon/favicon-16x16.png',
         },
       ],
 
@@ -65,26 +87,31 @@ const config: DocsThemeConfig = {
         url: `${WEBAPP_URL}${asPath}`,
         title: title ?? 'Quanty Docs',
         siteName: 'Quanty',
-        description: meta.description ?? 'The next generation Discord bot.',
+        description:
+          meta.description ??
+          'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
         locale: 'en_US',
         type: 'website',
         images: [
-          {
-            url: `${WEBAPP_URL}/images/quanty_lg.jpg`,
-            width: 32,
-            height: 32,
-            alt: 'Quanty Logo',
-          },
           ...(meta.image
             ? [
                 {
                   url: `${WEBAPP_URL}${meta.image}`,
                   width: 32,
                   height: 32,
-                  alt: meta.description ?? 'The next generation Discord bot.',
+                  alt:
+                    meta.description ??
+                    'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
                 },
               ]
-            : []),
+            : [
+                {
+                  url: `${WEBAPP_URL}/images/quanty_lg.jpg`,
+                  width: 32,
+                  height: 32,
+                  alt: 'Quanty Logo',
+                },
+              ]),
         ],
       },
 
@@ -106,10 +133,12 @@ const config: DocsThemeConfig = {
       return <span>☕ Made by Slash</span>
     },
   },
+
   sidebar: {
     defaultMenuCollapseLevel: 2,
     toggleButton: true,
   },
+
   banner: {
     text: '🚧 This is a work in progress. 🚧',
     dismissible: false,
