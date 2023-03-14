@@ -41,9 +41,6 @@ const config: DocsThemeConfig = {
 
     const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
 
-    console.log('title', title)
-    console.log('meta', meta)
-
     return {
       title,
       titleTemplate,
@@ -96,7 +93,7 @@ const config: DocsThemeConfig = {
           ...(meta.image
             ? [
                 {
-                  url: `${WEBAPP_URL}${meta.image}`,
+                  url: `${meta.image}`,
                   width: 32,
                   height: 32,
                   alt:
@@ -106,7 +103,7 @@ const config: DocsThemeConfig = {
               ]
             : [
                 {
-                  url: `${WEBAPP_URL}/images/quanty_lg.jpg`,
+                  url: `/images/quanty_lg.jpg`,
                   width: 32,
                   height: 32,
                   alt: 'Quanty Logo',
@@ -114,12 +111,6 @@ const config: DocsThemeConfig = {
               ]),
         ],
       },
-
-      // twitter: {
-      //   handle: '@quantybot',
-      //   site: '@quantybot',
-      //   cardType: meta.image ? 'summary_large_image' : 'summary',
-      // },
     }
   },
 
