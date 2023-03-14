@@ -22,9 +22,9 @@
   "devDependencies": {
     "@quanty/tsconfig": "*",
     "cross-env": "^7.0.3",
-    "dotenv-cli": "^7.0.0",
+    "dotenv-cli": "^7.1.0",
     "prisma": "^4.11.0",
-    "tsx": "^3.12.3",
+    "tsx": "^3.12.5",
     "typescript": "^4.9.5",
     "zod-prisma": "^0.5.4"
   }

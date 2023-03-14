@@ -22,6 +22,7 @@ const config: DocsThemeConfig = {
     labels: 'feedback',
   },
   primaryHue: 315,
+
   logo: (
     <>
       <Image
@@ -37,17 +38,69 @@ const config: DocsThemeConfig = {
 
   navigation: { next: true, prev: true },
 
+  head: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { asPath } = useRouter()
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const meta = useConfig().frontMatter as Record<string, string>
+
+    const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
+
+    return (
+      <>
+        <meta name="theme-color" content="#17151E" />
+
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+
+        <meta
+          name="description"
+          content={
+            meta.description ||
+            'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.'
+          }
+        />
+        <meta name="title" content={meta.title || 'Quanty Docs'} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${WEBAPP_URL}${asPath}`} />
+        <meta property="og:title" content={meta.title || 'Quanty Docs'} />
+        <meta
+          property="og:description"
+          content={
+            meta.description ||
+            'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.'
+          }
+        />
+        <meta
+          property="og:image"
+          content={`${WEBAPP_URL}${meta.image || '/images/quanty_lg.jpg'}`}
+        />
+        <meta property="og:locale" content="en_US" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={`${WEBAPP_URL}${asPath}`} />
+        <meta property="twitter:title" content={meta.title || 'Quanty Docs'} />
+        <meta
+          property="twitter:description"
+          content={
+            meta.description ||
+            'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.'
+          }
+        />
+      </>
+    )
+  },
+
   useNextSeoProps: () => {
     const { asPath } = useRouter()
-    const meta = useConfig().frontMatter as Record<string, string>
 
     const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
 
     return {
       titleTemplate,
-      description:
-        meta.description ||
-        'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
 
       additionalLinkTags: [
         {
@@ -80,38 +133,6 @@ const config: DocsThemeConfig = {
           href: '/favicon/favicon-16x16.png',
         },
       ],
-
-      openGraph: {
-        title: meta.title || 'Quanty Docs',
-        description:
-          meta.description ||
-          'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
-
-        url: `${WEBAPP_URL}${asPath}`,
-        siteName: 'Quanty',
-        locale: 'en_US',
-        type: 'website',
-
-        images: [
-          {
-            url: `${meta.image || '/images/quanty_lg.jpg'}`,
-            width: 32,
-            height: 32,
-            alt:
-              meta.description ||
-              'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
-          },
-        ],
-      },
-
-      twitter: {
-        title: meta.title || 'Quanty Docs',
-        description:
-          meta.description ||
-          'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
-        cardType: 'summary_large_image',
-        site: `${WEBAPP_URL}`,
-      },
     }
   },
 
@@ -135,6 +156,10 @@ const config: DocsThemeConfig = {
     text: '🚧 This is a work in progress. 🚧',
     dismissible: false,
   },
+}
+
+const Head = () => {
+  return <></>
 }
 
 export default config
