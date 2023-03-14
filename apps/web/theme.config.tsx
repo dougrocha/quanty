@@ -44,8 +44,6 @@ const config: DocsThemeConfig = {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const meta = useConfig().frontMatter as Record<string, string>
 
-    const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
-
     return (
       <>
         <meta name="theme-color" content="#17151E" />
@@ -83,6 +81,10 @@ const config: DocsThemeConfig = {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={`${WEBAPP_URL}${asPath}`} />
         <meta property="twitter:title" content={meta.title || 'Quanty Docs'} />
+        <meta
+          property="twitter:image"
+          content={`${WEBAPP_URL}${meta.image || '/images/quanty_lg.jpg'}`}
+        />
         <meta
           property="twitter:description"
           content={
