@@ -34,15 +34,16 @@ const config: DocsThemeConfig = {
       <span className="font-bold">Quanty Docs</span>
     </>
   ),
+
   navigation: { next: true, prev: true },
+
   useNextSeoProps: () => {
     const { asPath } = useRouter()
-    const { title, ...meta } = useConfig().frontMatter as Record<string, string>
+    const meta = useConfig().frontMatter as Record<string, string>
 
     const titleTemplate = asPath !== '/docs' ? '%s – Docs' : 'Quanty Docs'
 
     return {
-      title,
       titleTemplate,
       description:
         meta.description ??
@@ -82,11 +83,7 @@ const config: DocsThemeConfig = {
 
       openGraph: {
         url: `${WEBAPP_URL}${asPath}`,
-        title: title ?? 'Quanty Docs',
         siteName: 'Quanty',
-        description:
-          meta.description ??
-          'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
         locale: 'en_US',
         type: 'website',
         images: [
@@ -110,6 +107,11 @@ const config: DocsThemeConfig = {
                 },
               ]),
         ],
+      },
+
+      twitter: {
+        cardType: 'summary_large_image',
+        site: `${WEBAPP_URL}`,
       },
     }
   },

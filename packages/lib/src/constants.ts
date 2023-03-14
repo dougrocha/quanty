@@ -8,10 +8,10 @@ export const WEBAPP_URL =
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Quanty'
 
 export const LOGO = {
-  sm: '/images/quanty_sm.jpg' as const,
-  md: '/images/quanty_md.jpg' as const,
-  lg: '/images/quanty_lg.jpg' as const,
-}
+  sm: '/images/quanty_sm.jpg',
+  md: '/images/quanty_md.jpg',
+  lg: '/images/quanty_lg.jpg',
+} as const
 
 export const DISCORD_LOGO = '/images/discord_logo.png'
 export const JOIN_DISCORD = 'https://quanty.xyz/discord'
