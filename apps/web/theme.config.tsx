@@ -46,7 +46,7 @@ const config: DocsThemeConfig = {
     return {
       titleTemplate,
       description:
-        meta.description ??
+        meta.description ||
         'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
 
       additionalLinkTags: [
@@ -87,25 +87,14 @@ const config: DocsThemeConfig = {
         locale: 'en_US',
         type: 'website',
         images: [
-          ...(meta.image
-            ? [
-                {
-                  url: `${meta.image}`,
-                  width: 32,
-                  height: 32,
-                  alt:
-                    meta.description ??
-                    'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
-                },
-              ]
-            : [
-                {
-                  url: `/images/quanty_lg.jpg`,
-                  width: 32,
-                  height: 32,
-                  alt: 'Quanty Logo',
-                },
-              ]),
+          {
+            url: `${WEBAPP_URL}${meta.image || '/images/quanty_lg.jpg'}`,
+            width: 32,
+            height: 32,
+            alt:
+              meta.description ||
+              'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
+          },
         ],
       },
 
