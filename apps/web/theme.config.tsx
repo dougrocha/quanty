@@ -47,7 +47,7 @@ const config: DocsThemeConfig = {
       titleTemplate,
       description:
         meta.description ||
-        'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
+        'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
 
       additionalLinkTags: [
         {
@@ -82,23 +82,33 @@ const config: DocsThemeConfig = {
       ],
 
       openGraph: {
+        title: meta.title || 'Quanty Docs',
+        description:
+          meta.description ||
+          'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
+
         url: `${WEBAPP_URL}${asPath}`,
         siteName: 'Quanty',
         locale: 'en_US',
         type: 'website',
+
         images: [
           {
-            url: `${WEBAPP_URL}${meta.image || '/images/quanty_lg.jpg'}`,
+            url: `${meta.image || '/images/quanty_lg.jpg'}`,
             width: 32,
             height: 32,
             alt:
               meta.description ||
-              'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
+              'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
           },
         ],
       },
 
       twitter: {
+        title: meta.title || 'Quanty Docs',
+        description:
+          meta.description ||
+          'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
         cardType: 'summary_large_image',
         site: `${WEBAPP_URL}`,
       },

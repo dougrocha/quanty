@@ -4,7 +4,7 @@ import { WEBAPP_URL } from '@quanty/lib'
 const nextSeoConfig: DefaultSeoProps = {
   titleTemplate: '%s | Discord Bot',
   description:
-    'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
+    'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
 
   themeColor: '#17151E',
 
@@ -66,7 +66,7 @@ const nextSeoConfig: DefaultSeoProps = {
     title: 'Quanty | Discord Bot',
     siteName: 'Quanty',
     description:
-      'The next generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level',
+      'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
     locale: 'en_US',
     images: [
       {
