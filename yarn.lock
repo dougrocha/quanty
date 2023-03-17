@@ -884,7 +884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formkit/auto-animate@npm:^1.0.0-beta.6":
+"@formkit/auto-animate@npm:^1.0.0-pre-alpha.3":
   version: 1.0.0-pre-alpha.3
   resolution: "@formkit/auto-animate@npm:1.0.0-pre-alpha.3"
   peerDependencies:
@@ -1530,7 +1530,7 @@ __metadata:
     "@trpc/server": ^10.16.0
     discord-api-types: ^0.37.36
     superjson: 1.12.2
-    typescript: ^4.9.5
+    typescript: ^5.0.2
     zod: ^3.21.4
   languageName: unknown
   linkType: soft
@@ -1546,7 +1546,7 @@ __metadata:
     next-auth: ^4.20.1
     react: 18.2.0
     react-dom: 18.2.0
-    typescript: ^4.9.5
+    typescript: ^5.0.2
   languageName: unknown
   linkType: soft
 
@@ -1560,7 +1560,7 @@ __metadata:
     "@quanty/tsconfig": "*"
     "@sapphire/framework": ^4.2.2
     "@swc/cli": ^0.1.62
-    "@swc/core": ^1.3.40
+    "@swc/core": ^1.3.41
     "@types/node": ^18.15.3
     axios: ^1.3.4
     chokidar: ^3.5.3
@@ -1572,7 +1572,7 @@ __metadata:
     nodemon: ^2.0.21
     prisma: ^4.11.0
     rimraf: ^4.4.0
-    typescript: ^4.9.5
+    typescript: ^5.0.2
     zod: ^3.21.4
   languageName: unknown
   linkType: soft
@@ -1590,7 +1590,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.55.0
     "@typescript-eslint/parser": ^5.55.0
     autoprefixer: ^10.4.14
-    daisyui: ^2.51.3
+    daisyui: ^2.51.4
     eslint: ^8.36.0
     eslint-config-next: ^13.2.4
     eslint-plugin-import: ^2.27.5
@@ -1611,7 +1611,7 @@ __metadata:
     dotenv-cli: ^7.1.0
     prisma: ^4.11.0
     tsx: ^3.12.5
-    typescript: ^4.9.5
+    typescript: ^5.0.2
     zod-prisma: ^0.5.4
   languageName: unknown
   linkType: soft
@@ -1621,7 +1621,7 @@ __metadata:
   resolution: "@quanty/lib@workspace:packages/lib"
   dependencies:
     "@quanty/tsconfig": "*"
-    typescript: ^4.9.5
+    typescript: ^5.0.2
   languageName: unknown
   linkType: soft
 
@@ -1645,7 +1645,7 @@ __metadata:
     next: ^13.2.4
     react: ^18.2.0
     react-dom: ^18.2.0
-    typescript: ^4.9.5
+    typescript: ^5.0.2
   languageName: unknown
   linkType: soft
 
@@ -1654,7 +1654,7 @@ __metadata:
   resolution: "@quanty/web@workspace:apps/web"
   dependencies:
     "@floating-ui/react": ^0.21.1
-    "@formkit/auto-animate": ^1.0.0-beta.6
+    "@formkit/auto-animate": ^1.0.0-pre-alpha.3
     "@headlessui/react": ^1.7.13
     "@heroicons/react": ^2.0.16
     "@hookform/resolvers": ^2.9.11
@@ -1666,8 +1666,8 @@ __metadata:
     "@quanty/lib": "*"
     "@quanty/tsconfig": "*"
     "@radix-ui/react-dropdown-menu": ^2.0.4
-    "@tanstack/react-query": ^4.26.1
-    "@tanstack/react-query-devtools": ^4.26.1
+    "@tanstack/react-query": ^4.27.0
+    "@tanstack/react-query-devtools": ^4.27.0
     "@trpc/client": ^10.16.0
     "@trpc/next": ^10.16.0
     "@trpc/react-query": ^10.16.0
@@ -1681,7 +1681,7 @@ __metadata:
     dayjs: ^1.11.7
     discord-api-types: ^0.37.36
     dotenv-cli: ^7.1.0
-    framer-motion: ^10.3.1
+    framer-motion: ^10.6.0
     jotai: ^2.0.3
     next: ^13.2.4
     next-auth: ^4.20.1
@@ -1692,11 +1692,11 @@ __metadata:
     nextra-theme-docs: ^2.2.19
     react: 18.2.0
     react-dom: 18.2.0
-    react-hook-form: ^7.43.5
+    react-hook-form: ^7.43.6
     react-icons: ^4.8.0
     react-loading-skeleton: ^3.2.0
     react-spinners-kit: ^1.9.1
-    typescript: ^4.9.5
+    typescript: ^5.0.2
     zod: ^3.21.4
     zustand: ^4.3.6
   languageName: unknown
@@ -2208,90 +2208,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-darwin-arm64@npm:1.3.40"
+"@swc/core-darwin-arm64@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-darwin-arm64@npm:1.3.41"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-x64@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-darwin-x64@npm:1.3.40"
+"@swc/core-darwin-x64@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-darwin-x64@npm:1.3.41"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.40"
+"@swc/core-linux-arm-gnueabihf@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.41"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-gnu@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.3.40"
+"@swc/core-linux-arm64-gnu@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.3.41"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-linux-arm64-musl@npm:1.3.40"
+"@swc/core-linux-arm64-musl@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-linux-arm64-musl@npm:1.3.41"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-linux-x64-gnu@npm:1.3.40"
+"@swc/core-linux-x64-gnu@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-linux-x64-gnu@npm:1.3.41"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-linux-x64-musl@npm:1.3.40"
+"@swc/core-linux-x64-musl@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-linux-x64-musl@npm:1.3.41"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-win32-arm64-msvc@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.3.40"
+"@swc/core-win32-arm64-msvc@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.3.41"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.3.40"
+"@swc/core-win32-ia32-msvc@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.3.41"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@swc/core-win32-x64-msvc@npm:1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core-win32-x64-msvc@npm:1.3.40"
+"@swc/core-win32-x64-msvc@npm:1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core-win32-x64-msvc@npm:1.3.41"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.3.40":
-  version: 1.3.40
-  resolution: "@swc/core@npm:1.3.40"
+"@swc/core@npm:^1.3.41":
+  version: 1.3.41
+  resolution: "@swc/core@npm:1.3.41"
   dependencies:
-    "@swc/core-darwin-arm64": 1.3.40
-    "@swc/core-darwin-x64": 1.3.40
-    "@swc/core-linux-arm-gnueabihf": 1.3.40
-    "@swc/core-linux-arm64-gnu": 1.3.40
-    "@swc/core-linux-arm64-musl": 1.3.40
-    "@swc/core-linux-x64-gnu": 1.3.40
-    "@swc/core-linux-x64-musl": 1.3.40
-    "@swc/core-win32-arm64-msvc": 1.3.40
-    "@swc/core-win32-ia32-msvc": 1.3.40
-    "@swc/core-win32-x64-msvc": 1.3.40
+    "@swc/core-darwin-arm64": 1.3.41
+    "@swc/core-darwin-x64": 1.3.41
+    "@swc/core-linux-arm-gnueabihf": 1.3.41
+    "@swc/core-linux-arm64-gnu": 1.3.41
+    "@swc/core-linux-arm64-musl": 1.3.41
+    "@swc/core-linux-x64-gnu": 1.3.41
+    "@swc/core-linux-x64-musl": 1.3.41
+    "@swc/core-win32-arm64-msvc": 1.3.41
+    "@swc/core-win32-ia32-msvc": 1.3.41
+    "@swc/core-win32-x64-msvc": 1.3.41
   dependenciesMeta:
     "@swc/core-darwin-arm64":
       optional: true
@@ -2313,7 +2313,7 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
-  checksum: 3ec2919784dfac7a535976e43771c85ed8048fae036ba922d379b1f64ea1cbfe614cc4124553fc268a19c5246311a3d887b9a92c6bcde6b03f2ad1957ad77246
+  checksum: e2d2bd2d1821608bfafab66f7b94d31b4ae3f486ad6d18aa30abca961299431a26ab2dfc04a7e614f8b8f6680d9790f0596f43e18d0b794e2802136c1d5e3376
   languageName: node
   linkType: hard
 
@@ -2387,33 +2387,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.26.1":
-  version: 4.26.1
-  resolution: "@tanstack/query-core@npm:4.26.1"
-  checksum: c7bc751d7d08ce27dd7262aa75a263808b128902b8f3a5dd1ff9b1dfda6511af965388bcdb7d8130bdf10756c1d583f527ead274b1d3e4f4db29c83260b416b0
+"@tanstack/query-core@npm:4.27.0":
+  version: 4.27.0
+  resolution: "@tanstack/query-core@npm:4.27.0"
+  checksum: 914b4f01ac75632f4603b650e9105f64c739b79250baf76aad16cee216f7bad6060c04eda0c70838fe61a5f6c17883e19fcc3075b2433a906539da95ce785796
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:^4.26.1":
-  version: 4.26.1
-  resolution: "@tanstack/react-query-devtools@npm:4.26.1"
+"@tanstack/react-query-devtools@npm:^4.27.0":
+  version: 4.27.0
+  resolution: "@tanstack/react-query-devtools@npm:4.27.0"
   dependencies:
     "@tanstack/match-sorter-utils": ^8.7.0
     superjson: ^1.10.0
     use-sync-external-store: ^1.2.0
   peerDependencies:
-    "@tanstack/react-query": 4.26.1
+    "@tanstack/react-query": 4.27.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: d647115677b7c2f9f339be6c47486dabe1e4f5793a595564bd7201bd9f08f1c991ded234190b7f20c80ef5ba62b23b8792394173ae3396fb5a392262e389c75a
+  checksum: 0477a08285d6955c2c4cf6567439a907ec390510968b3e8beb3a89fc9a0ac10bec7e38cd0d906184906500c5220121e874adf924f84045a46cb9f564c03b9134
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^4.26.1":
-  version: 4.26.1
-  resolution: "@tanstack/react-query@npm:4.26.1"
+"@tanstack/react-query@npm:^4.27.0":
+  version: 4.27.0
+  resolution: "@tanstack/react-query@npm:4.27.0"
   dependencies:
-    "@tanstack/query-core": 4.26.1
+    "@tanstack/query-core": 4.27.0
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -2424,7 +2424,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 3b43a5acc84841364c08ed7c7d0f495008214f1f39b7fb073a95a53528ce40b4841dbc407070b4c0082d73990277bbcf9bc88df40217e70c226be4931efaa081
+  checksum: 15cebe9ccb8df737548763223438ce0c28808e3a9f2434307d2ac966a6bb8da01f172019a5490966503797ccdf2482d1e488f5fe52de5da86dbdae20ef772e8c
   languageName: node
   linkType: hard
 
@@ -4192,9 +4192,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^2.51.3":
-  version: 2.51.3
-  resolution: "daisyui@npm:2.51.3"
+"daisyui@npm:^2.51.4":
+  version: 2.51.4
+  resolution: "daisyui@npm:2.51.4"
   dependencies:
     color: ^4.2
     css-selector-tokenizer: ^0.8.0
@@ -4203,7 +4203,7 @@ __metadata:
   peerDependencies:
     autoprefixer: ^10.0.2
     postcss: ^8.1.6
-  checksum: 489cfbd0363af5637c5ab86246cf4d127aa2f4444b1b900e20c6c850b734de78dfeaf46b52b15adbb89bcad9fb4622664278250044e7ab363956da3ae1343d3f
+  checksum: f24cfc9e17f09d3a2a4dd02ea073b97f2a6e0c3f3b301ed8867f87d693157a74554d36e1d2a04356f117c84e582724564665db4cc2d72e71de21eed1ba0620c6
   languageName: node
   linkType: hard
 
@@ -5536,9 +5536,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^10.3.1":
-  version: 10.3.1
-  resolution: "framer-motion@npm:10.3.1"
+"framer-motion@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "framer-motion@npm:10.6.0"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     tslib: ^2.4.0
@@ -5553,7 +5553,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: e34fafd71ff90dcf03cd234b9fd286db43910f96ecc409622a0a5f3e40dd5b10fdfaea9ad8d0eec83b800c7e5c0a712aa57617df2c762baa96086218e7f19ae2
+  checksum: 83de861483cd5fe820284ee883fb5a78ae9463f083aca8e8588e9403d3fcc7d98a1f9bcf96aefcdd5058aeb2aca07a55cb6d1ce3a979e5fe9fd44d084e948c27
   languageName: node
   linkType: hard
 
@@ -9518,9 +9518,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.2.4":
-  version: 0.2.4
-  resolution: "prettier-plugin-tailwindcss@npm:0.2.4"
+"prettier-plugin-tailwindcss@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "prettier-plugin-tailwindcss@npm:0.2.5"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-php": "*"
@@ -9569,7 +9569,7 @@ __metadata:
       optional: true
     prettier-plugin-twig-melody:
       optional: true
-  checksum: 9f74d1c80e9151636c748baac13e736a81ae47fa2b2aaf66f9e4691a619a565439780c39491dccb1d0df4846a011b1d69c882e733ed20525d93a84c345b8321d
+  checksum: 44ae325d40ad747dd8fb36e1d7986de1919b9bd912993628c18f4743c9287b1add6dd2d951ed336b1031a2ad49c7ba5eb50e4be6d3b9b37e0da7fd137d13ec53
   languageName: node
   linkType: hard
 
@@ -9694,7 +9694,7 @@ __metadata:
     eslint: ^8.36.0
     eslint-config-prettier: ^8.7.0
     prettier: ^2.8.4
-    prettier-plugin-tailwindcss: ^0.2.4
+    prettier-plugin-tailwindcss: ^0.2.5
     turbo: ^1.8.3
   languageName: unknown
   linkType: soft
@@ -9746,12 +9746,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.43.5":
-  version: 7.43.5
-  resolution: "react-hook-form@npm:7.43.5"
+"react-hook-form@npm:^7.43.6":
+  version: 7.43.6
+  resolution: "react-hook-form@npm:7.43.6"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: cfd757ac24bc81946d97183d061f38c8b602baaf9d019e87a905ce66f3a9f1d91d3a21002b921f8322e79b2afa9a4921b7c2d76e594fcf384e1b96889de2f2f5
+  checksum: fec9547294c58ebcbfe2e614451799c1371e4c438a44757b2392b5a48142bfe886aaefdb00b9c9c192a24fd414ab76c57a2e3adc710de55015accf5a9b9e6e8b
   languageName: node
   linkType: hard
 
@@ -11419,23 +11419,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.5":
-  version: 4.9.5
-  resolution: "typescript@npm:4.9.5"
+"typescript@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "typescript@npm:5.0.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
+  checksum: bef1dcd166acfc6934b2ec4d72f93edb8961a5fab36b8dd2aaf6f4f4cd5c0210f2e0850aef4724f3b4913d5aef203a94a28ded731b370880c8bcff7e4ff91fc1
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
+"typescript@patch:typescript@^5.0.2#~builtin<compat/typescript>":
+  version: 5.0.2
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: b63cb742fbb9aeb3085e002ad8f10d5fd963606aa4d6b3b65b4e76c396ff09739f03b5dbae08e1698c3bce9d5619d3f67aeb7ee470ed4016bd345b3cfe37b54a
   languageName: node
   linkType: hard
 
