@@ -2,6 +2,7 @@ import { DefaultSeoProps } from 'next-seo'
 import { WEBAPP_URL } from '@quanty/lib'
 
 const nextSeoConfig: DefaultSeoProps = {
+  defaultTitle: 'Quanty | Discord Bot',
   titleTemplate: '%s | Discord Bot',
   description:
     'The next-generation Discord bot. Quanty is the perfect choice for communities looking to take their Discord experience to the next level. Stay tuned for future updates.',
