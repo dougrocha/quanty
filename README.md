@@ -8,7 +8,7 @@ You will be able to invite quanty to your server at any time and configure it th
 
 ### Overview
 
-- `Quanty - Bot`: A discord bot built discord.js, typescript, and my own framework.
+- `Quanty - Bot`: A discord bot built with [discord.js](https://discord.js.org/#/), typescript, and the [Sapphire Framework](https://www.sapphirejs.dev/).
 - `Web`: [Next.js](https://nextjs.org)
 - `Authentication`: [NextAuth.js](https://next-auth.js.org)
 - `API`: [tRPC](https://trpc.io)
@@ -19,8 +19,6 @@ You will be able to invite quanty to your server at any time and configure it th
 #### Utilities
 
 - `UI`: A React component library shared `web` and future applications.
-- `cli`: This is no longer maintained. It was used to generate command/feature templates.
-- `Schematics`: This is no longer maintained. Stored the schematics for the cli.
 
 ## Join the community
 
