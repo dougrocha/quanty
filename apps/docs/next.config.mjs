@@ -56,11 +56,11 @@ const config = {
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
   swcMinify: true,
-  /** Enables hot reloading for local packages without a build step */
+
   transpilePackages: ['@quanty/ui', '@quanty/lib', '@quanty/config'],
   /** We already do linting and typechecking as separate tasks in CI */
-  eslint: { ignoreDuringBuilds: !!process.env.CI },
-  typescript: { ignoreBuildErrors: !!process.env.CI },
+  eslint: { ignoreDuringBuilds: process.env.NODE_ENV === 'production' },
+  typescript: { ignoreBuildErrors: process.env.NODE_ENV === 'production' },
 }
 
 export default withBundleAnalyzer(withNextra(config))
