@@ -25,7 +25,7 @@ const config: DocsThemeConfig = {
   primaryHue: 315,
 
   logo: (
-    <Link href={WEBAPP_URL}>
+    <>
       <Image
         src={'/images/quanty_sm.jpg'}
         alt="Quanty Logo"
@@ -34,7 +34,7 @@ const config: DocsThemeConfig = {
         className="mr-2 h-8 w-8 rounded-full"
       />
       <span className="font-bold">Quanty Docs</span>
-    </Link>
+    </>
   ),
 
   navigation: true,

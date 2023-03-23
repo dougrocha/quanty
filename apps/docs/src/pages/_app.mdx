@@ -1,11 +1,27 @@
 import '../styles/globals.css'
+import { Open_Sans } from 'next/font/google'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { clsx } from 'clsx'
+
+export const open_sans = Open_Sans({
+  subsets: ['latin'],
+  weight: 'variable',
+  variable: '--font-sans',
+  display: 'swap',
+})
 
 export default function App({ Component, pageProps }) {
   return (
     <>
+      <style jsx global>{`
+        :root {
+          --font-sans: ${open_sans.style.fontFamily};
+        }
+      `}</style>
+      <main className={clsx(open_sans.variable, 'font-sans antialiased')}>
+        <Component {...pageProps} />
+      </main>
       <VercelAnalytics />
-      <Component {...pageProps} />
     </>
   )
 }

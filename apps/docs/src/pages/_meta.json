@@ -1,6 +1,5 @@
 {
   "*": {
-    "title": "Documentation",
     "theme": {
       "breadcrumb": true,
       "footer": true,
@@ -12,5 +11,12 @@
 
   "index": "Welcome",
 
-  "getting-started": "Getting Started"
+  "getting-started": "Getting Started",
+
+  "dashboard": {
+    "type": "page",
+    "title": "Dashboard",
+    "href": "https://quanty.xyz",
+    "newWindow": true
+  }
 }
