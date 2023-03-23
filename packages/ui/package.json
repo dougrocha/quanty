@@ -9,7 +9,7 @@
     "dist/**"
   ],
   "devDependencies": {
-    "@floating-ui/react": "0.21.1",
+    "@floating-ui/react": "0.22.0",
     "@iconify/react": "^4.1.0",
     "@quanty/config": "*",
     "@quanty/tsconfig": "*",
@@ -19,6 +19,6 @@
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   }
 }
