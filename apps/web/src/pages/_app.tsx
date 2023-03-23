@@ -41,7 +41,9 @@ const MyApp: AppType<{
       </main>
 
       <DefaultSeo {...nextSeoConfig} />
+
       <VercelAnalytics />
+
       <ReactQueryDevtools initialIsOpen={false} />
     </SessionProvider>
   )
