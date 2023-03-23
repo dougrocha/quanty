@@ -13,10 +13,16 @@
 
   "getting-started": "Getting Started",
 
+  "app": {
+    "type": "page",
+    "title": "Quanty ↗",
+    "href": "https://quanty.xyz",
+    "newWindow": true
+  },
   "dashboard": {
     "type": "page",
-    "title": "Dashboard",
-    "href": "https://quanty.xyz",
+    "title": "Dashboard ↗",
+    "href": "https://quanty.xyz/dashboard",
     "newWindow": true
   }
 }
