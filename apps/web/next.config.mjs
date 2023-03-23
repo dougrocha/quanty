@@ -1,6 +1,7 @@
 // @ts-check
 
 import NextBundleAnalyzer from '@next/bundle-analyzer'
+import { withAxiom } from 'next-axiom'
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -65,4 +66,4 @@ const config = {
   typescript: { ignoreBuildErrors: process.env.NODE_ENV === 'production' },
 }
 
-export default withBundleAnalyzer(config)
+export default withBundleAnalyzer(withAxiom(config))

@@ -1713,6 +1713,7 @@ __metadata:
     jotai: ^2.0.3
     next: ^13.2.4
     next-auth: ^4.20.1
+    next-axiom: ^0.17.0
     next-plausible: ^3.7.2
     next-seo: ^5.15.0
     next-sitemap: ^4.0.6
@@ -8359,6 +8360,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-axiom@npm:^0.17.0":
+  version: 0.17.0
+  resolution: "next-axiom@npm:0.17.0"
+  dependencies:
+    whatwg-fetch: ^3.6.2
+  peerDependencies:
+    next: ^12.1.4 || ^13
+  checksum: fce4193be1ce49a704b80b12ae85b1e5c5a574eede1cd363c4f1ed7b704192a4ad90e99f7d1e90ae92fdd923f7e7a4a61c15b6a58dc86ede4f472ee456b92029
+  languageName: node
+  linkType: hard
+
 "next-mdx-remote@npm:^4.2.1":
   version: 4.4.1
   resolution: "next-mdx-remote@npm:4.4.1"
@@ -11958,6 +11970,13 @@ __metadata:
   bin:
     webpack-bundle-analyzer: lib/bin/analyzer.js
   checksum: 4ce3b379c61ce16b2219756843407cc99f2b82cd191f653043f1b705a3e32b3af03834af0dfded98ab852313a892a148bed1a8effaacd6440f028c19f41581f3
+  languageName: node
+  linkType: hard
+
+"whatwg-fetch@npm:^3.6.2":
+  version: 3.6.2
+  resolution: "whatwg-fetch@npm:3.6.2"
+  checksum: ee976b7249e7791edb0d0a62cd806b29006ad7ec3a3d89145921ad8c00a3a67e4be8f3fb3ec6bc7b58498724fd568d11aeeeea1f7827e7e1e5eae6c8a275afed
   languageName: node
   linkType: hard
 
