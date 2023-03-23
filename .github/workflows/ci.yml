@@ -2,6 +2,12 @@ name: CI
 
 on: [push, pull_request]
 
+env:
+  DATABASE_URL: 'https://fake.com'
+  NEXT_PUBLIC_DISCORD_INVITE_URL: 'https://fake.com'
+  NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL: 'https://fake.com'
+  NEXT_PUBLIC_GITHUB_URL: 'https://fake.com'
+
 jobs:
   build:
     runs-on: ubuntu-latest
