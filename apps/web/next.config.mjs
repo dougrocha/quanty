@@ -50,6 +50,11 @@ const config = {
         destination: process.env.NEXT_PUBLIC_GITHUB_URL ?? '',
         permanent: true,
       },
+      {
+        source: '/docs/:path*',
+        destination: 'https://docs.quanty.xyz/:path*',
+        permanent: true,
+      },
     ]
   },
 
