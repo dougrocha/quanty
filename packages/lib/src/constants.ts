@@ -5,6 +5,9 @@ const VERCEL_URL = process.env.VERCEL_URL
 export const WEBAPP_URL =
   process.env.NEXT_PUBLIC_WEBAPP_URL || VERCEL_URL || 'http://localhost:3000'
 
+export const DOCS_URL =
+  process.env.NEXT_PUBLIC_DOCS_URL || 'http://localhost:3000'
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Quanty'
 
 export const LOGO = {
