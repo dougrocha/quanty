@@ -7,4 +7,3 @@
   "exclude": [],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
 }
-

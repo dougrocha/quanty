@@ -70,7 +70,7 @@ export class GetBannerCommand extends Command {
           )
         }
 
-        interaction.reply({ embeds: [embed] })
+        void interaction.reply({ embeds: [embed] })
       })
   }
 }

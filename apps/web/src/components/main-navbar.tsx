@@ -94,7 +94,7 @@ const Navbar = () => {
           <button
             className="h-9 rounded-md border bg-theme-primary px-2 text-sm transition-all duration-200 ease-in-out hover:bg-theme-secondary"
             onClick={() => {
-              signIn('discord')
+              void signIn('discord')
             }}
           >
             Log in

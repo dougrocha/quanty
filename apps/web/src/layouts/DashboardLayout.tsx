@@ -34,7 +34,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { status } = useSession({
     required: true,
     onUnauthenticated: () => {
-      signIn('discord', {
+      void signIn('discord', {
         callbackUrl: `${WEBAPP_URL}${router.asPath}`,
         redirect: false,
       })
@@ -49,7 +49,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         setCurrentGuild(routerGuild)
       } else {
         setCurrentGuild(undefined)
-        router.push({
+        void router.push({
           pathname: '/dashboard',
         })
       }

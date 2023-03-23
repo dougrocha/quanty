@@ -61,7 +61,7 @@ export class AnimeCommand extends Command {
       console.log(allSfw)
 
       const res = await allSfw[Math.floor(Math.random() * allSfw.length)]
-      interaction.reply({
+      void interaction.reply({
         embeds: [embed.setImage(res.url).setColor('#FF5F9F')],
       })
     }
@@ -69,7 +69,7 @@ export class AnimeCommand extends Command {
     const res = this.neko[type as never] as () => Promise<{ url: string }>
     const url = (await res()).url
 
-    interaction.reply({
+    void interaction.reply({
       embeds: [embed.setImage(url).setColor('#FF5F9F')],
     })
   }

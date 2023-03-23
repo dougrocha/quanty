@@ -42,7 +42,7 @@ const UserDropdownMenu = ({
           <DropdownMenuPrimitive.Item
             className="relative flex h-8 cursor-pointer select-none items-center rounded-md px-1 pl-4 text-sm leading-3 outline-none radix-highlighted:bg-primary-purple-20"
             onClick={() => {
-              signOut({ redirect: true, callbackUrl: '/' })
+              void signOut({ redirect: true, callbackUrl: '/' })
             }}
           >
             Logout

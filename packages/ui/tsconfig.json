@@ -3,6 +3,6 @@
   "compilerOptions": {
     "baseUrl": "src"
   },
-  "include": ["."],
+  "include": ["index.ts", "components/**/*"],
   "exclude": ["node_modules", "dist", "build"]
 }

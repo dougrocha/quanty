@@ -28,7 +28,7 @@ const Home: NextPageWithLayout = () => {
           <button
             className="bg-theme-secondary px-2"
             onClick={() => {
-              signOut({ redirect: false })
+              void signOut({ redirect: false })
             }}
           >
             <ArrowLeftOnRectangleIcon className="h-5 w-5 text-white" />

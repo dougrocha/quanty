@@ -14,7 +14,7 @@ const LoginPage: NextPageWithLayout = () => {
       <button
         className="rounded bg-theme-primary px-2 py-1"
         onClick={() => {
-          signIn('discord', {
+          void signIn('discord', {
             callbackUrl: `${WEBAPP_URL}${router.query.redirect}`,
           })
         }}

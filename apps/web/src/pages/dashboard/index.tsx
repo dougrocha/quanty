@@ -108,7 +108,7 @@ const DashboardPage: NextPageWithLayout = () => {
                       <button
                         className="w-full rounded-lg bg-theme-neutral py-1 px-2 md:w-24"
                         onClick={() => {
-                          router.push(`/dashboard/${guild.id}`)
+                          void router.push(`/dashboard/${guild.id}`)
                           setCurrentGuild(guild)
                         }}
                       >
