@@ -1,6 +1,9 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
+    "type-check": {
+      "cache": false
+    },
     "db:generate": {
       "inputs": ["db/schema.prisma"],
       "cache": false

@@ -19,6 +19,7 @@
     "test": "echo TESTING BOT",
     "lint": "TIMING=1 eslint src --fix",
     "format": "prettier --write src",
+    "type-check": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
