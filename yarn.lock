@@ -1590,6 +1590,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.55.0
     "@typescript-eslint/parser": ^5.55.0
     autoprefixer: ^10.4.14
+    cssnano: ^5.1.15
     daisyui: ^2.51.3
     eslint: ^8.36.0
     eslint-config-next: ^13.2.4
@@ -1597,6 +1598,7 @@ __metadata:
     eslint-plugin-react: ^7.32.2
     postcss: ^8.4.21
     tailwindcss: ^3.2.7
+    tailwindcss-animate: ^1.0.5
     tailwindcss-radix: ^2.8.0
   languageName: unknown
   linkType: soft
@@ -1613,6 +1615,31 @@ __metadata:
     tsx: ^3.12.5
     typescript: ^4.9.5
     zod-prisma: ^0.5.4
+  languageName: unknown
+  linkType: soft
+
+"@quanty/docs@workspace:apps/docs":
+  version: 0.0.0-use.local
+  resolution: "@quanty/docs@workspace:apps/docs"
+  dependencies:
+    "@next/bundle-analyzer": ^13.2.4
+    "@quanty/config": "*"
+    "@quanty/lib": "*"
+    "@quanty/tsconfig": "*"
+    "@types/node": ^18.15.3
+    "@types/react": ^18.0.28
+    "@types/react-dom": ^18.0.11
+    "@vercel/analytics": ^0.1.11
+    dotenv-cli: ^7.1.0
+    next: ^13.2.4
+    next-plausible: ^3.7.2
+    next-seo: ^5.15.0
+    next-sitemap: ^4.0.5
+    nextra: ^2.2.19
+    nextra-theme-docs: ^2.2.19
+    react: 18.2.0
+    react-dom: 18.2.0
+    typescript: ^4.9.5
   languageName: unknown
   linkType: soft
 
@@ -1665,7 +1692,9 @@ __metadata:
     "@quanty/db": "*"
     "@quanty/lib": "*"
     "@quanty/tsconfig": "*"
+    "@radix-ui/react-avatar": ^1.0.2
     "@radix-ui/react-dropdown-menu": ^2.0.4
+    "@radix-ui/react-navigation-menu": ^1.1.2
     "@tanstack/react-query": ^4.26.1
     "@tanstack/react-query-devtools": ^4.26.1
     "@trpc/client": ^10.16.0
@@ -1676,8 +1705,8 @@ __metadata:
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@vercel/analytics": ^0.1.11
+    class-variance-authority: ^0.4.0
     clsx: ^1.2.1
-    cssnano: ^5.1.15
     dayjs: ^1.11.7
     discord-api-types: ^0.37.36
     dotenv-cli: ^7.1.0
@@ -1688,14 +1717,13 @@ __metadata:
     next-plausible: ^3.7.2
     next-seo: ^5.15.0
     next-sitemap: ^4.0.5
-    nextra: ^2.2.19
-    nextra-theme-docs: ^2.2.19
     react: 18.2.0
     react-dom: 18.2.0
     react-hook-form: ^7.43.5
     react-icons: ^4.8.0
     react-loading-skeleton: ^3.2.0
     react-spinners-kit: ^1.9.1
+    tailwind-merge: ^1.10.0
     typescript: ^4.9.5
     zod: ^3.21.4
     zustand: ^4.3.6
@@ -1721,6 +1749,22 @@ __metadata:
     react: ^16.8 || ^17.0 || ^18.0
     react-dom: ^16.8 || ^17.0 || ^18.0
   checksum: d9c4a810376b686edfedfab15c3ef739bb2b388211fbf33191648149aba5064bfff8a5de05b264ad0b76c4a4df98fd8267002580e3515b7f5ad31b9495bfda21
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-avatar@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-avatar@npm:1.0.2"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/react-context": 1.0.0
+    "@radix-ui/react-primitive": 1.0.2
+    "@radix-ui/react-use-callback-ref": 1.0.0
+    "@radix-ui/react-use-layout-effect": 1.0.0
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: 5351bd8763b1d0f2450e79a443b8525a652c89921321c25b93afad666b56a7eb00fcedfc801d5f284c78a7cbebea658f04e4fee6d305d7def57a562d9518dbdb
   languageName: node
   linkType: hard
 
@@ -1877,6 +1921,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-navigation-menu@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@radix-ui/react-navigation-menu@npm:1.1.2"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/primitive": 1.0.0
+    "@radix-ui/react-collection": 1.0.2
+    "@radix-ui/react-compose-refs": 1.0.0
+    "@radix-ui/react-context": 1.0.0
+    "@radix-ui/react-direction": 1.0.0
+    "@radix-ui/react-dismissable-layer": 1.0.3
+    "@radix-ui/react-id": 1.0.0
+    "@radix-ui/react-presence": 1.0.0
+    "@radix-ui/react-primitive": 1.0.2
+    "@radix-ui/react-use-callback-ref": 1.0.0
+    "@radix-ui/react-use-controllable-state": 1.0.0
+    "@radix-ui/react-use-layout-effect": 1.0.0
+    "@radix-ui/react-use-previous": 1.0.0
+    "@radix-ui/react-visually-hidden": 1.0.2
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: 2c321a10acf532cfead8f63c1eca9acb742fb94de3d67c8c8e2614845086376995e78cb3d31ac1bc4a915e961e5c19d60b52106c1c9196c9789d4da3e831fd5b
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-popper@npm:1.1.1":
   version: 1.1.1
   resolution: "@radix-ui/react-popper@npm:1.1.1"
@@ -2018,6 +2088,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-use-previous@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@radix-ui/react-use-previous@npm:1.0.0"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+  checksum: b45bbc8a7e7dbe29f4c11922e807666ec98979ec7a2696618ceb2c60ade44f695892216a90e1f5d7a457b458b3c95f0a4ce971d5143a6a80646b6b00fda16fb5
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-use-rect@npm:1.0.0":
   version: 1.0.0
   resolution: "@radix-ui/react-use-rect@npm:1.0.0"
@@ -2039,6 +2120,19 @@ __metadata:
   peerDependencies:
     react: ^16.8 || ^17.0 || ^18.0
   checksum: b319564668512bb5c8c64530e3c12810c4b7c75c19a00d5ef758c246e8d85cd5015df19688e174db1cc44b0584c8d7f22411eb00af5f8ac6c2e789aa5c8e34f5
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-visually-hidden@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-visually-hidden@npm:1.0.2"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/react-primitive": 1.0.2
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: 67c4a55cfad9a8ff519a9b4ce24d2cc9d78c34d08a128a85de1a0a41228fdeb961eaeb4e50ca0d2080c5e31cef6f6e703cb06786579b44e5c66af161b941adb6
   languageName: node
   linkType: hard
 
@@ -3722,6 +3816,18 @@ __metadata:
   version: 3.8.0
   resolution: "ci-info@npm:3.8.0"
   checksum: d0a4d3160497cae54294974a7246202244fff031b0a6ea20dd57b10ec510aa17399c41a1b0982142c105f3255aff2173e5c0dd7302ee1b2f28ba3debda375098
+  languageName: node
+  linkType: hard
+
+"class-variance-authority@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "class-variance-authority@npm:0.4.0"
+  peerDependencies:
+    typescript: ">= 4.5.5 < 5"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 86037e5baa231a0c36a6dc2f260f6c18daa66bdccb6f4c1baee7112abd3dd2a11f412cfb3a0377b65357cc41ec6cb2f9cc70e9f64275109703fd6839ed50a450
   languageName: node
   linkType: hard
 
@@ -11001,6 +11107,22 @@ __metadata:
   version: 6.1.1
   resolution: "tabbable@npm:6.1.1"
   checksum: 348639497262241ce8e0ccb0664ea582a386183107299ee8f27cf7b56bc84f36e09eaf667d3cb4201e789634012a91f7129bcbd49760abe874fbace35b4cf429
+  languageName: node
+  linkType: hard
+
+"tailwind-merge@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "tailwind-merge@npm:1.10.0"
+  checksum: 80eb30d0300ca912b4b910460497a1d5fb4e697c3aedb01513e633973328684fa7ddf9bfb8550dca28176971c93bcb7ecb7eec3097c01d9c55c191563c693aab
+  languageName: node
+  linkType: hard
+
+"tailwindcss-animate@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "tailwindcss-animate@npm:1.0.5"
+  peerDependencies:
+    tailwindcss: "*"
+  checksum: 6b558f85a6af0780f018e1d23736d56dd59795f051df413bc2cf2fc2a021d6b1a3b78066f93e1045f3a39c11ee191c728db79e606d9a1def07fdf6a10f045312
   languageName: node
   linkType: hard
 

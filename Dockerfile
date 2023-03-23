@@ -1,4 +1,3 @@
-
 FROM node:alpine AS builder
 ARG BUILD_CONTEXT
 

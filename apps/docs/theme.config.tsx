@@ -36,7 +36,7 @@ const config: DocsThemeConfig = {
     </>
   ),
 
-  navigation: { next: true, prev: true },
+  navigation: true,
 
   head: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
