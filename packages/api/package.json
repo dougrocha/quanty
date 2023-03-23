@@ -7,8 +7,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "lint": "eslint",
-    "type-check": "tsc --noEmit"
+    "lint": "eslint"
   },
   "dependencies": {
     "@quanty/auth": "*",

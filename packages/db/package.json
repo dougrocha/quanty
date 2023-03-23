@@ -11,6 +11,8 @@
     "db:push": "yarn with-env prisma db push --skip-generate",
     "db-seed": "yarn with-env prisma db seed",
     "dev": "yarn with-env prisma studio --port 5556",
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx --fix",
+    "type-check": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"
   },
   "prisma": {

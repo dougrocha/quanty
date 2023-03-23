@@ -1,4 +1,4 @@
 {
-  "extends": "@quanty/tsconfig/base.json",
+  "extends": "@quanty/tsconfig/next.json",
   "include": ["src", "index.ts", "transformer.ts", "environment.d.ts"]
 }

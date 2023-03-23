@@ -6,7 +6,8 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint . --ext .ts,.js,.tsx,.jsx --fix"
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx --fix",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@quanty/tsconfig": "*",
