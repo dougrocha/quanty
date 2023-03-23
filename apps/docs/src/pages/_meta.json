@@ -1,4 +1,15 @@
 {
+  "*": {
+    "title": "Documentation",
+    "theme": {
+      "breadcrumb": true,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": true
+    }
+  },
+
   "index": "Welcome",
 
   "getting-started": "Getting Started"

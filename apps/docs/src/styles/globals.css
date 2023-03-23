@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
 html {
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: 'Open Sans', system-ui, sans-serif;
 }
 
 body {

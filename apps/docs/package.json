@@ -12,11 +12,8 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^13.2.4",
     "@vercel/analytics": "^0.1.11",
     "next": "^13.2.4",
-    "next-plausible": "^3.7.2",
-    "next-seo": "^5.15.0",
     "next-sitemap": "^4.0.5",
     "nextra": "^2.2.19",
     "nextra-theme-docs": "^2.2.19",
@@ -24,6 +21,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.2.4",
     "@quanty/config": "*",
     "@quanty/lib": "*",
     "@quanty/tsconfig": "*",

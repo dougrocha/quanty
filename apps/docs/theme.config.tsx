@@ -7,7 +7,7 @@ import { clientEnv } from './src/env/schema.mjs'
 
 const config: DocsThemeConfig = {
   docsRepositoryBase:
-    'https://github.com/dougrocha/quanty/tree/master/apps/web',
+    'https://github.com/dougrocha/quanty/tree/master/apps/docs',
   project: {
     link: 'https://github.com/dougrocha/quanty',
   },

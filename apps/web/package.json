@@ -17,7 +17,6 @@
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
     "@hookform/resolvers": "^2.9.11",
-    "@next/bundle-analyzer": "^13.2.4",
     "@quanty/api": "*",
     "@quanty/auth": "*",
     "@quanty/db": "*",
@@ -52,6 +51,7 @@
     "zustand": "^4.3.6"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.2.4",
     "@quanty/config": "*",
     "@quanty/lib": "*",
     "@quanty/tsconfig": "*",

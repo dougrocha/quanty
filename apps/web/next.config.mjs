@@ -1,23 +1,12 @@
 // @ts-check
 
 import NextBundleAnalyzer from '@next/bundle-analyzer'
-import nextra from 'nextra'
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds and Linting.
  */
 !process.env.SKIP_ENV_VALIDATION && (await import('./src/env/server.mjs'))
-
-const withNextra = nextra({
-  theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.tsx',
-  staticImage: true,
-  flexsearch: {
-    codeblocks: false,
-  },
-  defaultShowCopyCode: true,
-})
 
 const withBundleAnalyzer = NextBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -75,4 +64,4 @@ const config = {
   typescript: { ignoreBuildErrors: !!process.env.CI },
 }
 
-export default withBundleAnalyzer(withNextra(config))
+export default withBundleAnalyzer(config)

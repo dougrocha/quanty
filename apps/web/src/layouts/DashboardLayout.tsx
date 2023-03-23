@@ -96,7 +96,7 @@ const DashboardNavbar = () => {
 
       {currentGuild ? <GuildSelectionDropdown /> : null}
 
-      <UserDropdownMenu user={session?.user} />
+      {session?.user ? <UserDropdownMenu user={session.user} /> : null}
     </div>
   )
 }
