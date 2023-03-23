@@ -19,6 +19,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
+      - name: Generate DB From Prisma
+        run: yarn workspace @quanty/db db:generate
+
       - name: Typecheck
         run: yarn type-check
 
