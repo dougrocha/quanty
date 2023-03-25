@@ -8,46 +8,46 @@ import { api } from '~/api'
 import AppLayout from '~/layouts/AppLayout'
 import { NextPageWithLayout } from '~/lib/types'
 
-const Home: NextPageWithLayout = () => {
+const HomePage: NextPageWithLayout = () => {
   const { data: session } = api.auth.getSession.useQuery()
 
   return (
-    <div className="my-auto flex min-h-full flex-col items-center justify-center py-4">
+    <div className="flex flex-col justify-center items-center py-4 my-auto min-h-full">
       <Image
         src={LOGO.lg}
         alt="Quanty Profile Image"
         width={256}
         height={256}
         priority
-        className="h-64 w-64 overflow-hidden rounded-full"
+        className="overflow-hidden w-64 h-64 rounded-full"
       />
 
       {session ? (
-        <div className="mt-6 flex overflow-hidden rounded-md border border-theme-secondary">
+        <div className="flex overflow-hidden mt-6 rounded-md border border-theme-secondary">
           <span className="py-2 px-4">Logged in: {session.user.name}</span>
           <button
-            className="bg-theme-secondary px-2"
+            className="px-2 bg-theme-secondary"
             onClick={() => {
               signOut({ redirect: false })
             }}
           >
-            <ArrowLeftOnRectangleIcon className="h-5 w-5 text-white" />
+            <ArrowLeftOnRectangleIcon className="w-5 h-5 text-white" />
           </button>
         </div>
       ) : null}
 
-      <div className="mt-6 flex flex-col gap-y-4">
+      <div className="flex flex-col gap-y-4 mt-6">
         <Link
           href="/invite"
           target="_blank"
           rel="noreferrer"
-          className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
+          className="py-3 px-8 w-full font-medium text-center rounded-md bg-theme-primary hover:bg-dark-purple-400 focus:border-theme-secondary"
         >
           Invite Quanty
         </Link>
         <Link
           href="/dashboard"
-          className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
+          className="py-3 px-8 w-full font-medium text-center rounded-md bg-theme-primary hover:bg-dark-purple-400 focus:border-theme-secondary"
         >
           Dashboard (WIP)
         </Link>
@@ -55,7 +55,7 @@ const Home: NextPageWithLayout = () => {
           href="/discord"
           target="_blank"
           rel="noreferrer"
-          className="w-full rounded-md bg-theme-primary px-8 py-3 text-center font-medium hover:bg-dark-purple-400 focus:border-theme-secondary"
+          className="py-3 px-8 w-full font-medium text-center rounded-md bg-theme-primary hover:bg-dark-purple-400 focus:border-theme-secondary"
         >
           Join the community
         </Link>
@@ -64,7 +64,7 @@ const Home: NextPageWithLayout = () => {
   )
 }
 
-Home.getLayout = page => <AppLayout>{page}</AppLayout>
+HomePage.getLayout = page => <AppLayout>{page}</AppLayout>
 
 // const PostCard: React.FC<{
 //   post: RouterOutputs['post']['all'][number]
@@ -80,7 +80,7 @@ Home.getLayout = page => <AppLayout>{page}</AppLayout>
 //       </div>
 //       <div>
 //         <span
-//           className="cursor-pointer text-sm font-bold uppercase text-pink-400"
+//           className="text-sm font-bold text-pink-400 uppercase cursor-pointer"
 //           onClick={onPostDelete}
 //         >
 //           Delete
@@ -105,21 +105,21 @@ Home.getLayout = page => <AppLayout>{page}</AppLayout>
 //   })
 
 //   return (
-//     <div className="flex w-[80vw] flex-col p-4 md:w-[60vw] xl:w-[35vw]">
+//     <div className="flex flex-col p-4 w-[80vw] md:w-[60vw] xl:w-[35vw]">
 //       <input
-//         className="mb-2 rounded bg-white/10 p-2 text-white"
+//         className="p-2 mb-2 text-white rounded bg-white/10"
 //         value={title}
 //         onChange={e => setTitle(e.target.value)}
 //         placeholder="Title"
 //       />
 //       <input
-//         className="mb-2 rounded bg-white/10 p-2 text-white"
+//         className="p-2 mb-2 text-white rounded bg-white/10"
 //         value={content}
 //         onChange={e => setContent(e.target.value)}
 //         placeholder="Content"
 //       />
 //       <button
-//         className="rounded bg-pink-700 p-2 font-bold"
+//         className="p-2 font-bold bg-pink-700 rounded"
 //         onClick={() => {
 //           mutate({
 //             title,
@@ -148,7 +148,7 @@ Home.getLayout = page => <AppLayout>{page}</AppLayout>
 //         <link rel="icon" href="/favicon.ico" />
 //       </Head>
 //       <main className="flex h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-//         <div className="container mt-12 flex flex-col items-center justify-center gap-4 px-4 py-8">
+//         <div className="container flex flex-col gap-4 justify-center items-center py-8 px-4 mt-12">
 //           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
 //             Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
 //           </h1>
@@ -161,8 +161,8 @@ Home.getLayout = page => <AppLayout>{page}</AppLayout>
 //               {postQuery.data?.length === 0 ? (
 //                 <span>There are no posts!</span>
 //               ) : (
-//                 <div className="flex h-[40vh] w-[80vw] justify-center overflow-y-scroll px-4 text-2xl md:w-[60vw] xl:w-[35vw]">
-//                   <div className="flex w-full flex-col gap-4">
+//                 <div className="flex overflow-y-scroll justify-center px-4 text-2xl h-[40vh] w-[80vw] md:w-[60vw] xl:w-[35vw]">
+//                   <div className="flex flex-col gap-4 w-full">
 //                     {postQuery.data?.map(p => {
 //                       return (
 //                         <PostCard
@@ -186,7 +186,7 @@ Home.getLayout = page => <AppLayout>{page}</AppLayout>
 //   )
 // }
 
-export default Home
+export default HomePage
 
 // const AuthShowcase: React.FC = () => {
 //   const { data: session } = api.auth.getSession.useQuery()
@@ -197,15 +197,15 @@ export default Home
 //   )
 
 //   return (
-//     <div className="flex flex-col items-center justify-center gap-4">
+//     <div className="flex flex-col gap-4 justify-center items-center">
 //       {session?.user && (
-//         <p className="text-center text-2xl text-white">
+//         <p className="text-2xl text-center text-white">
 //           {session && <span>Logged in as {session?.user?.name}</span>}
 //           {secretMessage && <span> - {secretMessage}</span>}
 //         </p>
 //       )}
 //       <button
-//         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+//         className="py-3 px-10 font-semibold text-white no-underline rounded-full transition bg-white/10 hover:bg-white/20"
 //         onClick={session ? () => void signOut() : () => void signIn('discord')}
 //       >
 //         {session ? 'Sign out' : 'Sign in'}
