@@ -1,0 +1,22 @@
+{
+  "extends": "@quanty/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~/components": ["./src/components/*"],
+      "~/ui": ["./src/components/ui/*"],
+      "~/lib": ["./src/lib/*"]
+    }
+  },
+  "exclude": [],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs",
+    "next-env.d.ts",
+    "theme.config.tsx",
+    "next-sitemap.config.js"
+  ]
+}

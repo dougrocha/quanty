@@ -1,27 +1,26 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { DefaultSession } from 'next-auth'
 import { signOut } from 'next-auth/react'
-import { DISCORD_LOGO } from '@quanty/lib'
+
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 const UserDropdownMenu = ({
   user,
 }: {
-  user?: { id: string } & DefaultSession['user']
+  user: { id: string } & DefaultSession['user']
 }) => {
   return (
     <DropdownMenuPrimitive.Root>
       <DropdownMenuPrimitive.Trigger className="group flex items-center">
-        <Image
-          src={user?.image ?? DISCORD_LOGO}
-          alt={`${user?.name} profile image`}
-          width={32}
-          height={32}
-          priority
-          className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-theme-primary"
-        />
+        <Avatar>
+          {user.image ? (
+            <AvatarImage src={user.image} alt={`${user.name} profile image`} />
+          ) : (
+            <AvatarFallback>{user.name?.slice(0, 2)}</AvatarFallback>
+          )}
+        </Avatar>
 
         <ChevronUpIcon className="h-5 w-5 transition-transform group-radix-state-open:rotate-180" />
       </DropdownMenuPrimitive.Trigger>
@@ -43,7 +42,7 @@ const UserDropdownMenu = ({
           <DropdownMenuPrimitive.Item
             className="relative flex h-8 cursor-pointer select-none items-center rounded-md px-1 pl-4 text-sm leading-3 outline-none radix-highlighted:bg-primary-purple-20"
             onClick={() => {
-              signOut({ redirect: true, callbackUrl: '/' })
+              void signOut({ redirect: true, callbackUrl: '/' })
             }}
           >
             Logout

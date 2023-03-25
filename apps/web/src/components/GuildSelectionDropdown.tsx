@@ -22,7 +22,7 @@ const GuildSelectionDropdown = () => {
 
   const onGuildChange = (guild: APIGuild) => {
     setCurrentGuild(guild)
-    router.push(`/dashboard/${guild.id}`)
+    void router.push(`/dashboard/${guild.id}`)
   }
 
   return (

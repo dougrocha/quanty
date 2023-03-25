@@ -1,23 +1,13 @@
 // @ts-check
 
 import NextBundleAnalyzer from '@next/bundle-analyzer'
-import nextra from 'nextra'
+import { withAxiom } from 'next-axiom'
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds and Linting.
  */
 !process.env.SKIP_ENV_VALIDATION && (await import('./src/env/server.mjs'))
-
-const withNextra = nextra({
-  theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.tsx',
-  staticImage: true,
-  flexsearch: {
-    codeblocks: false,
-  },
-  defaultShowCopyCode: true,
-})
 
 const withBundleAnalyzer = NextBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -50,13 +40,18 @@ const config = {
         destination: process.env.NEXT_PUBLIC_GITHUB_URL ?? '',
         permanent: true,
       },
+      {
+        source: '/docs/:path*',
+        destination: 'https://docs.quanty.xyz/:path*',
+        permanent: true,
+      },
     ]
   },
 
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
   swcMinify: true,
-  /** Enables hot reloading for local packages without a build step */
+
   transpilePackages: [
     '@quanty/api',
     '@quanty/auth',
@@ -65,9 +60,10 @@ const config = {
     '@quanty/lib',
     '@quanty/config',
   ],
+
   /** We already do linting and typechecking as separate tasks in CI */
-  eslint: { ignoreDuringBuilds: !!process.env.CI },
-  typescript: { ignoreBuildErrors: !!process.env.CI },
+  eslint: { ignoreDuringBuilds: process.env.NODE_ENV === 'production' },
+  typescript: { ignoreBuildErrors: process.env.NODE_ENV === 'production' },
 }
 
-export default withBundleAnalyzer(withNextra(config))
+export default withBundleAnalyzer(withAxiom(config))

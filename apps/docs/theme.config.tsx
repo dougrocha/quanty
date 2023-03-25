@@ -1,13 +1,14 @@
 import Image from 'next/image'
+import Link from 'next/link.js'
 import { useRouter } from 'next/router'
 import { useConfig, type DocsThemeConfig } from 'nextra-theme-docs'
-import { WEBAPP_URL } from '@quanty/lib'
+import { DOCS_URL, WEBAPP_URL } from '@quanty/lib'
 
 import { clientEnv } from './src/env/schema.mjs'
 
 const config: DocsThemeConfig = {
   docsRepositoryBase:
-    'https://github.com/dougrocha/quanty/tree/master/apps/web',
+    'https://github.com/dougrocha/quanty/tree/master/apps/docs',
   project: {
     link: 'https://github.com/dougrocha/quanty',
   },
@@ -36,7 +37,7 @@ const config: DocsThemeConfig = {
     </>
   ),
 
-  navigation: { next: true, prev: true },
+  navigation: true,
 
   head: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -63,7 +64,7 @@ const config: DocsThemeConfig = {
         <meta name="title" content={meta.title || 'Quanty Docs'} />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${WEBAPP_URL}${asPath}`} />
+        <meta property="og:url" content={`${DOCS_URL}${asPath}`} />
         <meta property="og:title" content={meta.title || 'Quanty Docs'} />
         <meta
           property="og:description"
@@ -74,16 +75,16 @@ const config: DocsThemeConfig = {
         />
         <meta
           property="og:image"
-          content={`${WEBAPP_URL}${meta.image || '/images/quanty_lg.jpg'}`}
+          content={`${DOCS_URL}${meta.image || '/images/quanty_lg.jpg'}`}
         />
         <meta property="og:locale" content="en_US" />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={`${WEBAPP_URL}${asPath}`} />
+        <meta property="twitter:url" content={`${DOCS_URL}${asPath}`} />
         <meta property="twitter:title" content={meta.title || 'Quanty Docs'} />
         <meta
           property="twitter:image"
-          content={`${WEBAPP_URL}${meta.image || '/images/quanty_lg.jpg'}`}
+          content={`${DOCS_URL}${meta.image || '/images/quanty_lg.jpg'}`}
         />
         <meta
           property="twitter:description"
@@ -107,7 +108,7 @@ const config: DocsThemeConfig = {
       additionalLinkTags: [
         {
           rel: 'canonical',
-          href: `${WEBAPP_URL}`,
+          href: `${DOCS_URL}`,
         },
         {
           rel: 'manifest',

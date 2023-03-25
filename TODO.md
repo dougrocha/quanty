@@ -33,8 +33,6 @@ Our notion has more of the TODO list items if not in here.
 
 #### Quanty Bot Framework
 
-Gonna copy some ideas from other frameworks - [sapphirejs](https://www.sapphirejs.dev/)
-
 - [ ] Try to incorporate new Slash Command Builder for usability and readability
 
 - [x] Allow users to add preconditions, similar to to verify but class [link](https://www.sapphirejs.dev/docs/Guide/preconditions/creating-your-own-preconditions)

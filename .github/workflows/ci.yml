@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  DATABASE_URL: 'https://fake.com'
+  NEXT_PUBLIC_DISCORD_INVITE_URL: 'https://fake.com'
+  NEXT_PUBLIC_DISCORD_SERVER_INVITE_URL: 'https://fake.com'
+  NEXT_PUBLIC_GITHUB_URL: 'https://fake.com'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Generate DB From Prisma
+        run: yarn workspace @quanty/db db:generate
+
+      - name: Typecheck
+        run: yarn type-check
+
+      - name: Lint
+        run: yarn lint

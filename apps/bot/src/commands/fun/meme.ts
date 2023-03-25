@@ -35,7 +35,7 @@ export class AnimeCommand extends Command {
           .setTimestamp(Date.now())
           .setColor('#FF5F9F')
 
-        interaction.reply({
+        void interaction.reply({
           embeds: [embed],
         })
       })

@@ -5,11 +5,15 @@
   "license": "MIT",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx --fix"
+  },
   "files": [
     "dist/**"
   ],
   "devDependencies": {
-    "@floating-ui/react": "0.21.1",
+    "@floating-ui/react": "0.22.0",
     "@iconify/react": "^4.1.0",
     "@quanty/config": "*",
     "@quanty/tsconfig": "*",

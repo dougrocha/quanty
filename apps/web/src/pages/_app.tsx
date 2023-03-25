@@ -13,6 +13,8 @@ import { api } from '~/api'
 import nextSeoConfig from '../lib/config/next-seo.config'
 import { NextPageWithLayout } from '../lib/types'
 
+export { reportWebVitals } from 'next-axiom'
+
 const open_sans = Open_Sans({
   subsets: ['latin'],
   weight: 'variable',
@@ -41,7 +43,9 @@ const MyApp: AppType<{
       </main>
 
       <DefaultSeo {...nextSeoConfig} />
+
       <VercelAnalytics />
+
       <ReactQueryDevtools initialIsOpen={false} />
     </SessionProvider>
   )

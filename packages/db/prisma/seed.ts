@@ -3,7 +3,13 @@ import { prisma } from '../index'
 async function main() {
   console.log('Seeding database...')
 
-  console.log('Finished seeding database.')
+  const text = new Promise<string>(resolve => {
+    setTimeout(() => {
+      resolve('Finished seeding database.')
+    }, 1000)
+  })
+
+  console.log(await text)
 }
 
 main()
@@ -15,4 +21,3 @@ main()
     await prisma.$disconnect()
     process.exit(1)
   })
-
