@@ -14,24 +14,26 @@ import {
 
 const UserDropdownMenu = dynamic(() => import('./UserDropdownMenu'))
 
+// TODO: Add a dropdown box for navbar items when the screen is small
+
 const Navbar = () => {
   const { data: session, status } = useSession()
 
   return (
-    <nav className="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-4 sm:px-6 lg:px-8">
-      <Link href="/">
+    <nav className="flex justify-between items-center px-4 mx-auto w-full max-w-screen-2xl h-16 sm:px-6 lg:px-8">
+      <Link href="/" className='shrink-0'>
         <Image
           src={LOGO.sm}
           alt="Quanty Profile Image"
           width={40}
           height={40}
           priority
-          className="h-10 w-10 overflow-hidden rounded-full shadow-md shadow-theme-primary"
+          className="overflow-hidden w-10 h-10 rounded-full shadow-md shadow-theme-primary"
         />
       </Link>
 
-      <div className="flex items-center gap-x-4">
-        <NavigationMenu>
+      <div className="flex gap-x-4 items-center">
+        <NavigationMenu className='hidden md:flex md:gap-x-4 md:items-center'>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
@@ -85,14 +87,14 @@ const Navbar = () => {
         ) : null}
 
         {status === 'loading' ? (
-          <div className="flex items-center justify-center">
-            <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-theme-primary" />
+          <div className="flex justify-center items-center">
+            <div className="w-5 h-5 rounded-full border-b-2 animate-spin border-theme-primary" />
           </div>
         ) : null}
 
         {status === 'unauthenticated' ? (
           <button
-            className="h-9 rounded-md border bg-theme-primary px-2 text-sm transition-all duration-200 ease-in-out hover:bg-theme-secondary"
+            className="px-2 h-9 text-sm rounded-md border transition-all duration-200 ease-in-out shrink-0 bg-theme-primary hover:bg-theme-secondary"
             onClick={() => {
               void signIn('discord')
             }}
