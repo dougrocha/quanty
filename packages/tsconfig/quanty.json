@@ -1,16 +1,25 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Bot",
   "extends": "./base.json",
   "compilerOptions": {
     "target": "es2021",
     "lib": ["ESNext"],
-
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "removeComments": true,
 
-    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "noFallthroughCasesInSwitch": true,
 
-    "useDefineForClassFields": false,
+    "pretty": true,
+
+    "noImplicitReturns": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": true,
 
     "strictBindCallApply": false
   }
