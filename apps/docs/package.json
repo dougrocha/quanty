@@ -16,8 +16,8 @@
     "clsx": "^1.2.1",
     "next": "^13.2.4",
     "next-sitemap": "^4.0.6",
-    "nextra": "^2.2.19",
-    "nextra-theme-docs": "^2.2.19",
+    "nextra": "^2.2.20",
+    "nextra-theme-docs": "^2.2.20",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -26,8 +26,8 @@
     "@quanty/config": "*",
     "@quanty/lib": "*",
     "@quanty/tsconfig": "*",
-    "@types/node": "^18.15.5",
-    "@types/react": "^18.0.28",
+    "@types/node": "^18.15.11",
+    "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",
     "dotenv-cli": "^7.1.0",
     "typescript": "^5.0.2"

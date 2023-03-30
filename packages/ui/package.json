@@ -13,12 +13,12 @@
     "dist/**"
   ],
   "devDependencies": {
-    "@floating-ui/react": "0.22.0",
+    "@floating-ui/react": "0.22.2",
     "@iconify/react": "^4.1.0",
     "@quanty/config": "*",
     "@quanty/tsconfig": "*",
-    "@types/lodash": "^4.14.191",
-    "@types/react": "^18.0.28",
+    "@types/lodash": "^4.14.192",
+    "@types/react": "^18.0.31",
     "lodash": "^4.17.21",
     "next": "^13.2.4",
     "react": "^18.2.0",

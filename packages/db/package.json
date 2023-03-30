@@ -19,13 +19,13 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^4.11.0"
+    "@prisma/client": "^4.12.0"
   },
   "devDependencies": {
     "@quanty/tsconfig": "*",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^7.1.0",
-    "prisma": "^4.11.0",
+    "prisma": "^4.12.0",
     "tsx": "^3.12.6",
     "typescript": "^5.0.2",
     "zod-prisma": "^0.5.4"

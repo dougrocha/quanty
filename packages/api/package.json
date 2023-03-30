@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@quanty/tsconfig": "*",
-    "discord-api-types": "^0.37.36",
+    "discord-api-types": "^0.37.37",
     "typescript": "^5.0.2"
   }
 }

@@ -12,8 +12,8 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.22.0",
-    "@formkit/auto-animate": "^1.0.0-beta.6",
+    "@floating-ui/react": "^0.22.2",
+    "@formkit/auto-animate": "^1.0.0-pre-alpha.3",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
     "@hookform/resolvers": "^3.0.0",
@@ -33,7 +33,7 @@
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
-    "framer-motion": "^10.8.5",
+    "framer-motion": "^10.10.0",
     "jotai": "^2.0.3",
     "next": "^13.2.4",
     "next-auth": "^4.20.1",
@@ -43,11 +43,11 @@
     "next-sitemap": "^4.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.43.7",
+    "react-hook-form": "^7.43.8",
     "react-icons": "^4.8.0",
     "react-loading-skeleton": "^3.2.0",
     "react-spinners-kit": "^1.9.1",
-    "tailwind-merge": "^1.10.0",
+    "tailwind-merge": "^1.11.0",
     "zod": "^3.21.4",
     "zustand": "^4.3.6"
   },
@@ -56,10 +56,10 @@
     "@quanty/config": "*",
     "@quanty/lib": "*",
     "@quanty/tsconfig": "*",
-    "@types/node": "^18.15.5",
-    "@types/react": "^18.0.28",
+    "@types/node": "^18.15.11",
+    "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",
-    "discord-api-types": "^0.37.36",
+    "discord-api-types": "^0.37.37",
     "dotenv-cli": "^7.1.0",
     "typescript": "^5.0.2"
   }
