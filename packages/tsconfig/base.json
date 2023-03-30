@@ -1,26 +1,25 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Default",
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "strictBindCallApply": false,
 
     "declaration": true,
-
-    "removeComments": false,
-    "sourceMap": true,
-
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "declarationMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
 
     "skipLibCheck": true,
+    "isolatedModules": true,
 
-    "newLine": "lf",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "moduleResolution": "node",
 
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "preserveWatchOutput": true
-  }
+  },
+  "exclude": ["node_modules"]
 }

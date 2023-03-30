@@ -4,18 +4,28 @@
   "extends": "./base.json",
   "compilerOptions": {
     "target": "ES2021",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNEXT",
-    "lib": ["ES6", "ES7", "ESNext", "DOM", "DOM.Iterable"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "jsx": "preserve",
-
-    "moduleResolution": "node",
-
     "noEmit": true,
     "incremental": true,
-    "isolatedModules": true
-  }
+
+    "declaration": false,
+    "declarationMap": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "strictNullChecks": true,
+    "useUnknownInCatchVariables": true
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs",
+    "next-env.d.ts",
+    "../types/next-auth.d.ts",
+    "../types/*.d.ts"
+  ],
+  "exclude": ["node_modules"]
 }

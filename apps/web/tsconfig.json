@@ -16,7 +16,6 @@
     "**/*.cjs",
     "**/*.mjs",
     "next-env.d.ts",
-    "theme.config.tsx",
     "next-sitemap.config.js"
   ]
 }
