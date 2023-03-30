@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.22.2",
-    "@formkit/auto-animate": "^1.0.0-pre-alpha.3",
+    "@formkit/auto-animate": "^1.0.0-beta.6",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
     "@hookform/resolvers": "^3.0.0",
