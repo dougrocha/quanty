@@ -1,16 +1,14 @@
 import { LOGO, WEBAPP_URL } from '@quanty/lib'
-
 import 'react-loading-skeleton/dist/skeleton.css'
-import { useEffect } from 'react'
+import { useAtomValue, useSetAtom } from 'jotai/react'
+import { signIn, useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useAtomValue, useSetAtom } from 'jotai/react'
-import { signIn, useSession } from 'next-auth/react'
-
-import UserDropdownMenu from '~/components/UserDropdownMenu'
+import { useEffect } from 'react'
 import { api } from '~/api'
+import UserDropdownMenu from '~/components/UserDropdownMenu'
 import { currentGuildAtom } from '~/lib/guildStore'
 
 const GuildSelectionDropdown = dynamic(
@@ -31,7 +29,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   const routerGuildId = router.query.guildId as string
 
-  const { status } = useSession({
+  const { data: session, status } = useSession({
     required: true,
     onUnauthenticated: () => {
       void signIn('discord', {
@@ -40,6 +38,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       })
     },
   })
+
+  useEffect(() => {
+    if (session?.error === 'RefreshAccessTokenError') {
+      void signIn('discord') // Force sign in to hopefully resolve error
+    }
+  }, [session?.error])
 
   api.user.managedGuilds.useQuery(undefined, {
     enabled: status === 'authenticated',
