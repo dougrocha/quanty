@@ -38,6 +38,7 @@ export const handleDiscordApiError = (res: Response) => {
 
   throw new TRPCError({
     code: errorCode,
-    message: res.statusText,
+    message: res.statusText, 
+    cause: new Error(res.statusText),
   })
 }

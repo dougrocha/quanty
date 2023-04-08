@@ -1,7 +1,7 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { type DefaultSession, type NextAuthOptions } from 'next-auth'
-import DiscordProvider from 'next-auth/providers/discord'
 import { prisma } from '@quanty/db'
+import { TokenSet, type DefaultSession, type NextAuthOptions } from 'next-auth'
+import DiscordProvider from 'next-auth/providers/discord'
 
 /**
  * Module augmentation for `next-auth` types
@@ -16,6 +16,7 @@ declare module 'next-auth' {
       // ...other properties
       // role: UserRole;
     } & DefaultSession['user']
+    error?: 'RefreshAccessTokenError'
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -32,15 +33,67 @@ declare module 'next-auth' {
  **/
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
+      const [discord] = await prisma.account.findMany({
+        where: { userId: user.id, provider: 'discord' },
+      })
+
+      if (
+        !discord?.expires_at ||
+        !process.env.DISCORD_CLIENT_SECRET ||
+        !process.env.DISCORD_CLIENT_ID
+      )
+        throw new Error('Missing credentials')
+
+      if (discord.expires_at * 1000 > Date.now()) {
+        try {
+          if (!discord.refresh_token) throw new Error('Missing refresh token')
+
+          const response = await fetch('https://discord.com/api/oauth2/token', {
+            method: 'POST',
+            body: new URLSearchParams({
+              client_id: process.env.DISCORD_CLIENT_ID,
+              client_secret: process.env.DISCORD_CLIENT_SECRET,
+              grant_type: 'refresh_token',
+              refresh_token: discord.refresh_token,
+            }),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          })
+
+          const tokens = (await response.json()) as TokenSet & {
+            expires_in: number
+          }
+
+          if (!response.ok) throw tokens
+          console.log('Refreshed Discord access token')
+
+          await prisma.account.update({
+            data: {
+              access_token: tokens.access_token,
+              expires_at: Math.floor(Date.now() / 1000 + tokens.expires_in),
+              refresh_token: tokens.refresh_token ?? discord.refresh_token,
+            },
+            where: {
+              provider_providerAccountId: {
+                provider: 'discord',
+                providerAccountId: discord.providerAccountId,
+              },
+            },
+          })
+        } catch (error) {
+          session.error = 'RefreshAccessTokenError'
+        }
+      }
+
       if (session.user) {
         session.user.id = user.id
-        // session.user.role = user.role; <-- put other properties on the session here
       }
+
       return session
     },
   },
-  session: {},
   adapter: PrismaAdapter(prisma),
   providers: [
     DiscordProvider({
