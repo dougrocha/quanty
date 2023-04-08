@@ -33,6 +33,11 @@ declare module 'next-auth' {
  **/
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    signIn(params) {
+      console.log(params)
+
+      return Promise.resolve(true)
+    },
     async session({ session, user }) {
       const [discord] = await prisma.account.findMany({
         where: { userId: user.id, provider: 'discord' },
@@ -45,8 +50,8 @@ export const authOptions: NextAuthOptions = {
       )
         throw new Error('Missing credentials')
 
-      if (discord.expires_at * 1000 > Date.now()) {
-        try {
+      try {
+        if (discord.expires_at * 1000 > Date.now()) {
           if (!discord.refresh_token) throw new Error('Missing refresh token')
 
           const response = await fetch('https://discord.com/api/oauth2/token', {
@@ -67,7 +72,6 @@ export const authOptions: NextAuthOptions = {
           }
 
           if (!response.ok) throw tokens
-          console.log('Refreshed Discord access token')
 
           await prisma.account.update({
             data: {
@@ -82,9 +86,19 @@ export const authOptions: NextAuthOptions = {
               },
             },
           })
-        } catch (error) {
+        } else {
+          await prisma.account.delete({
+            where: {
+              provider_providerAccountId: {
+                provider: 'discord',
+                providerAccountId: discord.providerAccountId,
+              },
+            },
+          })
           session.error = 'RefreshAccessTokenError'
         }
+      } catch (error) {
+        session.error = 'RefreshAccessTokenError'
       }
 
       if (session.user) {

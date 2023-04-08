@@ -1,15 +1,13 @@
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
+import { LOGO } from '@quanty/lib'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
-import { signOut } from 'next-auth/react'
-import { LOGO } from '@quanty/lib'
-
-import { api } from '~/api'
 import AppLayout from '~/layouts/AppLayout'
 import { NextPageWithLayout } from '~/lib/types'
 
 const Home: NextPageWithLayout = () => {
-  const { data: session } = api.auth.getSession.useQuery()
+  const { data: session } = useSession()
 
   return (
     <div className="my-auto flex min-h-full flex-col items-center justify-center py-4">
