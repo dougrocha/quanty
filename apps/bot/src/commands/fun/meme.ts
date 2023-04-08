@@ -1,6 +1,7 @@
-import { ChatInputCommand, Command } from '@sapphire/framework'
-import axios from 'axios'
-import { EmbedBuilder } from 'discord.js'
+import { ChatInputCommand, Command } from '@sapphire/framework';
+import axios from 'axios';
+import { EmbedBuilder } from 'discord.js';
+
 
 export interface IMeme {
   title: string
@@ -23,7 +24,9 @@ export class AnimeCommand extends Command {
     )
   }
 
-  public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  public override async chatInputRun(
+    interaction: Command.ChatInputCommandInteraction,
+  ) {
     await axios
       .get('https://meme-api.com/gimme')
       .then(({ data }: { data: IMeme }) => {

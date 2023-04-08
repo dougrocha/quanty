@@ -37,7 +37,9 @@ export class AnimeCommand extends Command {
 
   private neko = new NekoClient()
 
-  public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  public override async chatInputRun(
+    interaction: Command.ChatInputCommandInteraction,
+  ) {
     const type = interaction.options.get('type')
 
     const embed = new EmbedBuilder()
